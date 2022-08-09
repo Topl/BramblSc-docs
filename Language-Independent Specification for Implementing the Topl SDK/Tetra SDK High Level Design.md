@@ -1109,8 +1109,8 @@ Get an existing application in this KeyVault within the local wallet using the a
       * Optional: no
   * *Returns* \
     [Result](#result)
-    * S = [Account](#account) \
-    The account.
+    * S = [Application](#application) \
+    The application.
     * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
       * The name is null, empty or is not a valid account name.
       * The specified application was not found in the wallet.
@@ -1451,8 +1451,8 @@ Get an existing application in this credential set within the local wallet using
       * Optional: no
   * *Returns* \
     [Result](#result)
-    * S = [Account](#account) \
-    The account.
+    * S = [Application](#application) \
+    The application.
     * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
       * The name is null, empty or is not a valid account name.
       * The specified application was not found in the wallet.
