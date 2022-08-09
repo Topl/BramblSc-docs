@@ -31,7 +31,7 @@ Additional implementations to be done after the required ones are in no particul
       * [Proof](#proof)
       * [Proposition](#proposition)
       * [Provider](#provider)
-      * [CredentialSet](#credentialset)
+      <!-- * [CredentialSet](#credentialset) -->
       * [StagedFutures](#stagedfutures)
     * [Blockchain-Related Classes](#blockchain-related-classes)
       * [BifrostTetraClient](#bifrosttetraclient)
@@ -387,7 +387,7 @@ When implemented in a language that has a well established custom for using cert
 
 The purpose of the blockchain API is to facilitate interactions between the Topl blockchain and applications. The following activity diagram shows the pattern that a typical interaction will follow:
 
-![SDK Process](//www.plantuml.com/plantuml/png/PLBFRlCW3B_p59Q-jqWlRRz3jSkqIPLs9k0agCGmRDfDoiEF9A8QsYsn_Vlpipcow2Hvzchv5xN7CI7IefTJZDuPBIwGsaPKTyRH4PX0B2cRhHC6aAI91qpxXzxg1pM4T5FT1GK8lmGoPKOBsjg4p6f8OOQ7zhxq9K3fGG6eJ9KihSFCABnJWHwresBnHE8-CtvCJd2vOA5TLFUUCNt3zWTd7ypDJ6KQJcylAnXCBdmaLHt2yEGkGHMItTt-hyaWfd17QXDrVGhQ6itoDsbhOTMK2PK9S_GeQ5j0ayUxSPBUProk8NfuHNcKzhAQcMVNIAb0qDTqXUSPVrUrZarndNZLtWULJ5hMWqa1xFKsqhMjG8_5CpBS7RlUetAqWNQ1GztKjhNkrmE17AqMv7hIXvEfRXkRVRE4g8w59y_-1m00)
+![SDK Process](////www.plantuml.com/plantuml/png/PLBFRlCW3B_p59Q-jqWlRRz3jSkqIPLs9k0agCGmRDfDoiEF9A8QsYsn_Vlpipcow2Hvzchv5xN7CI7IefTJZDuPBIwGsaPKTyRH4PX0B2cRhHC6aAI91qpxXzxg1pM4T5FT1GK8lmGoPKOBsjg4p6f8OOQ7zhxq9K3fGG6eJ9KihSFCABnJWHwresBnHE8-CtvCJd2vOA5TLFUUCNt3zWTd7ypDJ6KQJcylAnXCBdmaLHt2yEGkGHMItTt-hyaWfd17QXDrVGhQ6itoDsbhOTMK2PK9S_GeQ5j0ayUxSPBUProk8NfuHNcKzhAQcMVNIAb0qDTqXUSPVrUrZarndNZLtWULJ5hMWqa1xFKsqhMjG8_5CpBS7RlUetAqWNQ1GztKjhNkrmE17AqMv7hIXvEfRXkRVRE4g8w59y_-1m00)
 
 * [Blockchain-Related Interfaces](#blockchain-related-interfaces)
   * [Application](#application)
@@ -399,7 +399,7 @@ The purpose of the blockchain API is to facilitate interactions between the Topl
   * [Proof](#proof)
   * [Proposition](#proposition)
   * [Provider](#provider)
-  * [CredentialSet](#credentialset)
+  <!-- * [CredentialSet](#credentialset) -->
   * [StagedFutures](#stagedfutures)
 * [Blockchain-Related Classes](#blockchain-related-classes)
   * [BifrostTetraClient](#bifrosttetraclient)
@@ -446,10 +446,10 @@ This interface is implemented by objects that represent an application in a key 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` setName ``` \
-  Set the name of this application. The name must be unique within the CredentialSet. This will not persist across devices.
+  Set the name of this application. This will not persist across devices.
     * *Parameters*
         * ``` name ``` \
-          An arbitrary name that can be used to identify the application. It is unique within the CredentialSet.
+          An arbitrary name that can be used to identify the application. It is unique within the KeyVault.
             * Type: String
             * Optional: no
     * *Returns* \
@@ -461,7 +461,7 @@ This interface is implemented by objects that represent an application in a key 
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` createAccount ``` \
   Create a new account tied to this application in the local wallet.
-    * *Parameters* \
+    * *Parameters*
       * `aliases`
         A collection of arbitrary names that uniquely identify the new account within the application.
         * Type: Collection of String
@@ -575,9 +575,9 @@ This interface is implemented by objects that represent an application in a key 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The specified account does not exist within this application in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
+
 > 🚧 Reminder
-> We will need to call the string that we use something other than "asset class", since its constituent
-> strings are called "asset class" and "asset series".
+> We will need to call the string that we use something other than "asset class", since its constituent strings are called "asset class" and "asset series".
 * ``` getAddressByAssetClass ``` \
   Get the addresses in an account containing assets specified by the asset class, optionally specifying the underlying account. Return these addresses with the associated quantities.
     * *Parameters*
@@ -745,9 +745,9 @@ This interface is implemented by objects that represent a bookkeeping account wi
           conditions:
             * An address with this value does not exist in the account
             * An I/O or database error that is unrelated to the parameters passed by the caller.
+
 > 🚧 Reminder
-> We need to change the name of what we call an asset class, because its constituent strings are called
-> "asset class" and "asset series"
+> We need to change the name of what we call an asset class, because its constituent strings are called "asset class" and "asset series"
 
 * ``` getAssetClasses ``` \
   Return asset classes associated with this account.
@@ -988,7 +988,7 @@ It is possible and likely that public methods/functions will be added to this in
 
 #### **KeyVault**
 
-This interface is implemented by objects that manage a key vault file and its contents.
+This interface is implemented by objects that manage an open key vault and its contents.
 
 ##### Type Parameters
 
@@ -1020,7 +1020,7 @@ This interface is implemented by objects that manage a key vault file and its co
           The ID of the wallet, which will be generated from the same mnemonic as the wallet’s keys.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getCredentialSet ``` \
+<!-- * ``` getCredentialSet ``` \
   Return the CredentialSet that is associated with this open KeyVault.
     * *Parameters* \
       *None*
@@ -1029,7 +1029,7 @@ This interface is implemented by objects that manage a key vault file and its co
         * S = [CredentialSet](#credentialset) \
           The CredentialSet object associated with this KeyVault
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
+            * An I/O or database error that is unrelated to the parameters passed by the caller. -->
 * ``` getWalletName ``` \
   Return the name of the wallet associated with the key vault.
     * *Parameters* \
@@ -1076,11 +1076,237 @@ This interface is implemented by objects that manage a key vault file and its co
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The description is invalid
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-
+* ``` createApplication ``` \
+Create a new application in this KeyVault within the local wallet.
+  * *Parameters* \
+    *None*
+  * *Returns* \
+    [Result](#result)
+    * S = [Application](#application) \
+    The created application.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getApplicationById ``` \
+Get an existing application in this KeyVault within the local wallet using it’s ID.
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique application ID.
+      * Type: Int32
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Application](#application) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getApplicationByName ``` \
+Get an existing application in this KeyVault within the local wallet using the application name.
+  * *Parameters*
+    * ``` name ``` \
+    A String that identifies the application.
+      * Type: String
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The name is null, empty or is not a valid account name.
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` createAccount ``` \
+Create a new account for a specified application in this KeyVault within the local wallet. 
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique ID of the application for which the account will be created under.
+      * Type: Int32
+      * Optional: yes
+      * Default: 0
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The created account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAccountById ``` \
+Get an existing account  for a specified application in this KeyVault within the local wallet using it’s ID.
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique ID of the application for which the account belongs to.
+      * Type: Int32
+      * Optional: yes
+      * Default: 0
+    * ``` accountId ``` \
+    The unique account ID.
+      * Type: Int32
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The specified account was not found in the wallet.
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAccountByName ``` \
+Get an existing account for a specified application in this KeyVault within the local wallet using an alias name.
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique ID of the application for which the account belongs to.
+      * Type: Int32
+      * Optional: yes
+      * Default: 0
+    * ``` name ``` \
+    A String that identifies an account.
+      * Type: String
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The name is null, empty or is not a valid account name.
+      * The specified account was not found in the wallet.
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getNextAddress ``` \
+  Get the next usable address for a specified account and application in this KeyVault within the local wallet. This also updates the index of the next usable address for the account.
+    * *Parameters*
+        * ``` propositionFn ``` \
+          A function that takes in a base58 encoded Public Key and returns a Proposition encoding the desired spending proposition logic.
+            * Type: (base58) => [Proposition](#proposition)
+            * Optional: yes
+            * Default: Function that outputs a simple proposition able to be proved with the corresponding Private Key. 
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = [Address](#address)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAddressByIndex ``` \
+  Get the address at an index for a specified account and application in this KeyVault within the local wallet.
+    * *Parameters*
+        * ``` index ``` \
+          The index of the address to retrieve
+            * Type: Int32
+            * Optional: no
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = [Address](#address)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The index is not in range or invalid
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAddressByValue ``` \
+  Get the address using it’s unique Base58 encoded value for a specified account and application in this KeyVault within the local wallet.
+    * *Parameters*
+        * ``` address ``` \
+          The Base58 encoded address value
+            * Type: base58
+            * Optional: no
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = [Address](#address)
+        * F = <*implementation defined*> This value should allow the caller to identify these error
+          conditions:
+            * An address with this value does not exist in the account
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAssetClasses ``` \
+  Return asset classes associated with a specified account and application in this KeyVault within the local wallet.
+    * *Parameters* 
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = unordered collection of asset class IDs (String) \
+          The asset classes associated with this application and specified account. See the [structure of the asset class](#structure-of-an-asset-class-string) for more information.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAddressByAssetClass ``` \
+  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain assets specified by the asset class. Return these addresses with their associated quantities.
+    * *Parameters*
+        * ``` assetClass ``` \
+          The asset class ID used to fetch the addresses and quantities. See the [structure of the asset class](#structure-of-an-asset-class-string) for more information.
+            * Type: String
+            * Optional: no
+        * ``` quantity ``` \
+          The quantity needed of the specified asset. When specified, a combination of addresses that together contain at least this quantity of the asset will be returned. If not specified, all addresses containing any non-zero amounts of the asset will be returned.
+            * Type: Int128
+            * Optional: yes
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = Unordered collection of [Address](#address) with their respective quantities (Int128).
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Asset class does not exist in the specified account or is invalid
+            * Specified quantity is less than or equal to 0
+            * There does not exist enough assets on the account to satisfy quantity, if provided
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
 
 *None*
+
+<!-- ##### See Also
+
+[CredentialSet](#credentialset) -->
 
 ---
 
@@ -1144,11 +1370,28 @@ The return objects of the functions in ProviderFactory
           A value to identify this provider.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getName ``` \
+  Return the name of this Provider.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = String \
+          The name of this provider.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+
 
 ##### Implementation Notes
 
 *None*
+<!-- A Provider's name will be used to reference a unique CredentialSet. In other words, it is somehow related to a [CredentialSet](#credentialset)'s ID. 
 
+##### See Also
+
+[CredentialSet](#credentialset) -->
+
+<!-- 
 ---
 
 #### **CredentialSet**
@@ -1166,7 +1409,7 @@ This interface is implemented by objects that encapsulate the details of a singl
 ##### Methods/Functions
 
 * ``` getId ``` \
-Return the identifier of this credential set that is unique within the KeyVault.
+Return the local identifier of this credential set that is unique within the KeyVault.
   * *Parameters* \
     *None*
   * *Returns* \
@@ -1175,14 +1418,233 @@ Return the identifier of this credential set that is unique within the KeyVault.
     A value to identify this credential set.
     * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
       * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` createApplication ``` \
+Create a new application in this credential set within the local wallet.
+  * *Parameters* \
+    *None*
+  * *Returns* \
+    [Result](#result)
+    * S = [Application](#application) \
+    The created application.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getApplicationById ``` \
+Get an existing application in this credential set within the local wallet using it’s ID.
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique application ID.
+      * Type: Int32
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Application](#application) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getApplicationByName ``` \
+Get an existing application in this credential set within the local wallet using the application name.
+  * *Parameters*
+    * ``` name ``` \
+    A String that identifies the application.
+      * Type: String
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The name is null, empty or is not a valid account name.
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` createAccount ``` \
+Create a new account for a specified application in this credential set within the local wallet. 
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique ID of the application for which the account will be created under.
+      * Type: Int32
+      * Optional: yes
+      * Default: 0
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The created account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAccountById ``` \
+Get an existing account  for a specified application in this credential set within the local wallet using it’s ID.
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique ID of the application for which the account belongs to.
+      * Type: Int32
+      * Optional: yes
+      * Default: 0
+    * ``` accountId ``` \
+    The unique account ID.
+      * Type: Int32
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The specified account was not found in the wallet.
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAccountByName ``` \
+Get an existing account for a specified application in this credential set within the local wallet using an alias name.
+  * *Parameters*
+    * ``` applicationId ``` \
+    The unique ID of the application for which the account belongs to.
+      * Type: Int32
+      * Optional: yes
+      * Default: 0
+    * ``` name ``` \
+    A String that identifies an account.
+      * Type: String
+      * Optional: no
+  * *Returns* \
+    [Result](#result)
+    * S = [Account](#account) \
+    The account.
+    * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+      * The name is null, empty or is not a valid account name.
+      * The specified account was not found in the wallet.
+      * The specified application was not found in the wallet.
+      * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getNextAddress ``` \
+  Get the next usable address for a specified account and application in this credential set within the local wallet. This also updates the index of the next usable address for the account.
+    * *Parameters*
+        * ``` propositionFn ``` \
+          A function that takes in a base58 encoded Public Key and returns a Proposition encoding the desired spending proposition logic.
+            * Type: (base58) => [Proposition](#proposition)
+            * Optional: yes
+            * Default: Function that outputs a simple proposition able to be proved with the corresponding Private Key. 
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = [Address](#address)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAddressByIndex ``` \
+  Get the address at an index for a specified account and application in this credential set within the local wallet.
+    * *Parameters*
+        * ``` index ``` \
+          The index of the address to retrieve
+            * Type: Int32
+            * Optional: no
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = [Address](#address)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The index is not in range or invalid
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAddressByValue ``` \
+  Get the address using it’s unique Base58 encoded value for a specified account and application in this credential set within the local wallet.
+    * *Parameters*
+        * ``` address ``` \
+          The Base58 encoded address value
+            * Type: base58
+            * Optional: no
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = [Address](#address)
+        * F = <*implementation defined*> This value should allow the caller to identify these error
+          conditions:
+            * An address with this value does not exist in the account
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAssetClasses ``` \
+  Return asset classes associated with a specified account and application in this credential set within the local wallet.
+    * *Parameters* 
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = unordered collection of asset class IDs (String) \
+          The asset classes associated with this application and specified account. See the [structure of the asset class](#structure-of-an-asset-class-string) for more information.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAddressByAssetClass ``` \
+  Get the addresses for a specified account and application in this credential set within the local wallet that contain assets specified by the asset class. Return these addresses with their associated quantities.
+    * *Parameters*
+        * ``` assetClass ``` \
+          The asset class ID used to fetch the addresses and quantities. See the [structure of the asset class](#structure-of-an-asset-class-string) for more information.
+            * Type: String
+            * Optional: no
+        * ``` quantity ``` \
+          The quantity needed of the specified asset. When specified, a combination of addresses that together contain at least this quantity of the asset will be returned. If not specified, all addresses containing any non-zero amounts of the asset will be returned.
+            * Type: Int128
+            * Optional: yes
+        * ``` applicationId ``` \
+          The ID of the application that the address ultimately resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+        * ``` accountId ``` \
+          The ID of the account within an application that the address resides in.
+            * Type: Int32
+            * Optional: yes
+            * Default: 0
+    * *Returns* \
+      [Result](#result)
+        * S = Unordered collection of [Address](#address) with their respective quantities (Int128).
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Asset class does not exist in the specified account or is invalid
+            * Specified quantity is less than or equal to 0
+            * There does not exist enough assets on the account to satisfy quantity, if provided
+            * The specified account was not found in the wallet.
+            * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
 
-*None*
-
-##### See Also
-
-[Provider](#provider)
+*None* -->
 
 ---
 
@@ -1450,34 +1912,37 @@ The construct is private or there is none.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
             * The specified keyVaultPath is invalid for any other reason.
 * ``` static openKeyVault ``` \
-  Create a [KeyVault](#keyvault) object to access the wallet. The wallet must already exist for this to succeed.
+  Create a [KeyVault](#keyvault) object to access the wallet. The wallet must already exist for this to succeed. This opened KeyVault is associated to a single [Provider](#provider)
     * *Parameters*
         * ``` password ``` \
           A string used to encrypt and decrypt wallet information
             * Type: String
             * Optional: no
-        * ``` credentialSet ``` \
-          Object used to denote which set of data in the key store we need to use for this KeyVault.
-            * Type: [CredentialSet](#credentialset)
-            * Optional: no
+        * ``` provider ``` \
+          Object that contains details used to communicate with a blockchain network.
+            * Type: [Provider](#provider)
+            * Optional: yes
+            * Default: main net provider
         * ``` keyVaultPath ``` \
           A path (or name) indicating where to retrieve the wallet contents under. This is dependent on the type of Key Vault store being used. If not provided, the default value will be used.
             * Type: String
             * Optional: yes
     * *Returns* \
       [Result](#result)
-        * S = [KeyVault](#keyvault)
+        * S = [KeyVault](#keyvault) \
+          The opened KeyVault. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * CredentialSet is invalid.
+            * Provider is invalid.
             * A wallet with the specified keyVaultPath does not exist
             * The wallet exists but the password is not correct
             * The specified keyVaultPath is invalid for any other reason.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
+
 > 🚧 Reminder
-> We need to document the limits of what can be restored
+> We need to document the limits of what can be restored. Also the details about what is needed and involed with a restore is an open issue. 
 
 * ``` static restoreWallet ``` 
-  Restore a wallet from a mnemonic. This effectively recreates and populates the underlying Key Vault. This will recreate the derivable wallet contents either generated from the mnemonic or fetched from Genus. An optional credentialSets argument can be provided to indicate what sets of credentials and providers this wallet has already used. 
+  Restore a wallet from a mnemonic. This effectively recreates and populates the underlying Key Vault. This will recreate the derivable wallet contents either generated from the mnemonic or fetched from Genus. An optional providers argument can be provided to indicate what providers this wallet has already used. 
   It is important to note that not all wallet contents are able to be restored. Unrecoverable information includes wallet name, wallet description, application name, account alias names, account description, and address description.
     * *Parameters*
         * ``` password ``` \
@@ -1489,9 +1954,9 @@ The construct is private or there is none.
           when a wallet was created.
             * Type: Array of Strings
             * Optional: no
-        * ``` credentialSets ``` \
-          A collection of CredentialSets that this wallet has already used. A Provider associated to the CredentialSet indicates that there is data on the blockchain that needs restoring.
-            * Type: Collection of CredentialSet 
+        * ``` providers ``` \
+          A collection of Providers that this wallet has already used. A Provider indicates that there is data on the blockchain that needs restoring.
+            * Type: Collection of [Provider](#provider) 
             * Optional: no
         * ``` keyVaultPath ``` \
           A path (or name) indicating where to store the wallet contents under. This is dependent on the type of Key Vault store being used. If not provided, a default value will be used.
@@ -1514,7 +1979,7 @@ The KeyVault implementation class used for the specified methods above will be d
 
 Values fetched from Genus (i.e, not possible from the mnemonic alone) include provider IDs and asset information. The signature algorithm for each address can be determined by brute force testing the 2 possible algorithms.
 
-Restoring a wallet takes a CredentialSet collection to indicate what needs to be recovered from Genus as well as how to store it in the new KeyVault store.
+<!-- Restoring a wallet takes a CredentialSet collection to indicate what needs to be recovered from Genus as well as how to store it in the new KeyVault store. -->
 
 ---
 
@@ -1618,6 +2083,11 @@ The construct is private or there is none.
           A string that authorizes the the client to connect
             * Type: String
             * Optional: yes
+        * ``` name ``` \
+          A name to identify the Provider
+            * Type: String
+            * Optional: yes
+            * Default: TBD
     * *Returns* \
       [Result](#result)
         * S = [Provider](#provider)
@@ -1630,6 +2100,11 @@ The construct is private or there is none.
           A string that authorizes the the client to connect
             * Type: String
             * Optional: yes
+        * ``` name ``` \
+          A name to identify the Provider
+            * Type: String
+            * Optional: yes
+            * Default: TBD
     * *Returns* \
       [Result](#result)
         * S = [Provider](#provider)
@@ -1644,6 +2119,10 @@ The construct is private or there is none.
             * Optional: yes
         * ``` url ``` \
           The URL the provider should use to connect to the blockchain network
+            * Type: String
+            * Optional: no
+        * ``` name ``` \
+          A name to identify the Provider
             * Type: String
             * Optional: no
     * *Returns* \
@@ -1687,6 +2166,7 @@ The wallet assigns one of these states to each box:
 * `surprise`
   In rare circumstance the wallet will discover that the status of a box was incorrectly set to `settled`
   or `spend`. When this is discovered, the status of the box is set to `surprise`. 
+
 > ⚠️ What to do about accounts or addresses with a status of ``` surprise ``` is an open issue.
 
 For boxes that have a single signature spending proposition, we will normally learn about a surprise when we analyse the results of querying Genus for the outcome of a subsequent transaction.
