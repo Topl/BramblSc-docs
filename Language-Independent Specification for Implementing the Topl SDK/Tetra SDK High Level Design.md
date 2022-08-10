@@ -1913,11 +1913,12 @@ The construct is private or there is none.
           A string used to encrypt and decrypt wallet information
             * Type: String
             * Optional: no
-        * ``` provider ``` \
+        <!-- Commented below out since a brambl instance is ran against a single provider configuration. This information can be taken from the environment -->
+        <!-- * ``` provider ``` \
           Object that contains details used to communicate with a blockchain network.
             * Type: [Provider](#provider)
             * Optional: yes
-            * Default: main net provider
+            * Default: main net provider -->
         * ``` keyVaultPath ``` \
           A path (or name) indicating where to retrieve the wallet contents under. This is dependent on the type of Key Vault store being used. If not provided, the default value will be used.
             * Type: String
@@ -1927,17 +1928,19 @@ The construct is private or there is none.
         * S = [KeyVault](#keyvault) \
           The opened KeyVault. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Provider is invalid.
+            <!-- * Provider is invalid. -->
             * A wallet with the specified keyVaultPath does not exist
             * The wallet exists but the password is not correct
             * The specified keyVaultPath is invalid for any other reason.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
-> 🚧 Reminder
-> We need to document the limits of what can be restored. Also the details about what is needed and involved with a restore is an open issue. 
+
+  > ⚠️ For the forseeable future we will forget about the transport of data
+  > We are assuming the wallet is going to live on disk for the entire time and assume that the user has all the data that they need
 
 * ``` static restoreWallet ``` 
-  Restore a wallet from a mnemonic. This effectively recreates and populates the underlying Key Vault. This will recreate the derivable wallet contents either generated from the mnemonic or fetched from Genus. An optional providers argument can be provided to indicate what providers this wallet has already used. 
+  Restore a wallet from a mnemonic. This effectively recreates and populates the underlying Key Vault. This will recreate the derivable wallet contents either generated from the mnemonic or fetched from the blockchain. 
+  <!-- An optional providers argument can be provided to indicate what providers this wallet has already used.  -->
   It is important to note that not all wallet contents are able to be restored. Unrecoverable information includes wallet name, wallet description, application name, account alias names, account description, and address description.
     * *Parameters*
         * ``` password ``` \
@@ -1949,10 +1952,11 @@ The construct is private or there is none.
           when a wallet was created.
             * Type: Array of Strings
             * Optional: no
-        * ``` providers ``` \
+        <!-- Commented below out since a brambl instance is ran against a single provider configuration. This information can be taken from the environment -->
+        <!-- * ``` providers ``` \
           A collection of Providers that this wallet has already used. A Provider indicates that there is data on the blockchain that needs restoring.
             * Type: Collection of [Provider](#provider) 
-            * Optional: no
+            * Optional: no -->
         * ``` keyVaultPath ``` \
           A path (or name) indicating where to store the wallet contents under. This is dependent on the type of Key Vault store being used. If not provided, a default value will be used.
             * Type: String
@@ -1972,7 +1976,9 @@ It is possible that additional methods will be added to create KeyVault objects 
 
 The KeyVault implementation class used for the specified methods above will be determined by the runtime environment.
 
-Values fetched from Genus (i.e, not possible from the mnemonic alone) include provider IDs and asset information. The signature algorithm for each address can be determined by brute force testing the 2 possible algorithms.
+Provider information is configured for an instance of brambl and can be determined by the runtime environment. KeyVaultFactory will use Provider information to identify a CredentialSet that an open KeyVault will use.
+
+<!-- Values fetched from Genus (i.e, not possible from the mnemonic alone) include provider IDs and asset information. The signature algorithm for each address can be determined by brute force testing the 2 possible algorithms. -->
 
 <!-- Restoring a wallet takes a CredentialSet collection to indicate what needs to be recovered from Genus as well as how to store it in the new KeyVault store. -->
 
