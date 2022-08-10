@@ -2201,4 +2201,4 @@ The structure of the string following the prefix will be dependent on the type o
 Dion asset labels must be 1 to 8 characters long. All characters in the Latin-1 character set.
 
 > ⚠️ The structure of Tetra asset labels is not finalized
-> Currently it is a string with 3 parts, separated by some kind of delimiter. The 3 parts are groupId, seriesId, and boxId.
+> Currently it is a string with 2 parts, separated by a colon (:). The 2 parts are groupId and seriesId.
