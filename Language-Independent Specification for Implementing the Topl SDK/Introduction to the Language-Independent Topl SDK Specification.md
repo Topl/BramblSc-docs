@@ -3,7 +3,8 @@ Applications interact with the Topl blockchain using an implementation of the To
 This guide is for implementers of the SDK. It specifies how to implement the SDK. 
 
 This is the intended structure of the SDK:
-![SDK Structure](//www.plantuml.com/plantuml/png/RP2nheCm34NtV8N5c_a7XgSkZ1tR3Wwu4662b9WYXFhlTICKjQZhoSczLwwYO91vPEEdbg0u_zS5_B7hUbc9ULfWCm3E2uKxDYfqvETuzPaKW14I_FOiJytGzEZyKKulAbzimD7oRQ_h0f5_umMPIOuuLK1Pvc_AKfAo7oZ7V2Og7cXzuCnYdiQqA6WnwjXwft1od4Pc3pOrA_AjdkW5)
+
+![SDK Structure](http://www.plantuml.com/plantuml/png/RP2nheCm34NtV8N5c_a7XgSkZ1tR3Wwu4662b9WYXFhlTICKjQZhoSczLwwYO91vPEEdbg0u_zS5_B7hUbc9ULfWCm3E2uKxDYfqvETuzPaKW14I_FOiJytGzEZyKKulAbzimD7oRQ_h0f5_umMPIOuuLK1Pvc_AKfAo7oZ7V2Og7cXzuCnYdiQqA6WnwjXwft1od4Pc3pOrA_AjdkW5)
 
 There are two main interfaces for the SDK. The blockchain interface is used to submit transactions to the blockchain and query the status of the blockchain network. The genus interface is used to query the contents of the blockchain. These interfaces are build on top of two lower level libraries:
 
