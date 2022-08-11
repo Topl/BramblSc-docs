@@ -1386,8 +1386,7 @@ The return objects of the functions in ProviderFactory
 
 [CredentialSet](#credentialset) -->
 
-<!-- 
----
+<!-- ---
 
 #### **CredentialSet**
 
