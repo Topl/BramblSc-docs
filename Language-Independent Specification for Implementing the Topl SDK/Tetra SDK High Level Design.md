@@ -34,6 +34,7 @@ Additional implementations to be done after the required ones are in no particul
       <!-- * [CredentialSet](#credentialset) -->
       * [StagedFutures](#stagedfutures)
     * [Blockchain-Related Classes](#blockchain-related-classes)
+      * [Box](#box)
       * [BifrostTetraClient](#bifrosttetraclient)
       * [MintingSupplyPolicyFactory](#mintingsupplypolicyfactory)
       * [KeyVaultFactory](#keyvaultfactory)
@@ -402,6 +403,7 @@ The purpose of the blockchain API is to facilitate interactions between the Topl
   <!-- * [CredentialSet](#credentialset) -->
   * [StagedFutures](#stagedfutures)
 * [Blockchain-Related Classes](#blockchain-related-classes)
+  * [Box](#box)
   * [BifrostTetraClient](#bifrosttetraclient)
   * [MintingSupplyPolicyFactory](#mintingsupplypolicyfactory)
   * [KeyVaultFactory](#keyvaultfactory)
@@ -1688,6 +1690,61 @@ Methods that submit transactions to the blockchain return an object that impleme
 ---
 
 ### **Blockchain-Related Classes**
+
+#### **Box**
+
+Objects of this type represent a Box containing assets on the blockchain. A Box is tied to an output of a submitted transaction and can be used as an input to a newly created transaction.
+
+##### Type Parameters
+
+*None*
+
+##### Implements
+
+*None*
+
+##### Constructor
+
+The construct is private or there is none.
+
+##### Methods/Functions
+
+* ``` getId ``` \
+  Return the unique identifier of this box. This ID denotes the ID and position of the transaction this box was created in.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = Type TBD \
+          A value to identify this box.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getAssetLabel ``` \
+  Return the asset label denoting the type of assets stored in this box.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = String \
+          The asset label. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getQuantity ``` \
+  Return the quantity of the assets that this box contains.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = Int128 \
+          The quantity of assets contained in this box
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+
+##### Implementation Notes
+
+*None*
+
+---
 
 #### **BifrostTetraClient**
 
