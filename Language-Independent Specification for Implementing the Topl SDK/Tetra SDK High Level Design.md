@@ -579,14 +579,14 @@ This interface is implemented by objects that represent an application in a key 
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses in an account containing assets specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated quantities.
+  Get the addresses in an account containing assets specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and quantities. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of addresses that together contain at least this quantity of the asset will be returned. If not specified, all addresses containing any non-zero amounts of the asset will be returned.
+          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
             * Type: Int128
             * Optional: yes
             * Default: 1
@@ -597,7 +597,7 @@ This interface is implemented by objects that represent an application in a key 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) with their respective quantities (Int128).
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
@@ -758,19 +758,19 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses containing assets specified by the asset label. Return these addresses with the associated quantities.
+  Get the addresses containing assets specified by the asset label. Return these addresses with the associated associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and quantities. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of addresses that together contain at least this quantity of the asset will be returned. If not specified, all addresses containing any non-zero amounts of the asset will be returned.
+          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
             * Type: Int128
             * Optional: yes
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) with their respective quantities (Int128).
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist on the account or is invalid
             * Specified quantity is less than or equal to 0
@@ -1266,14 +1266,14 @@ Get an existing account for a specified application in this KeyVault within the 
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain assets specified by the asset label. Return these addresses with their associated quantities.
+  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain assets specified by the asset label. Return these addresses with their associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and quantities. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of addresses that together contain at least this quantity of the asset will be returned. If not specified, all addresses containing any non-zero amounts of the asset will be returned.
+          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
             * Type: Int128
             * Optional: yes
         * ``` applicationId ``` \
@@ -1288,7 +1288,7 @@ Get an existing account for a specified application in this KeyVault within the 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) with their respective quantities (Int128).
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
@@ -1607,14 +1607,14 @@ Get an existing account for a specified application in this credential set withi
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this credential set within the local wallet that contain assets specified by the asset label. Return these addresses with their associated quantities.
+  Get the addresses for a specified account and application in this credential set within the local wallet that contain assets specified by the asset label. Return these addresses with their associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and quantities. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of addresses that together contain at least this quantity of the asset will be returned. If not specified, all addresses containing any non-zero amounts of the asset will be returned.
+          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
             * Type: Int128
             * Optional: yes
         * ``` applicationId ``` \
@@ -1629,7 +1629,7 @@ Get an existing account for a specified application in this credential set withi
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) with their respective quantities (Int128).
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
