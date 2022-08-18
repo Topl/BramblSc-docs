@@ -910,11 +910,13 @@ This interface is implemented by objects that represent an address in an account
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
-* ``` addAssets ``` \
-  Add assets to the address. This is not a source of truth and if misused can lead to inconsistencies
-  between the local wallet and the blockchain. The intended use case is to update the local wallet after
-  a successful minting or transfer to this address took place.
+* ``` addBox ``` \
+  Add a box containing assets to this address. This is not a source of truth and if misused can lead to inconsistencies between the local wallet and the blockchain. The intended use case is to synchronize the local wallet after a successful minting or transfer to this address took place.
     * *Parameters*
+        * ``` boxId ``` \
+          The ID of the box being added. This ID denotes the ID of the transaction that outputted the box and its 0 based index among the outputs.
+            * Type: TBD
+            * Optional: no
         * ``` assetLabel ``` \
           The identifying asset label denoting which type of asset we are adding. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
             * Type: String
@@ -923,33 +925,34 @@ This interface is implemented by objects that represent an address in an account
           The quantity of the asset to add
             * Type: Int128
             * Optional: no
+        * ``` status ``` \
+          The status of this box. Possible values include "settled", "pending", and "spent".
+            * Type: String
+            * Optional: yes
+            * Default: "pending"
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of asset labels (String) with their new respective quantities (Int128). \
-          The assets contained in this address after the change. This is given by a collection of mappings from asset label to their respective quantities. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * S = <*implementation defined*> This value denotes a successful add
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Asset label is invalid
+            * Asset label does not exist in the account or is invalid
+            * Specified quantity is less than or equal to 0
+            * Specified status is invalid
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getBoxByBoxId ``` \
+  Get a box at this address using it's ID.
+    * *Parameters*
+        * ``` boxId ``` \
+          The ID of the box.
+            * Type: TBD
+            * Optional: no
+    * *Returns* \
+      [Result](#result)
+        * S = [Box](#box) \
+          The box.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * A box with the specified ID does not exist at this address.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
-* ``` removeAssets ``` \
-  Remove assets from the address. This is not a source of truth and if misused can lead to inconsistencies between the local wallet and the blockchain. The intended use case is to update the local wallet after a transfer from this address took place.
-    * *Parameters*
-        * ``` assetLabel ``` \
-          The identifying asset label denoting which type of asset we are removing. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
-            * Type: String
-            * Optional: no
-        * ``` quantity ``` \
-          The quantity of the asset to be removed.
-            * Type: Int128
-            * Optional: no
-    * *Returns* \
-      [Result](#result)
-        * S = Unordered collection of asset labels (String) with their new respective quantities (Int128). \
-          The assets contained in this address after the change. This is given by a collection of mappings from asset label to their respective quantities. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Asset label does not exist on the account or is invalid
-            * Asset quantity will be less than 0
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
 
