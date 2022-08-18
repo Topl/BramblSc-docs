@@ -579,7 +579,7 @@ This interface is implemented by objects that represent an application in a key 
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses in an account containing assets specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated [boxes](#box).
+  Get the addresses in an account containing spendable assets specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
           The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
@@ -597,7 +597,7 @@ This interface is implemented by objects that represent an application in a key 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
@@ -758,7 +758,7 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses containing assets specified by the asset label. Return these addresses with the associated associated [boxes](#box).
+  Get the addresses containing spendable assets specified by the asset label. Return these addresses with the associated associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
           The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
@@ -770,7 +770,7 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * Optional: yes
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist on the account or is invalid
             * Specified quantity is less than or equal to 0
@@ -1266,7 +1266,7 @@ Get an existing account for a specified application in this KeyVault within the 
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain assets specified by the asset label. Return these addresses with their associated [boxes](#box).
+  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain spendable assets specified by the asset label. Return these addresses with their associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
           The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
@@ -1288,7 +1288,7 @@ Get an existing account for a specified application in this KeyVault within the 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
@@ -1607,7 +1607,7 @@ Get an existing account for a specified application in this credential set withi
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this credential set within the local wallet that contain assets specified by the asset label. Return these addresses with their associated [boxes](#box).
+  Get the addresses for a specified account and application in this credential set within the local wallet that contain spendable assets specified by the asset label. Return these addresses with their associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
           The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
@@ -1629,7 +1629,7 @@ Get an existing account for a specified application in this credential set withi
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any quantity of the asset will be returned.
+        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
