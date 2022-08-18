@@ -572,17 +572,17 @@ This interface is implemented by objects that represent an application in a key 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = unordered collection of asset labels (String) \
-          The asset labels associated with this application and specified account. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * S = A collection of asset labels (String) \
+          The asset labels associated with this application and specified account. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The specified account does not exist within this application in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses in an account containing spendable assets specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated [boxes](#box).
+  Get the addresses in an account containing spendable asset boxes specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
@@ -597,11 +597,11 @@ This interface is implemented by objects that represent an application in a key 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
-            * There does not exist enough assets on the account to satisfy quantity, if provided
+            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * The specified account does not exist within this application in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
@@ -668,7 +668,7 @@ This interface is implemented by objects that represent a bookkeeping account wi
       *None*
     * *Returns* \
       [Result](#result)
-        * S = unordered collection of strings \
+        * S = A collection of strings \
           These are the names associated with the account.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
@@ -682,7 +682,7 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * Optional: no
     * *Returns* \
       [Result](#result)
-        * S = unordered collection of strings \
+        * S = A collection of strings \
           These are the names now associated with the account.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The name duplicates a name associated with this account.
@@ -699,7 +699,7 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * Optional: no
     * *Returns* \
       [Result](#result)
-        * S = unordered collection of strings \
+        * S = A collection of strings \
           These are the remaining names associated with the account.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The name is not associated with this account.
@@ -746,22 +746,22 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * An address with this value does not exist in the account
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
-* ``` getAssetLabel ``` \
+* ``` getAssetLabels ``` \
   Return asset labels associated with this account.
     * *Parameters* \
       *None*
     * *Returns* \
       [Result](#result)
-        * S = unordered collection of asset labels (String) \
-          The asset labels associated with this account. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * S = A collection of asset labels (String) \
+          The asset labels associated with this account. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses containing spendable assets specified by the asset label. Return these addresses with the associated associated [boxes](#box).
+  Get the addresses containing spendable asset boxes specified by the asset label. Return these addresses with the associated associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
@@ -770,11 +770,11 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * Optional: yes
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist on the account or is invalid
             * Specified quantity is less than or equal to 0
-            * There does not exist enough assets on the account to satisfy quantity, if provided
+            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
@@ -905,38 +905,22 @@ This interface is implemented by objects that represent an address in an account
       *None*
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of asset labels (String) mapped to a collection of [boxes](#box) that contain them. \
-          The spendable assets contained in this address. This is given by a collection of mappings from asset label to their respective boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * S = A collection of asset labels (String) mapped to a collection of [boxes](#box) that contain them. \
+          This is given by a collection of mappings from asset label to their respective boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 * ``` addBox ``` \
   Add a box containing assets to this address. This is not a source of truth and if misused can lead to inconsistencies between the local wallet and the blockchain. The intended use case is to synchronize the local wallet after a successful minting or transfer to this address took place.
     * *Parameters*
-        * ``` boxId ``` \
-          The ID of the box being added. This ID denotes the ID of the transaction that outputted the box and its 0 based index among the outputs.
-            * Type: TBD
+        * ``` box ``` \
+          The box to add.
+            * Type: [Box](#box)
             * Optional: no
-        * ``` assetLabel ``` \
-          The identifying asset label denoting which type of asset we are adding. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
-            * Type: String
-            * Optional: no
-        * ``` quantity ``` \
-          The quantity of the asset to add
-            * Type: Int128
-            * Optional: no
-        * ``` status ``` \
-          The status of this box. Possible values include "settled", "pending", and "spent".
-            * Type: String
-            * Optional: yes
-            * Default: "pending"
     * *Returns* \
       [Result](#result)
         * S = <*implementation defined*> This value denotes a successful add
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Asset label does not exist in the account or is invalid
-            * Specified quantity is less than or equal to 0
-            * Specified status is invalid
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getBoxByBoxId ``` \
   Get a box at this address using it's ID.
@@ -1262,17 +1246,17 @@ Get an existing account for a specified application in this KeyVault within the 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = unordered collection of asset labels (String) \
-          The asset labels associated with this application and specified account. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * S = A collection of asset labels (String) \
+          The asset labels associated with this application and specified account. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain spendable assets specified by the asset label. Return these addresses with their associated [boxes](#box).
+  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain spendable asset boxes specified by the asset label. Return these addresses with their associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
@@ -1291,11 +1275,11 @@ Get an existing account for a specified application in this KeyVault within the 
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
-            * There does not exist enough assets on the account to satisfy quantity, if provided
+            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
@@ -1603,17 +1587,17 @@ Get an existing account for a specified application in this credential set withi
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = unordered collection of asset labels (String) \
-          The asset labels associated with this application and specified account. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * S = A collection of asset labels (String) \
+          The asset labels associated with this application and specified account. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this credential set within the local wallet that contain spendable assets specified by the asset label. Return these addresses with their associated [boxes](#box).
+  Get the addresses for a specified account and application in this credential set within the local wallet that contain spendable asset boxes specified by the asset label. Return these addresses with their associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
             * Type: String
             * Optional: no
         * ``` quantity ``` \
@@ -1632,11 +1616,11 @@ Get an existing account for a specified application in this credential set withi
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Asset label does not exist in the specified account or is invalid
             * Specified quantity is less than or equal to 0
-            * There does not exist enough assets on the account to satisfy quantity, if provided
+            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
@@ -1708,24 +1692,7 @@ Objects of this type represent a Box containing assets on the blockchain. A Box 
 
 ##### Constructor
 
-* *Parameters*
-    * ``` id ``` \
-    The Box ID that contains the ID of the transaction that output the box and its 0 based index among the outputs.
-      * Type: TBD
-      * Optional: no
-    * ``` assetLabel ``` \
-    The asset label denoting the type of assets stored in this box. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
-      * Type: String
-      * Optional: no
-    * ``` quantity ``` \
-    The quantity of the assets that this box contains.
-      * Type: Int128
-      * Optional: no
-    * ``` status ``` \
-    The status of this box. Possible values include "settled", "pending", and "spent".
-      * Type: String
-      * Optional: yes
-      * Default: "pending"
+The constructor is private or there is none.
 
 ##### Methods/Functions
 
@@ -1746,7 +1713,7 @@ Objects of this type represent a Box containing assets on the blockchain. A Box 
     * *Returns* \
       [Result](#result)
         * S = String \
-          The asset label. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+          The asset label. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getQuantity ``` \
@@ -1781,6 +1748,44 @@ Objects of this type represent a Box containing assets on the blockchain. A Box 
         * S = <*implementation defined*> This value denotes a successful update
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The provided status was invalid.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getSecurityRoot ``` \
+  Return the security root of this box.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = byte32 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getSecurityRootAsString ``` \
+  Return the security root of this box translated into the implementation language's native character set.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = String 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getMetadata ``` \
+  Return the optional metadata of this box.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = byte127 or <*implementation defined*> \
+          If metadata is not present an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getMetadataAsString ``` \
+  Return the optional metadata of this box translated into the implementation language's native character set.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = String or <*implementation defined*> \
+          If metadata is not present an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
