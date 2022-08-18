@@ -1705,12 +1705,29 @@ Objects of this type represent a Box containing assets on the blockchain. A Box 
 
 ##### Constructor
 
-The construct is private or there is none.
+* *Parameters*
+    * ``` id ``` \
+    The Box ID that contains the ID of the transaction that output the box and its 0 based index among the outputs.
+      * Type: TBD
+      * Optional: no
+    * ``` assetLabel ``` \
+    The asset label denoting the type of assets stored in this box. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+      * Type: String
+      * Optional: no
+    * ``` quantity ``` \
+    The quantity of the assets that this box contains.
+      * Type: Int128
+      * Optional: no
+    * ``` status ``` \
+    The status of this box. Possible values include "settled", "pending", and "spent".
+      * Type: String
+      * Optional: yes
+      * Default: "pending"
 
 ##### Methods/Functions
 
 * ``` getId ``` \
-  Return the unique identifier of this box. This ID denotes the ID and position of the transaction this box was created in.
+  Return the unique identifier of this box. This ID contains ID of the transaction that output the box and its 0 based index among the outputs.
     * *Parameters* \
       *None*
     * *Returns* \
@@ -1738,6 +1755,29 @@ The construct is private or there is none.
         * S = Int128 \
           The quantity of assets contained in this box
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getStatus ``` \
+  Return the status of this box.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = String \
+          The status of this box. Possible values include "settled", "pending", and "spent".
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` setStatus ``` \
+  Set the status of this box.
+    * *Parameters* 
+      * ``` status ``` \
+        The new status of this box. Possible values include "settled", "pending", and "spent".
+        * Type: String
+        * Optional: no
+    * *Returns* \
+      [Result](#result)
+        * S = <*implementation defined*> This value denotes a successful update
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The provided status was invalid.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
