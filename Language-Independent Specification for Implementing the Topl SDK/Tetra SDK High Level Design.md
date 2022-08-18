@@ -900,13 +900,13 @@ This interface is implemented by objects that represent an address in an account
 --->
 
 * ``` getAssets ``` \
-  Return the types of assets contained in this address with their associated quantities.
+  Return the types of spendable assets contained in this address with the boxes that contain them.
     * *Parameters* \
       *None*
     * *Returns* \
       [Result](#result)
-        * S = Unordered collection of asset labels (String) with their respective quantities (Int128). \
-          The assets contained in this address. This is given by a collection of mappings from asset label to their respective quantities. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
+        * S = Unordered collection of asset labels (String) mapped to a collection of [boxes](#box) that contain them. \
+          The spendable assets contained in this address. This is given by a collection of mappings from asset label to their respective boxes. See the [structure of the asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
