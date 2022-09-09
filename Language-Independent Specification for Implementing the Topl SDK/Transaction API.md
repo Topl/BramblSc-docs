@@ -77,9 +77,12 @@ This interface is implemented by objects that build transactions.
 
 ### Implemented by
 
-*None*
+*No public implementations*
 
 ### Methods/Functions
+
+> 🚧 Reminder
+> Still need to understand how registrationUtxo fits into this.
 
 * ``` registerAssetGroup ``` \
   Registers an asset group.
@@ -88,18 +91,18 @@ This interface is implemented by objects that build transactions.
         Fee for the registration transaction
             * Type: [TransactionInput](#transactioninput)\<NanoPoly>
             * Optional: no
-        * ``` quantity ``` \
-        The quantity of the group constructor token to produce
-            * Type: Int128
+        * ``` tokenOutput ``` \
+        The registered group constructor token output.
+            * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
             * Optional: no
-        * ``` output ``` \
-        The address that will contain the group constructor token
-            * Type: Address
-            * Optional: no
-        * ``` groupPolicy ``` \
-        An object containing information about the policy for the group. 
-            * Type: [GroupPolicy](#grouppolicy)
-            * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Boolean
+            * Optional: yes
     * *Returns* \
       Result
         * S = [Transaction](#transaction) containing the [GroupToken](#grouptoken)
@@ -112,82 +115,55 @@ This interface is implemented by objects that build transactions.
         Fee for the registration transaction
             * Type: [TransactionInput](#transactioninput)
             * Optional: no
-        * ``` quantity ``` \
-        The quantity of the series constructor token to produce
-            * Type: Int128
+        * ``` tokenOutput ``` \
+        The registered group constructor token output.
+            * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
             * Optional: no
-        * ``` outputAddress ``` \
-        The address that will hold the new series constructor token
-            * Type: Address
-            * Optional: no
-        * ``` seriesPolicy ``` \
-        An object containing information about the policy for the series. 
-            * Type: [SeriesPolicy](#seriespolicy)
-            * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Boolean
+            * Optional: yes
     * *Returns* \
       Result
         * S = [Transaction](#transaction) containing the [Seriestoken](#seriestoken)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` mintOnChainAsset ``` \
-  Mints an on-chain asset token
+  Mints an asset token
     * *Parameters* 
         * ``` fee ``` \
         Fee for the registration transaction
             * Type: [TransactionInput](#transactioninput)\<NanoPoly>
             * Optional: no
-        * ``` quantity ``` \
-        The quantity of the on-chain asset token to produce
-            * Type: Int128
+        * ``` groupConstructorToken ``` \
+        The group constructor token for this new asset token.
+            * Type: [TransactionInput](#transactioninput)\<[GroupToken](#grouptoken)>
             * Optional: no
-        * ``` outputAddress ``` \
-        The address that will hold the minted asset.
-            * Type: Address
+        * ``` seriesConstructorToken ``` \
+        The series constructor token for this new asset token.
+            * Type: [TransactionInput](#transactioninput)\<[SeriesToken](#seriestoken)>
             * Optional: no
-        * ``` assetLabel ``` \
-        The asset label of the desired on-chain asset token. This value represents the Group ID and Series ID that this token is associated with.
-            * Type: String
+        * ``` mintedOutput ``` \
+        The minted asset token output.
+            * Type: [TransactionOutput](#transactionoutput)\<[OnChainAsset](#onchainasset)|[OffChainAsset](#offchainasset)>
             * Optional: no
-        * ``` metadata ``` \
-        Data to associate with the minted asset
-            * Type: String
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Boolean
             * Optional: yes
     * *Returns* \
       Result
-        * S = [Transaction](#transaction) with the [OnChainAsset](#onchainasset)
+        * S = [Transaction](#transaction) with the [AssetToken](#onchainasset) (either [OnChainAsset](#onchainasset) or [OffChainAsset](#offchainasset))
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` mintOffChainAsset ``` \
-  Mints an off-chain asset token
-    * *Parameters* 
-        * ``` fee ``` \
-        Fee for the registration transaction
-            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
-            * Optional: no
-        * ``` quantity ``` \
-        The quantity of the on-chain asset token to produce
-            * Type: Int128
-            * Optional: no
-        * ``` outputAddress ``` \
-        The address that will hold the minted asset.
-            * Type: Address
-            * Optional: no
-        * ``` assetLabel ``` \
-        The asset label of the desired on-chain asset token. This value represents the Group ID and Series ID that this token is associated with.
-            * Type: String
-            * Optional: no
-        * ``` url ``` \
-        The URL that hosts the off-chain data.
-            * Type: String
-            * Optional: no
-        * ``` auth ``` \
-        An object with authentication information to access the data at the URL.
-            * Type: String
-            * Optional: yes
-    * *Returns* \
-      Result
-        * S = [Transaction](#transaction) with the [OffChainAsset](#offchainasset)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 ### Implementation Notes
@@ -806,7 +782,7 @@ An object representing the transaction timestamp as well as the minimum and maxi
 * ``` data ``` \
 Data to be associated with this transaction. Has no effect on the protocol level.
     * Type: Boolean
-    * Optional: no
+    * Optional: yes
 
 ### Implements
 
