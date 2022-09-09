@@ -165,6 +165,36 @@ This interface is implemented by objects that build transactions.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The arguments do not constitute a valid transaction
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` transferAsset ``` \
+  Transfers asset tokens
+    * *Parameters* 
+        * ``` fee ``` \
+        Fee for the registration transaction
+            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
+            * Optional: no
+        * ``` inputs ``` \
+        The token inputs to transfer.
+            * Type: Array of [TransactionInput](#transactioninput)\<[AssetToken](#assettoken)|NanoPoly>
+            * Optional: no
+        * ``` outputs ``` \
+        The transferred outputs.
+            * Type: [TransactionOutput](#transactionoutput)\<[AssetToken](#assettoken)|NanoPoly>
+            * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Boolean
+            * Optional: yes
+    * *Returns* \
+      Result
+        * S = [Transaction](#transaction)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
 
 ### Implementation Notes
 
@@ -811,7 +841,7 @@ Data to be associated with this transaction. Has no effect on the protocol level
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` broadcast ``` \
-  Validates, encodes and broadcasts this transaction to the Blockchain.
+  Validates, encodes and broadcasts this transaction to the Blockchain. The transaction must be proven prior to broadcasting.
     * *Parameters* \
     *None*
     * *Returns* \
