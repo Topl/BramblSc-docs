@@ -1,50 +1,52 @@
-# Transaction-Related Interfaces
+# Lower Level API
 
-## SupplyType
+## Transaction-Related Interfaces
+
+### SupplyType
 
 This interface is implemented by objects that represent a minting token supply policy.
 
-### Implemented by
+#### Implemented by
 
 The return values of [SupplyTypeFactory](#supplytypefactory)
 
-### Methods/Functions
+#### Methods/Functions
 
 *No public methods/functions*
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## CommitType
+### CommitType
 
 This interface is implemented by objects that represent the commitment scheme for a Series Policy.
 
-### Implemented by
+#### Implemented by
 
 The return values of [CommitTypeFactory](#committypefactory)
 
-### Methods/Functions
+#### Methods/Functions
 
 *No public methods/functions*
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## Policy
+### Policy
 
 This interface is implemented by objects that represent an off-chain Group or Series Policy.
 
-### Implemented by
+#### Implemented by
 
 [GroupPolicy](#grouppolicy), [SeriesPolicy](#seriespolicy)
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` getId ``` \
   Returns the ID associated with this policy. This should be identifiable via the fields in the implementing classes.
@@ -65,21 +67,21 @@ This interface is implemented by objects that represent an off-chain Group or Se
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## TransactionBuilder
+### TransactionBuilder
 
 This interface is implemented by objects that build transactions.
 
-### Implemented by
+#### Implemented by
 
 *No public implementations*
 
-### Methods/Functions
+#### Methods/Functions
 
 > 🚧 Reminder
 > Still need to understand how registrationUtxo fits into this.
@@ -196,21 +198,21 @@ This interface is implemented by objects that build transactions.
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## AssetToken
+### AssetToken
 
 An object representing an Asset Token.
 
-### Implemented by
+#### Implemented by
 
 [OnChainAsset](#onchainasset), [OffChainAsset](#offchainasset)
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` getQuantity ``` \
   Returns the quantity of this token.
@@ -268,27 +270,27 @@ An object representing an Asset Token.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 The data that the commit root is based off of depends on the implementing class.
 
 ---
 
-# Transaction-Related Classes
+## Transaction-Related Classes
 
-## SupplyTypeFactory
+### SupplyTypeFactory
 
 A utility class to provide token supply policies.
 
-### Constructor
+#### Constructor
 
 The construct is private or there is none.
 
-### Implements
+#### Implements
 
 The return values of all functions return an implementation of [SupplyType](#supplytype)
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` capped ``` \
   Represents a capped supply policy. The production of tokens with this type will be limited to a set maximum.
@@ -325,25 +327,25 @@ The return values of all functions return an implementation of [SupplyType](#sup
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## CommitTypeFactory
+### CommitTypeFactory
 
 A utility class to provide supply policy commitment types.
 
-### Constructor
+#### Constructor
 
 The construct is private or there is none.
 
-### Implements
+#### Implements
 
 The return values of all functions return an implementation of [CommitType](#committype)
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` hash ``` \
   Returns an object that represents a Hash commitment type.
@@ -376,17 +378,17 @@ The return values of all functions return an implementation of [CommitType](#com
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## GroupPolicy
+### GroupPolicy
 
 Objects of this class represents an off-chain Group Policy.
 
-### Constructor
+#### Constructor
 
 * ``` label ``` \
 The label for defining the name of a group, constraints?
@@ -409,25 +411,25 @@ This value provides a uniqueness value that can be checked by the protocol to kn
     * Type: TBD
     * Optional: no
 
-### Implements
+#### Implements
 
 [Policy](#policy)
 
-### Methods/Functions
+#### Methods/Functions
 
 TBD
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## SeriesPolicy
+### SeriesPolicy
 
 Objects of this class represents an off-chain Series Policy.
 
-### Constructor
+#### Constructor
 
 * ``` label ``` \
 The label for defining the name of a series, constraints?
@@ -470,33 +472,33 @@ A (possibly mixin based) metadata definition that allows for application level d
     * Type: TBD
     * Optional: no
 
-### Implements
+#### Implements
 
 [Policy](#policy)
 
-### Methods/Functions
+#### Methods/Functions
 
 TBD
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## GroupToken
+### GroupToken
 
 An object representing a Group Constructor Token.
 
-### Constructor
+#### Constructor
 
 The construct is private or there is none.
 
-### Implements
+#### Implements
 
 *None*
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` getQuantity ``` \
   Returns the quantity of this token.
@@ -544,25 +546,25 @@ The construct is private or there is none.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## SeriesToken
+### SeriesToken
 
 An object representing a Series Constructor Token.
 
-### Constructor
+#### Constructor
 
 The construct is private or there is none.
 
-### Implements
+#### Implements
 
 *None*
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` getQuantity ``` \
   Returns the quantity of this token.
@@ -610,25 +612,25 @@ The construct is private or there is none.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## OffChainAsset
+### OffChainAsset
 
 An object representing an Off-Chain Asset Token.
 
-### Constructor
+#### Constructor
 
 The construct is private or there is none.
 
-### Implements
+#### Implements
 
 [AssetToken](#assettoken)
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` setURL ``` \
   Set the URL which contains the data to be associated with this token.
@@ -657,25 +659,25 @@ The construct is private or there is none.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 The commit root is generated from the data hosted at the URL.
 
 ---
 
-## OnChainAsset
+### OnChainAsset
 
 An object representing an On-Chain Asset Token.
 
-### Constructor
+#### Constructor
 
 The construct is private or there is none.
 
-### Implements
+#### Implements
 
 [AssetToken](#assettoken)
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` setData ``` \
   Set the data to be associated with this token.
@@ -691,21 +693,21 @@ The construct is private or there is none.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 The commit root is generated from the data.
 
 ---
 
-## TransactionInput
+### TransactionInput
 
 An object representing a transaction input.
 
-##### Type Parameters
+###### Type Parameters
 
 * ``` BoxValue ```: The type of value contained in this input's associated box. For ex., [GroupConstructorToken](#grouptoken), [SeriesConstructorToken](#seriestoken), [AssetToken](#assettoken), NanoPoly
 
-### Constructor
+#### Constructor
 
 * ``` boxId ``` \
 The ID of the box that this input is associated to. This ID represents the ID of the transaction that produced the box, as well as it's index in the output sequence.
@@ -720,11 +722,11 @@ An object representing the value from the box that we are transferring.
     * Type: BoxValue
     * Optional: no
 
-### Implements
+#### Implements
 
 *None*
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` prove ``` \
   Prove the input proposition. 
@@ -740,21 +742,21 @@ An object representing the value from the box that we are transferring.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## TransactionOutput
+### TransactionOutput
 
 An object representing a transaction output.
 
-##### Type Parameters
+###### Type Parameters
 
 * ``` BoxValue ```: The type of value contained in this output. For ex., [GroupConstructorToken](#grouptoken), [SeriesConstructorToken](#seriestoken), [AssetToken](#assettoken), NanoPoly
 
-### Constructor
+#### Constructor
 
 * ``` address ``` \
 The address of this output.
@@ -773,25 +775,25 @@ An object representing the group policy. Used to determine if minting is allowed
     * Type: [GroupPolicy](#grouppolicy)
     * Optional: yes
 
-### Implements
+#### Implements
 
 *None*
 
-### Methods/Functions
+#### Methods/Functions
 
 *No public methods/functions*
 
-### Implementation Notes
+#### Implementation Notes
 
 *None*
 
 ---
 
-## Transaction
+### Transaction
 
 A transaction object.
 
-### Constructor
+#### Constructor
 
 * ``` fee ``` \
 The fee this transaction will use. Does not have a corresponding output.
@@ -814,11 +816,11 @@ Data to be associated with this transaction. Has no effect on the protocol level
     * Type: Boolean
     * Optional: yes
 
-### Implements
+#### Implements
 
 *None*
 
-### Methods/Functions
+#### Methods/Functions
 
 * ``` getUnprovenInputs ``` \
   Returns the inputs in this transaction that have no yet been proven.
@@ -851,6 +853,62 @@ Data to be associated with this transaction. Has no effect on the protocol level
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
-### Implementation Notes
+#### Implementation Notes
+
+*None*
+
+# EZ API
+
+## Transaction-Related Interfaces
+
+### TBD
+
+TBD
+
+###### Type Parameters
+
+*None*
+
+#### Constructor
+
+The construct is private or there is none.
+
+#### Implemented by
+
+*None*
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+---
+
+## Transaction-Related Classes
+
+### TBD
+
+TBD
+
+###### Type Parameters
+
+*None*
+
+#### Constructor
+
+The construct is private or there is none.
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
 
 *None*
