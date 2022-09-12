@@ -103,7 +103,7 @@ This interface is implemented by objects that build transactions.
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Boolean
+            * Type: Byte127
             * Optional: yes
     * *Returns* \
       Result
@@ -127,7 +127,7 @@ This interface is implemented by objects that build transactions.
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Boolean
+            * Type: Byte127
             * Optional: yes
     * *Returns* \
       Result
@@ -159,11 +159,11 @@ This interface is implemented by objects that build transactions.
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Boolean
+            * Type: Byte127
             * Optional: yes
     * *Returns* \
       Result
-        * S = [Transaction](#transaction) with the [AssetToken](#onchainasset) (either [OnChainAsset](#onchainasset) or [OffChainAsset](#offchainasset))
+        * S = [Transaction](#transaction) with the [AssetToken](#assettoken) (either [OnChainAsset](#onchainasset) or [OffChainAsset](#offchainasset))
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The arguments do not constitute a valid transaction
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
@@ -188,7 +188,7 @@ This interface is implemented by objects that build transactions.
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Boolean
+            * Type: Byte127
             * Optional: yes
     * *Returns* \
       Result
