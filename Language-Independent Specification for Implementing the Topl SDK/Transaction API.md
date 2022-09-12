@@ -296,7 +296,7 @@ The return values of all functions return an implementation of [SupplyType](#sup
     * *Parameters* 
         * ``` maxSupply ``` \
         The maximum supply of a token that this policy will allow to exist.
-            * Type: Int28
+            * Type: UInt128
             * Optional: no
     * *Returns* \
       Result
@@ -771,13 +771,10 @@ The address of this output.
 An object representing the value contained in this output.
     * Type: BoxValue
     * Optional: no
-* ``` mintingSeriesPolicy ``` \
-An object representing the series policy. Used to determine if minting is allowed. Only valid for a minting output.
-    * Type: [SeriesPolicy](#seriespolicy)
-    * Optional: yes
-* ``` mintingGroupPolicy ``` \
-An object representing the group policy. Used to determine if minting is allowed. Only valid for a minting output.
-    * Type: [GroupPolicy](#grouppolicy)
+* ``` mintingPolicies ``` \
+An object representing the policy which determine if minting is allowed. If not provided, the output is not considered a minting output
+    * Type: Array of [Policy](#policy). \
+    Valid lengths are 0-2. If length is 2 then the format is [Group Policy, Series Policy]
     * Optional: yes
 
 #### Implements
@@ -936,6 +933,208 @@ The construct is private or there is none.
       Result
         * S = Auth \
         Object containing Authentication Information
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### InputBuilder
+
+Utility class used to build transaction inputs.
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ``` groupToken ``` \
+  Build a group constructor token input. This is generally only used when minting an asset token.
+    * *Parameters* 
+        * ``` quantity ``` \
+        The quantity of the group constructor token.
+            * Type: UInt128
+            * Optional: no
+        * ``` policyEvidence ``` \
+        The evidence tying the token to its Group Policy.
+            * Type: Byte32
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionInput](#transactioninput)\<[GroupToken](#grouptoken)>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` seriesToken ``` \
+  Build a series constructor token input. This is generally only used when minting an asset token.
+    * *Parameters* 
+        * ``` quantity ``` \
+        The quantity of the series constructor token.
+            * Type: UInt128
+            * Optional: no
+        * ``` policyEvidence ``` \
+        The evidence tying the token to its Series Policy.
+            * Type: Byte32
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionInput](#transactioninput)\<[SeriesToken](#seriestoken)>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` nanoPoly ``` \
+  Build a nanopoly input. This is most often used for transaction fees but can also be used for transfer inputs.
+    * *Parameters* 
+        * ``` quantity ``` \
+        The quantity of the series constructor token.
+            * Type: UInt128
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionInput](#transactioninput)\<NanoPoly>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` assetToken ``` \
+  Build an asset token input. This is generally used for transfer inputs.
+    * *Parameters* 
+        * ``` quantity ``` \
+        The quantity of the series constructor token.
+            * Type: UInt128
+            * Optional: no
+        * ``` assetLabel ``` \
+        The label of the asset to transfer. This label includes its associated Group ID and Series ID.
+            * Type: String
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionInput](#transactioninput)\<[AssetToken](#assettoken)>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### OutputBuilder
+
+Utility class used to build transaction outputs.
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ``` groupToken ``` \
+  Build a group constructor token output. This is generally only used when registering a new group constructor token.
+    * *Parameters* 
+        * ``` address ``` \
+        The address where the output group constructor token(s) will reside
+            * Type: Address
+            * Optional: no
+        * ``` quantity ``` \
+        The quantity of the group constructor token to include in the output.
+            * Type: UInt128
+            * Optional: no
+        * ``` groupPolicy ``` \
+        The Group Policy of the token.
+            * Type: [GroupPolicy](#grouppolicy)
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` seriesToken ``` \
+  Build a series constructor token output. This is generally only used when registering a new (or minting more) series constructor token(s).
+    * *Parameters* 
+        * ``` address ``` \
+        The address where the output series constructor token(s) will reside
+            * Type: Address
+            * Optional: no
+        * ``` quantity ``` \
+        The quantity of the series constructor token to include in the output.
+            * Type: UInt128
+            * Optional: no
+        * ``` seriesPolicy ``` \
+        The Series Policy of the token.
+            * Type: [SeriesPolicy](#seriespolicy)
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput)\<[SeriesToken](#seriestoken)>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` nanoPoly ``` \
+  Build a nanopoly output. This is generally only used in transfers.
+    * *Parameters* 
+        * ``` address ``` \
+        The address where the output NanoPolys will reside
+            * Type: Address
+            * Optional: no
+        * ``` quantity ``` \
+        The quantity of NanoPolys to include in the output.
+            * Type: UInt128
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput)\<NanoPoly>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` onChainAsset ``` \
+  Build an on-chain asset token output. This is generally only used when transferring or minting new asset tokens.
+    * *Parameters* 
+        * ``` address ``` \
+        The address where the output asset token(s) will reside
+            * Type: Address
+            * Optional: no
+        * ``` quantity ``` \
+        The quantity of the asset token(s) to include in the output.
+            * Type: UInt128
+            * Optional: no
+        * ``` assetLabel ``` \
+        The label that the output asset token is associated with. This label includes its associated Group ID and Series ID.
+            * Type: String
+            * Optional: no
+        * ``` metadata ``` \
+        Optional data to associate with the output asset token(s)
+            * Type: String
+            * Optional: yes
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput)\<[OnChainAsset](#onchainasset)>
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` offChainAsset ``` \
+  Build an off-chain asset token output. This is generally only used when transferring or minting new asset tokens.
+    * *Parameters* 
+        * ``` address ``` \
+        The address where the output asset token(s) will reside
+            * Type: Address
+            * Optional: no
+        * ``` quantity ``` \
+        The quantity of the asset token(s) to include in the output.
+            * Type: UInt128
+            * Optional: no
+        * ``` assetLabel ``` \
+        The label that the output asset token is associated with. This label includes its associated Group ID and Series ID.
+            * Type: String
+            * Optional: no
+        * ``` url ``` \
+        The URL that hosts the off-chain data
+            * Type: String
+            * Optional: no
+        * ``` auth ``` \
+        An authentication object containing the necessary information to access the data at the provided `url`. If not provided, the off-chain data must be publically available.
+            * Type: Auth
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput)\<[OffChainAsset](#offchainasset)>
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
