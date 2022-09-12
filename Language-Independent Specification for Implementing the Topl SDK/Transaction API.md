@@ -398,7 +398,7 @@ The label for defining the name of a group, constraints?
     * Optional: no
 * ``` fixedSeriesPolicy ``` \
 Restrict the Group to have only a single type of series token that is applicable to this Group
-    * Type: String
+    * Type: Byte32
     * Optional: yes
 * ``` supplyControlForSeries ``` \
 Defines the expected on-chain behavior for how many Series may be "assigned" to a Group
@@ -440,11 +440,11 @@ Objects of this class represents an off-chain Series Policy.
 The label for defining the name of a series, constraints?
     * Type: String
     * Optional: no
-* ``` interGroupFungibile ``` \
+* ``` interGroupFungible ``` \
 Should the protocol consider this series fungible with other like tokens that share this group id? (may go between series)
     * Type: Boolean
     * Optional: no
-* ``` interSeriesFungibile ``` \
+* ``` interSeriesFungible ``` \
 Should the protocol consider this series fungible with other like tokens that share this series id? (may go between groups)
     * Type: Boolean
     * Optional: no
@@ -709,7 +709,7 @@ The commit root is generated from the data.
 An object representing a transaction input.
 
 ###### Type Parameters
-
+ 
 * ``` BoxValue ```: The type of value contained in this input's associated box. For ex., [GroupConstructorToken](#grouptoken), [SeriesConstructorToken](#seriestoken), [AssetToken](#assettoken), NanoPoly
 
 #### Constructor
@@ -799,7 +799,7 @@ A transaction object.
 
 * ``` fee ``` \
 The fee this transaction will use. Does not have a corresponding output.
-    * Type: [TransactionInput](#transactioninput)
+    * Type: [TransactionInput](#transactioninput)\<NanoPoly>
     * Optional: no
 * ``` inputs ``` \
 The inputs to this transaction. All quantities of these inputs are required to be satisfied but the outputs.
@@ -815,7 +815,7 @@ An object representing the transaction timestamp as well as the minimum and maxi
     * Optional: yes
 * ``` data ``` \
 Data to be associated with this transaction. Has no effect on the protocol level.
-    * Type: Boolean
+    * Type: Byte127
     * Optional: yes
 
 #### Implements
@@ -959,6 +959,14 @@ Utility class used to build transaction inputs.
         The quantity of the group constructor token.
             * Type: UInt128
             * Optional: no
+        * ``` boxId ``` \
+        The ID of the box where the input will come from. 
+            * Type: TBD
+            * Optional: no
+        * ``` proposition ``` \
+        The proposition controlling if this input can be consumed. 
+            * Type: Proposition
+            * Optional: no
         * ``` policyEvidence ``` \
         The evidence tying the token to its Group Policy.
             * Type: Byte32
@@ -974,6 +982,14 @@ Utility class used to build transaction inputs.
         * ``` quantity ``` \
         The quantity of the series constructor token.
             * Type: UInt128
+            * Optional: no
+        * ``` boxId ``` \
+        The ID of the box where the input will come from. 
+            * Type: TBD
+            * Optional: no
+        * ``` proposition ``` \
+        The proposition controlling if this input can be consumed. 
+            * Type: Proposition
             * Optional: no
         * ``` policyEvidence ``` \
         The evidence tying the token to its Series Policy.
@@ -991,6 +1007,14 @@ Utility class used to build transaction inputs.
         The quantity of the series constructor token.
             * Type: UInt128
             * Optional: no
+        * ``` boxId ``` \
+        The ID of the box where the input will come from. 
+            * Type: TBD
+            * Optional: no
+        * ``` proposition ``` \
+        The proposition controlling if this input can be consumed. 
+            * Type: Proposition
+            * Optional: no
     * *Returns* \
       Result
         * S = [TransactionInput](#transactioninput)\<NanoPoly>
@@ -1002,6 +1026,14 @@ Utility class used to build transaction inputs.
         * ``` quantity ``` \
         The quantity of the series constructor token.
             * Type: UInt128
+            * Optional: no
+        * ``` boxId ``` \
+        The ID of the box where the input will come from. 
+            * Type: TBD
+            * Optional: no
+        * ``` proposition ``` \
+        The proposition controlling if this input can be consumed. 
+            * Type: Proposition
             * Optional: no
         * ``` assetLabel ``` \
         The label of the asset to transfer. This label includes its associated Group ID and Series ID.
@@ -1036,6 +1068,11 @@ Utility class used to build transaction outputs.
         The address where the output group constructor token(s) will reside
             * Type: Address
             * Optional: no
+        * ``` minting ``` \
+        Flag to determing if this output is a minting output
+            * Type: Boolean
+            * Optional: yes
+            * Default: true
         * ``` quantity ``` \
         The quantity of the group constructor token to include in the output.
             * Type: UInt128
@@ -1056,6 +1093,11 @@ Utility class used to build transaction outputs.
         The address where the output series constructor token(s) will reside
             * Type: Address
             * Optional: no
+        * ``` minting ``` \
+        Flag to determing if this output is a minting output
+            * Type: Boolean
+            * Optional: yes
+            * Default: true
         * ``` quantity ``` \
         The quantity of the series constructor token to include in the output.
             * Type: UInt128
@@ -1092,6 +1134,11 @@ Utility class used to build transaction outputs.
         The address where the output asset token(s) will reside
             * Type: Address
             * Optional: no
+        * ``` minting ``` \
+        Flag to determing if this output is a minting output
+            * Type: Boolean
+            * Optional: yes
+            * Default: true
         * ``` quantity ``` \
         The quantity of the asset token(s) to include in the output.
             * Type: UInt128
@@ -1116,6 +1163,11 @@ Utility class used to build transaction outputs.
         The address where the output asset token(s) will reside
             * Type: Address
             * Optional: no
+        * ``` minting ``` \
+        Flag to determing if this output is a minting output
+            * Type: Boolean
+            * Optional: yes
+            * Default: true
         * ``` quantity ``` \
         The quantity of the asset token(s) to include in the output.
             * Type: UInt128
