@@ -83,9 +83,6 @@ This interface is implemented by objects that build transactions.
 
 #### Methods/Functions
 
-> 🚧 Reminder
-> Still need to understand how registrationUtxo fits into this.
-
 * ``` registerAssetGroup ``` \
   Registers an asset group.
     * *Parameters* 
@@ -93,7 +90,7 @@ This interface is implemented by objects that build transactions.
         Fee for the registration transaction
             * Type: [TransactionInput](#transactioninput)\<NanoPoly>
             * Optional: no
-        * ``` tokenOutput ``` \
+        * ``` output ``` \
         The registered group constructor token output.
             * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
             * Optional: no
@@ -118,7 +115,7 @@ This interface is implemented by objects that build transactions.
         Fee for the registration transaction
             * Type: [TransactionInput](#transactioninput)
             * Optional: no
-        * ``` tokenOutput ``` \
+        * ``` output ``` \
         The registered group constructor token output.
             * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
             * Optional: no
@@ -136,7 +133,7 @@ This interface is implemented by objects that build transactions.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The arguments do not constitute a valid transaction
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` mintOnChainAsset ``` \
+* ``` mintAssetToken ``` \
   Mints an asset token
     * *Parameters* 
         * ``` fee ``` \
@@ -151,7 +148,7 @@ This interface is implemented by objects that build transactions.
         The series constructor token for this new asset token.
             * Type: [TransactionInput](#transactioninput)\<[SeriesToken](#seriestoken)>
             * Optional: no
-        * ``` mintedOutput ``` \
+        * ``` output ``` \
         The minted asset token output.
             * Type: [TransactionOutput](#transactionoutput)\<[OnChainAsset](#onchainasset)|[OffChainAsset](#offchainasset)>
             * Optional: no
@@ -390,6 +387,9 @@ The return values of all functions return an implementation of [CommitType](#com
 
 Objects of this class represents an off-chain Group Policy.
 
+> 🚧 Reminder
+> Still need to understand how registrationUtxo fits into this.
+
 #### Constructor
 
 * ``` label ``` \
@@ -430,6 +430,9 @@ TBD
 ### SeriesPolicy
 
 Objects of this class represents an off-chain Series Policy.
+
+> 🚧 Reminder
+> Still need to understand how registrationUtxo fits into this.
 
 #### Constructor
 
@@ -941,34 +944,6 @@ The construct is private or there is none.
 *None*
 
 # EZ API
-
-## Transaction-Related Interfaces
-
-### TBD
-
-TBD
-
-###### Type Parameters
-
-*None*
-
-#### Constructor
-
-The construct is private or there is none.
-
-#### Implemented by
-
-*None*
-
-#### Methods/Functions
-
-*No public methods/functions*
-
-#### Implementation Notes
-
-*None*
-
----
 
 ## Transaction-Related Classes
 
