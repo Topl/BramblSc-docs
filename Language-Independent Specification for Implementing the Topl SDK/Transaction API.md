@@ -109,6 +109,7 @@ This interface is implemented by objects that build transactions.
       Result
         * S = [Transaction](#transaction) containing the [GroupToken](#grouptoken)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerAssetSeries ``` \
   Registers an asset series.
@@ -133,6 +134,7 @@ This interface is implemented by objects that build transactions.
       Result
         * S = [Transaction](#transaction) containing the [Seriestoken](#seriestoken)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` mintOnChainAsset ``` \
   Mints an asset token
@@ -650,7 +652,7 @@ The construct is private or there is none.
     * *Parameters* 
       * ``` auth ``` \
       An authentication object
-        * Type: TBD
+        * Type: Auth
         * Optional: no
     * *Returns* \
       Result
@@ -850,6 +852,87 @@ Data to be associated with this transaction. Has no effect on the protocol level
       Result
         * S = Array of [TransactionInput](#transactioninput) \
       A collection of transaction inputs that do not have an associating proof.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### Schedule
+
+An object representing scheduling information for a transaction.
+
+#### Constructor
+
+* ``` timestamp ``` \
+  The creation time stamp.  A UNIX timestamp (ms) of the transaction's original creation.  User-defined with no impact on the protocol.  Must be positive.
+  * Type: UInt64
+  * Optional: yes
+  * Default: Derived from when the containing transaction is broadcasted
+* ``` minimumSlot ``` \
+  The minimum slot number of the block containing this transaction
+  * Type: UInt64
+  * Optional: yes
+  * Default: No minimum slot
+* ``` maximumSlot ``` \
+  The maximum slot number of the block constraing this transaction.  Must be greater than `minimumSlot`.
+  * Type: UInt64
+  * Optional: yes
+  * Default: No maximum slot
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+*None*
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### AuthFactory
+
+A utility object containing different forms of authentication
+
+#### Constructor
+
+The construct is private or there is none.
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+> 🚧 Reminder
+> The authentication methods that we will be supporting in Phase 1 has not been decided yet. The following is an example
+
+* ``` oidc_m2m ``` \
+  Open ID Connect Maching to Machine Authentication
+    * *Parameters* 
+      * ``` clientId ```
+        * Type: String
+        * Optional: no 
+      * ``` clientSecret ```
+        * Type: String
+        * Optional: no 
+      * ``` IdP ```
+        * Type: String
+        * Optional: no 
+      * ``` audience ```
+        * Type: String
+        * Optional: no 
+    * *Returns* \
+      Result
+        * S = Auth \
+        Object containing Authentication Information
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
