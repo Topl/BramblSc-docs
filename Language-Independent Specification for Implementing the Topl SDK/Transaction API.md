@@ -2,6 +2,24 @@
 
 ## Transaction-Related Interfaces
 
+### MintableToken
+
+This interface is implemented by objects that represent a mintable token.
+
+#### Implemented by
+
+[GroupConstructor](#groupconstructor), [SeriesConstructor](#seriesconstructor), [AssetConstructor](#assetconstructor)
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+--- 
+
 ### SupplyType
 
 This interface is implemented by objects that represent a minting token supply policy.
@@ -57,221 +75,10 @@ This interface is implemented by objects that represent an off-chain Group or Se
         * S = Byte32
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getEvidence ``` \
-  Returns the associated policy evidence.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Byte32
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 #### Implementation Notes
 
 *None*
-
----
-
-### TransactionBuilder
-
-This interface is implemented by objects that build transactions.
-
-#### Implemented by
-
-*No public implementations*
-
-#### Methods/Functions
-
-* ``` registerAssetGroup ``` \
-  Registers an asset group.
-    * *Parameters* 
-        * ``` fee ``` \
-        Fee for the registration transaction
-            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
-            * Optional: no
-        * ``` output ``` \
-        The registered group constructor token output.
-            * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
-            * Optional: no
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-    * *Returns* \
-      Result
-        * S = [Transaction](#transaction) containing the [GroupToken](#grouptoken)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * The arguments do not constitute a valid transaction
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` registerAssetSeries ``` \
-  Registers an asset series.
-    * *Parameters* 
-        * ``` fee ``` \
-        Fee for the registration transaction
-            * Type: [TransactionInput](#transactioninput)
-            * Optional: no
-        * ``` output ``` \
-        The registered group constructor token output.
-            * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
-            * Optional: no
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-    * *Returns* \
-      Result
-        * S = [Transaction](#transaction) containing the [Seriestoken](#seriestoken)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * The arguments do not constitute a valid transaction
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` mintAssetToken ``` \
-  Mints an asset token
-    * *Parameters* 
-        * ``` fee ``` \
-        Fee for the registration transaction
-            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
-            * Optional: no
-        * ``` groupConstructorToken ``` \
-        The group constructor token for this new asset token.
-            * Type: [TransactionInput](#transactioninput)\<[GroupToken](#grouptoken)>
-            * Optional: no
-        * ``` seriesConstructorToken ``` \
-        The series constructor token for this new asset token.
-            * Type: [TransactionInput](#transactioninput)\<[SeriesToken](#seriestoken)>
-            * Optional: no
-        * ``` output ``` \
-        The minted asset token output.
-            * Type: [TransactionOutput](#transactionoutput)\<[OnChainAsset](#onchainasset)|[OffChainAsset](#offchainasset)>
-            * Optional: no
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-    * *Returns* \
-      Result
-        * S = [Transaction](#transaction) with the [AssetToken](#assettoken) (either [OnChainAsset](#onchainasset) or [OffChainAsset](#offchainasset))
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * The arguments do not constitute a valid transaction
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` transferAsset ``` \
-  Transfers asset tokens
-    * *Parameters* 
-        * ``` fee ``` \
-        Fee for the registration transaction
-            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
-            * Optional: no
-        * ``` inputs ``` \
-        The token inputs to transfer.
-            * Type: Array of [TransactionInput](#transactioninput)\<[AssetToken](#assettoken)|NanoPoly>
-            * Optional: no
-        * ``` outputs ``` \
-        The transferred outputs.
-            * Type: [TransactionOutput](#transactionoutput)\<[AssetToken](#assettoken)|NanoPoly>
-            * Optional: no
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-    * *Returns* \
-      Result
-        * S = [Transaction](#transaction)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * The arguments do not constitute a valid transaction
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-
-#### Implementation Notes
-
-*None*
-
----
-
-### AssetToken
-
-An object representing an Asset Token.
-
-#### Implemented by
-
-[OnChainAsset](#onchainasset), [OffChainAsset](#offchainasset)
-
-#### Methods/Functions
-
-* ``` getQuantity ``` \
-  Returns the quantity of this token.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Int128 
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setQuantity ``` \
-  Sets the quantity of this token.
-    * *Parameters* 
-      * ``` quantity ``` \
-      The quantity of this token
-        * Type: Int128
-        * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setAssetLabel ``` \
-  Set the asset label associated with this asset token. This value represents the Group ID and Series ID that this token is associated with.
-    * *Parameters* 
-        * ``` label ``` \
-        The asset label
-            * Type: String
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getAssetLabel ``` \
-  Returns the asset label associated with this asset token. This value represents the Group ID and Series ID that this token is associated with.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = String \
-      The asset label.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getCommitRoot ``` \
-  Returns the commitment hash of this asset.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Byte127 \
-      The commit root.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-The data that the commit root is based off of depends on the implementing class.
 
 ---
 
@@ -348,8 +155,12 @@ The return values of all functions return an implementation of [CommitType](#com
 
 * ``` hash ``` \
   Returns an object that represents a Hash commitment type.
-    * *Parameters* \
-    *None* 
+    * *Parameters* 
+      * ``` hashAlgo ``` \
+      Type of hashing algorithm to use
+        * Type: MessageDigester
+        * Optional: yes
+        * Default: TBD
     * *Returns* \
       Result
         * S = [CommitType](#committype) \
@@ -358,8 +169,17 @@ The return values of all functions return an implementation of [CommitType](#com
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` merkleTree ``` \
   Returns an object that represents a MerkleTree commitment type.
-    * *Parameters* \
-    *None* 
+    * *Parameters* 
+      * ``` hashAlgo ``` \
+      Type of hashing algorithm to use
+        * Type: MessageDigester
+        * Optional: yes
+        * Default: TBD
+      * ``` blockSize ``` \
+      Block size to use in Bytes.
+        * Type: UInt16
+        * Optional: yes
+        * Default: 1024
     * *Returns* \
       Result
         * S = [CommitType](#committype) \
@@ -368,8 +188,12 @@ The return values of all functions return an implementation of [CommitType](#com
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` rsaAccumulator ``` \
   Returns an object that represents an RSA Accumulator commitment type.
-    * *Parameters* \
-    *None* 
+    * *Parameters* 
+      * ``` bitSize ``` \
+      Bit size to use.
+        * Type: UInt32
+        * Optional: yes
+        * Default: 2048
     * *Returns* \
       Result
         * S = [CommitType](#committype) \
@@ -386,9 +210,6 @@ The return values of all functions return an implementation of [CommitType](#com
 ### GroupPolicy
 
 Objects of this class represents an off-chain Group Policy.
-
-> 🚧 Reminder
-> Still need to understand how registrationUtxo fits into this.
 
 #### Constructor
 
@@ -409,8 +230,8 @@ Defines the proposition that must be stamped on a Group Constructor (is this nee
     * Type: Proposition
     * Optional: no
 * ``` registrationUtxo ``` \
-This value provides a uniqueness value that can be checked by the protocol to know if this group policy has been generated previously. It represents a Box.id
-    * Type: TBD
+An arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this group policy has been generated previously. This box ID must be unique for policy registrations across transactions.
+    * Type: Box.Id
     * Optional: no
 
 #### Implements
@@ -419,7 +240,7 @@ This value provides a uniqueness value that can be checked by the protocol to kn
 
 #### Methods/Functions
 
-TBD
+*No public methods/functions*
 
 #### Implementation Notes
 
@@ -430,9 +251,6 @@ TBD
 ### SeriesPolicy
 
 Objects of this class represents an off-chain Series Policy.
-
-> 🚧 Reminder
-> Still need to understand how registrationUtxo fits into this.
 
 #### Constructor
 
@@ -465,8 +283,8 @@ Defines the proposition that must be stamped on a Series Constructor (is this ne
     * Type: Proposition
     * Optional: no
 * ``` registrationUtxo ``` \
-This value provides a uniqueness value that can be checked by the protocol to know if this group policy has been generated previously. It represents a Box.id
-    * Type: TBD
+An arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this series policy has been generated previously. This box ID must be unique for policy registrations across transactions.
+    * Type: Box.Id
     * Optional: no
 * ``` commitScheme ``` \
 This value defines the expected type of committment that users should employee when verifying data on asset tokens within this series. 
@@ -483,7 +301,7 @@ A (possibly mixin based) metadata definition that allows for application level d
 
 #### Methods/Functions
 
-TBD
+*No public methods/functions*
 
 #### Implementation Notes
 
@@ -623,158 +441,27 @@ The construct is private or there is none.
 
 ---
 
-### OffChainAsset
+### AssetToken
 
-An object representing an Off-Chain Asset Token.
-
-#### Constructor
-
-The construct is private or there is none.
-
-#### Implements
-
-[AssetToken](#assettoken)
-
-#### Methods/Functions
-
-* ``` setURL ``` \
-  Set the URL which contains the data to be associated with this token.
-    * *Parameters* 
-      * ``` url ``` \
-      The URL that hosts the off-chain data
-        * Type: String 
-        * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned. 
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setAuth ``` \
-  Sets the authentication required to access the data at the URL.
-    * *Parameters* 
-      * ``` auth ``` \
-      An authentication object
-        * Type: Auth
-        * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-The commit root is generated from the data hosted at the URL.
-
----
-
-### OnChainAsset
-
-An object representing an On-Chain Asset Token.
+An object representing an Asset Token.
 
 #### Constructor
 
-The construct is private or there is none.
-
-#### Implements
-
-[AssetToken](#assettoken)
-
-#### Methods/Functions
-
-* ``` setData ``` \
-  Set the data to be associated with this token.
-    * *Parameters* 
-      * ``` data ``` \
-      The data associated with this token
-        * Type: String 
-        * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned. 
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-The commit root is generated from the data.
-
----
-
-### TransactionInput
-
-An object representing a transaction input.
-
-###### Type Parameters
- 
-* ``` BoxValue ```: The type of value contained in this input's associated box. For ex., [GroupConstructorToken](#grouptoken), [SeriesConstructorToken](#seriestoken), [AssetToken](#assettoken), NanoPoly
-
-#### Constructor
-
-* ``` boxId ``` \
-The ID of the box that this input is associated to. This ID represents the ID of the transaction that produced the box, as well as it's index in the output sequence.
-    * Type: TBD
+* ``` label ``` \
+The asset label of this token. The label encompasses the IDs of the group and series it belongs to
+    * Type: String
     * Optional: no
-* ``` proposition ``` \
-The proposition that's needed to satisfy in order to spend the contents of the box.
-    * Type: Proposition
+* ``` quantity ``` \
+The quantity of this token
+    * Type: Int128
     * Optional: no
-* ``` value ``` \
-An object representing the value from the box that we are transferring.
-    * Type: BoxValue
+* ``` commitRoot ``` \
+The commitment root for this token.
+    * Type: Byte127
     * Optional: no
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-* ``` prove ``` \
-  Prove the input proposition. 
-    * *Parameters* 
-        * ``` proof ``` \
-        The proof to satisfy the input proposition.
-            * Type: Proof
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-*None*
-
----
-
-### TransactionOutput
-
-An object representing a transaction output.
-
-###### Type Parameters
-
-* ``` BoxValue ```: The type of value contained in this output. For ex., [GroupConstructorToken](#grouptoken), [SeriesConstructorToken](#seriestoken), [AssetToken](#assettoken), NanoPoly
-
-#### Constructor
-
-* ``` address ``` \
-The address of this output.
-    * Type: Address
-    * Optional: no
-* ``` value ``` \
-An object representing the value contained in this output.
-    * Type: BoxValue
-    * Optional: no
-* ``` mintingPolicies ``` \
-An object representing the policy which determine if minting is allowed. If not provided, the output is not considered a minting output
-    * Type: Array of [Policy](#policy). \
-    Valid lengths are 0-2. If length is 2 then the format is [Group Policy, Series Policy]
+* ``` metadata ``` \
+Optional metadata associated with this token.
+    * Type: Byte127
     * Optional: yes
 
 #### Implements
@@ -791,32 +478,175 @@ An object representing the policy which determine if minting is allowed. If not 
 
 ---
 
-### Transaction
+### TransactionInput
 
-A transaction object.
+An instance of this class represents Transaction.Input
 
 #### Constructor
 
-* ``` fee ``` \
-The fee this transaction will use. Does not have a corresponding output.
-    * Type: [TransactionInput](#transactioninput)\<NanoPoly>
+> 🚧 Note
+> We are assuming that the proposition associated with the box is available to us.
+
+* ``` box ``` \
+The box that this input is associated to.
+    * Type: Box
     * Optional: no
-* ``` inputs ``` \
-The inputs to this transaction. All quantities of these inputs are required to be satisfied but the outputs.
-    * Type: Array of [TransactionInput](#transactioninput)
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ``` getBoxId ``` \
+  Returns the boxId associated with this TransactionInput.
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = Box.Id
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getProposition ``` \
+  Returns the proposition associated with this TransactionInput.
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = Proposition
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getProof ``` \
+  Returns the proof associated with this TransactionInput.
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = Proof
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getValue ``` \
+  Returns the value associated with this TransactionInput.
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = BoxValue | [AssetToken](#assettoken) | [GroupToken](#grouptoken) | [SeriesToken](#seriestoken) \
+        > 🚧 Note
+        > AssetToken, GroupToken, and SeriesToken will be reflected as a BoxValue in protobuff in the near future. 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+In general, the Proposition, Proof and Value will be obtainable in the local wallet via the supplied `boxId`
+
+---
+
+### GroupConstructor
+
+An instance of this class represents a Group Constructor Token.
+
+#### Constructor
+
+* ``` policy ``` \
+The group policy tied to this GroupConstructor token.
+    * Type: [GroupPolicy](#grouppolicy)
     * Optional: no
-* ``` outputs ``` \
-The outputs of this transaction. The quantity of all non-minting outputs are required to correspond to input quantities.
-    * Type: Boolean
+
+#### Implements
+
+[MintableToken](#mintabletoken)
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### SeriesConstructor
+
+An instance of this class represents a Series Constructor Token.
+
+#### Constructor
+
+* ``` policy ``` \
+The series policy tied to this SeriesConstructor token.
+    * Type: [SeriesPolicy](#seriespolicy)
     * Optional: no
-* ``` schedule ``` \
-An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-    * Type: Schedule
+
+#### Implements
+
+[MintableToken](#mintabletoken)
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### AssetConstructor
+
+An instance of this class represents an Asset Constructor Token.
+
+#### Constructor
+
+* ``` groupPolicy ``` \
+The group policy tied to this AssetConstructor token.
+    * Type: [GroupPolicy](#grouppolicy)
+    * Optional: no
+* ``` seriesPolicy ``` \
+The series policy tied to this AssetConstructor token.
+    * Type: [SeriesPolicy](#seriespolicy)
+    * Optional: no
+
+#### Implements
+
+[MintableToken](#mintabletoken)
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### TransactionOutput
+
+An object representing a transaction output.
+
+###### Type Parameters
+
+*None*
+
+#### Constructor
+
+> 🚧 Note
+> AssetToken, GroupToken, and SeriesToken will be reflected as a BoxValue in protobuff in the near future.
+
+* ``` address ``` \
+The address of this output.
+    * Type: Address
+    * Optional: no
+* ``` value ``` \
+An object representing the value contained in this output.
+    * Type: BoxValue | [GroupToken](#grouptoken) | [SeriesToken](#seriestoken) | [AssetToken](#assettoken)
+    * Optional: no
+* ``` minting ``` \
+An optional object representing the policy which determines if minting is allowed. If not provided, the output is not considered a minting output
+    * Type: [MintableToken](#mintabletoken)
     * Optional: yes
-* ``` data ``` \
-Data to be associated with this transaction. Has no effect on the protocol level.
-    * Type: Byte127
-    * Optional: yes
 
 #### Implements
 
@@ -824,36 +654,7 @@ Data to be associated with this transaction. Has no effect on the protocol level
 
 #### Methods/Functions
 
-* ``` getUnprovenInputs ``` \
-  Returns the inputs in this transaction that have no yet been proven.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Array of [TransactionInput](#transactioninput) \
-      A collection of transaction inputs that do not have an associating proof.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getSignableBytes ``` \
-  Returns the portion of this transaction to be included in signature proofs.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Bytes/TBD \
-      The bytes of this transaction to be included in a signature.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` broadcast ``` \
-  Validates, encodes and broadcasts this transaction to the Blockchain. The transaction must be proven prior to broadcasting.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Array of [TransactionInput](#transactioninput) \
-      A collection of transaction inputs that do not have an associating proof.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+*No public methods/functions*
 
 #### Implementation Notes
 
@@ -861,197 +662,7 @@ Data to be associated with this transaction. Has no effect on the protocol level
 
 ---
 
-### Schedule
-
-An object representing scheduling information for a transaction.
-
-#### Constructor
-
-* ``` timestamp ``` \
-  The creation time stamp.  A UNIX timestamp (ms) of the transaction's original creation.  User-defined with no impact on the protocol.  Must be positive.
-  * Type: UInt64
-  * Optional: yes
-  * Default: Derived from when the containing transaction is broadcasted
-* ``` minimumSlot ``` \
-  The minimum slot number of the block containing this transaction
-  * Type: UInt64
-  * Optional: yes
-  * Default: No minimum slot
-* ``` maximumSlot ``` \
-  The maximum slot number of the block constraing this transaction.  Must be greater than `minimumSlot`.
-  * Type: UInt64
-  * Optional: yes
-  * Default: No maximum slot
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-*None*
-
-#### Implementation Notes
-
-*None*
-
----
-
-### AuthFactory
-
-A utility object containing different forms of authentication
-
-#### Constructor
-
-The construct is private or there is none.
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-> 🚧 Reminder
-> The authentication methods that we will be supporting in Phase 1 has not been decided yet. The following is an example
-
-* ``` oidc_m2m ``` \
-  Open ID Connect Maching to Machine Authentication
-    * *Parameters* 
-      * ``` clientId ```
-        * Type: String
-        * Optional: no 
-      * ``` clientSecret ```
-        * Type: String
-        * Optional: no 
-      * ``` IdP ```
-        * Type: String
-        * Optional: no 
-      * ``` audience ```
-        * Type: String
-        * Optional: no 
-    * *Returns* \
-      Result
-        * S = Auth \
-        Object containing Authentication Information
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-*None*
-
----
-
-### InputBuilder
-
-Utility class used to build transaction inputs.
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-* ``` groupToken ``` \
-  Build a group constructor token input. This is generally only used when minting an asset token.
-    * *Parameters* 
-        * ``` quantity ``` \
-        The quantity of the group constructor token.
-            * Type: UInt128
-            * Optional: no
-        * ``` boxId ``` \
-        The ID of the box where the input will come from. 
-            * Type: TBD
-            * Optional: no
-        * ``` proposition ``` \
-        The proposition controlling if this input can be consumed. 
-            * Type: Proposition
-            * Optional: no
-        * ``` policyEvidence ``` \
-        The evidence tying the token to its Group Policy.
-            * Type: Byte32
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = [TransactionInput](#transactioninput)\<[GroupToken](#grouptoken)>
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` seriesToken ``` \
-  Build a series constructor token input. This is generally only used when minting an asset token.
-    * *Parameters* 
-        * ``` quantity ``` \
-        The quantity of the series constructor token.
-            * Type: UInt128
-            * Optional: no
-        * ``` boxId ``` \
-        The ID of the box where the input will come from. 
-            * Type: TBD
-            * Optional: no
-        * ``` proposition ``` \
-        The proposition controlling if this input can be consumed. 
-            * Type: Proposition
-            * Optional: no
-        * ``` policyEvidence ``` \
-        The evidence tying the token to its Series Policy.
-            * Type: Byte32
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = [TransactionInput](#transactioninput)\<[SeriesToken](#seriestoken)>
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` nanoPoly ``` \
-  Build a nanopoly input. This is most often used for transaction fees but can also be used for transfer inputs.
-    * *Parameters* 
-        * ``` quantity ``` \
-        The quantity of the series constructor token.
-            * Type: UInt128
-            * Optional: no
-        * ``` boxId ``` \
-        The ID of the box where the input will come from. 
-            * Type: TBD
-            * Optional: no
-        * ``` proposition ``` \
-        The proposition controlling if this input can be consumed. 
-            * Type: Proposition
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = [TransactionInput](#transactioninput)\<NanoPoly>
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` assetToken ``` \
-  Build an asset token input. This is generally used for transfer inputs.
-    * *Parameters* 
-        * ``` quantity ``` \
-        The quantity of the series constructor token.
-            * Type: UInt128
-            * Optional: no
-        * ``` boxId ``` \
-        The ID of the box where the input will come from. 
-            * Type: TBD
-            * Optional: no
-        * ``` proposition ``` \
-        The proposition controlling if this input can be consumed. 
-            * Type: Proposition
-            * Optional: no
-        * ``` assetLabel ``` \
-        The label of the asset to transfer. This label includes its associated Group ID and Series ID.
-            * Type: String
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = [TransactionInput](#transactioninput)\<[AssetToken](#assettoken)>
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-*None*
-
----
-
-### OutputBuilder
+### OutputFactory
 
 Utility class used to build transaction outputs.
 
@@ -1127,36 +738,7 @@ Utility class used to build transaction outputs.
         * S = [TransactionOutput](#transactionoutput)\<NanoPoly>
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` onChainAsset ``` \
-  Build an on-chain asset token output. This is generally only used when transferring or minting new asset tokens.
-    * *Parameters* 
-        * ``` address ``` \
-        The address where the output asset token(s) will reside
-            * Type: Address
-            * Optional: no
-        * ``` minting ``` \
-        Flag to determing if this output is a minting output
-            * Type: Boolean
-            * Optional: yes
-            * Default: true
-        * ``` quantity ``` \
-        The quantity of the asset token(s) to include in the output.
-            * Type: UInt128
-            * Optional: no
-        * ``` assetLabel ``` \
-        The label that the output asset token is associated with. This label includes its associated Group ID and Series ID.
-            * Type: String
-            * Optional: no
-        * ``` metadata ``` \
-        Optional data to associate with the output asset token(s)
-            * Type: String
-            * Optional: yes
-    * *Returns* \
-      Result
-        * S = [TransactionOutput](#transactionoutput)\<[OnChainAsset](#onchainasset)>
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` offChainAsset ``` \
+* ``` offChainAsset ``` \  !!!!!!!!!!!!!!!! TODO CHANGE TO ASSETTOKEN
   Build an off-chain asset token output. This is generally only used when transferring or minting new asset tokens.
     * *Parameters* 
         * ``` address ``` \
@@ -1198,25 +780,130 @@ Utility class used to build transaction outputs.
 
 ## Transaction-Related Classes
 
-### TBD
 
-TBD
+### TransactionFactory
 
-###### Type Parameters
+This interface is implemented by objects that build transactions.
 
-*None*
+#### Implemented by
 
-#### Constructor
-
-The construct is private or there is none.
-
-#### Implements
-
-*None*
+*No public implementations*
 
 #### Methods/Functions
 
-*No public methods/functions*
+* ``` registerAssetGroup ``` \
+  Registers an asset group.
+    * *Parameters* 
+        * ``` fee ``` \
+        Fee for the registration transaction
+            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
+            * Optional: no
+        * ``` output ``` \
+        The registered group constructor token output.
+            * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
+            * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+    * *Returns* \
+      Result
+        * S = [Transaction](#transaction) containing the [GroupToken](#grouptoken)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` registerAssetSeries ``` \
+  Registers an asset series.
+    * *Parameters* 
+        * ``` fee ``` \
+        Fee for the registration transaction
+            * Type: [TransactionInput](#transactioninput)
+            * Optional: no
+        * ``` output ``` \
+        The registered group constructor token output.
+            * Type: [TransactionOutput](#transactionoutput)\<[GroupToken](#grouptoken)>
+            * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+    * *Returns* \
+      Result
+        * S = [Transaction](#transaction) containing the [Seriestoken](#seriestoken)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` mintAssetToken ``` \
+  Mints an asset token
+    * *Parameters* 
+        * ``` fee ``` \
+        Fee for the registration transaction
+            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
+            * Optional: no
+        * ``` groupConstructorToken ``` \
+        The group constructor token for this new asset token.
+            * Type: [TransactionInput](#transactioninput)\<[GroupToken](#grouptoken)>
+            * Optional: no
+        * ``` seriesConstructorToken ``` \
+        The series constructor token for this new asset token.
+            * Type: [TransactionInput](#transactioninput)\<[SeriesToken](#seriestoken)>
+            * Optional: no
+        * ``` output ``` \
+        The minted asset token output.
+            * Type: [TransactionOutput](#transactionoutput)\<[AssetToken](#assettoken)>
+            * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+    * *Returns* \
+      Result
+        * S = [Transaction](#transaction) with the [AssetToken](#assettoken)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` transferAsset ``` \
+  Transfers asset tokens
+    * *Parameters* 
+        * ``` fee ``` \
+        Fee for the registration transaction
+            * Type: [TransactionInput](#transactioninput)\<NanoPoly>
+            * Optional: no
+        * ``` inputs ``` \
+        The token inputs to transfer.
+            * Type: Array of [TransactionInput](#transactioninput)\<[AssetToken](#assettoken)|NanoPoly>
+            * Optional: no
+        * ``` outputs ``` \
+        The transferred outputs.
+            * Type: [TransactionOutput](#transactionoutput)\<[AssetToken](#assettoken)|NanoPoly>
+            * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+    * *Returns* \
+      Result
+        * S = [Transaction](#transaction)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * The arguments do not constitute a valid transaction
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
 
 #### Implementation Notes
 
