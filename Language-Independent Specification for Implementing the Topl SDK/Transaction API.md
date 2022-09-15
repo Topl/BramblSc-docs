@@ -351,7 +351,7 @@ The policy evidence for this constructor token.
 
 ---
 
-### AssetToken
+### AssetTokenV2
 
 An object representing an Asset Token.
 
@@ -458,9 +458,9 @@ The proof needed to consume the box
     *None*
     * *Returns* \
       Result
-        * S = BoxValue | [AssetToken](#assettoken) | [ConstructorToken](#constructortoken) \
+        * S = BoxValue | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
         > 🚧 Note
-        > AssetToken and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
+        > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
@@ -560,7 +560,7 @@ An object representing a transaction output.
 #### Constructor
 
 > 🚧 Note
-> AssetToken and ConstructorToken will be reflected as a BoxValue in protobuff in the near future.
+> AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future.
 
 * ``` address ``` \
 The address of this output.
@@ -568,7 +568,7 @@ The address of this output.
     * Optional: no
 * ``` value ``` \
 An object representing the value contained in this output.
-    * Type: BoxValue | [ConstructorToken](#constructortoken) | [AssetToken](#assettoken)
+    * Type: BoxValue | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
     * Optional: no
 * ``` minting ``` \
 An optional object representing the policy which determines if minting is allowed. If not provided, the output is not considered a minting output
@@ -635,7 +635,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Default: "0/0"
         * `value` \
         The value of this output.
-          * Type: BoxValue (EmptyBoxValue, PolyBoxValue, ArbitBoxValue, AssetV1BoxValue) | [AssetToken](#assettoken) | [ConstructorToken](#constructortoken)
+          * Type: BoxValue (EmptyBoxValue, PolyBoxValue, ArbitBoxValue, AssetV1BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
           * Optional: no
         * `minting` \
         The mintable token. Required if this is a minted output.
