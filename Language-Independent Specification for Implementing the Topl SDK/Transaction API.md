@@ -694,7 +694,6 @@ An optional object representing the policy which determines if minting is allowe
 
 ## Transaction-Related Classes
 
-
 ### Client
 
 This class contains functions to assist in creating common easy-to-use components to initiate transactions.
@@ -717,7 +716,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Type: String
           * Optional: no
         * `path` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  from where the input will be obtained. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
@@ -733,7 +732,7 @@ This class contains functions to assist in creating common easy-to-use component
   Returns a built minting Transaction.Output
     * *Parameters* 
         * `path` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the output will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  where the output will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
@@ -752,7 +751,7 @@ This class contains functions to assist in creating common easy-to-use component
             * Entity at yName does not exist
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerConstructor ``` \
-  Returns a built minting Transaction.Output
+  Returns a built Transaction for registering a Group Constructor Token or a Series Constructor Token
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
@@ -760,12 +759,12 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
           * Default: 100
         * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained. 
+        TThe path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) from where the input will be obtained. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
         * `changePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where any excess tokens will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where any excess tokens will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
@@ -777,24 +776,113 @@ This class contains functions to assist in creating common easy-to-use component
         Data to be associated with this transaction. Has no effect on the protocol level.
             * Type: Byte127
             * Optional: yes
-        * ``` groupPolicy ``` \
+        * ``` policy ``` \
         The policy that we are registering.
             * Type: [Policy](#policy)
             * Optional: no
         * ``` tokenQuantity ``` \
-        The quantity of group constructor token to creatae.
+        The quantity of constructor token to create.
             * Type: UInt128
             * Optional: no
         * ``` outputPath ``` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the newly registered constructor token will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where the created token will reside. 
             * Type: String
             * Optional: yes
             * Default: "0/0"
     * *Returns* \
       Result
-        * S = Transaction.Output
+        * S = Transaction
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Entity at yName does not exist
+            * Transaction is not valid
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` mintAsset ``` \
+  Returns a built Transaction for minting a new V2 Asset Token.
+    * *Parameters* 
+        * `feeQuantity` \
+        The quantity to use for this transaction's fee 
+          * Type: UInt128
+          * Optional: yes
+          * Default: 100
+        * `feePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  from where the input will be obtained. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `changePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where any excess tokens will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+        * ``` assetLabel ``` \
+        The label of the asset we are minting. This label includes the corresponding group ID and series ID.
+            * Type: String
+            * Optional: no
+        * ``` tokenQuantity ``` \
+        The quantity of asset tokens to create.
+            * Type: UInt128
+            * Optional: no
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token.
+            * Type: Byte127
+            * Optional: yes
+        * ``` outputPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where the created token will reside. 
+            * Type: String
+            * Optional: yes
+            * Default: "0/0"
+    * *Returns* \
+      Result
+        * S = Transaction
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Transaction is not valid
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` transfer ``` \
+  Returns a built Transaction for transferring tokens.
+    * *Parameters* 
+        * `feeQuantity` \
+        The quantity to use for this transaction's fee 
+          * Type: UInt128
+          * Optional: yes
+          * Default: 100
+        * `feePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  from where the input will be obtained. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `changePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where any excess tokens will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: Schedule
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+        * ``` inputs ``` \
+        The explicit inputs of this transfer.
+            * Type: Array of Transaction.Input
+            * Optional: no
+        * ``` outputs ``` \
+        The explicit outputs of this transfer.
+            * Type: Array of Transaction.Output
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = Transaction
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Transaction is not valid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 #### Implementation Notes
