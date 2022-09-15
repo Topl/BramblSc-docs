@@ -500,10 +500,15 @@ An instance of this class represents Transaction.Input
 > 🚧 Note
 > We are assuming that the proposition associated with the box is available to us.
 
-* ``` box ``` \
-The box that this input is associated to.
-    * Type: Box
+* ``` boxId ``` \
+The ID of the box that this input is associated to.
+    * Type: Box.Id
     * Optional: no
+* ``` proof ``` \
+The proof needed to consume the box
+    * Type: Proof
+    * Optional: yes
+
 
 #### Implements
 
@@ -529,6 +534,18 @@ The box that this input is associated to.
         * S = Proposition
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` setProof ``` \
+  Add the proof associated with this TransactionInput to satisfy the proposition.
+    * *Parameters* 
+      * `proof` \
+      The proof to satisfy this input's proposition.
+        * Type: Proof
+        * Optional: no
+    * *Returns* \
+      Result
+        * S = Proof
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` getProof ``` \
   Returns the proof associated with this TransactionInput.
     * *Parameters* \
@@ -552,7 +569,7 @@ The box that this input is associated to.
 
 #### Implementation Notes
 
-In general, the Proposition, Proof and Value will be obtainable in the local wallet via the supplied `boxId`
+In general, the Proposition and Value will be obtainable in the local wallet via the supplied `boxId`
 
 ---
 
@@ -673,74 +690,14 @@ An optional object representing the policy which determines if minting is allowe
 
 *None*
 
----
-
-### OutputFactory
-
-Utility class used to build transaction outputs.
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-* ``` nanoPoly ``` \
-  Build a nanopoly output. This is generally only used in transfers.
-    * *Parameters* 
-        * ``` address ``` \
-        The address where the output NanoPolys will reside
-            * Type: Address
-            * Optional: no
-        * ``` quantity ``` \
-        The quantity of NanoPolys to include in the output.
-            * Type: UInt128
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = [TransactionOutput](#transactionoutput)\<NanoPoly>
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` assetToken ``` \
-  Build an asset token output. 
-    * *Parameters* 
-        * ``` address ``` \
-        The address where the output asset token(s) will reside
-            * Type: Address
-            * Optional: no
-        * ``` quantity ``` \
-        The quantity of the asset token(s) to include in the output.
-            * Type: UInt128
-            * Optional: no
-        * ``` assetLabel ``` \
-        The label that the output asset token is associated with. This label includes its associated Group ID and Series ID.
-            * Type: String
-            * Optional: no
-        * ``` commitRoot ``` \
-        The commitment root of the token
-            * Type: Byte127
-            * Optional: no
-        * ``` metadata ``` \
-        Optional metadata associated with this token.
-            * Type: Byte127
-            * Optional: yes
-      Result
-        * S = [TransactionOutput](#transactionoutput)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-*None*
-
 # EZ API
 
 ## Transaction-Related Classes
 
 
-### TransactionFactory
+### Client
 
-This interface is implemented by objects that build transactions.
+This class contains functions to assist in creating common easy-to-use components to initiate transactions.
 
 #### Implemented by
 
@@ -748,22 +705,70 @@ This interface is implemented by objects that build transactions.
 
 #### Methods/Functions
 
-* ``` registerAssetGroup ``` \
-  Registers an asset group.
+* ``` input ``` \
+  Returns a built Transaction.Input
     * *Parameters* 
-        * ``` feeInput ``` \
-        Fee for the registration transaction. Type of the value is expected to be NanoPoly
-            * Type: [TransactionInput](#transactioninput)
-            * Optional: no
-        * ``` feeQuantity ``` \
-        Quantity of NanoPolys to use for the fee
+        * ``` requiredQuantity ``` \
+        The required quantity that this input needs
             * Type: UInt128
-            * Optional: yes
-            * Default: 100
-        * ``` changeAddress ``` \
-        The address to contain any excess funds
-            * Type: Address
             * Optional: no
+        * `assetType` \
+        A human readable label which maps to a type of asset (a AssetV2 token, NanoPoly, NanoArbit, etc) 
+          * Type: String
+          * Optional: no
+        * `path` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+    * *Returns* \
+      Result
+        * S = Transaction.Input
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Entity at yName does not exist
+            * A token defined by assetType does not exist
+            * The quantity of assetType does not exist in yName location
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` output ``` \
+  Returns a built minting Transaction.Output
+    * *Parameters* 
+        * `path` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the output will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `value` \
+        The value of this output.
+          * Type: BoxValue (EmptyBoxValue, PolyBoxValue, ArbitBoxValue, AssetV1BoxValue) | [AssetToken](#assettoken) | [GrouptToken](#grouptoken) | [SeriesToken](#seriestoken)
+          * Optional: no
+        * `minting` \
+        The mintable token. Required if this is a minted output.
+          * Type: [MintableToken](#mintabletoken)
+          * Optional: yes
+    * *Returns* \
+      Result
+        * S = Transaction.Output
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Entity at yName does not exist
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` registerConstructor ``` \
+  Returns a built minting Transaction.Output
+    * *Parameters* 
+        * `feeQuantity` \
+        The quantity to use for this transaction's fee 
+          * Type: UInt128
+          * Optional: yes
+          * Default: 100
+        * `feePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `changePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where any excess tokens will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
             * Type: Schedule
@@ -773,158 +778,25 @@ This interface is implemented by objects that build transactions.
             * Type: Byte127
             * Optional: yes
         * ``` groupPolicy ``` \
-        The policy of the group that we are registering.
-            * Type: [GroupPolicy](#grouppolicy)
+        The policy that we are registering.
+            * Type: [Policy](#policy)
             * Optional: no
         * ``` tokenQuantity ``` \
         The quantity of group constructor token to creatae.
             * Type: UInt128
             * Optional: no
-        * ``` outputAddress ``` \
-        The address to contain the newly created group constructor token.
-            * Type: Address
-            * Optional: no
+        * ``` outputPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the newly registered constructor token will reside. 
+            * Type: String
+            * Optional: yes
+            * Default: "0/0"
     * *Returns* \
       Result
-        * S = Transaction
+        * S = Transaction.Output
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Not enough funds to satisfy the fee quantity
-            * The fee input is not a NanoPoly type
-            * The arguments do not constitute a valid transaction
+            * Entity at yName does not exist
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` registerAssetSeries ``` \
-  Registers an asset series.
-    * *Parameters* 
-        * ``` feeInput ``` \
-        Fee for the registration transaction. Type of the value is expected to be NanoPoly
-            * Type: [TransactionInput](#transactioninput)
-            * Optional: yes
-            * Default: If not provided, the fee will be taken from excess input.
-        * ``` feeQuantity ``` \
-        Quantity of NanoPolys to use for the fee
-            * Type: UInt128
-            * Optional: yes
-            * Default: 100
-        * ``` changeAddress ``` \
-        The address to contain any excess funds
-            * Type: Address
-            * Optional: no
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-        * ``` seriesPolicy ``` \
-        The policy of the series that we are registering.
-            * Type: [SeriesPolicy](#seriespolicy)
-            * Optional: no
-        * ``` tokenQuantity ``` \
-        The quantity of series constructor token to creatae.
-            * Type: UInt128
-            * Optional: no
-        * ``` outputAddress ``` \
-        The address to contain the newly created series constructor token.
-            * Type: Address
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = Transaction
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Not enough funds to satisfy the fee quantity
-            * The fee input is not a NanoPoly type
-            * The arguments do not constitute a valid transaction
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` mintAssetToken ``` \
-  Mints an asset token
-    * *Parameters* 
-        * ``` feeInput ``` \
-        Fee for the registration transaction. Type of the value is expected to be NanoPoly
-            * Type: [TransactionInput](#transactioninput)
-            * Optional: no
-        * ``` feeQuantity ``` \
-        Quantity of NanoPolys to use for the fee
-            * Type: UInt128
-            * Optional: yes
-            * Default: 100
-        * ``` changeAddress ``` \
-        The address to contain any excess funds
-            * Type: Address
-            * Optional: no
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-        * ``` groupConstructorToken ``` \
-        The input containing the group constructor token for this new asset token.
-            * Type: [TransactionInput](#transactioninput)
-            * Optional: no
-        * ``` seriesConstructorToken ``` \
-        The input containing the series constructor token for this new asset token.
-            * Type: [TransactionInput](#transactioninput)
-            * Optional: no
-        * ``` output ``` \
-        The minted asset token output.
-            * Type: [TransactionOutput](#transactionoutput)
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = Transaction
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Not enough funds to satisfy the fee quantity
-            * The fee input is not a NanoPoly type
-            * The arguments do not constitute a valid transaction
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` transferAsset ``` \
-  Transfers asset tokens
-    * *Parameters* 
-        * ``` feeInput ``` \
-        Fee for the registration transaction. Type of the value is expected to be NanoPoly
-            * Type: [TransactionInput](#transactioninput)
-            * Optional: yes
-            * Default: If not provided, the fee will be taken from excess funds in the inputs.
-        * ``` feeQuantity ``` \
-        Quantity of NanoPolys to use for the fee
-            * Type: UInt128
-            * Optional: yes
-            * Default: 100
-        * ``` changeAddress ``` \
-        The address to contain any unclaimed assets
-            * Type: Address
-            * Optional: no
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-        * ``` inputs ``` \
-        The token inputs to transfer.
-            * Type: Array of [TransactionInput](#transactioninput)
-            * Optional: no
-        * ``` outputs ``` \
-        The transferred outputs.
-            * Type: [TransactionOutput](#transactionoutput)
-            * Optional: no
-            * Optional: yes
-    * *Returns* \
-      Result
-        * S = Transaction
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Not enough funds to satisfy the fee quantity
-            * The fee input is not a NanoPoly type
-            * The arguments do not constitute a valid transaction
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
 
 #### Implementation Notes
 
-Registering a series and group policy cannot directly take in the output since the registrationUtxo is going to be bound to the box ID of the fee which will affect the policyEvidence field on the output value.
+*None*
