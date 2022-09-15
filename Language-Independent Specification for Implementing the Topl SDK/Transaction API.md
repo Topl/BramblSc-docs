@@ -322,13 +322,20 @@ A (possibly mixin based) metadata definition that allows for application level d
 
 ---
 
-### GroupToken
+### ConstructorToken
 
-An object representing a Group Constructor Token.
+An object representing a Group or Series Constructor Token.
 
 #### Constructor
 
-The construct is private or there is none.
+* ``` quantity ``` \
+The quantity of this Constructor token.
+    * Type: UInt128
+    * Optional: no
+* ``` policyevidence ``` \
+The policy evidence for this constructor token.
+    * Type: Byte32
+    * Optional: no
 
 #### Implements
 
@@ -336,117 +343,7 @@ The construct is private or there is none.
 
 #### Methods/Functions
 
-* ``` getQuantity ``` \
-  Returns the quantity of this token.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Int128 
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setQuantity ``` \
-  Sets the quantity of this token.
-    * *Parameters* 
-      * ``` quantity ``` \
-      The quantity of this token
-        * Type: Int128
-        * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setPolicyEvidence ``` \
-  Set the group policy evidence for this constructor token.
-    * *Parameters* 
-        * ``` policyEvidence ``` \
-        The Group Policy Evidence
-            * Type: Byte32
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getPolicyEvidence ``` \
-  Returns the group policy evidence for this constructor token.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Byte32 \
-      The Group Policy Evidence
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-*None*
-
----
-
-### SeriesToken
-
-An object representing a Series Constructor Token.
-
-#### Constructor
-
-The construct is private or there is none.
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-* ``` getQuantity ``` \
-  Returns the quantity of this token.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Int128 
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setQuantity ``` \
-  Sets the quantity of this token.
-    * *Parameters* 
-      * ``` quantity ``` \
-      The quantity of this token
-        * Type: Int128
-        * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setPolicyEvidence ``` \
-  Set the series policy evidence for this constructor token.
-    * *Parameters* 
-        * ``` policyEvidence ``` \
-        The Series Policy Evidence
-            * Type: Byte32
-            * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getPolicyEvidence ``` \
-  Returns the series policy evidence for this constructor token.
-    * *Parameters* \
-    *None*
-    * *Returns* \
-      Result
-        * S = Byte32 \
-      The Series Policy Evidence
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+*No public methods/functions*
 
 #### Implementation Notes
 
@@ -561,9 +458,9 @@ The proof needed to consume the box
     *None*
     * *Returns* \
       Result
-        * S = BoxValue | [AssetToken](#assettoken) | [GroupToken](#grouptoken) | [SeriesToken](#seriestoken) \
+        * S = BoxValue | [AssetToken](#assettoken) | [ConstructorToken](#constructortoken) \
         > 🚧 Note
-        > AssetToken, GroupToken, and SeriesToken will be reflected as a BoxValue in protobuff in the near future. 
+        > AssetToken and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
@@ -663,7 +560,7 @@ An object representing a transaction output.
 #### Constructor
 
 > 🚧 Note
-> AssetToken, GroupToken, and SeriesToken will be reflected as a BoxValue in protobuff in the near future.
+> AssetToken and ConstructorToken will be reflected as a BoxValue in protobuff in the near future.
 
 * ``` address ``` \
 The address of this output.
@@ -671,7 +568,7 @@ The address of this output.
     * Optional: no
 * ``` value ``` \
 An object representing the value contained in this output.
-    * Type: BoxValue | [GroupToken](#grouptoken) | [SeriesToken](#seriestoken) | [AssetToken](#assettoken)
+    * Type: BoxValue | [ConstructorToken](#constructortoken) | [AssetToken](#assettoken)
     * Optional: no
 * ``` minting ``` \
 An optional object representing the policy which determines if minting is allowed. If not provided, the output is not considered a minting output
@@ -738,7 +635,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Default: "0/0"
         * `value` \
         The value of this output.
-          * Type: BoxValue (EmptyBoxValue, PolyBoxValue, ArbitBoxValue, AssetV1BoxValue) | [AssetToken](#assettoken) | [GrouptToken](#grouptoken) | [SeriesToken](#seriestoken)
+          * Type: BoxValue (EmptyBoxValue, PolyBoxValue, ArbitBoxValue, AssetV1BoxValue) | [AssetToken](#assettoken) | [ConstructorToken](#constructortoken)
           * Optional: no
         * `minting` \
         The mintable token. Required if this is a minted output.
@@ -751,7 +648,7 @@ This class contains functions to assist in creating common easy-to-use component
             * Entity at yName does not exist
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerConstructor ``` \
-  Returns a built Transaction for registering a Group Constructor Token or a Series Constructor Token
+  Returns a built Transaction for registering a Group or Series Constructor Token
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
