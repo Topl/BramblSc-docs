@@ -472,7 +472,7 @@ In general, the Proposition and Value will be obtainable in the local wallet via
 
 ### GroupConstructor
 
-An instance of this class represents a Group Constructor Token.
+An instance of this class represents a mintable Group Constructor Token.
 
 #### Constructor
 
@@ -497,7 +497,7 @@ The group policy tied to this GroupConstructor token.
 
 ### SeriesConstructor
 
-An instance of this class represents a Series Constructor Token.
+An instance of this class represents a mintable Series Constructor Token.
 
 #### Constructor
 
@@ -522,7 +522,7 @@ The series policy tied to this SeriesConstructor token.
 
 ### AssetConstructor
 
-An instance of this class represents an Asset Constructor Token.
+An instance of this class represents a mintable Asset Constructor Token.
 
 #### Constructor
 
