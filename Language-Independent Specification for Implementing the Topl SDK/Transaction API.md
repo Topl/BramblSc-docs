@@ -84,12 +84,12 @@ This interface is implemented by objects that represent an off-chain Group or Se
         * S = Byte32
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setRegistrationUtxO ``` \
+* ``` setRegistrationUtxo ``` \
   Sets the arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this group policy has been generated previously. This box ID must be unique for policy registrations across transactions.
     * *Parameters* 
       * ` boxId ` \
       The Box ID
-        * Type: Box.Id
+        * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
         * Optional: no
     * *Returns* \
       Result
@@ -249,11 +249,11 @@ Defines the expected on-chain behavior for how many Series may be "assigned" to 
     * Optional: no
 * ``` mintConditionsForSeries ``` \
 Defines the proposition that must be stamped on a Group Constructor (is this needed?)
-    * Type: Proposition
+    * Type: [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
     * Optional: no
 * ``` registrationUtxo ``` \
 An arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this group policy has been generated previously. This box ID must be unique for policy registrations across transactions.
-    * Type: Box.Id
+    * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
     * Optional: yes
 
 #### Implements
@@ -306,7 +306,7 @@ Defines the proposition that must be stamped on a Series Constructor (is this ne
     * Optional: no
 * ``` registrationUtxo ``` \
 An arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this series policy has been generated previously. This box ID must be unique for policy registrations across transactions.
-    * Type: Box.Id
+    * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
     * Optional: yes
 * ``` commitScheme ``` \
 This value defines the expected type of committment that users should employee when verifying data on asset tokens within this series. 
@@ -362,7 +362,7 @@ The policy evidence for this constructor token.
 
 ### AssetTokenV2
 
-An object representing an Asset Token.
+An object representing a V2 Asset Token.
 
 #### Constructor
 
@@ -399,7 +399,7 @@ Optional metadata associated with this token.
 
 ### TransactionInput
 
-An instance of this class represents Transaction.Input
+An instance of this class represents [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
 
 #### Constructor
 
@@ -408,11 +408,11 @@ An instance of this class represents Transaction.Input
 
 * ``` boxId ``` \
 The ID of the box that this input is associated to.
-    * Type: Box.Id
+    * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
     * Optional: no
 * ``` proof ``` \
 The proof needed to consume the box
-    * Type: Proof
+    * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
     * Optional: yes
 
 
@@ -428,7 +428,7 @@ The proof needed to consume the box
     *None*
     * *Returns* \
       Result
-        * S = Box.Id
+        * S = [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` getProposition ``` \
@@ -437,7 +437,7 @@ The proof needed to consume the box
     *None*
     * *Returns* \
       Result
-        * S = Proposition
+        * S = [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` setProof ``` \
@@ -445,11 +445,12 @@ The proof needed to consume the box
     * *Parameters* 
       * `proof` \
       The proof to satisfy this input's proposition.
-        * Type: Proof
+        * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
         * Optional: no
     * *Returns* \
       Result
-        * S = Proof
+        * S = <*implementation defined*> \
+      An implementation specific value denoting a succesful update is returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` getProof ``` \
@@ -458,7 +459,7 @@ The proof needed to consume the box
     *None*
     * *Returns* \
       Result
-        * S = Proof
+        * S = [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` getValue ``` \
@@ -573,7 +574,7 @@ An object representing a transaction output.
 
 * ``` address ``` \
 The address of this output.
-    * Type: Address
+    * Type: [Address](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/address.proto#L10)
     * Optional: no
 * ``` value ``` \
 An object representing the value contained in this output.
@@ -600,7 +601,7 @@ An optional object representing the policy which determines if minting is allowe
 
 ### Transaction
 
-An object representing a transaction (as defined in protobuff).
+An object representing a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11).
 
 ###### Type Parameters
 
@@ -610,15 +611,15 @@ An object representing a transaction (as defined in protobuff).
 
 * ``` inputs ``` \
 The inputs of this transaction.
-    * Type: Array of Transaction.Input
+    * Type: Array of [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
     * Optional: no
 * ``` outputs ``` \
 The outputs of this transaction.
-    * Type: Array of Transaction.Output
+    * Type: Array of [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
     * Optional: no
 * ``` schedule ``` \
 An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-    * Type: Transaction.Schedule
+    * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
     * Optional: yes
     * Default: TBD
 * ``` data ``` \
@@ -638,7 +639,7 @@ Data to be associated with this transaction. Has no effect on the protocol level
     *None*
     * *Returns* \
       Result
-        * S = Array of TransactionInput
+        * S = Array of [TransactionInput](#transactioninput)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Entity at yName does not exist
             * A token defined by assetType does not exist
@@ -664,7 +665,7 @@ This class contains functions to assist in creating common easy-to-use component
 #### Methods/Functions
 
 * ``` input ``` \
-  Returns a built Transaction.Input
+  Returns a built [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
     * *Parameters* 
         * ``` requiredQuantity ``` \
         The required quantity that this input needs
@@ -681,18 +682,18 @@ This class contains functions to assist in creating common easy-to-use component
           * Default: "0/0"
         * `proof` \
         The proof to use with this input. 
-          * Type: Proof
+          * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
           * Optional: yes
     * *Returns* \
       Result
-        * S = Transaction.Input
+        * S = [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Entity at yName does not exist
             * A token defined by assetType does not exist
             * The quantity of assetType does not exist in yName location
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` output ``` \
-  Returns a built minting Transaction.Output
+  Returns a built minting [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
     * *Parameters* 
         * `path` \
         The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
@@ -709,12 +710,12 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
     * *Returns* \
       Result
-        * S = Transaction.Output
+        * S = [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Entity at yName does not exist
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerConstructor ``` \
-  Returns a built Transaction for registering a Group or Series Constructor Token
+  Returns a built [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for registering a Group or Series Constructor Token
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
@@ -726,13 +727,9 @@ This class contains functions to assist in creating common easy-to-use component
           * Type: String
           * Optional: yes
           * Default: "0/0"
-        * `feeProof` \
-        The proof to use with the fee input. 
-          * Type: Proof
-          * Optional: yes
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Transaction.Schedule
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
@@ -753,12 +750,12 @@ This class contains functions to assist in creating common easy-to-use component
             * Default: "0/0"
     * *Returns* \
       Result
-        * S = Transaction
+        * S = [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` mintAsset ``` \
-  Returns a built Transaction for minting a new V2 Asset Token.
+  Returns a built [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for minting a new V2 Asset Token.
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
@@ -770,13 +767,9 @@ This class contains functions to assist in creating common easy-to-use component
           * Type: String
           * Optional: yes
           * Default: "0/0"
-        * `feeProof` \
-        The proof to use with the fee input. 
-          * Type: Proof
-          * Optional: yes
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Transaction.Schedule
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
@@ -806,13 +799,13 @@ This class contains functions to assist in creating common easy-to-use component
             * Default: "0/0"
     * *Returns* \
       Result
-        * S = Transaction
+        * S = [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
             * SeriesPolicy is not a type TTXX
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` transfer ``` \
-  Returns a built Transaction for transferring tokens.
+  Returns a built [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for transferring tokens.
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
@@ -824,13 +817,9 @@ This class contains functions to assist in creating common easy-to-use component
           * Type: String
           * Optional: yes
           * Default: "0/0"
-        * `feeProof` \
-        The proof to use with the fee input. 
-          * Type: Proof
-          * Optional: yes
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Transaction.Schedule
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
@@ -857,7 +846,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Default: "0/0"
     * *Returns* \
       Result
-        * S = Transaction
+        * S = [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
