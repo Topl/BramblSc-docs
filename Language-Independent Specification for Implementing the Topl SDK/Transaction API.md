@@ -75,6 +75,15 @@ This interface is implemented by objects that represent an off-chain Group or Se
         * S = Byte32
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getEvidence ``` \
+  Returns the evidence for this policy.
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = Byte32
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` setRegistrationUtxO ``` \
   Sets the arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this group policy has been generated previously. This box ID must be unique for policy registrations across transactions.
     * *Parameters* 
@@ -587,6 +596,59 @@ An optional object representing the policy which determines if minting is allowe
 
 *None*
 
+---
+
+### Transaction
+
+An object representing a transaction (as defined in protobuff).
+
+###### Type Parameters
+
+*None*
+
+#### Constructor
+
+* ``` inputs ``` \
+The inputs of this transaction.
+    * Type: Array of Transaction.Input
+    * Optional: no
+* ``` outputs ``` \
+The outputs of this transaction.
+    * Type: Array of Transaction.Output
+    * Optional: no
+* ``` schedule ``` \
+An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+    * Type: Transaction.Schedule
+    * Optional: yes
+    * Default: TBD
+* ``` data ``` \
+Data to be associated with this transaction. Has no effect on the protocol level.
+    * Type: Byte127
+    * Optional: yes
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ``` getUnprovenInputs ``` \
+  Returns the inputs to this transaction without a proof.
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = Array of TransactionInput
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Entity at yName does not exist
+            * A token defined by assetType does not exist
+            * The quantity of assetType does not exist in yName location
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
 # EZ API
 
 ## Transaction-Related Classes
@@ -613,10 +675,14 @@ This class contains functions to assist in creating common easy-to-use component
           * Type: String
           * Optional: no
         * `path` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  from where the input will be obtained. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
+        * `proof` \
+        The proof to use with this input. 
+          * Type: Proof
+          * Optional: yes
     * *Returns* \
       Result
         * S = Transaction.Input
@@ -629,7 +695,7 @@ This class contains functions to assist in creating common easy-to-use component
   Returns a built minting Transaction.Output
     * *Parameters* 
         * `path` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  where the output will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
@@ -656,18 +722,17 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
           * Default: 100
         * `feePath` \
-        TThe path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) from where the input will be obtained. 
+        TThe path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and fee change will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
-        * `changePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where any excess tokens will reside. 
-          * Type: String
+        * `feeProof` \
+        The proof to use with the fee input. 
+          * Type: Proof
           * Optional: yes
-          * Default: "0/0"
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
+            * Type: Transaction.Schedule
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
@@ -682,7 +747,7 @@ This class contains functions to assist in creating common easy-to-use component
             * Type: UInt128
             * Optional: no
         * ``` outputPath ``` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where the created token will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created token will reside. 
             * Type: String
             * Optional: yes
             * Default: "0/0"
@@ -701,18 +766,17 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
           * Default: 100
         * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  from where the input will be obtained. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and fee change will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
-        * `changePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where any excess tokens will reside. 
-          * Type: String
+        * `feeProof` \
+        The proof to use with the fee input. 
+          * Type: Proof
           * Optional: yes
-          * Default: "0/0"
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
+            * Type: Transaction.Schedule
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
@@ -722,6 +786,11 @@ This class contains functions to assist in creating common easy-to-use component
         The label of the asset we are minting. This label includes the corresponding group ID and series ID.
             * Type: String
             * Optional: no
+        * ``` constructorPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`)  from where the group and series constructor tokens will be obtained and their change will reside. 
+            * Type: String
+            * Optional: yes
+            * Default: "0/0"
         * ``` tokenQuantity ``` \
         The quantity of asset tokens to create.
             * Type: UInt128
@@ -731,7 +800,7 @@ This class contains functions to assist in creating common easy-to-use component
             * Type: Byte127
             * Optional: yes
         * ``` outputPath ``` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where the created token will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created token will reside. 
             * Type: String
             * Optional: yes
             * Default: "0/0"
@@ -740,6 +809,7 @@ This class contains functions to assist in creating common easy-to-use component
         * S = Transaction
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
+            * SeriesPolicy is not a type TTXX
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` transfer ``` \
   Returns a built Transaction for transferring tokens.
@@ -750,31 +820,41 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
           * Default: 100
         * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`)  from where the input will be obtained. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and fee change will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
-        * `changePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) or address (i.e., the `x/y/z` in `x/y/z`) where any excess tokens will reside. 
-          * Type: String
+        * `feeProof` \
+        The proof to use with the fee input. 
+          * Type: Proof
           * Optional: yes
-          * Default: "0/0"
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: Schedule
+            * Type: Transaction.Schedule
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
             * Type: Byte127
             * Optional: yes
-        * ``` inputs ``` \
-        The explicit inputs of this transfer.
-            * Type: Array of Transaction.Input
-            * Optional: no
-        * ``` outputs ``` \
-        The explicit outputs of this transfer.
-            * Type: Array of Transaction.Output
-            * Optional: no
+        * `assetType` \
+        A human readable label which maps to the type of asset (a AssetV2 token, NanoPoly, NanoArbit, etc) that is being transferred.
+          * Type: String
+          * Optional: no
+        * `inputPath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and it's change will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `quantity` \
+        The quantity of the token that we are transferring.
+          * Type: String
+          * Optional: yes
+          * Default: All quantity in all boxes of `assetType` within `inputPath`
+        * ` outputPath ` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
     * *Returns* \
       Result
         * S = Transaction
