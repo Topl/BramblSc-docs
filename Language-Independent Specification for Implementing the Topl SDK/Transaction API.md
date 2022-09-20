@@ -2,6 +2,32 @@
 
 ## Transaction-Related Interfaces
 
+#### **BifrostClient**
+
+All classes that can be used a client to interact with Topl bifrost nodes implement this interface.
+
+##### Note
+
+It is possible and likely that public methods/functions will be added to this interface in the future. Implementations of this interface should not make any assumptions about members not being added to this interface.
+
+##### Type Parameters
+
+*None*
+
+##### Implemented By
+
+[BifrostTetraClient](#bifrosttetraclient)
+
+##### Methods/Functions
+
+*No public methods/functions*
+
+##### Implementation Notes
+
+*None*
+
+---
+
 ### MintableToken
 
 This interface is implemented by objects that represent a mintable token.
@@ -723,7 +749,7 @@ Data to be associated with this transaction. Has no effect on the protocol level
 
 ## Transaction-Related Classes
 
-### Client
+### BifrostTetraClient
 
 This class contains functions to assist in creating common easy-to-use components to initiate transactions.
 
