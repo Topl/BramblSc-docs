@@ -38,6 +38,24 @@ The return values of [SupplyTypeFactory](#supplytypefactory)
 
 ---
 
+### Auth
+
+This interface is implemented by objects that represent authorization information necessary to access off-chain data.
+
+#### Implemented by
+
+The return values of [AuthFactory](#authfactory)
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+---
+
 ### CommitType
 
 This interface is implemented by objects that represent the commitment scheme for a Series Policy.
@@ -105,6 +123,60 @@ This interface is implemented by objects that represent an off-chain Group or Se
 ---
 
 ## Transaction-Related Classes
+
+### AuthFactory
+
+A utility class to provide authorization objects necessary to access off-chain data.
+
+#### Constructor
+
+The construct is private or there is none.
+
+#### Implements
+
+The return values of all functions return an implementation of [Auth](#auth)
+
+#### Methods/Functions
+
+* ``` public ``` \
+  Returns Auth object used for a publicly accessible resource
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = [Auth](#auth)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` oidc_m2m ``` \
+  Returns Auth object used for a resource accessible by OpenId Connect Machine to Machine
+    * *Parameters* 
+      * ` clientId ` \
+      TBD
+        * Type: String
+        * Optional: no
+      * ` clientSecret ` \
+      TBD
+        * Type: String
+        * Optional: no
+      * ` idP ` \
+      TBD
+        * Type: String
+        * Optional: no
+      * ` audience ` \
+      TBD
+        * Type: String
+        * Optional: no
+    * *Returns* \
+      Result
+        * S = [Auth](#auth)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
+---
 
 ### SupplyTypeFactory
 
@@ -468,7 +540,7 @@ The proof needed to consume the box
     *None*
     * *Returns* \
       Result
-        * S = BoxValue | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
+        * S = [BoxValue](BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
         > 🚧 Note
         > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
@@ -570,7 +642,7 @@ An object representing a transaction output.
 #### Constructor
 
 > 🚧 Note
-> AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future.
+> AssetTokenV2 and ConstructorToken will be reflected as a [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) in protobuff in the near future.
 
 * ``` address ``` \
 The address of this output.
@@ -578,7 +650,7 @@ The address of this output.
     * Optional: no
 * ``` value ``` \
 An object representing the value contained in this output.
-    * Type: BoxValue | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
+    * Type: [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
     * Optional: no
 * ``` minting ``` \
 An optional object representing the policy which determines if minting is allowed. If not provided, the output is not considered a minting output
@@ -641,9 +713,6 @@ Data to be associated with this transaction. Has no effect on the protocol level
       Result
         * S = Array of [TransactionInput](#transactioninput)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Entity at yName does not exist
-            * A token defined by assetType does not exist
-            * The quantity of assetType does not exist in yName location
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 #### Implementation Notes
@@ -671,8 +740,8 @@ This class contains functions to assist in creating common easy-to-use component
         The required quantity that this input needs
             * Type: UInt128
             * Optional: no
-        * `assetType` \
-        A human readable label which maps to a type of asset (a AssetV2 token, NanoPoly, NanoArbit, etc) 
+        * `assetIdentifier` \
+        An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
           * Type: String
           * Optional: no
         * `path` \
@@ -688,9 +757,9 @@ This class contains functions to assist in creating common easy-to-use component
       Result
         * S = [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Entity at yName does not exist
-            * A token defined by assetType does not exist
-            * The quantity of assetType does not exist in yName location
+            * `path` is invalid
+            * A token defined by `assetType` does not exist
+            * The quantity of `assetType` does not exist in `path` location
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` output ``` \
   Returns a built minting [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
@@ -702,7 +771,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Default: "0/0"
         * `value` \
         The value of this output.
-          * Type: BoxValue (EmptyBoxValue, PolyBoxValue, ArbitBoxValue, AssetV1BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
+          * Type: [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) ([EmptyBoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L35), PolyBoxValue, [ArbitBoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L42), AssetV1BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
           * Optional: no
         * `minting` \
         The mintable token. Required if this is a minted output.
@@ -712,7 +781,7 @@ This class contains functions to assist in creating common easy-to-use component
       Result
         * S = [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Entity at yName does not exist
+            * Entity at `path` does not exist
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerConstructor ``` \
   Returns a built [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for registering a Group or Series Constructor Token
@@ -776,7 +845,7 @@ This class contains functions to assist in creating common easy-to-use component
             * Type: Byte127
             * Optional: yes
         * ``` assetLabel ``` \
-        The label of the asset we are minting. This label includes the corresponding group ID and series ID.
+        The label of the v2 asset token we are minting. This label includes the corresponding group ID and series ID.
             * Type: String
             * Optional: no
         * ``` constructorPath ``` \
@@ -789,9 +858,14 @@ This class contains functions to assist in creating common easy-to-use component
             * Type: UInt128
             * Optional: no
         * ``` metadata ``` \
-        Optional metadata to include with the minted asset token.
+        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted.
             * Type: Byte127
             * Optional: yes
+        * ``` offChainAuth ``` \
+        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
+            * Type: [Auth](#auth)
+            * Optional: yes
+            * Default: If not provided, output would be considered on-chain
         * ``` outputPath ``` \
         The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created token will reside. 
             * Type: String
@@ -825,8 +899,8 @@ This class contains functions to assist in creating common easy-to-use component
         Data to be associated with this transaction. Has no effect on the protocol level.
             * Type: Byte127
             * Optional: yes
-        * `assetType` \
-        A human readable label which maps to the type of asset (a AssetV2 token, NanoPoly, NanoArbit, etc) that is being transferred.
+        * `assetIdentifier` \
+        An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
           * Type: String
           * Optional: no
         * `inputPath` \
@@ -839,6 +913,15 @@ This class contains functions to assist in creating common easy-to-use component
           * Type: String
           * Optional: yes
           * Default: All quantity in all boxes of `assetType` within `inputPath`
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token. If the data is hosted off-chain, then this is the URL where the data is hosted.
+            * Type: Byte127
+            * Optional: yes
+        * ``` offChainAuth ``` \
+        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
+            * Type: [Auth](#auth)
+            * Optional: yes
+            * Default: If not provided, output would be considered on-chain
         * ` outputPath ` \
         The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
           * Type: String
