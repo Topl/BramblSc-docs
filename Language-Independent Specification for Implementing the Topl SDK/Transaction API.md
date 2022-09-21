@@ -963,3 +963,73 @@ This class contains functions to assist in creating common easy-to-use component
 #### Implementation Notes
 
 *None*
+
+# Examples and Diagrams
+
+Note that the following examples are done in language agnostic pseudo-code. Also note that any calls prefixed with Brambl (for e.x., `Brambl.someFunction()`) means that the function will be defined elsewhere in the Brambl library.
+
+## Creating Inputs
+
+### Directly from box
+Using lower level: TransactionInput(boxId)
+
+### Derived from requirements
+using EZ API: BifrostTetraClient.input(...)
+
+## Creating Outputs
+
+### Directly from arguments
+Using lower level: TransactionOutput(...)
+
+### Derived from requirements
+Using EZ API: BifrostTetraClient.output(...)
+
+## Creating Transactions
+
+### Directly from arguments
+Using lower level: Transaction(...)
+
+### Based on common use-cases
+
+#### Register a Group Policy
+groupPolicy = GroupPolicy(...)
+BifrostTetraClient.registerContructor(...)
+
+#### Register a Series Policy
+seriesPolicy = SeriesPolicy(...)
+BifrostTetraClient.registerContructor(...)
+
+#### Mint an Asset
+
+##### Using pre-existing Group and Series Tokens
+groupPolicy = GroupPolicy(...)
+BifrostTetraClient.registerContructor(...)
+seriesPolicy = SeriesPolicy(...)
+BifrostTetraClient.registerContructor(...)
+---- some time later ----
+BifrostTetraClient.mintAsset(...)
+
+##### Group and Series Tokens Not Yet Registered 
+BifrostTetraClient.registerAsset(...)
+
+#### Transfer a Token
+BifrostTetraClient.transfer(...)
+
+## Handling Off-Chain Data
+
+In some cases, you may want the optional data associated with an asset token output to be hosted else-where. Certain parameters in the EZ API will facilitate this; specifically, `metadata` and `offChainAuth` in `BifrostTetraClient.mintAsset` and `BifrostTetraClient.transfer`. 
+
+For on-chain data `metadata` is optional but, if provided, can be anything. For off-chain data `metadata` is required and *must* be the URL in which the hosted data resides.
+
+For on-chain data `offChainAuth` should not be speficied. For off-chain data, `offChainAuth` is required.
+
+Please note that this is only possible for asset tokens. Off-chain data is not possible for TOPL, LVL, or ConstructorToken outputs.
+
+An example of an off-chain transfer:
+```
+BifrostTetraClient.transfer(
+  assetIdentifier=Brambl.assetType("wheat")
+  metadata="https://example.com"
+  offChainAuth=AuthFactory.public()
+)
+```
