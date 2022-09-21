@@ -496,6 +496,7 @@ The label for defining the name of a series, constraints?
 * ``` onChainTransferBehaviors ``` \
 Defines the type of token within the TAM2 scheme
     * Type: [AssetBehavior](#assetbehavior)
+    * Optional: no
 * ``` supplyControlForAssets ``` \
 Defines the expected on-chain behavior for how many Asset Tokens may be "produced" within a Series
     * Type: [SupplyType](#supplytype)
@@ -980,6 +981,16 @@ This class contains functions to assist in creating common easy-to-use component
         The quantity of asset tokens to create.
             * Type: UInt128
             * Optional: no
+        * ``` seriesQuantity ``` \
+        The quantity of series constructor tokens to create.
+            * Type: UInt128
+            * Optional: yes
+            * Default: `tokenQuantity`
+        * ``` groupQuantity ``` \
+        The quantity of group constructor tokens to create.
+            * Type: UInt128
+            * Optional: no
+            * Default: `tokenQuantity`
         * ``` metadata ``` \
         Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. This has no effect on the constructor tokens.
             * Type: Byte127
@@ -1033,7 +1044,7 @@ This class contains functions to assist in creating common easy-to-use component
             * Default: signing proposition 
         * ``` seriesCommitScheme ``` \
         This value defines the expected type of committment that users should employee when verifying data on asset tokens within the created series. 
-            * Type: Proposition
+            * Type: [CommitType](#commitType)
             * Optional: no
         * ``` seriesMetadataScheme ``` \
         A (possibly mixin based) metadata definition that allows for application level data constructs. Possible schemes that this value could denote include HasUnit, HasDecimals, MimePointer, LookupKey, Labeled, Unstructured, Versionable, and more.
@@ -1133,7 +1144,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Default: "0/0"
         * `quantity` \
         The quantity of the token that we are transferring.
-          * Type: String
+          * Type: UInt128
           * Optional: yes
           * Default: All quantity in all boxes of `assetType` within `inputPath`
         * ``` metadata ``` \
@@ -1168,49 +1179,179 @@ Note that the following examples are done in language agnostic pseudo-code. Also
 ## Creating Inputs
 
 ### Directly from box
-Using lower level: TransactionInput(boxId)
+
+```
+txInput = TransactionInput(boxId: "txId+ouputIdx")
+txInput.setProof(proof: Brambl.proof(...))
+```
+or
+```
+txInput = TransactionInput(
+    boxId: "txId+ouputIdx", 
+    proof: Brambl.proof(...)
+)
+```
 
 ### Derived from requirements
-using EZ API: BifrostTetraClient.input(...)
+
+```
+txInput = BifrostTetraClient.input(
+    requiredQuantity: 100, 
+    assetIdentifier: Brambl.assetType("wheat")
+)
+```
 
 ## Creating Outputs
 
 ### Directly from arguments
-Using lower level: TransactionOutput(...)
+
+```
+txOutput = TransactionOutput(
+  address: FullAddress(spendingAddress="hje92ja", ...),
+  value: LvlBoxValue(quantity: 100)
+)
+```
 
 ### Derived from requirements
-Using EZ API: BifrostTetraClient.output(...)
+
+```
+txOutput = BifrostTetraClient.output(
+  value: LvlBoxValue(quantity: 100)
+)
+```
 
 ## Creating Transactions
 
 ### Directly from arguments
-Using lower level: Transaction(...)
+
+```
+// Returns an input tied to a box with 250 lvls
+feeInput = BifrostTetraClient.input(
+  requiredQuantity: 100, 
+  assetIdentifier: Brambl.assetType("lvl")
+)
+feeChange = BifrostTetraClient.output(
+  value: LvlBoxValue(quantity: 150)
+)
+// Returns an input tied to a box with 300 lvls
+txInput = BifrostTetraClient.input(
+  requiredQuantity: 50, 
+  assetIdentifier: Brambl.assetType("lvl"),
+  path: "20/5"
+)
+txOutput = BifrostTetraClient.output(
+  path: "38/2",
+  value: LvlBoxValue(quantity: 50)
+)
+txChange = BifrostTetraClient.output(
+  path: "20/5",
+  value: LvlBoxValue(quantity: 250)
+)
+
+tx = Transaction(
+  inputs: [feeInput, txInput],
+  outputs: [feeChange, txOutput, txChange]
+)
+
+```
 
 ### Based on common use-cases
 
 #### Register a Group Policy
-groupPolicy = GroupPolicy(...)
-BifrostTetraClient.registerContructor(...)
+
+```
+groupPolicy = GroupPolicy(
+  label: "g1",
+  supplyControlForSeries: SupplyTypeFactory.unlimited(),
+  mintConditionsForSeries: Brambl.proposition(...)
+)
+
+BifrostTetraClient.registerContructor(
+  policy: groupPolicy,
+  tokenQuantity: 50
+)
+```
 
 #### Register a Series Policy
-seriesPolicy = SeriesPolicy(...)
-BifrostTetraClient.registerContructor(...)
+
+```
+seriesPolicy = SeriesPolicy(
+  label: "s1",
+  onChainTransferBehaviors: AssetBehaviorFactory.FullyFungible()
+  supplyControlForAssets: SupplyTypeFactory.unlimited(),
+  mintConditionsForAssets: Brambl.proposition(...),
+  commitScheme: CommitTypeFactory.hash(),
+  metadataScheme: ...
+)
+
+BifrostTetraClient.registerContructor(
+  policy: seriesPolicy,
+  tokenQuantity: 50
+)
+```
 
 #### Mint an Asset
 
 ##### Using pre-existing Group and Series Tokens
-groupPolicy = GroupPolicy(...)
-BifrostTetraClient.registerContructor(...)
-seriesPolicy = SeriesPolicy(...)
-BifrostTetraClient.registerContructor(...)
----- some time later ----
-BifrostTetraClient.mintAsset(...)
+
+```
+groupPolicy = GroupPolicy(
+  label: "g1",
+  supplyControlForSeries: SupplyTypeFactory.unlimited(),
+  mintConditionsForSeries: Brambl.proposition(...)
+)
+
+BifrostTetraClient.registerContructor(
+  policy: groupPolicy,
+  tokenQuantity: 50
+)
+
+seriesPolicy = SeriesPolicy(
+  label: "s1",
+  onChainTransferBehaviors: AssetBehaviorFactory.FullyFungible()
+  supplyControlForAssets: SupplyTypeFactory.unlimited(),
+  mintConditionsForAssets: Brambl.proposition(...),
+  commitScheme: CommitTypeFactory.hash(),
+  metadataScheme: ...
+)
+
+BifrostTetraClient.registerContructor(
+  policy: seriesPolicy,
+  tokenQuantity: 50
+)
+
+--- some time later ---
+
+assetLabel = groupPolicy.getId() + seriesPolicy.getId()
+BifrostTetraClient.mintAsset(
+  assetLabel: assetLabel,
+  tokenQuantity: 20
+)
+
+```
 
 ##### Group and Series Tokens Not Yet Registered 
-BifrostTetraClient.registerAsset(...)
+
+```
+BifrostTetraClient.registerAssetType(
+  assetAlias: "wheat",
+  tokenQuantity: 50,
+  onChainTransferBehaviors: AssetBehaviorFactory.FullyFungible(),
+  supplyControlForSeries: SupplyTypeFactory.unlimited(),
+  supplyControlForAssets: SupplyTypeFactory.unlimited(),
+  seriesCommitScheme: CommitTypeFactory.hash(),
+  seriesMetadataScheme: ...
+)
+```
 
 #### Transfer a Token
-BifrostTetraClient.transfer(...)
+
+```
+BifrostTetraClient.registerAssetType(
+  assetIdentifier: Brambl.assetType("wheat"),
+  outputPath: "5/10"
+)
+```
 
 ## Handling Off-Chain Data
 
