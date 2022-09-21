@@ -1172,9 +1172,11 @@ This class contains functions to assist in creating common easy-to-use component
 
 *None*
 
-# Examples and Diagrams
+# Examples 
 
 Note that the following examples are done in language agnostic pseudo-code. Also note that any calls prefixed with Brambl (for e.x., `Brambl.someFunction()`) means that the function will be defined elsewhere in the Brambl library.
+
+These examples are subject to change.
 
 ## Creating Inputs
 
