@@ -30,7 +30,6 @@ Additional implementations to be done after the required ones are in no particul
       * [Proposition](#proposition)
       * [Provider](#provider)
       <!-- * [CredentialSet](#credentialset) -->
-      * [StagedFutures](#stagedfutures)
     * [Blockchain-Related Classes](#blockchain-related-classes)
       * [Box](#box)
       * [KeyVaultFactory](#keyvaultfactory)
@@ -395,7 +394,6 @@ The purpose of the blockchain API is to facilitate interactions between the Topl
   * [Proposition](#proposition)
   * [Provider](#provider)
   <!-- * [CredentialSet](#credentialset) -->
-  * [StagedFutures](#stagedfutures)
 * [Blockchain-Related Classes](#blockchain-related-classes)
   * [Box](#box)
   * [KeyVaultFactory](#keyvaultfactory)
@@ -1572,53 +1570,6 @@ Get an existing account for a specified application in this credential set withi
 ##### Implementation Notes
 
 *None* -->
-
----
-
-#### **StagedFutures**
-
-Methods that submit transactions to the blockchain return an object that implements this interface. This interface allows the caller to get a future for the submission of the transaction and for the successfully settled transaction.
-
-##### Type Parameters
-
-*None*
-
-##### Implemented By
-
-*No public implementations*
-
-##### Methods/Functions
-
-* ``` settled ``` \
-  Returns a future for the outcome of transaction validation, consensus and the transaction being settled.
-    * *Parameters*
-        * ``` confidenceFactor ``` \
-          The likelihood of the block containing the transaction to be reorged.
-            * Type: Double
-            * Optional: yes
-            * Default: 1 - 10<sup>-9</sup>
-    * *Returns* \
-      Future[[Result](#result)]
-        * S =
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * All of the failures recognized by the submission future
-            
-* ``` submission ``` \
-  Returns a future for the result of submitting a transaction to a blockchain.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Future[[Result](#result)]
-        * S = Type TBD
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Insufficient private keys available to create a valid proof
-            
-
-##### Implementation Notes
-
-*None*
-
----
 
 ### **Blockchain-Related Classes**
 

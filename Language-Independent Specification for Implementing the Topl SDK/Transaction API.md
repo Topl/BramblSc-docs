@@ -2,6 +2,49 @@
 
 ## Transaction-Related Interfaces
 
+#### StagedFutures
+
+Methods that submit transactions to the blockchain return an object that implements this interface. This interface allows the caller to get a future for the submission of the transaction and for the successfully settled transaction.
+
+##### Type Parameters
+
+*None*
+
+##### Implemented By
+
+*No public implementations*
+
+##### Methods/Functions
+
+* ``` settled ``` \
+  Returns a future for the outcome of transaction validation, consensus and the transaction being settled.
+    * *Parameters*
+        * ``` confidenceFactor ``` \
+          The likelihood of the block containing the transaction to be reorged.
+            * Type: Double
+            * Optional: yes
+            * Default: 1 - 10<sup>-9</sup>
+    * *Returns* \
+      Future[[Result](#result)]
+        * S =
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * All of the failures recognized by the submission future
+* ``` submission ``` \
+  Returns a future for the result of submitting a transaction to a blockchain.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Future[[Result](#result)]
+        * S = Type TBD
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Insufficient private keys available to create a valid proof
+
+##### Implementation Notes
+
+*None*
+
+---
+
 #### **BifrostClient**
 
 All classes that can be used a client to interact with Topl bifrost nodes implement this interface.
@@ -149,6 +192,78 @@ This interface is implemented by objects that represent an off-chain Group or Se
 ---
 
 ## Transaction-Related Classes
+
+### AssetBehavior
+
+This interface is implemented by objects that represent on-chain transfer behaviors; used in a supply policy.
+
+#### Constructor
+
+* ``` interGroupFungible ``` \
+Should the protocol consider this series fungible with other like tokens that share this group id? (may go between series)
+    * Type: Boolean
+    * Optional: no
+* ``` interSeriesFungible ``` \
+Should the protocol consider this series fungible with other like tokens that share this series id? (may go between groups)
+    * Type: Boolean
+    * Optional: no
+* ``` quantityIncrease ``` \
+Should the protocol allow the "quantity" field in an asset token of this type to increase?
+    * Type: Boolean
+    * Optional: no
+* ``` quantityDecrease ``` \
+Should the protocol allow the "quantity" field in an asset token of this type to decrease?
+    * Type: Boolean
+    * Optional: no
+
+#### Methods/Functions
+
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### AssetBehaviorFactory
+
+A utility class to provide objects which denote on-chain transfer behaviors
+
+#### Constructor
+
+The construct is private or there is none.
+
+#### Methods/Functions
+
+* ``` NFT ``` \
+  Returns an object denoting non interGroupFungible, non interSeriesFungible, no quantityIncrease and no quanitityDecrease (FFFF) token behavior
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = [AssetBehavior](#assetbehavior)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+> ⚠️ The other functions (which create the other combinations of behavior) will go here
+> The names of the functions are still undecided
+
+* ``` FullyFungible ``` \
+  Returns an object denoting TTTT token behavior
+    * *Parameters* \
+    *None*
+    * *Returns* \
+      Result
+        * S = [AssetBehavior](#assetbehavior)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
+---
 
 ### AuthFactory
 
@@ -378,22 +493,9 @@ Objects of this class represents an off-chain Series Policy.
 The label for defining the name of a series, constraints?
     * Type: String
     * Optional: no
-* ``` interGroupFungible ``` \
-Should the protocol consider this series fungible with other like tokens that share this group id? (may go between series)
-    * Type: Boolean
-    * Optional: no
-* ``` interSeriesFungible ``` \
-Should the protocol consider this series fungible with other like tokens that share this series id? (may go between groups)
-    * Type: Boolean
-    * Optional: no
-* ``` quantityIncrease ``` \
-Should the protocol allow the "quantity" field in an asset token of this type to increase?
-    * Type: Boolean
-    * Optional: no
-* ``` quantityDecrease ``` \
-Should the protocol allow the "quantity" field in an asset token of this type to decrease?
-    * Type: Boolean
-    * Optional: no
+* ``` onChainTransferBehaviors ``` \
+Defines the type of token within the TAM2 scheme
+    * Type: [AssetBehavior](#assetbehavior)
 * ``` supplyControlForAssets ``` \
 Defines the expected on-chain behavior for how many Asset Tokens may be "produced" within a Series
     * Type: [SupplyType](#supplytype)
@@ -810,7 +912,7 @@ This class contains functions to assist in creating common easy-to-use component
             * Entity at `path` does not exist
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerConstructor ``` \
-  Returns a built [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for registering a Group or Series Constructor Token
+  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for registering a Group or Series Constructor Token
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
@@ -818,7 +920,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
           * Default: 100
         * `feePath` \
-        TThe path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and fee change will reside. 
+        TThe path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
@@ -845,12 +947,107 @@ This class contains functions to assist in creating common easy-to-use component
             * Default: "0/0"
     * *Returns* \
       Result
-        * S = [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)
+        * S = [StagedFutures](#stagedfutures) for the submitted transaction
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` registerAssetType ``` \
+  Submit [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)s for minting a new V2 Asset Token with newly registered Group and Series Policies.
+    * *Parameters* 
+        * `feeQuantity` \
+        The total quantity to use for the underlying transaction fees. Must be a multiple of 2
+          * Type: UInt128
+          * Optional: yes
+          * Default: 200
+        * `feePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fees will be obtained and fee change will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that the underlying transactions will required to be processed by.
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with the underlying transactions. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+        * ``` assetAlias ``` \
+        A human readable label to associate with the newly minted Asset Token. This will also be the default value if `groupLabel` or `seriesLabel` is not provided
+            * Type: String
+            * Optional: no
+        * ``` tokenQuantity ``` \
+        The quantity of asset tokens to create.
+            * Type: UInt128
+            * Optional: no
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. This has no effect on the constructor tokens.
+            * Type: Byte127
+            * Optional: yes
+        * ``` offChainAuth ``` \
+        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data. This has no effect on the constructor tokens.
+            * Type: [Auth](#auth)
+            * Optional: yes
+            * Default: If not provided, output would be considered on-chain
+        * ``` outputPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created asset token and constructor tokens will reside. 
+            * Type: String
+            * Optional: yes
+            * Default: "0/0"
+        * ``` groupLabel ``` \
+        The label for the new group policy.
+            * Type: String
+            * Optional: yes
+            * Default: `assetAlias`
+        * ``` seriesLabel ``` \
+        The label for the new series policy.
+            * Type: String
+            * Optional: yes
+            * Default: `assetAlias`
+        * ``` fixSeriesToGroup ``` \
+        A flag indicating if the created Group policy should only be allowed to be associated with the created series policy. If `true` then any other created Series constructor tokens (not created in this call) will not be applicable with the created Group policy. 
+            * Type: Boolean
+            * Optional: yes
+            * Default: false
+        * ``` supplyControlForSeries ``` \
+        Defines the expected on-chain behavior for how many Series may be "assigned" to a Group
+            * Type: [SupplyType](#supplytype)
+            * Optional: no
+        * ``` mintConditionsForSeries ``` \
+        Defines the proposition that must be stamped on a Group Constructor
+            * Type: Proposition
+            * Optional: yes
+            * Default: signing proposition 
+        * ``` onChainTransferBehaviors ``` \
+        Defines the type of token within the TAM2 scheme
+            * Type: [AssetBehavior](#assetbehavior)
+            * Optional: no
+        * ``` supplyControlForAssets ``` \
+        Defines the expected on-chain behavior for how many Asset Tokens may be "produced" within a Series
+            * Type: [SupplyType](#supplytype)
+            * Optional: no
+        * ``` mintConditionsForAssets ``` \
+        Defines the proposition that must be stamped on a Series Constructor
+            * Type: Proposition
+            * Optional: yes
+            * Default: signing proposition 
+        * ``` seriesCommitScheme ``` \
+        This value defines the expected type of committment that users should employee when verifying data on asset tokens within the created series. 
+            * Type: Proposition
+            * Optional: no
+        * ``` seriesMetadataScheme ``` \
+        A (possibly mixin based) metadata definition that allows for application level data constructs. Possible schemes that this value could denote include HasUnit, HasDecimals, MimePointer, LookupKey, Labeled, Unstructured, Versionable, and more.
+            * Type: TBD
+            * Optional: no
+    * *Returns* \
+      Result
+        * S = Array of [StagedFutures](#stagedfutures) for the submitted transactions
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * feeQuantity is not a multiple of 2
+            * Transaction is not valid
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` mintAsset ``` \
-  Returns a built [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for minting a new V2 Asset Token.
+  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for minting a new V2 Asset Token.
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
@@ -858,7 +1055,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
           * Default: 100
         * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and fee change will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
@@ -899,13 +1096,13 @@ This class contains functions to assist in creating common easy-to-use component
             * Default: "0/0"
     * *Returns* \
       Result
-        * S = [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)
+        * S = [StagedFutures](#stagedfutures) for the submitted transaction
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
             * SeriesPolicy is not a type TTXX
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` transfer ``` \
-  Returns a built [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for transferring tokens.
+  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for transferring a token.
     * *Parameters* 
         * `feeQuantity` \
         The quantity to use for this transaction's fee 
@@ -913,7 +1110,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Optional: yes
           * Default: 100
         * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and fee change will reside. 
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
@@ -955,7 +1152,7 @@ This class contains functions to assist in creating common easy-to-use component
           * Default: "0/0"
     * *Returns* \
       Result
-        * S = [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)
+        * S = [StagedFutures](#stagedfutures) for the submitted transaction
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
