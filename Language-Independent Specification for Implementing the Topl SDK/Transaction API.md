@@ -28,7 +28,7 @@ It is possible and likely that public methods/functions will be added to this in
 
 ## MintingSupplyPolicy
 
-This interface is implemented by classes that can be used to define the minting supply policy for an asset label.
+This interface is implemented by classes that can be used to define the supply policy for minting an asset within a series or the supply of series that's allowed to be tied to a group.
 
 ### Type Parameters
 
@@ -103,125 +103,325 @@ Methods that submit transactions to the blockchain return an object that impleme
 
 ### Constructor
 
-* *Parameters*
-    * ``` provider ``` — A [Provider](#provider) object that the client will use to communicate with the blockchain network.
+The constructor is private or there is none.
 
 ### Methods/Functions
 
-> 🚧 Reminder
-> This needs to be updated to reflect the Tetra asset model
-
-* ``` mintOnChainAsset ``` \
-  Mint new asset instances with on-chain data. Information in the wallet will be used to recognize if this is a new or existing asset label.
-    * *Parameters*
-        * ``` account  ``` \
-          The account that the asset should be minted in.
-            * Type: [Account](#account)
+* ``` input ``` \
+  Returns a built [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
+    * *Parameters* 
+        * ``` requiredQuantity ``` \
+        The required quantity that this input needs
+            * Type: UInt128
             * Optional: no
-        * ``` assetLabel   ``` \
-          A string that identifies the type of asset. This must be from 1 to 8 characters long. The characters must all
-          be in the Latin-1 character set.
-            * Type: String
-            * Optional: no
-        * ``` quantity  ``` \
-          The quantity of the asset to be minted.
-            * Type: Int128
+        * `assetIdentifier` \
+        An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
+          * Type: String
+          * Optional: no
+        * `path` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `proof` \
+        The proof to use with this input. 
+          * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
+          * Optional: yes
+    * *Returns* \
+      Result
+        * S = [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * `path` is invalid
+            * A token defined by `assetType` does not exist
+            * The quantity of `assetType` does not exist in `path` location
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` output ``` \
+  Returns a built minting [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
+    * *Parameters* 
+        * `path` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `value` \
+        The value of this output.
+          * Type: [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) ([EmptyBoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L35), PolyBoxValue, [ArbitBoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L42), AssetV1BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
+          * Optional: no
+        * `minting` \
+        The mintable token. Required if this is a minted output.
+          * Type: [MintableToken](#mintabletoken)
+          * Optional: yes
+    * *Returns* \
+      Result
+        * S = [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Entity at `path` does not exist
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` registerConstructor ``` \
+  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for registering a Group or Series Constructor Token
+    * *Parameters* 
+        * `feeQuantity` \
+        The quantity to use for this transaction's fee 
+          * Type: UInt128
+          * Optional: yes
+          * Default: 100
+        * `feePath` \
+        TThe path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
             * Optional: yes
-            * Default: 1
-        * ``` divisible ``` \
-          Determines whether the asset can be divided into fractional parts
-            * Type: Boolean
-            * Optional: yes
-            * Default: false
-            * Note: It is an error to specify this parameter if the specified asset label already exists for the
-              specified account.
-        * ``` combinable ``` \
-          Determines whether the asset can be combined
-            * Type: Boolean
-            * Optional: yes
-            * Default: false
-            * Note: It is an error to specify this parameter if the specified asset label already exists for the
-              specified account.
         * ``` data ``` \
-          up to 127 Latin-1 characters
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+        * ``` policy ``` \
+        The policy that we are registering.
+            * Type: [Policy](#policy)
+            * Optional: no
+        * ``` tokenQuantity ``` \
+        The quantity of constructor token to create.
+            * Type: UInt128
+            * Optional: no
+        * ``` outputPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created token will reside. 
             * Type: String
             * Optional: yes
-              Default: empty string
-        * ``` hashAlgorithm ``` \
-          The hash algorithm to use for computing the security root from the data
-            * Type: [MessageDigester](#messagedigester)
+            * Default: "0/0"
+    * *Returns* \
+      Result
+        * S = [StagedFutures](#stagedfutures) for the submitted transaction
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Transaction is not valid
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` registerAssetType ``` \
+  Submit [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)s for minting a new V2 Asset Token with newly registered Group and Series Policies.
+    * *Parameters* 
+        * `feeQuantity` \
+        The total quantity to use for the underlying transaction fees. Must be a multiple of 2
+          * Type: UInt128
+          * Optional: yes
+          * Default: 200
+        * `feePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fees will be obtained and fee change will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that the underlying transactions will required to be processed by.
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
             * Optional: yes
-            * Default: An object that provides the SHA3-512 hash algorithm.
-        * ``` spendingProposition  ``` \
-          A Proposition object that determine who spend the output of this operation and when it can be spent.
-            * Type: [Proposition](#proposition)
+        * ``` data ``` \
+        Data to be associated with the underlying transactions. Has no effect on the protocol level.
+            * Type: Byte127
             * Optional: yes
-            * Default: A proposition that allows the output to be spent by signing it with the address’s private key.
-        * ``` supplyPolicy   ``` \
-          An object that specifies a policy that determines if additional instances of this asset can be minted in the
-          future and how many. The desired object is obtained by calling a method
-          of [MintingSupplyPolicyFactory](#mintingsupplypolicyfactory).
+        * ``` assetAlias ``` \
+        A human readable label to associate with the newly minted Asset Token. This will also be the default value if `groupLabel` or `seriesLabel` is not provided
+            * Type: String
+            * Optional: no
+        * ``` tokenQuantity ``` \
+        The quantity of asset tokens to create.
+            * Type: UInt128
+            * Optional: no
+        * ``` seriesQuantity ``` \
+        The quantity of series constructor tokens to create.
+            * Type: UInt128
+            * Optional: yes
+            * Default: `tokenQuantity`
+        * ``` groupQuantity ``` \
+        The quantity of group constructor tokens to create.
+            * Type: UInt128
+            * Optional: no
+            * Default: `tokenQuantity`
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. This has no effect on the constructor tokens.
+            * Type: Byte127
+            * Optional: yes
+        * ``` offChainAuth ``` \
+        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data. This has no effect on the constructor tokens.
+            * Type: [Auth](#auth)
+            * Optional: yes
+            * Default: If not provided, output would be considered on-chain
+        * ``` outputPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created asset token and constructor tokens will reside. 
+            * Type: String
+            * Optional: yes
+            * Default: "0/0"
+        * ``` groupLabel ``` \
+        The label for the new group policy.
+            * Type: String
+            * Optional: yes
+            * Default: `assetAlias`
+        * ``` seriesLabel ``` \
+        The label for the new series policy.
+            * Type: String
+            * Optional: yes
+            * Default: `assetAlias`
+        * ``` fixSeriesToGroup ``` \
+        A flag indicating if the created Group policy should only be allowed to be associated with the created series policy. If `true` then any other created Series constructor tokens (not created in this call) will not be applicable with the created Group policy. 
+            * Type: Boolean
+            * Optional: yes
+            * Default: false
+        * ``` supplyControlForSeries ``` \
+        Defines the expected on-chain behavior for how many Series may be "assigned" to a Group
             * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
-            * Optional: yes
-            * Default: n object that fixes the total supply of the asset to what is minted by this operation. No
-              additional instances of the asset will ever exist.
-            * Note: It is an error to specify this parameter if the specified asset label already exists for the
-              specified account.
-        * ``` mintingProposition ``` \
-          A proposition object that determines who can mint additional quantities of the asset. If the value of
-          supplyPolicy prevents additional instances of the asset from being minted, then it is an error to specify this
-          parameter.
-            * Type: [Proposition](#proposition)
-            * Optional: yes
-            * Default: If the asset label is new for the specified account, then the default is a proposition that
-              allows the account to mint additional quantities of the asset. If the asset label already exists for the
-              specified account, then the default is the previously specified minting proposition.
-        * ``` fee ``` \
-          the number of nano-polys that will be paid for minting.
-            * Type: Int128
             * Optional: no
-        * ``` changeAddress ``` \
-          An address to send change polys to.
-            * Type: [Address](#address)
+        * ``` mintConditionsForSeries ``` \
+        Defines the proposition that must be stamped on a Group Constructor
+            * Type: Proposition
+            * Optional: yes
+            * Default: signing proposition 
+        * ``` onChainTransferBehaviors ``` \
+        Defines the type of token within the TAM2 scheme
+            * Type: [AssetBehavior](#assetbehavior)
             * Optional: no
-        * ``` requestEffectiveTime ``` \
-          the earliest time that this transaction may be picked up from the mempool for processing
-            * Type: DateTime
+        * ``` supplyControlForAssets ``` \
+        Defines the expected on-chain behavior for how many Asset Tokens may be "produced" within a Series
+            * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
+            * Optional: no
+        * ``` mintConditionsForAssets ``` \
+        Defines the proposition that must be stamped on a Series Constructor
+            * Type: Proposition
             * Optional: yes
-        * ``` requestExpirationTime ``` \
-          the latest time that this transaction may be picked up from the mempool for processing.
-            * Type: DateTime
-            * Optional: yes
+            * Default: signing proposition 
+        * ``` seriesCommitScheme ``` \
+        This value defines the expected type of committment that users should employee when verifying data on asset tokens within the created series. 
+            * Type: [CommitType](#commitType)
+            * Optional: no
+        * ``` seriesMetadataScheme ``` \
+        A (possibly mixin based) metadata definition that allows for application level data constructs. Possible schemes that this value could denote include HasUnit, HasDecimals, MimePointer, LookupKey, Labeled, Unstructured, Versionable, and more.
+            * Type: TBD
+            * Optional: no
     * *Returns* \
-      [StagedFutures](#stagedfutures)
-
-> 🚧 Reminder
-> This needs to be updated to reflect the Tetra asset model
-
+      Result
+        * S = Array of [StagedFutures](#stagedfutures) for the submitted transactions
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * feeQuantity is not a multiple of 2
+            * Transaction is not valid
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` mintAsset ``` \
+  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for minting a new V2 Asset Token.
+    * *Parameters* 
+        * `feeQuantity` \
+        The quantity to use for this transaction's fee 
+          * Type: UInt128
+          * Optional: yes
+          * Default: 100
+        * `feePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
+            * Optional: yes
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+        * ``` assetLabel ``` \
+        The label of the v2 asset token we are minting. This label includes the corresponding group ID and series ID.
+            * Type: String
+            * Optional: no
+        * ``` constructorPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`)  from where the group and series constructor tokens will be obtained and their change will reside. 
+            * Type: String
+            * Optional: yes
+            * Default: "0/0"
+        * ``` tokenQuantity ``` \
+        The quantity of asset tokens to create.
+            * Type: UInt128
+            * Optional: no
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted.
+            * Type: Byte127
+            * Optional: yes
+        * ``` offChainAuth ``` \
+        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
+            * Type: [Auth](#auth)
+            * Optional: yes
+            * Default: If not provided, output would be considered on-chain
+        * ``` outputPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created token will reside. 
+            * Type: String
+            * Optional: yes
+            * Default: "0/0"
+    * *Returns* \
+      Result
+        * S = [StagedFutures](#stagedfutures) for the submitted transaction
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Transaction is not valid
+            * SeriesPolicy is not a type TTXX
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` transfer ``` \
-  Transfer assets from a spending account to a staking account. The two accounts will usually be different accounts. If the transfer operation is being done just to change the data in the assets, it may make sense for the two accounts to be the same.
-    * *Parameters*
-        * ``` spendingAccount ``` \
-          The account that assets will be spent from.
-            * Type: [Account](#account)
-            * Optional: no
-        * ``` spendingProposition ``` \
-          The spending proposition for the account.
-            * Type: [Proposition](#proposition)
+  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for transferring a token.
+    * *Parameters* 
+        * `feeQuantity` \
+        The quantity to use for this transaction's fee 
+          * Type: UInt128
+          * Optional: yes
+          * Default: 100
+        * `feePath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
             * Optional: yes
-            * Default: The proposition that the wallet associates with the account i
-        * ``` spendingProof ``` \
-          A proof that the.
+        * ``` data ``` \
+        Data to be associated with this transaction. Has no effect on the protocol level.
+            * Type: Byte127
+            * Optional: yes
+        * `assetIdentifier` \
+        An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
+          * Type: String
+          * Optional: no
+        * `inputPath` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and it's change will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
+        * `quantity` \
+        The quantity of the token that we are transferring.
+          * Type: UInt128
+          * Optional: yes
+          * Default: All quantity in all boxes of `assetType` within `inputPath`
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token. If the data is hosted off-chain, then this is the URL where the data is hosted.
+            * Type: Byte127
+            * Optional: yes
+        * ``` offChainAuth ``` \
+        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
+            * Type: [Auth](#auth)
+            * Optional: yes
+            * Default: If not provided, output would be considered on-chain
+        * ` outputPath ` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
+          * Type: String
+          * Optional: yes
+          * Default: "0/0"
     * *Returns* \
-      [StagedFutures](#stagedfutures)
+      Result
+        * S = [StagedFutures](#stagedfutures) for the submitted transaction
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * Transaction is not valid
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 ### Implementation Notes
 
-It is possible that additional methods will be added to create KeyVault objects that correspond to different implementations of the KeyVault interfaces.
+*None*
 
 ---
 
 ## MintingSupplyPolicyFactory
+
+A utility class to provide token supply policies.
 
 ### Type Parameters
 
@@ -229,39 +429,37 @@ It is possible that additional methods will be added to create KeyVault objects 
 
 ### Implements
 
-*None*
+The return values of all functions return an implementation of [MintingSupplyPolicy](#mintingsupplypolicy)
 
 ### Constructor
 
 The construct is private or there is none.
 
 ### Methods/Functions
-> 🚧 Reminder
-> This needs to be updated to reflect the Tetra asset model
 
 * ``` static cappedSupply ``` \
-  Get an object to specify a minting supply policy that caps the total supply of an asset label to a given value.
+  Get an object to specify a supply policy that caps the total supply of tokens to a given value.
     * *Parameters*
         * ``` maxQuantity ``` \
-          The maximum quantity of an asset type that the returned policy will allow to exist.
+          The maximum quantity of a token that the returned policy will allow to exist.
     * *Returns* \
       [MintingSupplyPolicy](#mintingsupplypolicy) \
-      An object that indicates that the supply of the asset is capped at the time of its initial minting. There will never be more than the max quantity.
+      An object that indicates that the total supply of the token is capped to the specified value. There will never be more than the max quantity.
 * ``` static fixedSupply ``` \
-  Get an object to specify a minting supply policy that fixes the total supply of an asset label to the quantity produced when it is initially minted.
+  Get an object to specify a supply policy that fixes the total supply of a token to the quantity that was produced when it was initially minted.
     * *Parameters* \
       *None*
     * *Returns* \
       [MintingSupplyPolicy](#mintingsupplypolicy) \
-      An object that indicates that the supply of an asset label is fixed at the time of its first (and only) minting.
+      An object that indicates that the supply of a token is fixed at the time of its first (and only) minting.
       There will never be any more.
 * ``` static unlimitedSupply ``` \
-  Get an object to specify a minting supply policy that allows additional quantities of an asset label to be minted without limit.
+  Get an object to specify a minting supply policy that allows additional quantities of a token to be minted without limit.
     * *Parameters* \
       *None*
     * *Returns* \
       [MintingSupplyPolicy](#mintingsupplypolicy) \
-      An object that indicates that the supply of an asset label is unlimited.
+      An object that indicates that the supply of a a token is unlimited.
 
 ### Implementation Notes
 
