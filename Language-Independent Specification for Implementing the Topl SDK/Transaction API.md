@@ -28,7 +28,7 @@ It is possible and likely that public methods/functions will be added to this in
 
 ## MintingSupplyPolicy
 
-This interface is implemented by classes that can be used to define the supply policy for minting an asset within a series or the supply of series that's allowed to be tied to a group.
+This interface is implemented by classes that can be used to define the supply policy for minting an asset within a series or how many series  may be tied to a group.
 
 ### Type Parameters
 
@@ -158,7 +158,7 @@ This interface is implemented by objects that represent an off-chain Group or Se
 * ``` getId ``` \
   Returns the ID associated with this policy. This should be identifiable via the fields in the implementing classes.
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = Byte32
@@ -167,7 +167,7 @@ This interface is implemented by objects that represent an off-chain Group or Se
 * ``` getEvidence ``` \
   Returns the evidence for this policy.
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = Byte32
@@ -615,7 +615,7 @@ The construct is private or there is none.
 * ``` NFT ``` \
   Returns an object denoting non interGroupFungible, non interSeriesFungible, no quantityIncrease and no quanitityDecrease (FFFF) token behavior
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = [AssetBehavior](#assetbehavior)
@@ -627,7 +627,7 @@ The construct is private or there is none.
 * ``` FullyFungible ``` \
   Returns an object denoting TTTT token behavior
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = [AssetBehavior](#assetbehavior)
@@ -657,7 +657,7 @@ The return values of all functions return an implementation of [Auth](#auth)
 * ``` public ``` \
   Returns Auth object used for a publicly accessible resource
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = [Auth](#auth)
@@ -944,7 +944,7 @@ The proof needed to consume the box
 * ``` getBoxId ``` \
   Returns the boxId associated with this TransactionInput.
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
@@ -953,7 +953,7 @@ The proof needed to consume the box
 * ``` getProposition ``` \
   Returns the proposition associated with this TransactionInput.
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
@@ -975,7 +975,7 @@ The proof needed to consume the box
 * ``` getProof ``` \
   Returns the proof associated with this TransactionInput.
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
@@ -984,7 +984,7 @@ The proof needed to consume the box
 * ``` getValue ``` \
   Returns the value associated with this TransactionInput.
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = [BoxValue](BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
@@ -1153,7 +1153,7 @@ Data to be associated with this transaction. Has no effect on the protocol level
 * ``` getUnprovenInputs ``` \
   Returns the inputs to this transaction without a proof.
     * *Parameters* \
-    *None*
+      *None*
     * *Returns* \
       Result
         * S = Array of [TransactionInput](#transactioninput)
