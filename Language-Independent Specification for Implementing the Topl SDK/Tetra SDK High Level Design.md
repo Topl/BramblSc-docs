@@ -28,14 +28,12 @@ Additional implementations to be done after the required ones are in no particul
       * [Wallet](#wallet)
       * [Proof](#proof)
       * [Proposition](#proposition)
-      * [Provider](#provider)
       <!-- * [CredentialSet](#credentialset) -->
     * [Blockchain-Related Classes](#blockchain-related-classes)
       * [Box](#box)
       * [WalletFactory](#walletfactory)
       * [LevelDbWallet](#leveldbwallet)
       * [IndexedDbWallet](#indexeddbwallet)
-      * [ProviderFactory](#providerfactory)
 * [Hiding Nondeterminism](#hiding-nondeterminism)
 * [Genus API](#genus-api)
 * [Multi-Signature Spending Propositions](#multi-signature-spending-propositions)
@@ -392,14 +390,12 @@ The purpose of the blockchain API is to facilitate interactions between the Topl
   * [Wallet](#wallet)
   * [Proof](#proof)
   * [Proposition](#proposition)
-  * [Provider](#provider)
   <!-- * [CredentialSet](#credentialset) -->
 * [Blockchain-Related Classes](#blockchain-related-classes)
   * [Box](#box)
   * [WalletFactory](#walletfactory)
   * [LevelDbWallet](#leveldbwallet)
   * [IndexedDbWallet](#indexeddbwallet)
-  * [ProviderFactory](#providerfactory)
 
 ### **Blockchain-Related Interfaces**
 
@@ -1270,53 +1266,6 @@ by a ```Proposition``` have been met.
 This interface is defined elsewhere in the brambl library. It is used to specify the the requirements for spending an
 asset or minting more of an asset.
 
----
-
-#### **Provider**
-
-This interface is implemented by object that encapsulate the details of communicating with a blockchain network.
-
-##### Type Parameters
-
-*None*
-
-##### Implemented By
-
-The return objects of the functions in ProviderFactory
-
-##### Methods/Functions
-
-* ``` getId ``` \
-  Return the unique identifier of this Provider
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      [Result](#result)
-        * S = Type TBD \
-          A value to identify this provider.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getName ``` \
-  Return the name of this Provider.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      [Result](#result)
-        * S = String \
-          The name of this provider.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-
-
-##### Implementation Notes
-
-*None*
-<!-- A Provider's name will be used to reference a unique CredentialSet. In other words, it is somehow related to a [CredentialSet](#credentialset)'s ID. 
-
-##### See Also
-
-[CredentialSet](#credentialset) -->
-
 <!-- ---
 
 #### **CredentialSet**
@@ -1734,12 +1683,6 @@ The construct is private or there is none.
           A string used to encrypt and decrypt wallet information
             * Type: String
             * Optional: no
-        <!-- Commented below out since a brambl instance is ran against a single provider configuration. This information can be taken from the environment -->
-        <!-- * ``` provider ``` \
-          Object that contains details used to communicate with a blockchain network.
-            * Type: [Provider](#provider)
-            * Optional: yes
-            * Default: main net provider -->
         * ``` walletPath ``` \
           A path (or name) indicating where to retrieve the wallet contents under. This is dependent on the type of wallet store being used. If not provided, the default value will be used.
             * Type: String
@@ -1749,7 +1692,6 @@ The construct is private or there is none.
         * S = [Wallet](#wallet) \
           The opened Wallet. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            <!-- * Provider is invalid. -->
             * A wallet with the specified walletPath does not exist
             * The wallet exists but the password is not correct
             * The specified walletPath is invalid for any other reason.
@@ -1761,7 +1703,6 @@ The construct is private or there is none.
 
 * ``` static restoreWallet ``` 
   Restore a wallet from a mnemonic. This effectively recreates and populates the underlying Wallet. This will recreate the derivable wallet contents either generated from the mnemonic or fetched from the blockchain. 
-  <!-- An optional providers argument can be provided to indicate what providers this wallet has already used.  -->
   It is important to note that not all wallet contents are able to be restored. Unrecoverable information includes wallet name, wallet description, application name, account alias names, account description, and address description.
     * *Parameters*
         * ``` password ``` \
@@ -1773,11 +1714,6 @@ The construct is private or there is none.
           when a wallet was created.
             * Type: Array of Strings
             * Optional: no
-        <!-- Commented below out since a brambl instance is ran against a single provider configuration. This information can be taken from the environment -->
-        <!-- * ``` providers ``` \
-          A collection of Providers that this wallet has already used. A Provider indicates that there is data on the blockchain that needs restoring.
-            * Type: Collection of [Provider](#provider) 
-            * Optional: no -->
         * ``` walletPath ``` \
           A path (or name) indicating where to store the wallet contents under. This is dependent on the type of Wallet store being used. If not provided, a default value will be used.
             * Type: String
@@ -1797,9 +1733,9 @@ It is possible that additional methods will be added to create Wallet objects th
 
 The Wallet implementation class used for the specified methods above will be determined by the runtime environment.
 
-Provider information is configured for an instance of brambl and can be determined by the runtime environment. WalletFactory will use Provider information to identify a CredentialSet that an open Wallet will use.
+Network provider information is configured for an instance of brambl and can be determined by the runtime environment. WalletFactory will use this information to identify a CredentialSet that an open Wallet will use.
 
-<!-- Values fetched from Genus (i.e, not possible from the mnemonic alone) include provider IDs and asset information. The signature algorithm for each address can be determined by brute force testing the 2 possible algorithms. -->
+<!-- Values fetched from Genus (i.e, not possible from the mnemonic alone) include asset information. The signature algorithm for each address can be determined by brute force testing the 2 possible algorithms. -->
 
 <!-- Restoring a wallet takes a CredentialSet collection to indicate what needs to be recovered from Genus as well as how to store it in the new Wallet store. -->
 
@@ -1879,85 +1815,6 @@ IndexedDb API 3.0 is in a working draft state as of July 2022. You can find the
 spec [here](https://www.w3.org/TR/IndexedDB-3/)
 
 An IndexedDb storage has two levels; databases (each with a unique name) may contain many object stores (each with a unique name within the database). For our use case, we will use a single database with many object stores. The term Wallet “database” throughout this spec will refer to an individual object store.
-
----
-
-#### **ProviderFactory**
-
-##### Type Parameters
-
-*None*
-
-##### Implements
-
-*None*
-
-##### Constructor
-
-The construct is private or there is none.
-
-##### Methods/Functions
-
-* ``` static mainNetProvider ``` \
-  Return a [Provider](#provider) that communicates with blockchain nodes in the main net.
-    * *Parameters*
-        * ``` apiKey ``` \
-          A string that authorizes the the client to connect
-            * Type: String
-            * Optional: yes
-        * ``` name ``` \
-          A name to identify the Provider
-            * Type: String
-            * Optional: yes
-            * Default: TBD
-    * *Returns* \
-      [Result](#result)
-        * S = [Provider](#provider)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` static testNetProvider ``` \
-  Return a [Provider](#provider) that communicates with blockchain nodes in the test net.
-    * *Parameters*
-        * ``` apiKey ``` \
-          A string that authorizes the the client to connect
-            * Type: String
-            * Optional: yes
-        * ``` name ``` \
-          A name to identify the Provider
-            * Type: String
-            * Optional: yes
-            * Default: TBD
-    * *Returns* \
-      [Result](#result)
-        * S = [Provider](#provider)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` static customProvider ``` \
-  Return a [Provider](#provider) that communicates with blockchain nodes in the test net.
-    * *Parameters*
-        * ``` apiKey ``` \
-          A string that authorizes the the client to connect
-            * Type: String
-            * Optional: yes
-        * ``` url ``` \
-          The URL the provider should use to connect to the blockchain network
-            * Type: String
-            * Optional: no
-        * ``` name ``` \
-          A name to identify the Provider
-            * Type: String
-            * Optional: no
-    * *Returns* \
-      [Result](#result)
-        * S = [Provider](#provider)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-
-##### Implementation Notes
-
-*None*
-
----
 
 # Hiding Nondeterminism
 
