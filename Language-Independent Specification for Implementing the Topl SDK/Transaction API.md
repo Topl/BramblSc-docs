@@ -1163,3 +1163,195 @@ Data to be associated with this transaction. Has no effect on the protocol level
 #### Implementation Notes
 
 *None*
+
+# Examples 
+
+Note that the following examples are done in language agnostic pseudo-code. Also note that any calls prefixed with Brambl (for e.x., `Brambl.someFunction()`) means that the function will be defined elsewhere in the Brambl library.
+
+These examples are subject to change.
+
+## Creating Inputs
+
+### Directly from box
+
+```
+txInput = TransactionInput(boxId: "txId+ouputIdx")
+txInput.setProof(proof: Brambl.proof(...))
+```
+or
+```
+txInput = TransactionInput(
+    boxId: "txId+ouputIdx", 
+    proof: Brambl.proof(...)
+)
+```
+
+### Derived from requirements
+
+```
+txInput = BifrostTetraClient.input(
+    requiredQuantity: 100, 
+    assetIdentifier: Brambl.assetType("wheat")
+)
+```
+
+## Creating Outputs
+
+### Directly from arguments
+
+```
+txOutput = TransactionOutput(
+  address: FullAddress(spendingAddress="hje92ja", ...),
+  value: LvlBoxValue(quantity: 100)
+)
+```
+
+### Derived from requirements
+
+```
+txOutput = BifrostTetraClient.output(
+  value: LvlBoxValue(quantity: 100)
+)
+```
+
+## Creating Transactions
+
+### Directly from arguments
+
+```
+// Returns an input tied to a box with 250 lvls
+feeInput = BifrostTetraClient.input(
+  requiredQuantity: 100, 
+  assetIdentifier: Brambl.assetType("lvl")
+)
+feeChange = BifrostTetraClient.output(
+  value: LvlBoxValue(quantity: 150)
+)
+// Returns an input tied to a box with 300 lvls
+txInput = BifrostTetraClient.input(
+  requiredQuantity: 50, 
+  assetIdentifier: Brambl.assetType("lvl"),
+  path: "20/5"
+)
+txOutput = BifrostTetraClient.output(
+  path: "38/2",
+  value: LvlBoxValue(quantity: 50)
+)
+txChange = BifrostTetraClient.output(
+  path: "20/5",
+  value: LvlBoxValue(quantity: 250)
+)
+tx = Transaction(
+  inputs: [feeInput, txInput],
+  outputs: [feeChange, txOutput, txChange]
+)
+```
+
+### Based on common use-cases
+
+#### Register a Group Policy
+
+```
+groupPolicy = GroupPolicy(
+  label: "g1",
+  supplyControlForSeries: MintingSupplyPolicyFactory.unlimitedSupply(),
+  mintConditionsForSeries: Brambl.proposition(...)
+)
+BifrostTetraClient.registerContructor(
+  policy: groupPolicy,
+  tokenQuantity: 50
+)
+```
+
+#### Register a Series Policy
+
+```
+seriesPolicy = SeriesPolicy(
+  label: "s1",
+  onChainTransferBehaviors: AssetBehaviorFactory.FullyFungible()
+  supplyControlForAssets: MintingSupplyPolicyFactory.unlimitedSupply(),
+  mintConditionsForAssets: Brambl.proposition(...),
+  commitScheme: CommitTypeFactory.hash(),
+  metadataScheme: ...
+)
+BifrostTetraClient.registerContructor(
+  policy: seriesPolicy,
+  tokenQuantity: 50
+)
+```
+
+#### Mint an Asset
+
+##### Using pre-existing Group and Series Tokens
+
+```
+groupPolicy = GroupPolicy(
+  label: "g1",
+  supplyControlForSeries: MintingSupplyPolicyFactory.unlimitedSupply(),
+  mintConditionsForSeries: Brambl.proposition(...)
+)
+BifrostTetraClient.registerContructor(
+  policy: groupPolicy,
+  tokenQuantity: 50
+)
+seriesPolicy = SeriesPolicy(
+  label: "s1",
+  onChainTransferBehaviors: AssetBehaviorFactory.FullyFungible()
+  supplyControlForAssets: MintingSupplyPolicyFactory.unlimitedSupply(),
+  mintConditionsForAssets: Brambl.proposition(...),
+  commitScheme: CommitTypeFactory.hash(),
+  metadataScheme: ...
+)
+BifrostTetraClient.registerContructor(
+  policy: seriesPolicy,
+  tokenQuantity: 50
+)
+--- some time later ---
+assetLabel = groupPolicy.getId() + seriesPolicy.getId()
+BifrostTetraClient.mintAsset(
+  assetLabel: assetLabel,
+  tokenQuantity: 20
+)
+```
+
+##### Group and Series Tokens Not Yet Registered 
+
+```
+BifrostTetraClient.registerAssetType(
+  assetAlias: "wheat",
+  tokenQuantity: 50,
+  onChainTransferBehaviors: AssetBehaviorFactory.FullyFungible(),
+  supplyControlForSeries: MintingSupplyPolicyFactory.unlimitedSupply(),
+  supplyControlForAssets: MintingSupplyPolicyFactory.unlimitedSupply(),
+  seriesCommitScheme: CommitTypeFactory.hash(),
+  seriesMetadataScheme: ...
+)
+```
+
+#### Transfer a Token
+
+```
+BifrostTetraClient.registerAssetType(
+  assetIdentifier: Brambl.assetType("wheat"),
+  outputPath: "5/10"
+)
+```
+
+## Handling Off-Chain Data
+
+In some cases, you may want the optional data associated with an asset token output to be hosted else-where. Certain parameters in the EZ API will facilitate this; specifically, `metadata` and `offChainAuth` in `BifrostTetraClient.mintAsset` and `BifrostTetraClient.transfer`. 
+
+For on-chain data `metadata` is optional but, if provided, can be anything. For off-chain data `metadata` is required and *must* be the URL in which the hosted data resides.
+
+For on-chain data `offChainAuth` should not be speficied. For off-chain data, `offChainAuth` is required.
+
+Please note that this is only possible for asset tokens. Off-chain data is not possible for TOPL, LVL, or ConstructorToken outputs.
+
+An example of an off-chain transfer:
+```
+BifrostTetraClient.transfer(
+  assetIdentifier=Brambl.assetType("wheat")
+  metadata="https://example.com"
+  offChainAuth=AuthFactory.public()
+)
+```
