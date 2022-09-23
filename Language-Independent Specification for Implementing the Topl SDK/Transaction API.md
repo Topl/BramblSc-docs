@@ -1345,7 +1345,7 @@ Data to be associated with this transaction. Has no effect on the protocol level
 
 *None*
 
-# Examples 
+<!-- # Examples 
 
 Note that the following examples are done in language agnostic pseudo-code. Also note that any calls prefixed with Brambl (for e.x., `Brambl.someFunction()`) means that the function will be defined elsewhere in the Brambl library.
 
@@ -1535,4 +1535,4 @@ BifrostTetraClient.transfer(
   metadata="https://example.com"
   offChainAuth=AuthFactory.public()
 )
-```
+``` -->
