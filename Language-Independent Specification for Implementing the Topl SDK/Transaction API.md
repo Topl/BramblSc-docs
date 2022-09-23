@@ -210,7 +210,7 @@ The constructor is private or there is none.
 ### Methods/Functions
 
 * ``` input ``` \
-  Returns a built [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
+  Returns a [Transput](#transput) based on the requirements
     * *Parameters* 
         * ``` requiredQuantity ``` \
         The required quantity that this input needs
@@ -220,58 +220,99 @@ The constructor is private or there is none.
         An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
           * Type: String
           * Optional: no
-        * `path` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
+        * `peerName` \
+        A human readable label to for which the account `accountName` is expected to be under
           * Type: String
           * Optional: yes
-          * Default: "0/0"
-        * `proof` \
-        The proof to use with this input. 
-          * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
-          * Optional: yes
+          * Default: SELF (peer at index 0)
+        * `accountName` \
+        A human readable alias name associated with the account in which the tokens will be sourced and the change will reside
+          * Type: String
+          * Optional: no
     * *Returns* \
       Result
-        * S = [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
+        * S = [Transput](#transput)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * `path` is invalid
-            * A token defined by `assetType` does not exist
-            * The quantity of `assetType` does not exist in `path` location
+            * `peerName` does not refer to an existing peer
+            * `accountName` does not refer to an existing account under `peerName`
+            * A token defined by `assetIdentifier` does not exist
+            * The quantity of `assetIdentifier` does not exist in `accountName` account
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` output ``` \
-  Returns a built minting [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
+  Returns a [TransactionOutput](TransactionOutput). Not valid for EmptyBoxValue and [ConstructorToken](#construtortoken)
     * *Parameters* 
-        * `path` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
+        * `peerName` \
+        A human readable label to for which the account `accountName` is expected to be under
           * Type: String
           * Optional: yes
-          * Default: "0/0"
-        * `value` \
-        The value of this output.
-          * Type: [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) ([EmptyBoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L35), PolyBoxValue, [ArbitBoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L42), AssetV1BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
+          * Default: SELF (peer at index 0)
+        * `accountName` \
+        A human readable alias name associated with the account in which the output will reside
+          * Type: String
           * Optional: no
-        * `minting` \
-        The mintable token. Required if this is a minted output.
-          * Type: [MintableToken](#mintabletoken)
+        * `assetIdentifier` \
+        An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
+          * Type: String
+          * Optional: no
+        * `quantity` \
+        The quantity of the output's value.
+          * Type: UInt128
+          * Optional: yes
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. Only valid for V1 and V2 asset tokens.
+          * Type: Byte127
           * Optional: yes
     * *Returns* \
       Result
-        * S = [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
+        * S = [TransactionOutput](#transactionoutput)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Entity at `path` does not exist
+            * `peerName` does not refer to an existing peer
+            * `accountName` does not refer to an existing account under `peerName`
+            * `quantity` is invalid
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` mintingOutput ``` \
+  Returns a minting [TransactionOutput](TransactionOutput). Not valid for Topls, Lvls, and EmptyBoxValue
+    * *Parameters* 
+        * `peerName` \
+        A human readable label to for which the account `accountName` is expected to be under
+          * Type: String
+          * Optional: yes
+          * Default: SELF (peer at index 0)
+        * `accountName` \
+        A human readable alias name associated with the account in which the output will reside
+          * Type: String
+          * Optional: no
+        * `assetIdentifier` \
+        An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, etc) 
+          * Type: String
+          * Optional: no
+        * `quantity` \
+        The quantity of the output's value.
+          * Type: UInt128
+          * Optional: no
+        * `minting` \
+        The mintable token.
+          * Type: [MintableToken](#mintabletoken)
+          * Optional: no
+        * ``` metadata ``` \
+        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. Only valid for V1 and V2 asset tokens.
+          * Type: Byte127
+          * Optional: yes
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * `peerName` does not refer to an existing peer
+            * `accountName` does not refer to an existing account under `peerName`
+            * `quantity` is invalid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerConstructor ``` \
   Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for registering a Group or Series Constructor Token
     * *Parameters* 
-        * `feeQuantity` \
-        The quantity to use for this transaction's fee 
-          * Type: UInt128
-          * Optional: yes
-          * Default: 100
-        * `feePath` \
-        TThe path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
-          * Type: String
-          * Optional: yes
-          * Default: "0/0"
+        * `fee` \
+        The inputs and change output relating to this transaction's fee.
+          * Type: [Transput](#transput)
+          * Optional: no
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
             * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
@@ -284,119 +325,100 @@ The constructor is private or there is none.
         The policy that we are registering.
             * Type: [Policy](#policy)
             * Optional: no
-        * ``` tokenQuantity ``` \
-        The quantity of constructor token to create.
-            * Type: UInt128
+        * ``` mintingOutput ``` \
+        The output containing the minted constructor tokens
+            * Type: [TransactionOutput](#transactionoutput)
             * Optional: no
-        * ``` outputPath ``` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created token will reside. 
-            * Type: String
-            * Optional: yes
-            * Default: "0/0"
     * *Returns* \
       Result
         * S = [StagedFutures](#stagedfutures) for the submitted transaction
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
+            * `mintingOutput` does not specify a quantity
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` registerAssetType ``` \
   Submit [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)s for minting a new V2 Asset Token with newly registered Group and Series Policies.
     * *Parameters* 
-        * `feeQuantity` \
-        The total quantity to use for the underlying transaction fees. Must be a multiple of 2
+        * `fee` \
+        The inputs and change output relating to this transaction's fee.
+          * Type: [Transput](#transput)
+          * Optional: no
+        * ``` schedule ``` \
+        An object representing the transaction timestamp as well as the minimum and maximum slot that the underlying transactions will required to be processed by.
+          * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
+          * Optional: yes
+        * ``` data ``` \
+        Data to be associated with the underlying transactions. Has no effect on the protocol level.
+          * Type: Byte127
+          * Optional: yes
+        * ``` assetAlias ``` \
+        A human readable label to associate with the newly minted Asset Token. This will also be the default value if `groupLabel` or `seriesLabel` is not provided
+          * Type: String
+          * Optional: no
+        * ``` seriesQuantity ``` \
+        The quantity of series constructor tokens to create.
           * Type: UInt128
           * Optional: yes
-          * Default: 200
-        * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fees will be obtained and fee change will reside. 
+          * Default: `mintingOutput.quantity`
+        * ``` groupQuantity ``` \
+        The quantity of group constructor tokens to create.
+          * Type: UInt128
+          * Optional: no
+          * Default: `mintingOutput.quantity`
+        * ``` mintingOutput ``` \
+        The output containing the minted asset tokens
+          * Type: [TransactionOutput](#transactionoutput)
+          * Optional: no
+        * ``` outputPath ``` \
+        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created constructor tokens will reside. 
           * Type: String
           * Optional: yes
           * Default: "0/0"
-        * ``` schedule ``` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that the underlying transactions will required to be processed by.
-            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
-            * Optional: yes
-        * ``` data ``` \
-        Data to be associated with the underlying transactions. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-        * ``` assetAlias ``` \
-        A human readable label to associate with the newly minted Asset Token. This will also be the default value if `groupLabel` or `seriesLabel` is not provided
-            * Type: String
-            * Optional: no
-        * ``` tokenQuantity ``` \
-        The quantity of asset tokens to create.
-            * Type: UInt128
-            * Optional: no
-        * ``` seriesQuantity ``` \
-        The quantity of series constructor tokens to create.
-            * Type: UInt128
-            * Optional: yes
-            * Default: `tokenQuantity`
-        * ``` groupQuantity ``` \
-        The quantity of group constructor tokens to create.
-            * Type: UInt128
-            * Optional: no
-            * Default: `tokenQuantity`
-        * ``` metadata ``` \
-        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. This has no effect on the constructor tokens.
-            * Type: Byte127
-            * Optional: yes
-        * ``` offChainAuth ``` \
-        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data. This has no effect on the constructor tokens.
-            * Type: [Auth](#auth)
-            * Optional: yes
-            * Default: If not provided, output would be considered on-chain
-        * ``` outputPath ``` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created asset token and constructor tokens will reside. 
-            * Type: String
-            * Optional: yes
-            * Default: "0/0"
         * ``` groupLabel ``` \
         The label for the new group policy.
-            * Type: String
-            * Optional: yes
-            * Default: `assetAlias`
+          * Type: String
+          * Optional: yes
+          * Default: `assetAlias`
         * ``` seriesLabel ``` \
         The label for the new series policy.
-            * Type: String
-            * Optional: yes
-            * Default: `assetAlias`
+          * Type: String
+          * Optional: yes
+          * Default: `assetAlias`
         * ``` fixSeriesToGroup ``` \
         A flag indicating if the created Group policy should only be allowed to be associated with the created series policy. If `true` then any other created Series constructor tokens (not created in this call) will not be applicable with the created Group policy. 
-            * Type: Boolean
-            * Optional: yes
-            * Default: false
+          * Type: Boolean
+          * Optional: yes
+          * Default: false
         * ``` supplyControlForSeries ``` \
         Defines the expected on-chain behavior for how many Series may be "assigned" to a Group
-            * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
-            * Optional: no
+          * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
+          * Optional: no
         * ``` mintConditionsForSeries ``` \
         Defines the proposition that must be stamped on a Group Constructor
-            * Type: Proposition
-            * Optional: yes
-            * Default: signing proposition 
+          * Type: Proposition
+          * Optional: yes
+          * Default: signing proposition 
         * ``` onChainTransferBehaviors ``` \
         Defines the type of token within the TAM2 scheme
-            * Type: [AssetBehavior](#assetbehavior)
-            * Optional: no
+          * Type: [AssetBehavior](#assetbehavior)
+          * Optional: no
         * ``` supplyControlForAssets ``` \
         Defines the expected on-chain behavior for how many Asset Tokens may be "produced" within a Series
-            * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
-            * Optional: no
+          * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
+          * Optional: no
         * ``` mintConditionsForAssets ``` \
         Defines the proposition that must be stamped on a Series Constructor
-            * Type: Proposition
-            * Optional: yes
-            * Default: signing proposition 
+          * Type: Proposition
+          * Optional: yes
+          * Default: signing proposition 
         * ``` seriesCommitScheme ``` \
         This value defines the expected type of committment that users should employee when verifying data on asset tokens within the created series. 
-            * Type: [CommitType](#commitType)
-            * Optional: no
+          * Type: [CommitType](#commitType)
+          * Optional: no
         * ``` seriesMetadataScheme ``` \
         A (possibly mixin based) metadata definition that allows for application level data constructs. Possible schemes that this value could denote include HasUnit, HasDecimals, MimePointer, LookupKey, Labeled, Unstructured, Versionable, and more.
-            * Type: TBD
-            * Optional: no
+          * Type: TBD
+          * Optional: no
     * *Returns* \
       Result
         * S = Array of [StagedFutures](#stagedfutures) for the submitted transactions
@@ -407,107 +429,75 @@ The constructor is private or there is none.
 * ``` mintAsset ``` \
   Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for minting a new V2 Asset Token.
     * *Parameters* 
-        * `feeQuantity` \
-        The quantity to use for this transaction's fee 
-          * Type: UInt128
-          * Optional: yes
-          * Default: 100
-        * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
-          * Type: String
-          * Optional: yes
-          * Default: "0/0"
+        * `fee` \
+        The inputs and change output relating to this transaction's fee.
+          * Type: [Transput](#transput)
+          * Optional: no
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
             * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
+          * Type: Byte127
+          * Optional: yes
         * ``` assetLabel ``` \
         The label of the v2 asset token we are minting. This label includes the corresponding group ID and series ID.
-            * Type: String
-            * Optional: no
-        * ``` constructorPath ``` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`)  from where the group and series constructor tokens will be obtained and their change will reside. 
-            * Type: String
-            * Optional: yes
-            * Default: "0/0"
-        * ``` tokenQuantity ``` \
-        The quantity of asset tokens to create.
-            * Type: UInt128
-            * Optional: no
-        * ``` metadata ``` \
-        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted.
-            * Type: Byte127
-            * Optional: yes
+          * Type: String
+          * Optional: no
+        * `groupInput` \
+        The inputs and change output relating to the new asset's group.
+          * Type: [Transput](#transput)
+          * Optional: no
+        * `seriesInput` \
+        The inputs and change output relating to the new asset's series.
+          * Type: [Transput](#transput)
+          * Optional: no
+        * ``` mintingOutput ``` \
+        The output containing the minted asset tokens
+          * Type: [TransactionOutput](#transactionoutput)
+          * Optional: no
         * ``` offChainAuth ``` \
         Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
-            * Type: [Auth](#auth)
-            * Optional: yes
-            * Default: If not provided, output would be considered on-chain
-        * ``` outputPath ``` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the created token will reside. 
-            * Type: String
-            * Optional: yes
-            * Default: "0/0"
+          * Type: [Auth](#auth)
+          * Optional: yes
+          * Default: If not provided, output would be considered on-chain
     * *Returns* \
       Result
         * S = [StagedFutures](#stagedfutures) for the submitted transaction
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * Transaction is not valid
             * SeriesPolicy is not a type TTXX
+            * `mintingOutput` has no quantity specified
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` transfer ``` \
   Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for transferring a token.
     * *Parameters* 
-        * `feeQuantity` \
-        The quantity to use for this transaction's fee 
-          * Type: UInt128
-          * Optional: yes
-          * Default: 100
-        * `feePath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the fee will be obtained and fee change will reside. 
-          * Type: String
-          * Optional: yes
-          * Default: "0/0"
+        * `fee` \
+        The inputs and change output relating to this transaction's fee.
+          * Type: [Transput](#transput)
+          * Optional: no
         * ``` schedule ``` \
         An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
-            * Optional: yes
+          * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
+          * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
-            * Optional: yes
-        * `assetIdentifier` \
-        An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
-          * Type: String
+          * Type: Byte127
+          * Optional: yes
+        * `input` \
+        The inputs and change output relating to the asset being transferred.
+          * Type: [Transput](#transput)
           * Optional: no
-        * `inputPath` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained and it's change will reside. 
-          * Type: String
-          * Optional: yes
-          * Default: "0/0"
-        * `quantity` \
-        The quantity of the token that we are transferring.
-          * Type: UInt128
-          * Optional: yes
-          * Default: All quantity in all boxes of `assetType` within `inputPath`
-        * ``` metadata ``` \
-        Optional metadata to include with the minted asset token. If the data is hosted off-chain, then this is the URL where the data is hosted.
-            * Type: Byte127
-            * Optional: yes
+        * ``` output ``` \
+        The output containing the transferred tokens
+          * Type: [TransactionOutput](#transactionoutput)
+          * Optional: no
         * ``` offChainAuth ``` \
         Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
             * Type: [Auth](#auth)
             * Optional: yes
             * Default: If not provided, output would be considered on-chain
-        * ` outputPath ` \
-        The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) where the output will reside. 
-          * Type: String
-          * Optional: yes
-          * Default: "0/0"
     * *Returns* \
       Result
         * S = [StagedFutures](#stagedfutures) for the submitted transaction
@@ -516,6 +506,59 @@ The constructor is private or there is none.
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 ### Implementation Notes
+
+*None*
+
+---
+
+### Transput
+
+An instance of this class contains the required [TransactionInput](#transactioninput)s and at most one [TransactionOutput](#transactionoutput) needed to satisfy the desired quantity of a transaction input.
+
+#### Constructor
+
+* ``` requiredQuantity ``` \
+The required quantity of `assetIdentifier` needed
+    * Type: UInt128
+    * Optional: yes
+    * Default: If not supplied, the quantity will be all unspent `assetIdentifier` tokens in `path`
+* `assetIdentifier` \
+An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
+  * Type: String
+  * Optional: no
+* `path` \
+The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
+  * Type: String
+  * Optional: yes
+  * Default: "0/0"
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ``` getSpendInputs ``` \
+  Returns the Inputs required to satisfy the quantity required and to move boxes that are not required to satisfy quantity in order to prevent address re-use. 
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = Array of [TransactionInput](#transactioninput)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getChangeOutput ``` \
+  If the quantity within the inputs exceed the `requiredQuantity`, returns the output to contain this excess change. 
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput) or <*implementation defined*> \
+          The change output if change exists. Otherwise an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
 
 *None*
 
@@ -861,11 +904,11 @@ An object representing a Group or Series Constructor Token.
 * ``` quantity ``` \
 The quantity of this Constructor token.
     * Type: UInt128
-    * Optional: no
-* ``` policyevidence ``` \
+    * Optional: yes
+* ``` policyEvidence ``` \
 The policy evidence for this constructor token.
     * Type: Byte32
-    * Optional: no
+    * Optional: yes
 
 #### Implements
 
@@ -873,7 +916,52 @@ The policy evidence for this constructor token.
 
 #### Methods/Functions
 
-*No public methods/functions*
+* ``` setQuantity ``` \
+  Set the quantity.
+    * *Parameters* 
+        * `quantity` \
+        The quantity of the constructor token.
+          * Type: UInt128
+          * Optional: no
+    * *Returns* \
+      Result
+        * S = <*implementation defined*> \
+      An implementation specific value denoting a succesful update is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getQuantity ``` \
+  Return the quantity.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = UInt128 or <*implementation defined*> \
+      If quantity is not set, an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` setPolicyEvidence ``` \
+  Set the policy evidence of this constructor token.
+    * *Parameters* 
+        * `policyEvidence` \
+        The policy evidence
+          * Type: Byte32
+          * Optional: no
+    * *Returns* \
+      Result
+        * S = <*implementation defined*> \
+      An implementation specific value denoting a succesful update is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getPolicyEvidence ``` \
+  Return the policy evidence of this constructor token.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = Byte32 or <*implementation defined*> \
+      If policy evidence is not set, an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
 #### Implementation Notes
 
@@ -893,12 +981,12 @@ The asset label of this token. The label encompasses the IDs of the group and se
     * Optional: no
 * ``` quantity ``` \
 The quantity of this token
-    * Type: Int128
-    * Optional: no
+    * Type: UInt128
+    * Optional: yes
 * ``` commitRoot ``` \
 The commitment root for this token.
     * Type: Byte127
-    * Optional: no
+    * Optional: yes
 * ``` metadata ``` \
 Optional metadata associated with this token.
     * Type: Byte127
@@ -910,7 +998,53 @@ Optional metadata associated with this token.
 
 #### Methods/Functions
 
-*No public methods/functions*
+* ``` setQuantity ``` \
+  Set the quantity.
+    * *Parameters* 
+        * `quantity` \
+        The quantity of the constructor token.
+          * Type: UInt128
+          * Optional: no
+    * *Returns* \
+      Result
+        * S = <*implementation defined*> \
+      An implementation specific value denoting a succesful update is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getQuantity ``` \
+  Return the quantity.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = UInt128 or <*implementation defined*> \
+      If quantity is not set, an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` setCommitRoot ``` \
+  Set the commit root of this asset token.
+    * *Parameters* 
+        * `commitRoot` \
+        The commit root
+          * Type: Byte127
+          * Optional: no
+    * *Returns* \
+      Result
+        * S = <*implementation defined*> \
+      An implementation specific value denoting a succesful update is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getCommitRoot ``` \
+  Return the commit root of this asset token.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = Byte127 or <*implementation defined*> \
+      If commit root is not yet set, an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
 
 #### Implementation Notes
 
@@ -920,20 +1054,18 @@ Optional metadata associated with this token.
 
 ### TransactionInput
 
-An instance of this class represents [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
+<!-- The augmented structure needs to be added to PB -->
+
+An instance of this class augments [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
 
 #### Constructor
 
-> 🚧 Note
-> We are assuming that the proposition associated with the box is available to us.
-* ``` boxId ``` \
-The ID of the box that this input is associated to.
-    * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
+<!-- The augmented structure needs to be added to PB -->
+
+* ``` box ``` \
+The box that this input is associated to.
+    * Type: Augmented version of [Box](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L10) <!-- See "Box" in Tetra SDK High Level Design -->
     * Optional: no
-* ``` proof ``` \
-The proof needed to consume the box
-    * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
-    * Optional: yes
 
 #### Implements
 
@@ -987,11 +1119,21 @@ The proof needed to consume the box
       *None*
     * *Returns* \
       Result
-        * S = [BoxValue](BoxValue) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
+        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
         > 🚧 Note
         > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getPath ``` \
+  Returns the path which will identify the account/contract (i.e., the `x/y/z`) from where the box associated with this input is from.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = String
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
 #### Implementation Notes
 
 In general, the Proposition and Value will be obtainable in the local wallet via the supplied `boxId`
@@ -1093,9 +1235,10 @@ An object representing a transaction output.
 The address of this output.
     * Type: [Address](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/address.proto#L10)
     * Optional: no
+<!-- The augmented BoxValues needs to be added to PB; quantity is optional -->
 * ``` value ``` \
 An object representing the value contained in this output.
-    * Type: [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
+    * Type: Augmented [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
     * Optional: no
 * ``` minting ``` \
 An optional object representing the policy which determines if minting is allowed. If not provided, the output is not considered a minting output
@@ -1108,7 +1251,45 @@ An optional object representing the policy which determines if minting is allowe
 
 #### Methods/Functions
 
-*No public methods/functions*
+* ``` setQuantity ``` \
+  Update the quantity within `value`
+    * *Parameters* 
+      * `quantity` \
+        The new quantity of the output's value.
+    * *Returns* \
+      Result
+        * S = <*implementation defined*> This value denotes a successful update
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getAddress ``` \
+  The address of this output.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [Address](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/address.proto#L10)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getValue ``` \
+  An object representing the value contained in this output.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = Augmented [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getMinting ``` \
+  An optional object representing the policy which determines if minting is allowed. If not provided, the output is not considered a minting output
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [MintableToken](#mintabletoken) or <*implementation defined*> \
+          The mintable token if output is a minting output. Otherwise an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
 
 #### Implementation Notes
 
