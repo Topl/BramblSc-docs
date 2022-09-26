@@ -511,59 +511,6 @@ The constructor is private or there is none.
 
 ---
 
-### Transput
-
-An instance of this class contains the required [TransactionInput](#transactioninput)s and at most one [TransactionOutput](#transactionoutput) needed to satisfy the desired quantity of a transaction input.
-
-#### Constructor
-
-* ``` requiredQuantity ``` \
-The required quantity of `assetIdentifier` needed
-    * Type: UInt128
-    * Optional: yes
-    * Default: If not supplied, the quantity will be all unspent `assetIdentifier` tokens in `path`
-* `assetIdentifier` \
-An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
-  * Type: String
-  * Optional: no
-* `path` \
-The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
-  * Type: String
-  * Optional: yes
-  * Default: "0/0"
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-* ``` getSpendInputs ``` \
-  Returns the Inputs required to satisfy the quantity required and to move boxes that are not required to satisfy quantity in order to prevent address re-use. 
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = Array of [TransactionInput](#transactioninput)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getChangeOutput ``` \
-  If the quantity within the inputs exceed the `requiredQuantity`, returns the output to contain this excess change. 
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = [TransactionOutput](#transactionoutput) or <*implementation defined*> \
-          The change output if change exists. Otherwise an implementation specific value denoting nothing is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-*None*
-
----
-
 ## MintingSupplyPolicyFactory
 
 A utility class to provide token supply policies.
@@ -1052,94 +999,6 @@ Optional metadata associated with this token.
 
 ---
 
-### TransactionInput
-
-<!-- The augmented structure needs to be added to PB -->
-
-An instance of this class augments [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
-
-#### Constructor
-
-<!-- The augmented structure needs to be added to PB -->
-
-* ``` box ``` \
-The box that this input is associated to.
-    * Type: Augmented version of [Box](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L10) <!-- See "Box" in Tetra SDK High Level Design -->
-    * Optional: no
-
-#### Implements
-
-*None*
-
-#### Methods/Functions
-
-* ``` getBoxId ``` \
-  Returns the boxId associated with this TransactionInput.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getProposition ``` \
-  Returns the proposition associated with this TransactionInput.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` setProof ``` \
-  Add the proof associated with this TransactionInput to satisfy the proposition.
-    * *Parameters* 
-      * `proof` \
-      The proof to satisfy this input's proposition.
-        * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
-        * Optional: no
-    * *Returns* \
-      Result
-        * S = <*implementation defined*> \
-      An implementation specific value denoting a succesful update is returned.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getProof ``` \
-  Returns the proof associated with this TransactionInput.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getValue ``` \
-  Returns the value associated with this TransactionInput.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
-        > 🚧 Note
-        > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ``` getPath ``` \
-  Returns the path which will identify the account/contract (i.e., the `x/y/z`) from where the box associated with this input is from.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = String
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-
-#### Implementation Notes
-
-In general, the Proposition and Value will be obtainable in the local wallet via the supplied `boxId`
-
----
-
 ### GroupConstructor
 
 An instance of this class represents a mintable Group Constructor Token.
@@ -1219,9 +1078,149 @@ The series policy tied to this AssetConstructor token.
 
 ---
 
+### TransactionUnprovenInput
+
+<!-- The augmented structure needs to be added to PB -->
+
+An instance of this class augments [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22) without Proof.
+
+#### Constructor
+
+<!-- The augmented structure needs to be added to PB -->
+
+* ``` box ``` \
+The box that this input is associated to.
+  * Type: Augmented version of [Box](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L10) <!-- See "Box" in Tetra SDK High Level Design -->
+  * Optional: no
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ``` getBoxId ``` \
+  Returns the boxId associated with this TransactionUnprovenInput.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getProposition ``` \
+  Returns the proposition associated with this TransactionUnprovenInput.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getValue ``` \
+  Returns the value associated with this TransactionUnprovenInput.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
+        > 🚧 Note
+        > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getPath ``` \
+  Returns the path which will identify the account/contract (i.e., the `x/y/z`) from where the box associated with this input is from.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = String
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+In general, the Proposition and Value will be obtainable in the local wallet via the supplied `boxId`
+
+---
+
+### TransactionInput
+
+An instance of this class reflects [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22).
+
+#### Constructor
+
+* ` boxId ` \
+The ID of the box that this input is associated to.
+  * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
+  * Optional: no
+* ` proposition ` \
+The Proposition associated with this input.
+  * Type: [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
+  * Optional: no
+* ` proof ` \
+The Proof associated with this input to satisfy the proposition
+  * Type: [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
+  * Optional: no
+* ` value ` \
+The value associated with this input.
+  * Type: [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
+  * Optional: no
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ` getBoxId ` \
+  Returns the boxId associated with this TransactionInput.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ` getProposition ` \
+  Returns the Proposition associated with this TransactionInput.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ` getProof ` \
+  Returns the Proof associated with this TransactionInput to satisfy the proposition.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ` getValue ` \
+  Returns the value associated with this TransactionInput.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
+        > 🚧 Note
+        > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
+---
+
 ### TransactionOutput
 
-An object representing a transaction output.
+An object representing a transaction output. This reflect the Tetra version of [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
 
 ###### Type Parameters
 
@@ -1297,9 +1296,62 @@ An optional object representing the policy which determines if minting is allowe
 
 ---
 
-### Transaction
+### Transput
 
-An object representing a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11).
+An instance of this class contains the required [TransactionUnprovenInput](#transactionunproveninput)s and at most one [TransactionOutput](#transactionoutput) needed to satisfy the desired quantity of a transaction input.
+
+#### Constructor
+
+* ``` requiredQuantity ``` \
+The required quantity of `assetIdentifier` needed
+    * Type: UInt128
+    * Optional: yes
+    * Default: If not supplied, the quantity will be all unspent `assetIdentifier` tokens in `path`
+* `assetIdentifier` \
+An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
+  * Type: String
+  * Optional: no
+* `path` \
+The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
+  * Type: String
+  * Optional: yes
+  * Default: "0/0"
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ``` getSpendInputs ``` \
+  Returns the Inputs required to satisfy the quantity required and to move boxes that are not required to satisfy quantity in order to prevent address re-use. 
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = Array of [TransactionUnprovenInput](#transactionunproveninput)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ``` getChangeOutput ``` \
+  If the quantity within the inputs exceed the `requiredQuantity`, returns the output to contain this excess change. 
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = [TransactionOutput](#transactionoutput) or <*implementation defined*> \
+          The change output if change exists. Otherwise an implementation specific value denoting nothing is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### UnprovenTransaction
+
+An instance of this class reflects a version of [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) where the inputs do not have proofs.
 
 ###### Type Parameters
 
@@ -1309,11 +1361,11 @@ An object representing a [Transaction](https://github.com/Topl/protobuf-specs/bl
 
 * ``` inputs ``` \
 The inputs of this transaction.
-    * Type: Array of [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22)
+    * Type: Array of [TransactionUnprovenInput](#transactionunproveninput)
     * Optional: no
 * ``` outputs ``` \
 The outputs of this transaction.
-    * Type: Array of [Transaction.Output](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L33)
+    * Type: Array of [TransactionOutput](#transactionoutput)
     * Optional: no
 * ``` schedule ``` \
 An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
@@ -1331,15 +1383,49 @@ Data to be associated with this transaction. Has no effect on the protocol level
 
 #### Methods/Functions
 
-* ``` getUnprovenInputs ``` \
-  Returns the inputs to this transaction without a proof.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      Result
-        * S = Array of [TransactionInput](#transactioninput)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+*No public methods/functions*
+
+#### Implementation Notes
+
+*None*
+
+---
+
+### Transaction
+
+An instance of this class reflects [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11).
+
+###### Type Parameters
+
+*None*
+
+#### Constructor
+
+* ``` inputs ``` \
+The inputs of this transaction.
+    * Type: Array of [TransactionInput](#transactionuninput)
+    * Optional: no
+* ``` outputs ``` \
+The outputs of this transaction.
+    * Type: Array of [TransactionOutput](#transactionoutput)
+    * Optional: no
+* ``` schedule ``` \
+An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
+    * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
+    * Optional: yes
+    * Default: TBD
+* ``` data ``` \
+Data to be associated with this transaction. Has no effect on the protocol level.
+    * Type: Byte[15000]
+    * Optional: yes
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+*No public methods/functions*
 
 #### Implementation Notes
 
