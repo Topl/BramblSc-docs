@@ -161,7 +161,7 @@ This interface is implemented by objects that represent an off-chain Group or Se
       *None*
     * *Returns* \
       Result
-        * S = Byte32
+        * S = Byte[32]
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` getEvidence ``` \
@@ -170,7 +170,7 @@ This interface is implemented by objects that represent an off-chain Group or Se
       *None*
     * *Returns* \
       Result
-        * S = Byte32
+        * S = Byte[32]
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ``` setRegistrationUtxo ``` \
@@ -260,7 +260,7 @@ The constructor is private or there is none.
           * Optional: yes
         * ``` metadata ``` \
         Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. Only valid for V1 and V2 asset tokens.
-          * Type: Byte127
+          * Type: Byte[127]
           * Optional: yes
     * *Returns* \
       Result
@@ -296,7 +296,7 @@ The constructor is private or there is none.
           * Optional: no
         * ``` metadata ``` \
         Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. Only valid for V1 and V2 asset tokens.
-          * Type: Byte127
+          * Type: Byte[127]
           * Optional: yes
     * *Returns* \
       Result
@@ -319,7 +319,7 @@ The constructor is private or there is none.
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte127
+            * Type: Byte[15000]
             * Optional: yes
         * ``` policy ``` \
         The policy that we are registering.
@@ -349,7 +349,7 @@ The constructor is private or there is none.
           * Optional: yes
         * ``` data ``` \
         Data to be associated with the underlying transactions. Has no effect on the protocol level.
-          * Type: Byte127
+          * Type: Byte[15000]
           * Optional: yes
         * ``` assetAlias ``` \
         A human readable label to associate with the newly minted Asset Token. This will also be the default value if `groupLabel` or `seriesLabel` is not provided
@@ -439,7 +439,7 @@ The constructor is private or there is none.
             * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-          * Type: Byte127
+          * Type: Byte[15000]
           * Optional: yes
         * ``` assetLabel ``` \
         The label of the v2 asset token we are minting. This label includes the corresponding group ID and series ID.
@@ -483,7 +483,7 @@ The constructor is private or there is none.
           * Optional: yes
         * ``` data ``` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-          * Type: Byte127
+          * Type: Byte[15000]
           * Optional: yes
         * `input` \
         The inputs and change output relating to the asset being transferred.
@@ -817,7 +817,7 @@ The label for defining the name of a group, constraints?
     * Optional: no
 * ``` fixedSeriesPolicy ``` \
 Restrict the Group to have only a single type of series token that is applicable to this Group
-    * Type: Byte32
+    * Type: Byte[32]
     * Optional: yes
 * ``` supplyControlForSeries ``` \
 Defines the expected on-chain behavior for how many Series may be "assigned" to a Group
@@ -907,7 +907,7 @@ The quantity of this Constructor token.
     * Optional: yes
 * ``` policyEvidence ``` \
 The policy evidence for this constructor token.
-    * Type: Byte32
+    * Type: Byte[32]
     * Optional: yes
 
 #### Implements
@@ -944,7 +944,7 @@ The policy evidence for this constructor token.
     * *Parameters* 
         * `policyEvidence` \
         The policy evidence
-          * Type: Byte32
+          * Type: Byte[32]
           * Optional: no
     * *Returns* \
       Result
@@ -958,7 +958,7 @@ The policy evidence for this constructor token.
       *None*
     * *Returns* \
       Result
-        * S = Byte32 or <*implementation defined*> \
+        * S = Byte[32] or <*implementation defined*> \
       If policy evidence is not set, an implementation specific value denoting nothing is returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
@@ -985,11 +985,11 @@ The quantity of this token
     * Optional: yes
 * ``` commitRoot ``` \
 The commitment root for this token.
-    * Type: Byte127
+    * Type: Byte[127]
     * Optional: yes
 * ``` metadata ``` \
 Optional metadata associated with this token.
-    * Type: Byte127
+    * Type: Byte[127]
     * Optional: yes
 
 #### Implements
@@ -1026,7 +1026,7 @@ Optional metadata associated with this token.
     * *Parameters* 
         * `commitRoot` \
         The commit root
-          * Type: Byte127
+          * Type: Byte[127]
           * Optional: no
     * *Returns* \
       Result
@@ -1040,7 +1040,7 @@ Optional metadata associated with this token.
       *None*
     * *Returns* \
       Result
-        * S = Byte127 or <*implementation defined*> \
+        * S = Byte[127] or <*implementation defined*> \
       If commit root is not yet set, an implementation specific value denoting nothing is returned.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
@@ -1322,7 +1322,7 @@ An object representing the transaction timestamp as well as the minimum and maxi
     * Default: TBD
 * ``` data ``` \
 Data to be associated with this transaction. Has no effect on the protocol level.
-    * Type: Byte127
+    * Type: Byte[15000]
     * Optional: yes
 
 #### Implements
