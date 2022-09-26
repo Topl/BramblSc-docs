@@ -1219,7 +1219,7 @@ The constructor is private or there is none.
             * `quantity` is invalid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ` registerConstructor ` \
-  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for registering a Group or Series Constructor Token
+  Submits a [Transaction](#transaction) for registering a Group or Series Constructor Token
     * *Parameters* 
         * `fee` \
         The inputs and change output relating to this transaction's fee.
@@ -1249,7 +1249,7 @@ The constructor is private or there is none.
             * `mintingOutput` does not specify a quantity
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ` registerAssetType ` \
-  Submit [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11)s for minting a new V2 Asset Token with newly registered Group and Series Policies.
+  Submit [Transaction](#transaction)s for minting a new V2 Asset Token with newly registered Group and Series Policies.
     * *Parameters* 
         * `fee` \
         The inputs and change output relating to this transaction's fee.
@@ -1337,52 +1337,8 @@ The constructor is private or there is none.
             * feeQuantity is not a multiple of 2
             * Transaction is not valid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ` mintAsset ` \
-  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for minting a new V2 Asset Token.
-    * *Parameters* 
-        * `fee` \
-        The inputs and change output relating to this transaction's fee.
-          * Type: [Transput](#transput)
-          * Optional: no
-        * ` schedule ` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
-            * Optional: yes
-        * ` data ` \
-        Data to be associated with this transaction. Has no effect on the protocol level.
-          * Type: Byte[15000]
-          * Optional: yes
-        * ` assetLabel ` \
-        The label of the v2 asset token we are minting. This label includes the corresponding group ID and series ID.
-          * Type: String
-          * Optional: no
-        * `groupInput` \
-        The inputs and change output relating to the new asset's group.
-          * Type: [Transput](#transput)
-          * Optional: no
-        * `seriesInput` \
-        The inputs and change output relating to the new asset's series.
-          * Type: [Transput](#transput)
-          * Optional: no
-        * ` mintingOutput ` \
-        The output containing the minted asset tokens
-          * Type: [TransactionOutput](#transactionoutput)
-          * Optional: no
-        * ` offChainAuth ` \
-        Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
-          * Type: [Auth](#auth)
-          * Optional: yes
-          * Default: If not provided, output would be considered on-chain
-    * *Returns* \
-      Result
-        * S = [StagedFutures](#stagedfutures) for the submitted transaction
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Transaction is not valid
-            * SeriesPolicy is not a type TTXX
-            * `mintingOutput` has no quantity specified
-            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
-* ` transfer ` \
-  Submits a [Transaction](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L11) for transferring a token.
+* ` transaction ` \
+  Submits a general purpose [Transaction](#transaction).
     * *Parameters* 
         * `fee` \
         The inputs and change output relating to this transaction's fee.
@@ -1396,13 +1352,13 @@ The constructor is private or there is none.
         Data to be associated with this transaction. Has no effect on the protocol level.
           * Type: Byte[15000]
           * Optional: yes
-        * `input` \
-        The inputs and change output relating to the asset being transferred.
-          * Type: [Transput](#transput)
+        * `inputs` \
+        The non-fee inputs and change outputs relating to this transaction.
+          * Type: Array of [Transput](#transput)
           * Optional: no
-        * ` output ` \
-        The output containing the transferred tokens
-          * Type: [TransactionOutput](#transactionoutput)
+        * ` outputs ` \
+        The outputs of this transaction
+          * Type: Array of [TransactionOutput](#transactionoutput)
           * Optional: no
         * ` offChainAuth ` \
         Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
