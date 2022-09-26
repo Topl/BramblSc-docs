@@ -1311,11 +1311,16 @@ The required quantity of `assetIdentifier` needed
 An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
   * Type: String
   * Optional: no
-* `path` \
-The path which will identify the account/contract (i.e., the `x/y` in `x/y/z`) from where the input will be obtained. 
-  * Type: String
+* `account` \
+The Account from where the input will be obtained. 
+  * Type: Account
   * Optional: yes
-  * Default: "0/0"
+  * Default: The account entity at path "0/0"
+* `changeAddress` \
+The address where any excess funds from the input will go. 
+  * Type: Address
+  * Optional: yes
+  * Default: The next available address in `account`
 
 #### Implements
 
