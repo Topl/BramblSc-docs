@@ -760,6 +760,73 @@ The series policy tied to this AssetConstructor token.
 
 ---
 
+### Schedule
+
+Represents constraints on when a Transaction can be included in the blockchain. An instance of this class reflects [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42).
+
+###### Type Parameters
+
+*None*
+
+#### Constructor
+
+* ` creationTime ` \
+The time that the application claims the transaction was created. This is translated to a UNIX timestamp and used to set the Schedule object's creation field.
+  * Type: DateTime | <*implementation defined*>
+  * Optional: yes
+  * Default: The current time
+* ` earliestTime ` \
+The earliest time that the transaction is eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's minimumSlot field. Note that this can be in the future. However, if it is too far in the future, then nodes may evict it from their mempool.
+  * Type: DateTime | <*implementation defined*>
+  * Optional: yes
+  * Default: Beginning of time 
+* ` latestTime ` \
+The latest time that the transaction is eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's maximumSlot field.
+  * Type: DateTime | <*implementation defined*>
+  * Optional: yes
+  * Default: 5 minutes into the future
+
+#### Implements
+
+*None*
+
+#### Methods/Functions
+
+* ` getCreation ` \
+  A UNIX timestamp (ms) of the transaction's original creation.  User-defined with no impact on the protocol.  Must be positive.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = UInt64
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ` getMinimumSlot ` \
+  The minimum slot number of the block containing the transaction
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = UInt64
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+* ` getMaximumSlot ` \
+  The maximum slot number of the block constaing this transaction.  Must be greater than `minimumSlot`.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      Result
+        * S = UInt64
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+
+#### Implementation Notes
+
+*None*
+
+---
+
 ### TransactionUnprovenInput
 
 <!-- The augmented structure needs to be added to PB -->
@@ -1055,10 +1122,9 @@ The outputs of this transaction.
     * Type: Array of [TransactionOutput](#transactionoutput)
     * Optional: no
 * ` schedule ` \
-An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-    * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
+An object representing the constraints on when a Transaction can be included in the blockchain
+    * Type: [Schedule](#schedule)
     * Optional: yes
-    * Default: TBD
 * ` data ` \
 Data to be associated with this transaction. Has no effect on the protocol level.
     * Type: Byte[15000]
@@ -1097,10 +1163,9 @@ The outputs of this transaction.
     * Type: Array of [TransactionOutput](#transactionoutput)
     * Optional: no
 * ` schedule ` \
-An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-    * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
+An object representing the constraints on when a Transaction can be included in the blockchain
+    * Type: [Schedule](#schedule)
     * Optional: yes
-    * Default: TBD
 * ` data ` \
 Data to be associated with this transaction. Has no effect on the protocol level.
     * Type: Byte[15000]
@@ -1225,22 +1290,33 @@ The constructor is private or there is none.
         The inputs and change output relating to this transaction's fee.
           * Type: [Transput](#transput)
           * Optional: no
-        * ` schedule ` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-            * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
-            * Optional: yes
         * ` data ` \
         Data to be associated with this transaction. Has no effect on the protocol level.
-            * Type: Byte[15000]
-            * Optional: yes
+          * Type: Byte[15000]
+          * Optional: yes
         * ` policy ` \
         The policy that we are registering.
-            * Type: [Policy](#policy)
-            * Optional: no
+          * Type: [Policy](#policy)
+          * Optional: no
         * ` mintingOutput ` \
         The output containing the minted constructor tokens
-            * Type: [TransactionOutput](#transactionoutput)
-            * Optional: no
+          * Type: [TransactionOutput](#transactionoutput)
+          * Optional: no
+        * ` creationTime ` \
+        The time that the application claims the transaction was created. This is translated to a UNIX timestamp and used to set the Schedule object's creation field.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: The current time
+        * ` earliestTime ` \
+        The earliest time that this transaction is eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's minimumSlot field. Note that this can be in the future. However, if it is too far in the future, then nodes may evict it from their mempool.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: Beginning of time 
+        * ` latestTime ` \
+        The latest time that this transaction is eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's maximumSlot field.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: 5 minutes into the future
     * *Returns* \
       Result
         * S = [StagedFutures](#stagedfutures) for the submitted transaction
@@ -1255,10 +1331,6 @@ The constructor is private or there is none.
         The inputs and change output relating to this transaction's fee.
           * Type: [Transput](#transput)
           * Optional: no
-        * ` schedule ` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that the underlying transactions will required to be processed by.
-          * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
-          * Optional: yes
         * ` data ` \
         Data to be associated with the underlying transactions. Has no effect on the protocol level.
           * Type: Byte[15000]
@@ -1330,6 +1402,21 @@ The constructor is private or there is none.
         A (possibly mixin based) metadata definition that allows for application level data constructs. Possible schemes that this value could denote include HasUnit, HasDecimals, MimePointer, LookupKey, Labeled, Unstructured, Versionable, and more.
           * Type: TBD
           * Optional: no
+        * ` creationTime ` \
+        The time that the application claims the transactions were created. This is translated to a UNIX timestamp and used to set the Schedule object's creation field.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: The current time
+        * ` earliestTime ` \
+        The earliest time that the transactions are eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's minimumSlot field. Note that this can be in the future. However, if it is too far in the future, then nodes may evict it from their mempool.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: Beginning of time 
+        * ` latestTime ` \
+        The latest time that the transactions are eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's maximumSlot field.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: 5 minutes into the future
     * *Returns* \
       Result
         * S = Array of [StagedFutures](#stagedfutures) for the submitted transactions
@@ -1344,10 +1431,6 @@ The constructor is private or there is none.
         The inputs and change output relating to this transaction's fee.
           * Type: [Transput](#transput)
           * Optional: no
-        * ` schedule ` \
-        An object representing the transaction timestamp as well as the minimum and maximum slot that this transaction will required to be processed by.
-          * Type: [Transaction.Schedule](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L42)
-          * Optional: yes
         * ` data ` \
         Data to be associated with this transaction. Has no effect on the protocol level.
           * Type: Byte[15000]
@@ -1362,9 +1445,24 @@ The constructor is private or there is none.
           * Optional: no
         * ` offChainAuth ` \
         Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
-            * Type: [Auth](#auth)
-            * Optional: yes
-            * Default: If not provided, output would be considered on-chain
+          * Type: [Auth](#auth)
+          * Optional: yes
+          * Default: If not provided, output would be considered on-chain
+        * ` creationTime ` \
+        The time that the application claims the transaction was created. This is translated to a UNIX timestamp and used to set the Schedule object's creation field.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: The current time
+        * ` earliestTime ` \
+        The earliest time that this transaction is eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's minimumSlot field. Note that this can be in the future. However, if it is too far in the future, then nodes may evict it from their mempool.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: Beginning of time 
+        * ` latestTime ` \
+        The latest time that this transaction is eligible to be included in a block. This will be converted to a slot number and used to set the Schedule object's maximumSlot field.
+          * Type: DateTime | <*implementation defined*>
+          * Optional: yes
+          * Default: 5 minutes into the future
     * *Returns* \
       Result
         * S = [StagedFutures](#stagedfutures) for the submitted transaction
