@@ -249,20 +249,20 @@ This interface is implemented by objects that represent on-chain transfer behavi
 
 * ` interGroupFungible ` \
 Should the protocol consider this series fungible with other like tokens that share this group id? (may go between series)
-    * Type: Boolean
-    * Optional: no
+  * Type: Boolean
+  * Optional: no
 * ` interSeriesFungible ` \
 Should the protocol consider this series fungible with other like tokens that share this series id? (may go between groups)
-    * Type: Boolean
-    * Optional: no
+  * Type: Boolean
+  * Optional: no
 * ` quantityIncrease ` \
 Should the protocol allow the "quantity" field in an asset token of this type to increase?
-    * Type: Boolean
-    * Optional: no
+  * Type: Boolean
+  * Optional: no
 * ` quantityDecrease ` \
 Should the protocol allow the "quantity" field in an asset token of this type to decrease?
-    * Type: Boolean
-    * Optional: no
+  * Type: Boolean
+  * Optional: no
 
 #### Methods/Functions
 
@@ -442,24 +442,24 @@ Objects of this class represents an off-chain Group Policy.
 
 * ` label ` \
 The label for defining the name of a group, constraints?
-    * Type: String
-    * Optional: no
+  * Type: String
+  * Optional: no
 * ` fixedSeriesPolicy ` \
 Restrict the Group to have only a single type of series token that is applicable to this Group
-    * Type: Byte[32]
-    * Optional: yes
+  * Type: Byte[32]
+  * Optional: yes
 * ` supplyControlForSeries ` \
 Defines the expected on-chain behavior for how many Series may be "assigned" to a Group
-    * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
-    * Optional: no
+  * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
+  * Optional: no
 * ` mintConditionsForSeries ` \
 Defines the proposition that must be stamped on a Group Constructor (is this needed?)
-    * Type: [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
-    * Optional: no
+  * Type: [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
+  * Optional: no
 * ` registrationUtxo ` \
 An arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this group policy has been generated previously. This box ID must be unique for policy registrations across transactions.
-    * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
-    * Optional: yes
+  * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
+  * Optional: yes
 
 #### Implements
 
@@ -483,32 +483,32 @@ Objects of this class represents an off-chain Series Policy.
 
 * ` label ` \
 The label for defining the name of a series, constraints?
-    * Type: String
-    * Optional: no
+  * Type: String
+  * Optional: no
 * ` onChainTransferBehaviors ` \
 Defines the type of token within the TAM2 scheme
-    * Type: [AssetBehavior](#assetbehavior)
-    * Optional: no
+  * Type: [AssetBehavior](#assetbehavior)
+  * Optional: no
 * ` supplyControlForAssets ` \
 Defines the expected on-chain behavior for how many Asset Tokens may be "produced" within a Series
-    * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
-    * Optional: no
+  * Type: [MintingSupplyPolicy](#mintingsupplypolicy)
+  * Optional: no
 * ` mintControlForAssets ` \
 Defines the proposition that must be stamped on a Series Constructor (is this needed?)
-    * Type: Proposition
-    * Optional: no
+  * Type: Proposition
+  * Optional: no
 * ` registrationUtxo ` \
 An arbitrary box ID to bind to this policy. This value provides uniqueness that can be checked by the protocol to know if this series policy has been generated previously. This box ID must be unique for policy registrations across transactions.
-    * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
-    * Optional: yes
+  * Type: [Box.Id](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L17)
+  * Optional: yes
 * ` commitScheme ` \
 This value defines the expected type of committment that users should employee when verifying data on asset tokens within this series. 
-    * Type: [CommitType](#committype)
-    * Optional: no
+  * Type: [CommitType](#committype)
+  * Optional: no
 * ` metadataScheme ` \
 A (possibly mixin based) metadata definition that allows for application level data constructs. Possible schemes that this value could denote include HasUnit, HasDecimals, MimePointer, LookupKey, Labeled, Unstructured, Versionable, and more.
-    * Type: TBD
-    * Optional: no
+  * Type: TBD
+  * Optional: no
 
 #### Implements
 
@@ -532,12 +532,12 @@ An object representing a Group or Series Constructor Token.
 
 * ` quantity ` \
 The quantity of this Constructor token.
-    * Type: UInt128
-    * Optional: yes
+  * Type: UInt128
+  * Optional: yes
 * ` policyEvidence ` \
 The policy evidence for this constructor token.
-    * Type: Byte[32]
-    * Optional: yes
+  * Type: Byte[32]
+  * Optional: yes
 
 #### Implements
 
@@ -606,20 +606,20 @@ An object representing a V2 Asset Token.
 
 * ` label ` \
 The asset label of this token. The label encompasses the IDs of the group and series it belongs to
-    * Type: String
-    * Optional: no
+  * Type: String
+  * Optional: no
 * ` quantity ` \
 The quantity of this token
-    * Type: UInt128
-    * Optional: yes
+  * Type: UInt128
+  * Optional: yes
 * ` commitRoot ` \
 The commitment root for this token.
-    * Type: Byte[127]
-    * Optional: yes
+  * Type: Byte[127]
+  * Optional: yes
 * ` metadata ` \
 Optional metadata associated with this token.
-    * Type: Byte[127]
-    * Optional: yes
+  * Type: Byte[127]
+  * Optional: yes
 
 #### Implements
 
@@ -689,8 +689,8 @@ An instance of this class represents a mintable Group Constructor Token.
 
 * ` policy ` \
 The group policy tied to this GroupConstructor token.
-    * Type: [GroupPolicy](#grouppolicy)
-    * Optional: no
+  * Type: [GroupPolicy](#grouppolicy)
+  * Optional: no
 
 #### Implements
 
@@ -714,8 +714,8 @@ An instance of this class represents a mintable Series Constructor Token.
 
 * ` policy ` \
 The series policy tied to this SeriesConstructor token.
-    * Type: [SeriesPolicy](#seriespolicy)
-    * Optional: no
+  * Type: [SeriesPolicy](#seriespolicy)
+  * Optional: no
 
 #### Implements
 
@@ -739,12 +739,12 @@ An instance of this class represents a mintable Asset Constructor Token.
 
 * ` groupPolicy ` \
 The group policy tied to this AssetConstructor token.
-    * Type: [GroupPolicy](#grouppolicy)
-    * Optional: no
+  * Type: [GroupPolicy](#grouppolicy)
+  * Optional: no
 * ` seriesPolicy ` \
 The series policy tied to this AssetConstructor token.
-    * Type: [SeriesPolicy](#seriespolicy)
-    * Optional: no
+  * Type: [SeriesPolicy](#seriespolicy)
+  * Optional: no
 
 #### Implements
 
@@ -981,17 +981,17 @@ An object representing a transaction output. This reflect the Tetra version of [
 > AssetTokenV2 and ConstructorToken will be reflected as a [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) in protobuff in the near future.
 * ` address ` \
 The address of this output.
-    * Type: [Address](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/address.proto#L10)
-    * Optional: no
+  * Type: [Address](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/address.proto#L10)
+  * Optional: no
 <!-- The augmented BoxValues needs to be added to PB; quantity is optional -->
 * ` value ` \
 An object representing the value contained in this output.
-    * Type: Augmented [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
-    * Optional: no
+  * Type: Augmented [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [ConstructorToken](#constructortoken) | [AssetTokenV2](#assettokenv2)
+  * Optional: no
 * ` minting ` \
 An optional object representing the policy which determines if minting is allowed. If not provided, the output is not considered a minting output
-    * Type: [MintableToken](#mintabletoken)
-    * Optional: yes
+  * Type: [MintableToken](#mintabletoken)
+  * Optional: yes
 
 #### Implements
 
@@ -1053,9 +1053,9 @@ An instance of this class contains the required [TransactionUnprovenInput](#tran
 
 * ` requiredQuantity ` \
 The required quantity of `assetIdentifier` needed
-    * Type: UInt128
-    * Optional: yes
-    * Default: If not supplied, the quantity will be all unspent `assetIdentifier` tokens in `account`
+  * Type: UInt128
+  * Optional: yes
+  * Default: If not supplied, the quantity will be all unspent `assetIdentifier` tokens in `account`
 * `assetIdentifier` \
 An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
   * Type: String
@@ -1115,20 +1115,20 @@ An instance of this class reflects a version of [Transaction](https://github.com
 
 * ` inputs ` \
 The inputs of this transaction.
-    * Type: Array of [TransactionUnprovenInput](#transactionunproveninput)
-    * Optional: no
+  * Type: Array of [TransactionUnprovenInput](#transactionunproveninput)
+  * Optional: no
 * ` outputs ` \
 The outputs of this transaction.
-    * Type: Array of [TransactionOutput](#transactionoutput)
-    * Optional: no
+  * Type: Array of [TransactionOutput](#transactionoutput)
+  * Optional: no
 * ` schedule ` \
 An object representing the constraints on when a Transaction can be included in the blockchain
-    * Type: [Schedule](#schedule)
-    * Optional: yes
+  * Type: [Schedule](#schedule)
+  * Optional: yes
 * ` data ` \
 Data to be associated with this transaction. Has no effect on the protocol level.
-    * Type: Byte[15000]
-    * Optional: yes
+  * Type: Byte[15000]
+  * Optional: yes
 
 #### Implements
 
@@ -1156,20 +1156,20 @@ An instance of this class reflects [Transaction](https://github.com/Topl/protobu
 
 * ` inputs ` \
 The inputs of this transaction.
-    * Type: Array of [TransactionInput](#transactionuninput)
-    * Optional: no
+  * Type: Array of [TransactionInput](#transactionuninput)
+  * Optional: no
 * ` outputs ` \
 The outputs of this transaction.
-    * Type: Array of [TransactionOutput](#transactionoutput)
-    * Optional: no
+  * Type: Array of [TransactionOutput](#transactionoutput)
+  * Optional: no
 * ` schedule ` \
 An object representing the constraints on when a Transaction can be included in the blockchain
-    * Type: [Schedule](#schedule)
-    * Optional: yes
+  * Type: [Schedule](#schedule)
+  * Optional: yes
 * ` data ` \
 Data to be associated with this transaction. Has no effect on the protocol level.
-    * Type: Byte[15000]
-    * Optional: yes
+  * Type: Byte[15000]
+  * Optional: yes
 
 #### Implements
 
@@ -1206,8 +1206,8 @@ The constructor is private or there is none.
     * *Parameters* 
         * `requiredQuantity` \
         The required quantity that this input needs
-            * Type: UInt128
-            * Optional: no
+          * Type: UInt128
+          * Optional: no
         * `assetIdentifier` \
         An identifier which denotes a type of asset (an AssetV2 assetLabel, an AssetV1 assetCode, LVL type, TOPL type, etc) 
           * Type: String
