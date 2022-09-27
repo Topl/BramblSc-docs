@@ -866,15 +866,17 @@ The box that this input is associated to.
         * S = [Proposition](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proposition.proto#L9)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+> 🚧 Note
+> AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
+
 * ` getValue ` \
   Returns the value associated with this TransactionUnprovenInput.
     * *Parameters* \
       *None*
     * *Returns* \
       Result
-        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
-        > 🚧 Note
-        > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
+        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ` getAccount ` \
@@ -898,6 +900,9 @@ In general, the Proposition and Value will be obtainable in the local wallet via
 An instance of this class reflects [Transaction.Input](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/transaction.proto#L22).
 
 ### Constructor
+
+> 🚧 Note
+> AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
 
 * ` boxId ` \
 The ID of the box that this input is associated to.
@@ -949,15 +954,17 @@ The value associated with this input.
         * S = [Proof](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/proof.proto#L8)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
+
+> 🚧 Note
+> AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
+
 * ` getValue ` \
   Returns the value associated with this TransactionInput.
     * *Parameters* \
       *None*
     * *Returns* \
       Result
-        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken) \
-        > 🚧 Note
-        > AssetTokenV2 and ConstructorToken will be reflected as a BoxValue in protobuff in the near future. 
+        * S = [BoxValue](https://github.com/Topl/protobuf-specs/blob/main/protobuf/models/box.proto#L24) | [AssetTokenV2](#assettokenv2) | [ConstructorToken](#constructortoken)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 
