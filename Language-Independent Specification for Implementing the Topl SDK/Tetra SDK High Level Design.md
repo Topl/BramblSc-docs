@@ -25,17 +25,15 @@ Additional implementations to be done after the required ones are in no particul
       * [Application](#application)
       * [Account](#account)
       * [Address](#address)
-      * [KeyVault](#keyvault)
+      * [Wallet](#wallet)
       * [Proof](#proof)
       * [Proposition](#proposition)
-      * [Provider](#provider)
       <!-- * [CredentialSet](#credentialset) -->
     * [Blockchain-Related Classes](#blockchain-related-classes)
       * [Box](#box)
-      * [KeyVaultFactory](#keyvaultfactory)
-      * [LevelDbKeyVault](#leveldbkeyvault)
-      * [IndexedDbKeyVault](#indexeddbkeyvault)
-      * [ProviderFactory](#providerfactory)
+      * [WalletFactory](#walletfactory)
+      * [LevelDbWallet](#leveldbwallet)
+      * [IndexedDbWallet](#indexeddbwallet)
 * [Hiding Nondeterminism](#hiding-nondeterminism)
 * [Genus API](#genus-api)
 * [Multi-Signature Spending Propositions](#multi-signature-spending-propositions)
@@ -70,7 +68,7 @@ In the rest of this document, we consider “future” and “promise” to be s
 
 All interfaces will be implemented to work with a configurable logging library. The logging library should have methods that allow log items to be generated. Each logging call will associate the log item with a logging level (error, warning, info, debug, trace). The configuration of the logging library should determine where the log items are sent ( local file, logging service, standard output, database, …) and the minimum level of message that will be send to each output destination.
 
-All implementations of the SDK’s public methods should generate trace level (debug if trace is not supported) log message to indicate entry or exit from the method. All external interactions (calls to the blockchain, calls to Genus, updates of the key vault file, …) must be logged.
+All implementations of the SDK’s public methods should generate trace level (debug if trace is not supported) log message to indicate entry or exit from the method. All external interactions (calls to the blockchain, calls to Genus, updates of the wallet, …) must be logged.
 
 ## Common API Components
 
@@ -397,23 +395,21 @@ The purpose of the blockchain API is to facilitate interactions between the Topl
   * [Application](#application)
   * [Account](#account)
   * [Address](#address)
-  * [KeyVault](#keyvault)
+  * [Wallet](#wallet)
   * [Proof](#proof)
   * [Proposition](#proposition)
-  * [Provider](#provider)
   <!-- * [CredentialSet](#credentialset) -->
 * [Blockchain-Related Classes](#blockchain-related-classes)
   * [Box](#box)
-  * [KeyVaultFactory](#keyvaultfactory)
-  * [LevelDbKeyVault](#leveldbkeyvault)
-  * [IndexedDbKeyVault](#indexeddbkeyvault)
-  * [ProviderFactory](#providerfactory)
+  * [WalletFactory](#walletfactory)
+  * [LevelDbWallet](#leveldbwallet)
+  * [IndexedDbWallet](#indexeddbwallet)
 
 ### **Blockchain-Related Interfaces**
 
 #### **Application**
 
-This interface is implemented by objects that represent an application in a key vault. Applications are used to manager a set of accounts that are used for a related purpose, such as tracking all the shipments for a particular use-case.
+This interface is implemented by objects that represent an application in a wallet. Applications are used to manager a set of accounts that are used for a related purpose, such as tracking all the shipments for a particular use-case.
 
 ##### Type Parameters
 
@@ -611,7 +607,7 @@ This interface is implemented by objects that represent an application in a key 
 
 #### **Account**
 
-This interface is implemented by objects that represent a bookkeeping account within an application in a key vault. Accounts are used to manage a set of blockchain addresses that are use for the same purpose, such as a sequence of transfers related to a particular shipment or a set of addresses used to keep the wallet owner’s polys.
+This interface is implemented by objects that represent a bookkeeping account within an application in a wallet. Accounts are used to manage a set of blockchain addresses that are use for the same purpose, such as a sequence of transfers related to a particular shipment or a set of addresses used to keep the wallet owner’s polys.
 > 🚧 Reminder
 > A link to the description of accounts on the Wallet page should be added here.
 
@@ -942,9 +938,9 @@ This interface is implemented by objects that represent an address in an account
 
 ---
 
-#### **KeyVault**
+#### **Wallet**
 
-This interface is implemented by objects that manage an open key vault and its contents.
+This interface is implemented by objects that manage an opened wallet and its contents.
 
 ##### Type Parameters
 
@@ -952,12 +948,12 @@ This interface is implemented by objects that manage an open key vault and its c
 
 ##### Implemented By
 
-[LevelDbKeyVault](#leveldbkeyvault), [IndexedDbKeyVault](#indexeddbkeyvault)
+[LevelDbWallet](#leveldbwallet), [IndexedDbWallet](#indexeddbwallet)
 
 ##### Methods/Functions
 
-* ``` getVaultLocation ``` \
-  Return the path of the local directory storing the files containing the data for this key vault database. This value uniquely identifies a key vault store within an environment. It is also always useful in locating the key vault store. 
+* ``` getLocation ``` \
+  Return the path of the local directory storing the files containing the data for this wallet database. This value uniquely identifies a wallet within an environment. It is also always useful in locating the wallet store. 
     * *Parameters* \
       *None*
     * *Returns* \
@@ -967,7 +963,7 @@ This interface is implemented by objects that manage an open key vault and its c
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getWalletId ``` \
-  Return the Base58 encoded the Base58 encoded the Base58 encoded ID of the wallet associated with the key vault.
+  Return the Base58 encoded wallet ID.
     * *Parameters* \
       *None*
     * *Returns* \
@@ -977,17 +973,17 @@ This interface is implemented by objects that manage an open key vault and its c
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 <!-- * ``` getCredentialSet ``` \
-  Return the CredentialSet that is associated with this open KeyVault.
+  Return the CredentialSet that is associated with this opened Wallet.
     * *Parameters* \
       *None*
     * *Returns* \
       [Result](#result)
         * S = [CredentialSet](#credentialset) \
-          The CredentialSet object associated with this KeyVault
+          The CredentialSet object associated with this Wallet
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller. -->
 * ``` getWalletName ``` \
-  Return the name of the wallet associated with the key vault.
+  Return the name of the wallet.
     * *Parameters* \
       *None*
     * *Returns* \
@@ -997,7 +993,7 @@ This interface is implemented by objects that manage an open key vault and its c
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` setWalletName ``` \
-  Set the name of the wallet associated with the key vault. This will not persist across devices.
+  Set the name of the wallet. This will not persist across devices.
     * *Parameters*
         * ``` name ``` \
           An arbitrary String that can be used as a human readable way to identify a wallet
@@ -1010,7 +1006,7 @@ This interface is implemented by objects that manage an open key vault and its c
             * The name is invalid
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getWalletDescription ``` \
-  Return the description of the wallet associated with the key vault.
+  Return the description of the wallet.
     * *Parameters* \
       *None*
     * *Returns* \
@@ -1020,7 +1016,7 @@ This interface is implemented by objects that manage an open key vault and its c
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` setWalletDescription ``` \
-  Set the description of the wallet associated with the key vault. This will not persist across devices.
+  Set the description of the wallet. This will not persist across devices.
     * *Parameters*
         * ``` description ``` \
           An arbitrary String that can be used to describe the wallet
@@ -1033,7 +1029,7 @@ This interface is implemented by objects that manage an open key vault and its c
             * The description is invalid
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` createApplication ``` \
-Create a new application in this KeyVault within the active CredentialSet.
+Create a new application in this Wallet within the active CredentialSet.
   * *Parameters* \
     *None*
   * *Returns* \
@@ -1043,7 +1039,7 @@ Create a new application in this KeyVault within the active CredentialSet.
     * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
       * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getApplicationById ``` \
-Get an existing application in this KeyVault within the local wallet using it’s ID.
+Get an existing application in this Wallet within the active CredentialSet using it’s ID.
   * *Parameters*
     * ``` applicationId ``` \
     The unique application ID.
@@ -1057,7 +1053,7 @@ Get an existing application in this KeyVault within the local wallet using it’
       * The specified application was not found in the wallet.
       * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getApplicationByName ``` \
-Get an existing application in this KeyVault within the local wallet using the application name.
+Get an existing application in this Wallet within the active CredentialSet using the application name.
   * *Parameters*
     * ``` name ``` \
     A String that identifies the application.
@@ -1072,7 +1068,7 @@ Get an existing application in this KeyVault within the local wallet using the a
       * The specified application was not found in the wallet.
       * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` createAccount ``` \
-Create a new account for a specified application in this KeyVault within the local wallet. 
+Create a new account for a specified application in this Wallet within the active CredentialSet. 
   * *Parameters*
     * ``` applicationId ``` \
     The unique ID of the application for which the account will be created under.
@@ -1087,7 +1083,7 @@ Create a new account for a specified application in this KeyVault within the loc
       * The specified application was not found in the wallet.
       * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAccountById ``` \
-Get an existing account  for a specified application in this KeyVault within the local wallet using it’s ID.
+Get an existing account  for a specified application in this Wallet within the active CredentialSet using it’s ID.
   * *Parameters*
     * ``` accountId ``` \
     The unique account ID.
@@ -1107,7 +1103,7 @@ Get an existing account  for a specified application in this KeyVault within the
       * The specified application was not found in the wallet.
       * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAccountByName ``` \
-Get an existing account for a specified application in this KeyVault within the local wallet using an alias name.
+Get an existing account for a specified application in this Wallet within the active CredentialSet using an alias name.
   * *Parameters*
     * ``` name ``` \
     A String that identifies an account.
@@ -1128,7 +1124,7 @@ Get an existing account for a specified application in this KeyVault within the 
       * The specified application was not found in the wallet.
       * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getNextAddress ``` \
-  Get the next unused address for a specified account and application in this KeyVault within the local wallet. This also updates the index of the next unused address for the account.
+  Get the next unused address for a specified account and application in this Wallet within the active CredentialSet. This also updates the index of the next unused address for the account.
     * *Parameters*
         * ``` propositionFn ``` \
           A function that takes in a base58 encoded Public Key and returns a Proposition encoding the desired spending proposition logic.
@@ -1153,7 +1149,7 @@ Get an existing account for a specified application in this KeyVault within the 
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByIndex ``` \
-  Get the address at an index for a specified account and application in this KeyVault within the local wallet.
+  Get the address at an index for a specified account and application in this Wallet within the active CredentialSet.
     * *Parameters*
         * ``` index ``` \
           The index of the address to retrieve
@@ -1178,7 +1174,7 @@ Get an existing account for a specified application in this KeyVault within the 
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByValue ``` \
-  Get the address using it’s unique Base58 encoded value for a specified account and application in this KeyVault within the local wallet.
+  Get the address using it’s unique Base58 encoded value for a specified account and application in this Wallet within the active CredentialSet.
     * *Parameters*
         * ``` address ``` \
           The Base58 encoded address value
@@ -1204,7 +1200,7 @@ Get an existing account for a specified application in this KeyVault within the 
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAssetLabels ``` \
-  Return asset labels associated with a specified account and application in this KeyVault within the local wallet.
+  Return asset labels associated with a specified account and application in this Wallet within the active CredentialSet.
     * *Parameters* 
         * ``` applicationId ``` \
           The ID of the application that the address ultimately resides in.
@@ -1225,7 +1221,7 @@ Get an existing account for a specified application in this KeyVault within the 
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this KeyVault within the local wallet that contain spendable asset boxes specified by the asset label. Return these addresses with their associated [boxes](#box).
+  Get the addresses for a specified account and application in this Wallet within the active CredentialSet that contain spendable asset boxes specified by the asset label. Return these addresses with their associated [boxes](#box).
     * *Parameters*
         * ``` assetLabel ``` \
           The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
@@ -1278,58 +1274,11 @@ by a ```Proposition``` have been met.
 This interface is defined elsewhere in the brambl library. It is used to specify the the requirements for spending an
 asset or minting more of an asset.
 
----
-
-#### **Provider**
-
-This interface is implemented by object that encapsulate the details of communicating with a blockchain network.
-
-##### Type Parameters
-
-*None*
-
-##### Implemented By
-
-The return objects of the functions in ProviderFactory
-
-##### Methods/Functions
-
-* ``` getId ``` \
-  Return the unique identifier of this Provider
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      [Result](#result)
-        * S = Type TBD \
-          A value to identify this provider.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getName ``` \
-  Return the name of this Provider.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      [Result](#result)
-        * S = String \
-          The name of this provider.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-
-
-##### Implementation Notes
-
-*None*
-<!-- A Provider's name will be used to reference a unique CredentialSet. In other words, it is somehow related to a [CredentialSet](#credentialset)'s ID. 
-
-##### See Also
-
-[CredentialSet](#credentialset) -->
-
 <!-- ---
 
 #### **CredentialSet**
 
-This interface is implemented by objects that encapsulate the details of a single set of data in the KeyVault store.
+This interface is implemented by objects that encapsulate the details of a single set of data in a Wallet.
 
 ##### Type Parameters
 
@@ -1342,7 +1291,7 @@ This interface is implemented by objects that encapsulate the details of a singl
 ##### Methods/Functions
 
 * ``` getId ``` \
-Return the identifier of this credential set that is unique within the KeyVault.
+Return the identifier of this credential set that is unique within the Wallet.
   * *Parameters* \
     *None*
   * *Returns* \
@@ -1697,9 +1646,9 @@ The constructor is private or there is none.
 
 ---
 
-#### **KeyVaultFactory**
+#### **WalletFactory**
 
-This is a utility class that is used to create or restore Key Vaults and Wallets.
+This is a utility class that is used to create or restore Wallets.
 
 ##### Type Parameters
 
@@ -1716,14 +1665,14 @@ The construct is private or there is none.
 ##### Methods/Functions
 
 * ``` static createWallet ``` \
-  Create a wallet. This effectively creates its underlying Key Vault.
+  Create a wallet.
     * *Parameters*
         * ``` password ``` \
-          A password that is used to encrypt and decrypt the generated Key Vault.
+          A password that is used to encrypt and decrypt the generated Wallet.
             * Type: String
             * Optional: no
-        * ``` keyVaultPath ``` \
-          A path (or name) indicating where to store the wallet contents. This is dependent on the type of Key Vault store being used. If not provided, a default value is used.
+        * ``` walletPath ``` \
+          A path (or name) indicating where to store the wallet contents. This is dependent on the type of wallet store being used. If not provided, a default value is used.
             * Type: String
             * Optional: yes
     * *Returns* \
@@ -1731,36 +1680,29 @@ The construct is private or there is none.
         * S = An array of strings \
           The mnemonic needed to restore the wallet in addition to a code indicating if the wallet was created or if it already existed.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * The specified keyVaultPath is not a valid.
-            * The specified keyVaultPath already exists but the specified password is invalid for this key vault
+            * The specified walletPath is not a valid.
+            * The specified walletPath already exists but the specified password is invalid for this wallet
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-            * The specified keyVaultPath is invalid for any other reason.
-* ``` static openKeyVault ``` \
-  Create a [KeyVault](#keyvault) object to access the wallet. The wallet must already exist for this to succeed. This opened KeyVault is associated to a single CredentialSet
+            * The specified walletPath is invalid for any other reason.
+* ``` static openWallet ``` \
+  Create a [Wallet](#wallet) object to access the wallet. The wallet must already exist for this to succeed. This opened Wallet is associated to a single CredentialSet
     * *Parameters*
         * ``` password ``` \
           A string used to encrypt and decrypt wallet information
             * Type: String
             * Optional: no
-        <!-- Commented below out since a brambl instance is ran against a single provider configuration. This information can be taken from the environment -->
-        <!-- * ``` provider ``` \
-          Object that contains details used to communicate with a blockchain network.
-            * Type: [Provider](#provider)
-            * Optional: yes
-            * Default: main net provider -->
-        * ``` keyVaultPath ``` \
-          A path (or name) indicating where to retrieve the wallet contents under. This is dependent on the type of Key Vault store being used. If not provided, the default value will be used.
+        * ``` walletPath ``` \
+          A path (or name) indicating where to retrieve the wallet contents under. This is dependent on the type of wallet store being used. If not provided, the default value will be used.
             * Type: String
             * Optional: yes
     * *Returns* \
       [Result](#result)
-        * S = [KeyVault](#keyvault) \
-          The opened KeyVault. 
+        * S = [Wallet](#wallet) \
+          The opened Wallet. 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            <!-- * Provider is invalid. -->
-            * A wallet with the specified keyVaultPath does not exist
+            * A wallet with the specified walletPath does not exist
             * The wallet exists but the password is not correct
-            * The specified keyVaultPath is invalid for any other reason.
+            * The specified walletPath is invalid for any other reason.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 
@@ -1768,12 +1710,11 @@ The construct is private or there is none.
   > We are assuming the wallet is going to live on disk for the entire time and assume that the user has all the data that they need
 
 * ``` static restoreWallet ``` 
-  Restore a wallet from a mnemonic. This effectively recreates and populates the underlying Key Vault. This will recreate the derivable wallet contents either generated from the mnemonic or fetched from the blockchain. 
-  <!-- An optional providers argument can be provided to indicate what providers this wallet has already used.  -->
+  Restore a wallet from a mnemonic. This effectively recreates and populates the underlying Wallet. This will recreate the derivable wallet contents either generated from the mnemonic or fetched from the blockchain. 
   It is important to note that not all wallet contents are able to be restored. Unrecoverable information includes wallet name, wallet description, application name, account alias names, account description, and address description.
     * *Parameters*
         * ``` password ``` \
-          A (new) password that is used to encrypt and decrypt the generated Key Vault.
+          A (new) password that is used to encrypt and decrypt the generated Wallet.
             * Type: String
             * Optional: no
         * ``` mnemonic ``` \
@@ -1781,13 +1722,8 @@ The construct is private or there is none.
           when a wallet was created.
             * Type: Array of Strings
             * Optional: no
-        <!-- Commented below out since a brambl instance is ran against a single provider configuration. This information can be taken from the environment -->
-        <!-- * ``` providers ``` \
-          A collection of Providers that this wallet has already used. A Provider indicates that there is data on the blockchain that needs restoring.
-            * Type: Collection of [Provider](#provider) 
-            * Optional: no -->
-        * ``` keyVaultPath ``` \
-          A path (or name) indicating where to store the wallet contents under. This is dependent on the type of Key Vault store being used. If not provided, a default value will be used.
+        * ``` walletPath ``` \
+          A path (or name) indicating where to store the wallet contents under. This is dependent on the type of Wallet store being used. If not provided, a default value will be used.
             * Type: String
             * Optional: yes
     * *Returns* \
@@ -1795,27 +1731,27 @@ The construct is private or there is none.
         * S = <*implementation defined*> This value denotes successful restoration
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * mnemonic is invalid
-            * The specified keyVaultPath is not a valid.
-            * The specified keyVaultPath already exists
+            * The specified walletPath is not a valid.
+            * The specified walletPath already exists
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
 
-It is possible that additional methods will be added to create KeyVault objects that correspond to different implementations of the KeyVault interfaces.
+It is possible that additional methods will be added to create Wallet objects that correspond to different implementations of the Wallet interfaces.
 
-The KeyVault implementation class used for the specified methods above will be determined by the runtime environment.
+The Wallet implementation class used for the specified methods above will be determined by the runtime environment.
 
-Provider information is configured for an instance of brambl and can be determined by the runtime environment. KeyVaultFactory will use Provider information to identify a CredentialSet that an open KeyVault will use.
+Network provider information is configured for an instance of brambl and can be determined by the runtime environment. WalletFactory will use this information to identify a CredentialSet that an open Wallet will use.
 
-<!-- Values fetched from Genus (i.e, not possible from the mnemonic alone) include provider IDs and asset information. The signature algorithm for each address can be determined by brute force testing the 2 possible algorithms. -->
+<!-- Values fetched from Genus (i.e, not possible from the mnemonic alone) include asset information. The signature algorithm for each address can be determined by brute force testing the 2 possible algorithms. -->
 
-<!-- Restoring a wallet takes a CredentialSet collection to indicate what needs to be recovered from Genus as well as how to store it in the new KeyVault store. -->
+<!-- Restoring a wallet takes a CredentialSet collection to indicate what needs to be recovered from Genus as well as how to store it in the new Wallet store. -->
 
 ---
 
-#### **LevelDbKeyVault**
+#### **LevelDbWallet**
 
-An implementation of the [KeyVault](#keyvault) interface that works with a local LevelDB database.
+An implementation of the [Wallet](#wallet) interface that works with a local LevelDB database.
 
 ##### Type Parameters
 
@@ -1823,7 +1759,7 @@ An implementation of the [KeyVault](#keyvault) interface that works with a local
 
 ##### Implements
 
-[KeyVault](#keyvault)
+[Wallet](#wallet)
 
 ##### Constructor
 
@@ -1831,8 +1767,8 @@ The construct is private or there is none.
 
 ##### Methods/Functions
 
-* ``` getVaultLocation ``` \
-  Return the path of the local directory storing the files containing the data for this key vault database. The details are implementation specific. This value uniquely identifies a key vault store within an environment. It is also always useful in locating the key vault store. 
+* ``` getLocation ``` \
+  Return the path of the local directory storing the files containing the data for this wallet database. The details are implementation specific. This value uniquely identifies a wallet within an environment. It is also always useful in locating the wallet store. 
 
     * *Parameters* \
       *None*
@@ -1849,9 +1785,9 @@ The construct is private or there is none.
 
 ---
 
-#### **IndexedDbKeyVault**
+#### **IndexedDbWallet**
 
-An implementation of the [KeyVault](#keyvault) interface that works on a web browser.
+An implementation of the [Wallet](#wallet) interface that works on a web browser.
 
 ##### Type Parameters
 
@@ -1859,7 +1795,7 @@ An implementation of the [KeyVault](#keyvault) interface that works on a web bro
 
 ##### Implements
 
-[KeyVault](#keyvault)
+[Wallet](#wallet)
 
 ##### Constructor
 
@@ -1867,8 +1803,8 @@ The construct is private or there is none.
 
 ##### Methods/Functions
 
-* ``` getVaultLocation ``` \
-  Return the path of the local directory storing the files containing the data for this key vault database. This value uniquely identifies a key vault store within an environment. It is also always useful in locating the key vault store. 
+* ``` getLocation ``` \
+  Return the path of the local directory storing the files containing the data for this wallet database. This value uniquely identifies a wallet within an environment. It is also always useful in locating the wallet store. 
     * *Parameters* \
       *None*
     * *Returns* \
@@ -1886,86 +1822,7 @@ spec [here](https://www.w3.org/TR/IndexedDB-2/)
 IndexedDb API 3.0 is in a working draft state as of July 2022. You can find the
 spec [here](https://www.w3.org/TR/IndexedDB-3/)
 
-An IndexedDb storage has two levels; databases (each with a unique name) may contain many object stores (each with a unique name within the database). For our use case, we will use a single database with many object stores. The term Key Vault “database” throughout this spec will refer to an individual object store.
-
----
-
-#### **ProviderFactory**
-
-##### Type Parameters
-
-*None*
-
-##### Implements
-
-*None*
-
-##### Constructor
-
-The construct is private or there is none.
-
-##### Methods/Functions
-
-* ``` static mainNetProvider ``` \
-  Return a [Provider](#provider) that communicates with blockchain nodes in the main net.
-    * *Parameters*
-        * ``` apiKey ``` \
-          A string that authorizes the the client to connect
-            * Type: String
-            * Optional: yes
-        * ``` name ``` \
-          A name to identify the Provider
-            * Type: String
-            * Optional: yes
-            * Default: TBD
-    * *Returns* \
-      [Result](#result)
-        * S = [Provider](#provider)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` static testNetProvider ``` \
-  Return a [Provider](#provider) that communicates with blockchain nodes in the test net.
-    * *Parameters*
-        * ``` apiKey ``` \
-          A string that authorizes the the client to connect
-            * Type: String
-            * Optional: yes
-        * ``` name ``` \
-          A name to identify the Provider
-            * Type: String
-            * Optional: yes
-            * Default: TBD
-    * *Returns* \
-      [Result](#result)
-        * S = [Provider](#provider)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` static customProvider ``` \
-  Return a [Provider](#provider) that communicates with blockchain nodes in the test net.
-    * *Parameters*
-        * ``` apiKey ``` \
-          A string that authorizes the the client to connect
-            * Type: String
-            * Optional: yes
-        * ``` url ``` \
-          The URL the provider should use to connect to the blockchain network
-            * Type: String
-            * Optional: no
-        * ``` name ``` \
-          A name to identify the Provider
-            * Type: String
-            * Optional: no
-    * *Returns* \
-      [Result](#result)
-        * S = [Provider](#provider)
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-
-##### Implementation Notes
-
-*None*
-
----
+An IndexedDb storage has two levels; databases (each with a unique name) may contain many object stores (each with a unique name within the database). For our use case, we will use a single database with many object stores. The term Wallet “database” throughout this spec will refer to an individual object store.
 
 # Hiding Nondeterminism
 
