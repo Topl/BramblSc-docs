@@ -955,7 +955,7 @@ This interface is implemented by objects that manage an opened wallet and its co
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getWalletId ``` \
-  Return the Base58 encoded ID of the wallet.
+  Return the Base58 encoded wallet ID.
     * *Parameters* \
       *None*
     * *Returns* \
