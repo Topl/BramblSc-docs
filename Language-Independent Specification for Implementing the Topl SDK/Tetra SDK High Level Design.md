@@ -2031,3 +2031,9 @@ Dion asset labels must be 1 to 8 characters long. All characters in the Latin-1 
 
 > ⚠️ The structure of Tetra asset labels is not finalized
 > Currently it is a string with 2 parts, separated by a colon (:). The 2 parts are groupId and seriesId.
+
+# Notes on Comments
+
+The markdown contains many lines commented out. These lines refer to topics that we will address at a later time. These topics include:
+* Credential Sets \
+  Credential sets, for the meantime, will be abstracted away from the client API

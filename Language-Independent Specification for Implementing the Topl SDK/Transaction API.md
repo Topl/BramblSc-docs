@@ -108,7 +108,7 @@ This interface is implemented by objects that represent a mintable token.
 *None*
 
 --- 
-
+<!-- 
 ### Auth
 
 This interface is implemented by objects that represent authorization information necessary to access off-chain data.
@@ -125,7 +125,7 @@ The return values of [AuthFactory](#authfactory)
 
 *None*
 
----
+--- -->
 
 ## CommitType
 
@@ -311,7 +311,7 @@ The construct is private or there is none.
 *None*
 
 ---
-
+<!-- 
 ## AuthFactory
 
 A utility class to provide authorization objects necessary to access off-chain data.
@@ -364,7 +364,7 @@ The return values of all functions return an implementation of [Auth](#auth)
 
 *None*
 
----
+--- -->
 
 ## CommitTypeFactory
 
@@ -1252,7 +1252,7 @@ The constructor is private or there is none.
           * Type: UInt128
           * Optional: yes
         * ` metadata ` \
-        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. Only valid for V1 and V2 asset tokens.
+        Optional metadata to include with the minted asset token. <!-- If the output data is hosted off-chain, then this is the URL where the data is hosted. --> Only valid for V1 and V2 asset tokens.
           * Type: Byte[127]
           * Optional: yes
     * *Returns* \
@@ -1281,7 +1281,7 @@ The constructor is private or there is none.
           * Type: [MintableToken](#mintabletoken)
           * Optional: no
         * ` metadata ` \
-        Optional metadata to include with the minted asset token. If the output data is hosted off-chain, then this is the URL where the data is hosted. Only valid for V1 and V2 asset tokens.
+        Optional metadata to include with the minted asset token. <!-- If the output data is hosted off-chain, then this is the URL where the data is hosted. --> Only valid for V1 and V2 asset tokens.
           * Type: Byte[127]
           * Optional: yes
     * *Returns* \
@@ -1450,11 +1450,13 @@ The constructor is private or there is none.
         The outputs of this transaction
           * Type: Array of [TransactionOutput](#transactionoutput)
           * Optional: no
-        * ` offChainAuth ` \
+
+        <!-- * ` offChainAuth ` \
         Required for outputs that store off-chain data. An object that provides authorization information to access the off-chain data.
           * Type: [Auth](#auth)
           * Optional: yes
-          * Default: If not provided, output would be considered on-chain
+          * Default: If not provided, output would be considered on-chain -->
+
         * ` creationTime ` \
         The time that the application claims the transaction was created. This is translated to a UNIX timestamp and used to set the Schedule object's creation field.
           * Type: DateTime | <*implementation defined*>
@@ -1480,3 +1482,9 @@ The constructor is private or there is none.
 ### Implementation Notes
 
 *None*
+
+# Notes on Comments
+
+The markdown contains many lines commented out. These lines refer to topics that we will address at a later time. These topics include:
+* Off-chain data \
+  Anything related to the hosted URL or authentication of off-chain data
