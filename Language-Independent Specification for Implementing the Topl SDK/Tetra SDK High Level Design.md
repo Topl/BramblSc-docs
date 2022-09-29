@@ -463,6 +463,11 @@ This interface is implemented by objects that represent an application in a wall
         * Type: Collection of String
         * Optional: yes
         * Default: empty collection
+      * ``` partialProposition ``` \
+        A partial proposition, or proposition template, which will create the proposition instance once the required parameters are supplied. This is used to generate addresses under the account.
+          * Type: (any[]) => [Proposition](#proposition) | TBD
+          * Optional: yes
+          * Default: A knowledge (signing) partial proposition
     * *Returns* \
       [Result](#result)
         * S = [Account](#account) \
@@ -499,13 +504,8 @@ This interface is implemented by objects that represent an application in a wall
             * The account was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getNextAddress ``` \
-  Get the address associated with the next unused index for an account in this application, optionally specifying the underlying account. This also updates the index of the next usable address for the account.
+  Get the address associated with the next unused index for an account in this application, optionally specifying the underlying account. This also updates the index of the next usable address for the account. The address's spending proposition is derived from the account's partial proposition and the address's verification key.
     * *Parameters*
-        * ``` propositionFn ``` \
-          A function that takes in a base58 encoded Public Key and returns a Proposition encoding the desired spending proposition logic.
-            * Type: (base58) => [Proposition](#proposition)
-            * Optional: yes
-            * Default: A function that outputs a simple proposition able to be verified with the corresponding Public Key. 
         * ``` accountId ``` \
           The ID of the account within this application that the address resides in.
             * Type: Int32
@@ -607,13 +607,21 @@ This interface is implemented by objects that represent a bookkeeping account wi
 
 * ``` getId ``` \
   Return the ID (numeric index) of this account within its application. This identifies the account in a within an application in the local wallet and cannot ever change. Note that accounts shared with remote wallets will be identified in the remote wallets by a different index than in the local wallet.
-
     * *Parameters* \
       *None*
     * *Returns* \
       [Result](#result)
         * S = Int32 \
           ID of this account
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getPartialProposition ``` \
+  Return the partial proposition, or proposition template, to create the proposition instance once the required parameters are supplied. This is used to generate addresses under this account.  The address's spending proposition is derived from the account's partial proposition and the address's verification key.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = (any[]) => [Proposition](#proposition) | TBD
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getDescription ``` \
@@ -684,18 +692,13 @@ This interface is implemented by objects that represent a bookkeeping account wi
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getNextAddress ``` \
   Get the address at the next unused index for this account. This also updates the index of the next usable address for this account.
-    * *Parameters*
-        * ``` propositionFn ``` \
-          A function that takes in a base58 encoded Public Key and returns a Proposition encoding the desired spending proposition logic.
-            * Type: (base58) => [Proposition](#proposition)
-            * Optional: yes
-            * Default: A function that outputs a simple proposition able to be validated with the corresponding public Key. 
+    * *Parameters* \
+      *None*
     * *Returns* \
       [Result](#result)
         * S = [Address](#address)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-
 * ``` getAddressByIndex ``` \
   Get the address at the index for this account.
     * *Parameters*
@@ -1044,6 +1047,11 @@ Get an existing application in this Wallet within the active CredentialSet using
 * ``` createAccount ``` \
 Create a new account for a specified application in this Wallet within the active CredentialSet. 
   * *Parameters*
+    * ``` partialProposition ``` \
+      A partial proposition, or proposition template, which will create the proposition instance once the required parameters are supplied. This is used to generate addresses under the account.  The address's spending proposition is derived from the account's partial proposition and the address's verification key.
+        * Type: (any[]) => [Proposition](#proposition) | TBD
+        * Optional: yes
+        * Default: A knowledge (signing) partial proposition
     * ``` applicationId ``` \
     The unique ID of the application for which the account will be created under.
       * Type: Int32
@@ -1100,11 +1108,6 @@ Get an existing account for a specified application in this Wallet within the ac
 * ``` getNextAddress ``` \
   Get the next unused address for a specified account and application in this Wallet within the active CredentialSet. This also updates the index of the next unused address for the account.
     * *Parameters*
-        * ``` propositionFn ``` \
-          A function that takes in a base58 encoded Public Key and returns a Proposition encoding the desired spending proposition logic.
-            * Type: (base58) => [Proposition](#proposition)
-            * Optional: yes
-            * Default: Function that outputs a simple proposition able to be proved with the corresponding Private Key. 
         * ``` applicationId ``` \
           The ID of the application that the address ultimately resides in.
             * Type: Int32
@@ -1351,6 +1354,11 @@ Get an existing application in this credential set within the local wallet using
 * ``` createAccount ``` \
 Create a new account for a specified application in this credential set within the local wallet. 
   * *Parameters*
+    * ``` partialProposition ``` \
+      A partial proposition, or proposition template, which will create the proposition instance once the required parameters are supplied. This is used to generate addresses under the account.  The address's spending proposition is derived from the account's partial proposition and the address's verification key.
+        * Type: (any[]) => [Proposition](#proposition) | TBD
+        * Optional: yes
+        * Default: A knowledge (signing) partial proposition
     * ``` applicationId ``` \
     The unique ID of the application for which the account will be created under.
       * Type: Int32
@@ -1407,11 +1415,6 @@ Get an existing account for a specified application in this credential set withi
 * ``` getNextAddress ``` \
   Get the next usable address for a specified account and application in this credential set within the local wallet. This also updates the index of the next usable address for the account.
     * *Parameters*
-        * ``` propositionFn ``` \
-          A function that takes in a base58 encoded Public Key and returns a Proposition encoding the desired spending proposition logic.
-            * Type: (base58) => [Proposition](#proposition)
-            * Optional: yes
-            * Default: Function that outputs a simple proposition able to be proved with the corresponding Private Key. 
         * ``` applicationId ``` \
           The ID of the application that the address ultimately resides in.
             * Type: Int32
