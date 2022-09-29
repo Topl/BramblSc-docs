@@ -30,6 +30,8 @@ Additional implementations to be done after the required ones are in no particul
       * [Proposition](#proposition)
       <!-- * [CredentialSet](#credentialset) -->
     * [Blockchain-Related Classes](#blockchain-related-classes)
+      * [AssetRequest](#assetrequest)
+      * [CategorizedBoxes](#categorizedboxes)
       * [Box](#box)
       * [WalletFactory](#walletfactory)
       * [LevelDbWallet](#leveldbwallet)
@@ -400,6 +402,8 @@ The purpose of the blockchain API is to facilitate interactions between the Topl
   * [Proposition](#proposition)
   <!-- * [CredentialSet](#credentialset) -->
 * [Blockchain-Related Classes](#blockchain-related-classes)
+  * [AssetRequest](#assetrequest)
+  * [CategorizedBoxes](#categorizedboxes)
   * [Box](#box)
   * [WalletFactory](#walletfactory)
   * [LevelDbWallet](#leveldbwallet)
