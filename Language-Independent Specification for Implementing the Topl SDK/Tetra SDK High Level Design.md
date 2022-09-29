@@ -1531,11 +1531,11 @@ Objects of this type encapsulates a request for a quantity of an asset.
 
 ##### Constructor
 
-* ``` getAssetLabel ``` \
+* ` getAssetLabel ` \
   The asset label of the desired asset. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
   * Type: String
   * Optional: no
-* ``` getQuantity ``` \
+* ` getQuantity ` \
   The desired quantity.
   * Type: UInt128
   * Optional: yes
@@ -1543,7 +1543,7 @@ Objects of this type encapsulates a request for a quantity of an asset.
 
 ##### Methods/Functions
 
-* ``` getAssetLabel ``` \
+* ` getAssetLabel ` \
   Return the asset label associated with this request.
     * *Parameters* \
       *None*
@@ -1553,7 +1553,7 @@ Objects of this type encapsulates a request for a quantity of an asset.
           The asset label. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getQuantity ``` \
+* ` getQuantity ` \
   Return the quantity associated with this request.
     * *Parameters* \
       *None*
@@ -1587,7 +1587,7 @@ The constructor is private or there is none.
 
 ##### Methods/Functions
 
-* ``` getAddress ``` \
+* ` getAddress ` \
   Return the address associated with this response.
     * *Parameters* \
       *None*
@@ -1596,7 +1596,7 @@ The constructor is private or there is none.
         * S = [Address](#address)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getSpendBoxes ``` \
+* ` getSpendBoxes ` \
   Return the boxes whose entire contents will need to be spent.
     * *Parameters* \
       *None*
@@ -1605,7 +1605,7 @@ The constructor is private or there is none.
         * S = Array of [Box](#box) 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getSplitBoxes ``` \
+* ` getSplitBoxes ` \
   Return the boxes having contents that will need to be split between an amount needed to satisfy the request quantity and the rest of the contents.
     * *Parameters* \
       *None*
@@ -1614,7 +1614,7 @@ The constructor is private or there is none.
         * S = Array of [Box](#box) 
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getMoveBoxes ``` \
+* ` getMoveBoxes ` \
   Return the boxes whose entire contents are unneeded to satisfy the request quantity and should be moved to a different address when this address is spent.
     * *Parameters* \
       *None*
