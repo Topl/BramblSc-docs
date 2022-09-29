@@ -556,31 +556,24 @@ This interface is implemented by objects that represent an application in a wall
             * An address with this value does not exist in the account
             * The specified account does not exist within this application in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getAddressByAssetLabel ``` \
-  Get the addresses in an account containing spendable asset boxes specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated [boxes](#box).
+* ` getAddressByAssetLabels ` \
+  Get the addresses (in an account) with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
-            * Type: String
+        * ` assetReqs ` \
+          A collection of requests which represent the requirements of desired assets.
+            * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
-        * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
-            * Type: Int128
-            * Optional: yes
-            * Default: 1
-        * ``` accountId ``` \
+        * ` accountId ` \
           The ID of the account within this application for which we are retrieving addresses from.
             * Type: Int32
             * Optional: yes
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = Array of [AssetResult](#assetresult)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Asset label does not exist in the specified account or is invalid
-            * Specified quantity is less than or equal to 0
-            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * The specified account does not exist within this application in the wallet.
+            * There is not a combination of boxes that together contain a sufficient quantity.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
@@ -726,24 +719,18 @@ This interface is implemented by objects that represent a bookkeeping account wi
           conditions:
             * An address with this value does not exist in the account
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getAddressByAssetLabel ``` \
-  Get the addresses containing spendable asset boxes specified by the asset label. Return these addresses with the associated associated [boxes](#box).
+* ` getAddressByAssetLabels ` \
+  Get the addresses with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
-            * Type: String
+        * ` assetReqs ` \
+          A collection of requests which represent the requirements of desired assets.
+            * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
-        * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
-            * Type: Int128
-            * Optional: yes
     * *Returns* \
       [Result](#result)
-        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = Array of [AssetResult](#assetresult)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Asset label does not exist on the account or is invalid
-            * Specified quantity is less than or equal to 0
-            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
+            * There is not a combination of boxes that together contain a sufficient quantity.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
@@ -1186,36 +1173,30 @@ Get an existing account for a specified application in this Wallet within the ac
           The asset labels associated with this wallet. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this Wallet within the active CredentialSet that contain spendable asset boxes specified by the asset label. Return these addresses with their associated [boxes](#box).
+* ` getAddressByAssetLabels ` \
+  Get the addresses (for a specified account and application in this Wallet) with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
-            * Type: String
+        * ` assetReqs ` \
+          A collection of requests which represent the requirements of desired assets.
+            * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
-        * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
-            * Type: Int128
-            * Optional: yes
-        * ``` applicationId ``` \
-          The ID of the application that the address ultimately resides in.
+        * ` applicationId ` \
+          The ID of the application that the addresses ultimately resides in.
             * Type: Int32
             * Optional: yes
             * Default: 0
-        * ``` accountId ``` \
-          The ID of the account within an application that the address resides in.
+        * ` accountId ` \
+          The ID of the account within an application that the addresses resides in.
             * Type: Int32
             * Optional: yes
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = Array of [AssetResult](#assetresult)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Asset label does not exist in the specified account or is invalid
-            * Specified quantity is less than or equal to 0
-            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
+            * There is not a combination of boxes that together contain a sufficient quantity.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ` addAssetType ` \
   Associates an asset label with a new human readable label in this Wallet within the active CredentialSet.
@@ -1504,36 +1485,30 @@ Get an existing account for a specified application in this credential set withi
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getAddressByAssetLabel ``` \
-  Get the addresses for a specified account and application in this credential set within the local wallet that contain spendable asset boxes specified by the asset label. Return these addresses with their associated [boxes](#box).
+* ` getAddressByAssetLabels ` \
+  Get the addresses (for a specified account and application in this credential) with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ``` assetLabel ``` \
-          The asset label used to fetch the addresses and boxes. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
-            * Type: String
+        * ` assetReqs ` \
+          A collection of requests which represent the requirements of desired assets.
+            * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
-        * ``` quantity ``` \
-          The quantity needed of the specified asset. When specified, a combination of boxes that together contain at least this quantity of the asset will be returned. If not specified, all addresses with boxes containing any non-zero amounts of the asset will be returned.
-            * Type: Int128
-            * Optional: yes
-        * ``` applicationId ``` \
+        * ` applicationId ` \
           The ID of the application that the address ultimately resides in.
             * Type: Int32
             * Optional: yes
             * Default: 0
-        * ``` accountId ``` \
+        * ` accountId ` \
           The ID of the account within an application that the address resides in.
             * Type: Int32
             * Optional: yes
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = A collection of [Address](#address) mapped to a collection of their respective [Boxes](#box). When ```quantity``` is supplied, only the boxes needed to fulfill this requirement will be returned. Otherwise all boxes with any spendable quantity of the asset will be returned.
+        * S = Array of [AssetResult](#assetresult)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * Asset label does not exist in the specified account or is invalid
-            * Specified quantity is less than or equal to 0
-            * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
+            * There is not a combination of boxes that together contain a sufficient quantity.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
@@ -1541,6 +1516,119 @@ Get an existing account for a specified application in this credential set withi
 *None* -->
 
 ### **Blockchain-Related Classes**
+
+#### **AssetRequest**
+
+Objects of this type encapsulates a request for a quantity of an asset.
+
+##### Type Parameters
+
+*None*
+
+##### Implements
+
+*None*
+
+##### Constructor
+
+* ``` getAssetLabel ``` \
+  The asset label of the desired asset. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
+  * Type: String
+  * Optional: no
+* ``` getQuantity ``` \
+  The desired quantity.
+  * Type: UInt128
+  * Optional: yes
+  * Default: 0 (denotes all quantity available)
+
+##### Methods/Functions
+
+* ``` getAssetLabel ``` \
+  Return the asset label associated with this request.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = String \
+          The asset label. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getQuantity ``` \
+  Return the quantity associated with this request.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = UInt128 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+
+##### Implementation Notes
+
+*None*
+
+---
+
+#### **AssetResult**
+
+Objects of this type encapsulates the result for an asset request. The result represents an [Address](#address) mapped to 3 categories of boxes (spend, split, and move)
+
+##### Type Parameters
+
+*None*
+
+##### Implements
+
+*None*
+
+##### Constructor
+
+The constructor is private or there is none.
+
+##### Methods/Functions
+
+* ``` getAddress ``` \
+  Return the address associated with this response.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = [Address](#address)
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getSpendBoxes ``` \
+  Return the boxes whose entire contents will need to be spent.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = Array of [Box](#box) 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getSplitBoxes ``` \
+  Return the boxes having contents that will need to be split between an amount needed to satisfy the request quantity and the rest of the contents.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = Array of [Box](#box) 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ``` getMoveBoxes ``` \
+  Return the boxes whose entire contents are unneeded to satisfy the request quantity and should be moved to a different address when this address is spent.
+    * *Parameters* \
+      *None*
+    * *Returns* \
+      [Result](#result)
+        * S = Array of [Box](#box) 
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+
+##### Implementation Notes
+
+*None*
+
+---
 
 #### **Box**
 
