@@ -559,7 +559,7 @@ This interface is implemented by objects that represent an application in a wall
 * ` getAddressByAssetLabels ` \
   Get the addresses (in an account) with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ` assetReqs ` \
+        * ` assetRequests ` \
           A collection of requests which represent the requirements of desired assets.
             * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
@@ -570,7 +570,7 @@ This interface is implemented by objects that represent an application in a wall
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Array of [AssetResult](#assetresult)
+        * S = Array of [CategorizedBoxes](#categorizedboxes)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The specified account does not exist within this application in the wallet.
             * There is not a combination of boxes that together contain a sufficient quantity.
@@ -722,13 +722,13 @@ This interface is implemented by objects that represent a bookkeeping account wi
 * ` getAddressByAssetLabels ` \
   Get the addresses with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ` assetReqs ` \
+        * ` assetRequests ` \
           A collection of requests which represent the requirements of desired assets.
             * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
     * *Returns* \
       [Result](#result)
-        * S = Array of [AssetResult](#assetresult)
+        * S = Array of [CategorizedBoxes](#categorizedboxes)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * There is not a combination of boxes that together contain a sufficient quantity.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
@@ -1176,7 +1176,7 @@ Get an existing account for a specified application in this Wallet within the ac
 * ` getAddressByAssetLabels ` \
   Get the addresses (for a specified account and application in this Wallet) with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ` assetReqs ` \
+        * ` assetRequests ` \
           A collection of requests which represent the requirements of desired assets.
             * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
@@ -1192,7 +1192,7 @@ Get an existing account for a specified application in this Wallet within the ac
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Array of [AssetResult](#assetresult)
+        * S = Array of [CategorizedBoxes](#categorizedboxes)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
@@ -1488,7 +1488,7 @@ Get an existing account for a specified application in this credential set withi
 * ` getAddressByAssetLabels ` \
   Get the addresses (for a specified account and application in this credential) with contents that are needed to satisfy desired quantities of assets. The addresses are returned along with it's boxes grouped into three categories; spend, split, and move.
     * *Parameters*
-        * ` assetReqs ` \
+        * ` assetRequests ` \
           A collection of requests which represent the requirements of desired assets.
             * Type: Array of [AssetRequest](#assetrequest)
             * Optional: no
@@ -1504,7 +1504,7 @@ Get an existing account for a specified application in this credential set withi
             * Default: 0
     * *Returns* \
       [Result](#result)
-        * S = Array of [AssetResult](#assetresult)
+        * S = Array of [CategorizedBoxes](#categorizedboxes)
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
@@ -1569,7 +1569,7 @@ Objects of this type encapsulates a request for a quantity of an asset.
 
 ---
 
-#### **AssetResult**
+#### **CategorizedBoxes**
 
 Objects of this type encapsulates the result for an asset request. The result represents an [Address](#address) mapped to 3 categories of boxes (spend, split, and move)
 
