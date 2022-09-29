@@ -616,7 +616,7 @@ This interface is implemented by objects that represent a bookkeeping account wi
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getPartialProposition ``` \
-  Return the partial proposition, or proposition template, to create the proposition instance once the required parameters are supplied. This is used to generate addresses under this account
+  Return the partial proposition, or proposition template, to create the proposition instance once the required parameters are supplied. This is used to generate addresses under this account.  The address's spending proposition is derived from the account's partial proposition and the address's verification key.
     * *Parameters* \
       *None*
     * *Returns* \
