@@ -504,7 +504,7 @@ This interface is implemented by objects that represent an application in a wall
             * The account was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getNextAddress ``` \
-  Get the address associated with the next unused index for an account in this application, optionally specifying the underlying account. This also updates the index of the next usable address for the account.
+  Get the address associated with the next unused index for an account in this application, optionally specifying the underlying account. This also updates the index of the next usable address for the account. The address's spending proposition is derived from the account's partial proposition and the address's verification key.
     * *Parameters*
         * ``` accountId ``` \
           The ID of the account within this application that the address resides in.
