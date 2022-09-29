@@ -1048,7 +1048,7 @@ Get an existing application in this Wallet within the active CredentialSet using
 Create a new account for a specified application in this Wallet within the active CredentialSet. 
   * *Parameters*
     * ``` partialProposition ``` \
-      A partial proposition, or proposition template, which will create the proposition instance once the required parameters are supplied. This is used to generate addresses under the account.
+      A partial proposition, or proposition template, which will create the proposition instance once the required parameters are supplied. This is used to generate addresses under the account.  The address's spending proposition is derived from the account's partial proposition and the address's verification key.
         * Type: (any[]) => [Proposition](#proposition) | TBD
         * Optional: yes
         * Default: A knowledge (signing) partial proposition
