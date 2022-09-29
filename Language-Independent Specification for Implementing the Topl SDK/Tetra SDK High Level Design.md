@@ -944,6 +944,7 @@ This interface is implemented by objects that manage an opened wallet and its co
           The ID of the wallet, which will be generated from the same mnemonic as the wallet’s keys.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller.
+
 <!-- * ``` getCredentialSet ``` \
   Return the CredentialSet that is associated with this opened Wallet.
     * *Parameters* \
@@ -954,6 +955,7 @@ This interface is implemented by objects that manage an opened wallet and its co
           The CredentialSet object associated with this Wallet
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
             * An I/O or database error that is unrelated to the parameters passed by the caller. -->
+
 * ``` getWalletName ``` \
   Return the name of the wallet.
     * *Parameters* \
@@ -1211,6 +1213,52 @@ Get an existing account for a specified application in this Wallet within the ac
             * There is not a combination of boxes that together contain a sufficient quantity of boxes.
             * The specified account was not found in the wallet.
             * The specified application was not found in the wallet.
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ` addAssetType ` \
+  Associates an asset label with a new human readable label in this Wallet within the active CredentialSet.
+    * *Parameters* 
+      * `assetType` \
+        A human readable label to associate with an asset label
+          * Type: String
+          * Optional: No
+      * `assetLabel` \
+        The asset label that will be associated with the `assetType` label. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
+          * Type: String
+          * Optional: No
+    * *Returns* \
+      [Result](#result)
+        * S = <*implementation defined*> \
+      An implementation specific value denoting a succesful update is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * `assetType` is already in use by a different `assetLabel`
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ` getAssetLabel ` \
+  Return the asset label associated with a given type in this Wallet within the active CredentialSet.
+    * *Parameters* 
+      * `assetType` \
+        A human readable label associated with an asset label
+          * Type: String
+          * Optional: No
+    * *Returns* \
+      [Result](#result)
+        * S = String \
+          The asset label associated with `assetType`. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * `assetType` does not exist in the wallet
+            * An I/O or database error that is unrelated to the parameters passed by the caller.
+* ` removeAssetType ` \
+  Removes the association of a given human readable label from the assete label that it mapped to.
+    * *Parameters* 
+      * `assetType` \
+        The human readable label to remove
+          * Type: String
+          * Optional: No
+    * *Returns* \
+      [Result](#result)
+        * S = <*implementation defined*> \
+      An implementation specific value denoting a succesful update is returned.
+        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
+            * `assetType` does not exist in the wallet
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 
 ##### Implementation Notes
