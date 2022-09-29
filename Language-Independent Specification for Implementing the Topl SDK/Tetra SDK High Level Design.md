@@ -556,22 +556,6 @@ This interface is implemented by objects that represent an application in a wall
             * An address with this value does not exist in the account
             * The specified account does not exist within this application in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-* ``` getAssetLabels ``` \
-  Return asset labels associated with an account in this application, optionally specifying the underlying account.
-    * *Parameters* 
-        * ``` accountId ``` \
-          The ID of the account within this application for which we are retrieving asset labels from.
-            * Type: Int32
-            * Optional: yes
-            * Default: 0
-    * *Returns* \
-      [Result](#result)
-        * S = A collection of asset labels (String) \
-          The asset labels associated with this application and specified account. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * The specified account does not exist within this application in the wallet.
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-
 * ``` getAddressByAssetLabel ``` \
   Get the addresses in an account containing spendable asset boxes specified by the asset label, optionally specifying the underlying account. Return these addresses with the associated [boxes](#box).
     * *Parameters*
@@ -739,18 +723,6 @@ This interface is implemented by objects that represent a bookkeeping account wi
           conditions:
             * An address with this value does not exist in the account
             * An I/O or database error that is unrelated to the parameters passed by the caller.
-
-* ``` getAssetLabels ``` \
-  Return asset labels associated with this account.
-    * *Parameters* \
-      *None*
-    * *Returns* \
-      [Result](#result)
-        * S = A collection of asset labels (String) \
-          The asset labels associated with this account. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
-        * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * An I/O or database error that is unrelated to the parameters passed by the caller.
-
 * ``` getAddressByAssetLabel ``` \
   Get the addresses containing spendable asset boxes specified by the asset label. Return these addresses with the associated associated [boxes](#box).
     * *Parameters*
@@ -1200,25 +1172,14 @@ Get an existing account for a specified application in this Wallet within the ac
             * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAssetLabels ``` \
-  Return asset labels associated with a specified account and application in this Wallet within the active CredentialSet.
-    * *Parameters* 
-        * ``` applicationId ``` \
-          The ID of the application that the address ultimately resides in.
-            * Type: Int32
-            * Optional: yes
-            * Default: 0
-        * ``` accountId ``` \
-          The ID of the account within an application that the address resides in.
-            * Type: Int32
-            * Optional: yes
-            * Default: 0
+  Return asset labels associated with this Wallet within the active CredentialSet.
+    * *Parameters* \
+      *None*
     * *Returns* \
       [Result](#result)
         * S = A collection of asset labels (String) \
-          The asset labels associated with this application and specified account. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
+          The asset labels associated with this wallet. See the [structure of an asset label](#structure-of-an-asset-label) for more information.
         * F = <*implementation defined*> This value should allow the caller to identify these error conditions:
-            * The specified account was not found in the wallet.
-            * The specified application was not found in the wallet.
             * An I/O or database error that is unrelated to the parameters passed by the caller.
 * ``` getAddressByAssetLabel ``` \
   Get the addresses for a specified account and application in this Wallet within the active CredentialSet that contain spendable asset boxes specified by the asset label. Return these addresses with their associated [boxes](#box).
