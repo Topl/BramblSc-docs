@@ -26,7 +26,6 @@ The errors that the method/function will be able to produce include:
 * No properly configured Genus service
 * Unable to send request to Genus service
 * The Genus service returned an error
-* The Genus service returned an unexpected result
 * The Genus service did not return a result before the timeout happened
 
 ### Testing Procedure
@@ -71,16 +70,30 @@ The following testing scenarios are required:
 
 #### Unable to send request to Genus service
 * **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to return an error indicating that the request failed for
-          reasons
+* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
+          sent
 * **When**
     ```
     getTransactionById(xactnId, 5000, 0.99)
     ```
-* **Then** the call produces an error indicating the request to Genus failed.
+* **Then** the call produces an error indicating that the request could not be sent
 
-<!--
-* The Genus service returned an error
-* The Genus service returned an unexpected result
-* The Genus service did not return a result before the timeout happened
--->
+#### The genus service returned an error
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
+          processing the request
+* **When**
+    ```
+    getTransactionById(xactnId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a problem processing the request.
+
+ 
+#### The Genus service did not return a result before the timeout happened
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getTransactionById(xactnId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
