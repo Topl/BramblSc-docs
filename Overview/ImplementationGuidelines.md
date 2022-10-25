@@ -3,7 +3,7 @@
 Transactions have these size limits:
 
 * data
-    * 15K Latin-1 characters (also 15K Bytes)
+    * 15K Bytes
 * security root
     * 64 Bytes
 
