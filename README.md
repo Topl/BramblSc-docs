@@ -1,4 +1,7 @@
 # sdk-spec
-Repository for managing changes to the SDK Specification. The public facing version of this specification is hosted on [ReadMe](https://topl-sdk.readme.io/docs).
+Brambl SDK Specification. 
 
-With the exception of this README.md file, the structure and organization of this repository will mirror that of the public ReadMe pages.
+
+## Organization
+
+Each high level folder in the `Modules` directory will reflect a module within the Brambl SDK. All `README.md` files are for internal documentation purposes only and will not be included in the final specification. They are used to explain the purpose and content of a given module.
