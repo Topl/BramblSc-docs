@@ -17,7 +17,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="docs/Language-Independent Specification for Implementing the Topl SDK/Introduction to the Language-Independent Topl SDK Specification">
+            to="./docs/Getting Started">
             SDK Specification
           </Link>
         </div>
