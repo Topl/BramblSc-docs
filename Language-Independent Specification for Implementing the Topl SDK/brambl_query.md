@@ -22,7 +22,93 @@ has waited this amount of time and there is no result to be returned, the method
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
 
 #### Returns
-A `BlockV2.Full` that contains
+A `BlockV2.Full` that contains the block header and block body for the with block with the specified id.
+
+#### Errors
+The errors that the method/function will be able to produce include:
+* No properly configured Genus service
+* Unable to send request to Genus service
+* Block not found
+* The Genus service returned an error
+* The Genus service did not return a result before the timeout happened
+
+
+#### Testing Procedure
+
+The following testing scenarios are required:
+
+##### Happy Path with No Waiting
+* **Given** that there is already a block with the ID *blockId* in the Genus service's database
+* **And** block *blockId* has a confidence factor greater than 0.999
+* **When**
+    ```
+    getBlockById(blockId, 10, 0.9)
+    ```
+* **Then** the call immediately returns the `BlockV2.Full`
+
+##### Happy Path with Waiting
+* **Given** that there is no block with the ID *blockId* in the Genus service's database
+* **When**
+    ```
+    getBlockById(blockId, 5000, 0.99)
+    ```
+* **And Then** A block *blockId* is added to Genus
+* **AND Then** Enough blocks are added to Genus to raise the transaction's confidence factor to greater than 0.99 in
+  less than 3 seconds.
+* **Then** the call returns the `BlockV2.Full`
+
+##### Default Parameter Values
+* **Given** that calls to the underlying gRPC library are mocked
+* **When**
+    ```
+    getBlockById(blockId)
+    ```
+* **Then** the values passed to the gRPC library for `timeoutMillis` and `confidenceFactor` are 2000 and 0.9999999
+
+##### No properly configured Genus service
+* **Given** that there is no properly configured genus service
+* **When**
+    ```
+    getBlockById(blockId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating there is no properly configured genus service
+
+##### Unable to send request to Genus service
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
+  sent
+* **When**
+    ```
+    getBlockById(blockId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating that the request could not be sent
+
+##### The Block was not found
+* **Given** that there is no block with the ID *blockId* in the Genus service's database
+* **When**
+    ```
+    getBlockById(blockId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating that the block could not be found
+
+##### The genus service returned an error
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
+  processing the request
+* **When**
+    ```
+    getBlockById(blockId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a problem processing the request.
+
+##### The Genus service did not return a result before the timeout happened
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getBlockById(blockId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
 
 ### getBlockByHeight
 
@@ -55,6 +141,7 @@ A transaction receipt that includes the specified transaction and genus-supplied
 The errors that the method/function will be able to produce include:
 * No properly configured Genus service
 * Unable to send request to Genus service
+* Transaction not found
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
 
@@ -107,6 +194,14 @@ The following testing scenarios are required:
     getTransactionById(xactnId, 5000, 0.99)
     ```
 * **Then** the call produces an error indicating that the request could not be sent
+
+##### The Transaction was not found
+* **Given** that there is no transaction with the ID *xactnId* in the Genus service's database
+* **When**
+    ```
+    getTransactionById(xactnId, 5000, 0.99)
+    ```
+* **Then** the call produces an error indicating that the transaction could not be found
 
 ##### The genus service returned an error
 * **Given** that calls to the underlying gRPC library are mocked
