@@ -9,7 +9,7 @@ const config = {
   title: 'Topl',
   tagline: '',
   url: 'https://topl.github.io',
-  baseUrl: '/',
+  baseUrl: '/sdk-spec/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -65,12 +65,6 @@ const config = {
         },
         items: [
           {
-            type: 'doc',
-            docId: 'Language-Independent Specification for Implementing the Topl SDK/Introduction to the Language-Independent Topl SDK Specification',
-            position: 'left',
-            label: 'Spec',
-          },
-          {
             href: 'https://github.com/Topl/sdk-spec',
             label: 'GitHub',
             position: 'right',
@@ -85,7 +79,7 @@ const config = {
             items: [
               {
                 label: 'Spec',
-                to: 'docs/Language-Independent Specification for Implementing the Topl SDK/Introduction to the Language-Independent Topl SDK Specification',
+                to: 'docs',
               },
             ],
           },
