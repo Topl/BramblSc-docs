@@ -1237,7 +1237,7 @@ The constructor is private or there is none.
             * The quantity of `assetIdentifier` does not exist in `account` 
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ` output ` \
-  Returns a [TransactionOutput](TransactionOutput). Not valid for EmptyBoxValue.
+  Returns a [TransactionOutput](#transactionoutput). Not valid for EmptyBoxValue.
     * *Parameters* 
         * `account` \
         The Account for where the output will reside. 
@@ -1262,7 +1262,7 @@ The constructor is private or there is none.
             * `quantity` is invalid
             * An I/O, network, or database error that is unrelated to the parameters passed by the caller.
 * ` mintingOutput ` \
-  Returns a minting [TransactionOutput](TransactionOutput). Not valid for Topls, Lvls, and EmptyBoxValue
+  Returns a minting [TransactionOutput](#transactionoutput). Not valid for Topls, Lvls, and EmptyBoxValue
     * *Parameters* 
         * `account` \
         The Account for where the output will reside. 
