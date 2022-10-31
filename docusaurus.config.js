@@ -39,6 +39,10 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/topl/sdk-spec/tree/main/packages/create-docusaurus/templates/shared/',
+          exclude: [
+            '**/README.md',
+            '**/readme.md'
+          ],
         },
         blog: {
           showReadingTime: true,
