@@ -1,5 +1,33 @@
 # Bramble Query Functions
 
+## Interface GenusBlockQuery
+
+### getBlockById
+#### Signature(s)
+```
+getBlockById(id: models.TypedIdentifier, timeoutMillis: uint64, confidenceFactor: double) returns models.BlockV2.Full
+```
+
+#### Description
+Retrieve a block with the specified `id` from the configured Genus service. This returns its result when there is a
+block present in the genus service with the specified id and the confidence factor of the block is greater than or equal
+to the value of the `confidenceFactor` parameter.
+
+This method/function will wait no longer than the specified number of milliseconds to return. When the method/function
+has waited this amount of time and there is no result to be returned, the method produces an error.
+
+#### Parameters
+* `id` the ID of the block to find
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 2000 (2 seconds).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+
+#### Returns
+A `BlockV2.Full` that contains
+
+### getBlockByHeight
+
+### getBlockByDepth
+
 ## Interface GenusTransactionQuery
 
 ### getTransactionById
