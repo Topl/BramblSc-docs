@@ -9,14 +9,14 @@ The SDK gets a value for the confidence factor when it queries Genus to learn th
 The outputs of transactions are TxOs that contain a quantity of a type of asset. Addresses are associated with a possibly empty set of TxOs. It is through their association with TxOs that addresses are considered to have assets. 
 
 The wallet assigns one of these states to each TxO:
-* `settled` \
+* `settled`  
   After a transaction outputs a TxO to an address, the TxO is added to the address in the wallet with status of `settled`.
-* `pendingSpend` \
+* `pendingSpend`  
   When a transaction is posted to spend a TxO, the wallet changes the status of the TxO to `pendingSpend`.
-* `spent` \
+* `spent`  
   When the wallet learns that a transaction was successful in spending the contents of a TxO, the status of the TxO is changed to `spent`. If the transaction does not succeed within the expected amount of time, the status of the TxO is changes back to `settled`.
-* `surprise` \
-  In rare circumstance the wallet will discover that the status of a TxO was incorrectly set to `settled` or `spend`. When this is discovered, the status of the TxO is set to `surprise`. 
+* `surprise`  
+  In rare circumstance the wallet will discover that the status of a TxO was incorrectly set to `settled` or `spend`. When this is discovered, the status of the TxO is set to `surprise`.
 
 We will normally learn about a surprise when we analyze the results of querying Genus for the outcome of a subsequent transaction. A `surprise` state will occur when the previously settled transaction that contains the TxOs has been reorged out of the canonical blockchain.
 

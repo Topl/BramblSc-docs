@@ -1,6 +1,6 @@
 # Introduction
 
-Applications interact with the Topl blockchain using an implementation of the Topl SDK (software development kit). The Topl SDK is to be implemented in multiple programming languages.  
+Applications interact with the Topl blockchain using an implementation of the Topl SDK (software development kit). The Topl SDK is to be implemented in multiple programming languages.
 
 This guide is for implementers of the SDK. It specifies how to implement the SDK. 
 

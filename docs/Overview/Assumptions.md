@@ -10,6 +10,6 @@ This specification contains descriptions of the SDK interfaces. The descriptions
 * We do not assume that classes can have more than one public constructor.
 * We assume that there are static functions/methods that can be associated with a class that can be called without having an instance of the class. These will be primarily used to create instances of their associated class or to set global parameters.
 * We assume that the language is either dynamically typed or statically typed with classes and interfaces can be generic/parametric. Generic/parametric classes and interfaces have type parameters used to specify the types of method parameters and return values.
-* We assume that the language provides a future or promise type that encapsulates values that are computed asynchronously. The minimal functionality assumed for the future or promise type is that it has methods to query whether the computation has finished and a blocking operation to get the value of the computation. \
+* We assume that the language provides a future or promise type that encapsulates values that are computed asynchronously. The minimal functionality assumed for the future or promise type is that it has methods to query whether the computation has finished and a blocking operation to get the value of the computation.  
 In the rest of this document, we consider “future” and “promise” to be synonyms and use “future” to refer to both.
 * We assume that methods/functions can have parameters whose values are methods/functions (first-class functions).
