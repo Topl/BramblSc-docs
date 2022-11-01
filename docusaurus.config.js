@@ -41,7 +41,8 @@ const config = {
             'https://github.com/topl/sdk-spec/tree/main/packages/create-docusaurus/templates/shared/',
           exclude: [
             '**/README.md',
-            '**/readme.md'
+            '**/readme.md',
+            '**/assets/**'
           ],
         },
         blog: {
