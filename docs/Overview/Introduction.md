@@ -1,4 +1,6 @@
-Applications interact with the Topl blockchain using an implementation of the Topl SDK (software development kit). The Topl SDK is to be implemented in multiple programming languages.  
+# Introduction
+
+Applications interact with the Topl blockchain using an implementation of the Topl SDK (software development kit). The Topl SDK is to be implemented in multiple programming languages.
 
 This guide is for implementers of the SDK. It specifies how to implement the SDK. 
 
@@ -14,4 +16,12 @@ There are two main interfaces for the SDK. The blockchain interface is used to s
 
 The keyvault file will be some kind of key-value store. The specific key-value store depends on the environment. If the application is a stand-alone application, the keyvault file will be a directory that is managed by LevelDB. If the application is inside of a web browser, the details of the keyvault file will depend on the browser's implementation of the IndexDB module.  For Chrome, it is LevelDB.
 
-The structure of this specification follow the SDK structure.
+The purpose of the blockchain API is to facilitate interactions between the Topl blockchain and applications. The following activity diagram shows the pattern that a typical interaction will follow:
+
+![SDK Process](https://www.plantuml.com/plantuml/png/RLAzRjmm3Dxr50IwjAzmj-JI8UXIj420BbracRQ5aobLf78Du8SlPS66ZMQwCt--7tryOh5PoXpCyYdPW6D6fCKkjvI2TrPy9BEEcCipZfx0HMB9nQsTE81aIpnWRd_iMh-Q8UQxkRoW0E5VWKA5iGVRzncPpP3Z30yRWlObWlP05qoX3IpNOMOKRb1WH-j99Tv8_9-2loOlkBoWmYxcyhDWVeVr2vv3T7StwJJSVdoho-2Auf5ix9-Hlq0STdmrQv3wflZhvaubfnpVa4w-cYLEEkzf19r8aNrjmS7JRrBiwBmLjV7mCcqI6kSc1Fbw95GmLLMu0hCVgVxUyVq8V9x_I5wNe-sTPVa_ZlCxQGLaGkFYd1GP-zF2-T637oVfGi7bDQO0tr4Usbwgc7ds9oeJ2Rej0iNPCsgilMUdgZDNxZPePB9IhqfqeTNFbbxF5UXGDIF3csVV1JIUrgL6SDsZhB5U3bSC9VLMaBUxMtFPapWU14jCvabnoXp-0G00)
+
+The structure of this specification follows the SDK structure.
+
+
+
+
