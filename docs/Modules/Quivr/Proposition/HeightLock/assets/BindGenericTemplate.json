@@ -1,0 +1,35 @@
+[
+  {
+    "inputs": {
+      "boundValues": {"height": 10},
+      "PropositionTemplate": {
+        "contextualHeightLock": {"quantifierName": "height"},
+        "quantifiers": [
+          {"type": 1, "name": "height"}
+        ]
+      }
+    },
+    "outputs": {
+      "PropositionContextualHeightLock": {"height": 10}
+    } 
+  },
+  {
+    "inputs": {
+      "boundValues": {"wrongName": 2},
+      "PropositionTemplate": {
+        "contextualHeightLock": {"quantifierName": "height"},
+        "quantifiers": [
+          {"type": 1, "name": "height"}
+        ]
+      }
+    },
+    "outputs": {
+      "PropositionTemplate": {
+        "contextualHeightLock": {"quantifierName": "height"},
+        "quantifiers": [
+          {"type": 1, "name": "height"}
+        ]
+      }
+    }
+  }
+]

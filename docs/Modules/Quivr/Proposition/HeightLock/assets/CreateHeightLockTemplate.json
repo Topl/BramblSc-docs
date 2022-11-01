@@ -1,0 +1,11 @@
+[
+  {
+    "inputs": {},
+    "output": {
+      "contextualHeightLock": {"quantifierName": "height"},
+      "quantifiers": [
+        {"type": 1, "name": "height"}
+      ]
+    }
+  }
+]
