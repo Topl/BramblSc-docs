@@ -716,3 +716,104 @@ The following testing scenarios are required:
     ```
 * **Then** the call produces an error indicating that there was a problem processing the request.
 
+### getTxosByAssetLabel
+
+#### Signature(s)
+
+```
+  getTxosByAssetLabel(assetLabel: String, confidenceFactor: double) returns Stream[Txo]
+```
+
+#### Description
+
+Retrieve from the configured Genus service TxOs (spent or unspent) that contain the type of asset specified by the
+asset label and are in a block whose confidence factor is greater than or equal to the value of the `confidenceFactor`
+parameter. As new TxOs are added or UTxOs are spent that match the request, additional results are returned.
+
+#### Parameters
+
+* `assetLabel` Is a string that identifies the type of asset in a TxO. The format of the assetLabel depends on the type
+  of box that is in the TxO:
+
+    | Box Type | Format                                                                                                                                               |
+    |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+    | Empty    | `"EMPTY"`                                                                                                                                            |
+    | Poly     | `"LVL"`                                                                                                                                              |
+    | Arbit    | `"TOPL"`                                                                                                                                             |
+    | AssetV1  | _version_&#124;_address_<br>where _version_ is the hex value of the version byte and _address_ is the base58 encoded minting address.                |
+    | TAM2     | _group_:_series_<br>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
+
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+
+#### Returns
+
+A stream of TxOs.
+
+#### Errors
+
+The errors that the method/function will be able to produce include:
+
+* No properly configured Genus service
+* Unable to send request to Genus service
+* The Genus service returned an error
+
+#### Testing Procedure
+
+The following testing scenarios are required:
+
+##### Happy Path
+
+* **Given** that there are already TxOs (spent and unspent) associated with the specified addresses in the Genus
+  service's database
+* **And** these transactions have a confidence factor greater than 0.99
+* **And** `addresses` is the list of addresses
+* **When**
+    ```
+    getTxosByAssetLabel("LVL", 0.9)
+    ```
+* **Then** the call immediately begins returning the matching TxOs in the database
+* **After** all the matching TxOs in the database have been returned
+* **Then** additional transactions are added to the genus database that have UTxOs and STxOs that match the request
+* **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
+* **Then** the new TxOs are returned as part of the stream.
+
+##### Default Parameter Values
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **When**
+    ```
+    getTxosByAssetLabel("LVL")
+    ```
+* **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999
+
+##### No properly configured Genus service
+
+* **Given** that there is no properly configured genus service
+* **When**
+    ```
+    getTxosByAssetLabel("LVL", 0.9)
+    ```
+* **Then** the call produces an error indicating there is no properly configured genus service
+
+##### Unable to send request to Genus service
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
+  sent
+* **When**
+    ```
+    getTxosByAssetLabel("LVL", 0.9)
+    ```
+* **Then** the call produces an error indicating that the request could not be sent
+
+##### The genus service returned an error
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
+  processing the request
+* **When**
+    ```
+    getTxosByAssetLabel("LVL", 0.9)
+    ```
+* **Then** the call produces an error indicating that there was a problem processing the request.
+
