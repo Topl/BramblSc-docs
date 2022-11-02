@@ -507,8 +507,6 @@ The following testing scenarios are required:
     ```
 * **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999
 
-==========================================================
-
 ##### No properly configured Genus service
 
 * **Given** that there is no properly configured genus service
