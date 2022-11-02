@@ -1,0 +1,26 @@
+[
+  {
+    "inputs": {
+      "PB_PropositionTemplate": {
+        "contextualHeightLockTemplate": {"quantifierName": "height"},
+        "quantifiers": [
+          {"type": 1, "name": "height"}
+        ]
+      }
+    },
+    "outputs": {
+      "isFullyBounded": false
+    }
+  },
+  {
+    "inputs": {
+      "PB_PropositionTemplate": {
+        "contextualHeightLock": {"height": 10},
+        "quantifiers": []
+      }
+    },
+    "outputs": {
+      "isFullyBounded": true
+    }
+  }
+]

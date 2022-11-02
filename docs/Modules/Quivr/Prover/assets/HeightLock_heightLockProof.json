@@ -1,0 +1,43 @@
+[
+    {
+      "inputs": {},
+      "outputs": {
+        "fn": [
+          {
+            "inputs": {
+              "ProofContext": {
+                  "PB_UnprovenTransaction": {
+                    "inputs": ["UnprovenInput1"],
+                    "outputs": ["Output1"],
+                    "schedule": "",
+                    "data": "",
+                    "dataHash": ""
+                  },
+                  "signingKey": "XXXXXXXXX"
+                }
+            },
+            "outputs": {
+              "ProofContextualHeightLock_Contextual": "000000BBBBBB"
+            }
+          },
+          {
+            "inputs": {
+              "ProofContext": {
+                  "PB_UnprovenTransaction": {
+                    "inputs": ["UnprovenInput2"],
+                    "outputs": ["Output2"],
+                    "schedule": "",
+                    "data": "",
+                    "dataHash": ""
+                  },
+                  "signingKey": "YYYYYYYYY"
+                }
+            },
+            "outputs": {
+              "ProofContextualHeightLock_Contextual": "000000ZZZZZZ"
+            }
+          }
+        ]
+      } 
+    }
+  ]

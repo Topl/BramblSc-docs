@@ -1,3 +1,0 @@
-- bind height name map
-- create height lock template
-- bind height value to template quantifier => prop instance OR template
