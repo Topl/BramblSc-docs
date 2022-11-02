@@ -7,7 +7,8 @@
 #### Signature(s)
 
 ```
-getBlockById(id: models.TypedIdentifier, timeoutMillis: uint64, confidenceFactor: double) returns models.BlockV2.Full
+getBlockById(id: models.TypedIdentifier, timeoutMillis: uint64, confidenceFactor: double)
+    returns models.BlockV2.Full
 ```
 
 #### Description
@@ -110,7 +111,7 @@ The following testing scenarios are required:
 * **And** mocked calls to the gRPC library are configured to never return
 * **When**
     ```
-    getBlockById(blockId, 5000, 0.99)
+    getBlockById(blockId, 50, 0.99)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
 
@@ -222,7 +223,7 @@ The following testing scenarios are required:
 * **And** mocked calls to the gRPC library are configured to never return
 * **When**
     ```
-    getBlockByHeight(h, 5000, 0.99)
+    getBlockByHeight(h, 50, 0.99)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
 
@@ -231,7 +232,7 @@ The following testing scenarios are required:
 #### Signature(s)
 
 ```
-  getBlockByDepth(depth: int64, confidenceFactor: double) returns models.BlockV2.Full
+  getBlockByDepth(depth: int64, timeoutMillis: uint64, confidenceFactor: double) returns models.BlockV2.Full
 ```
 
 #### Description
@@ -244,6 +245,7 @@ equal to the value of the `confidenceFactor` parameter.
 
 * `depth` the depth of the block to get. The block at depth 1 is the highest block with a confidence factor that is
   greater than or equal to the value of the `confidenceFactor` parameter.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
 
 #### Returns
@@ -296,7 +298,7 @@ The following testing scenarios are required:
 * **Given** that calls to the underlying gRPC library are mocked
 * **When**
     ```
-    getBlockByHeight(h)
+    getBlockByDepth(n)
     ```
 * **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999
 
@@ -305,7 +307,7 @@ The following testing scenarios are required:
 * **Given** that there is no properly configured genus service
 * **When**
     ```
-    getBlockByHeight(h, 5000, 0.99)
+    getBlockByDepth(n, 5000, 0.99)
     ```
 * **Then** the call produces an error indicating there is no properly configured genus service
 
@@ -316,7 +318,7 @@ The following testing scenarios are required:
   sent
 * **When**
     ```
-    getBlockByHeight(h, 5000, 0.99)
+    getBlockByDepth(n, 5000, 0.99)
     ```
 * **Then** the call produces an error indicating that the request could not be sent
 
@@ -327,9 +329,19 @@ The following testing scenarios are required:
   processing the request
 * **When**
     ```
-    getBlockByHeight(h, 5000, 0.99)
+    getBlockByDepth(n, 5000, 0.99)
     ```
 * **Then** the call produces an error indicating that there was a problem processing the request.
+
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getBlockByDepth(n, 50, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
 
 ## Interface GenusTransactionQuery
 
@@ -442,7 +454,7 @@ The following testing scenarios are required:
 * **And** mocked calls to the gRPC library are configured to never return
 * **When**
     ```
-    getTransactionById(xactnId, 5000, 0.99)
+    getTransactionById(xactnId, 50, 0.99)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
 
@@ -451,7 +463,8 @@ The following testing scenarios are required:
 #### Signature(s)
 
 ```
-  getTransactionsByAddressStream(addresses: List[Address], confidenceFactor: double) returns Stream[TransactionReceipt]
+  getTransactionsByAddressStream(addresses: List[Address], timeoutMillis: uint64, confidenceFactor: double) 
+      returns Stream[TransactionReceipt]
 ```
 
 #### Description
@@ -463,6 +476,7 @@ that are in a block with confidence factor greater than or equal to the value of
 #### Parameters
 
 * `addresses` The addresses to search for.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
 
 #### Returns
@@ -538,12 +552,23 @@ The following testing scenarios are required:
     ```
 * **Then** the call produces an error indicating that there was a problem processing the request.
 
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getTransactionsByAddressStream(xactnId, 50, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
+
 ### getTxosByAddress
 
 #### Signature(s)
 
 ```
-  getTxosByAddress(addresses: List[Address], confidenceFactor: double) returns Map[String, Collection[Txo]]
+  getTxosByAddress(addresses: List[Address], timeoutMillis: uint64, confidenceFactor: double)
+      returns Map[String, Collection[Txo]]
 ```
 
 #### Description
@@ -555,6 +580,7 @@ parameter. This returns immediately.
 #### Parameters
 
 * `addresses` The addresses to search for.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
 
 #### Returns
@@ -625,12 +651,22 @@ The following testing scenarios are required:
     ```
 * **Then** the call produces an error indicating that there was a problem processing the request.
 
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getTxosByAddress(addresses, 50, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
+
 ### getTxosByAddressStream
 
 #### Signature(s)
 
 ```
-  getTxosByAddressStream(addresses: List[Address], confidenceFactor: double) 
+  getTxosByAddressStream(addresses: List[Address], timeoutMillis: uint64, confidenceFactor: double) 
            returns Stream[Map[String, Collection[Txo]]]
 ```
 
@@ -643,6 +679,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
 #### Parameters
 
 * `addresses` The addresses to search for.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
 
 #### Returns
@@ -716,12 +753,22 @@ The following testing scenarios are required:
     ```
 * **Then** the call produces an error indicating that there was a problem processing the request.
 
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getTxosByAddressStream(addresses, 50, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
+
 ### getTxosByAssetLabel
 
 #### Signature(s)
 
 ```
-  getTxosByAssetLabel(assetLabel: String, confidenceFactor: double) returns Stream[Txo]
+  getTxosByAssetLabel(assetLabel: String, timeoutMillis: uint64, confidenceFactor: double) returns Stream[Txo]
 ```
 
 #### Description
@@ -743,6 +790,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
     | AssetV1  | _version_&#124;_address_<br>where _version_ is the hex value of the version byte and _address_ is the base58 encoded minting address.                |
     | TAM2     | _group_:_series_<br>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
 
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
 
 #### Returns
@@ -816,4 +864,14 @@ The following testing scenarios are required:
     getTxosByAssetLabel("LVL", 0.9)
     ```
 * **Then** the call produces an error indicating that there was a problem processing the request.
+
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getTxosByAssetLabel("LVL", 50, 0.99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
 
