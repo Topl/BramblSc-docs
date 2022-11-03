@@ -786,7 +786,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                               |
-                  |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+                    |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                            |
   | Poly     | `"LVL"`                                                                                                                                              |
   | Arbit    | `"TOPL"`                                                                                                                                             |
@@ -1032,7 +1032,6 @@ The following testing scenarios are required:
    ```
 * **Then** the call should return exactly one transaction that has the correct `id` value in its data
 
-
 ##### Default Parameter Values
 
 * **Given** that calls to the underlying gRPC library are mocked
@@ -1091,12 +1090,90 @@ The following testing scenarios are required:
   getExistingTransactionIndexes(timeoutMillis: uint64) returns Collection[IndexSpec]
 ```
 
-### getExistingTransactionIndexes
+#### Description
+
+Return a collection of `IndexSpec` objects, where each `IndexSpec` object corresponds to an index in the Genus database.
+The content of each `IndexSpec` object is the same as the `IndexSpec ` object used to create the index.
+
+#### Parameters
+
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
+
+#### Returns
+
+a collection of `IndexSpec` objects, where each `IndexSpec` object corresponds to an index in the Genus database.
+The content of each `IndexSpec` object is the same as the `IndexSpec ` object used to create the index.
+
+#### Errors
+
+The errors that the method/function will be able to produce include:
+
+* No properly configured Genus service
+* Unable to send request to Genus service
+* The Genus service returned an error
+* The Genus service did not return a result before the timeout happened
+
+#### Testing Procedure
+Happy path testing of `getExistingTransactionIndexes` is done as part of testing `createOnChainTransactionIndex`.
+
+The following testing scenarios are required:
+
+##### Default Parameter Values
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **When**
+    ```
+    getExistingTransactionIndexes()
+    ```
+* **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999
+
+##### No properly configured Genus service
+
+* **Given** that there is no properly configured genus service
+* **When**
+    ```
+    getExistingTransactionIndexes(99999)
+    ```
+* **Then** the call produces an error indicating there is no properly configured genus service
+
+##### Unable to send request to Genus service
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
+  sent
+* **When**
+    ```
+    getExistingTransactionIndexes(99999)
+    ```
+* **Then** the call produces an error indicating that the request could not be sent
+
+##### The genus service returned an error
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
+  processing the request
+* **When**
+    ```
+    getExistingTransactionIndexes(99999)
+    ```
+* **Then** the call produces an error indicating that there was a problem processing the request.
+
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getExistingTransactionIndexes(99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
+
+### getIndexedTransactions
 
 #### Signature(s)
 
 ```
   getIndexedTransactions(indexName: String, keys: List[IndexMatchValue], 
-                         maxResults: uint32, skipResults: uint64, timeoutMillis: uint64)
+                         maxResults: int32, skipResults: uint64, timeoutMillis: uint64)
       returns Stream[TransactionReceipt]
 ```
