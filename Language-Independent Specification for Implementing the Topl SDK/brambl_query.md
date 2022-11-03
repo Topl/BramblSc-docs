@@ -786,7 +786,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                               |
-                    |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+  |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                            |
   | Poly     | `"LVL"`                                                                                                                                              |
   | Arbit    | `"TOPL"`                                                                                                                                             |
@@ -890,7 +890,7 @@ The following testing scenarios are required:
 
 #### Description
 
-Create in index on transactions in the Genus database. The index will allow transactions to be found quickly based on
+Create an index on transactions in the Genus database. The index will allow transactions to be found quickly based on
 the contents of their data field.
 
 This returns as soon as the index is created. After the index is created, if the `populate` parameter is true then Genus
@@ -1114,6 +1114,7 @@ The errors that the method/function will be able to produce include:
 * The Genus service did not return a result before the timeout happened
 
 #### Testing Procedure
+
 Happy path testing of `getExistingTransactionIndexes` is done as part of testing `createOnChainTransactionIndex`.
 
 The following testing scenarios are required:
@@ -1177,3 +1178,123 @@ The following testing scenarios are required:
                          maxResults: int32, skipResults: uint64, timeoutMillis: uint64)
       returns Stream[TransactionReceipt]
 ```
+
+#### Description
+
+Retrieve transactions that are included in the named index. If the `keys` parameter is supplied, then only transactions
+whose index records match the specified key values will be included in the result.
+
+#### Parameters
+
+* `indexSpec` Is an object that describes the index to be created. It includes
+* `keys` A list of values to match against field in records of the named index. The default value for this is an empty
+  list, which allows all transactions covered by the index to be returned.
+* `maxResults` is the maximum number of transactions to be returned. This parameter can be used with the `skipResults`
+  parameter to page forward or backward through the transactions.<br>
+  The default value for this parameter is 2<sup>31</sup>-1.
+* `skipResults` is the number of transactions to be skipped. This parameter can be used with the `maxResults` parameter
+  to page forward or backward through the transactions.<br>
+  The default value for this parameter is 0.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
+
+#### Returns
+
+A stream of transactions that were found through the index.
+
+#### Errors
+
+The errors that the method/function will be able to produce include:
+
+* No properly configured Genus service
+* Unable to send request to Genus service
+* The Genus service returned an error
+* The Genus service did not return a result before the timeout happened
+
+#### Testing Procedure
+
+Some happy path cases are covered by tests for other functions.
+
+The following testing scenarios are required:
+
+##### Happy Path for paging
+
+* **Given** the tests for `createOnChainTransactionIndex` and `getExistingTransactionIndexes` have successfully
+  completed.
+* **And** there is an index in the database named `bigIndex`
+* **And** there are at least exactly 25 transactions that are covered by `bigIndex`
+* **And** `emptyList` is an empty list of `IndexMatchValue`
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 0)
+    ```
+* **Then** the call returns 10 transactions
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 10)
+    ```
+* **Then** the call returns 10 transactions
+* **When**
+   ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 20)
+   ```
+* **Then** the call returns 5 transactions
+* **When**
+  ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 25)
+  ```
+* **Then** the call returns no transactions
+
+##### Default Parameter Values
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **When**
+    ```
+    getIndexedTransactions("csvIndex")
+    ```
+* **Then** the values passed to the gRPC library are:
+  * for `keys` an empty list of `IndexMatchValue`
+  * for `maxResults` 2147483647
+  * for `skipResults` 0
+  * for `confidenceFactor` 0.9999999
+
+##### No properly configured Genus service
+
+* **Given** that there is no properly configured genus service
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 25)
+    ```
+* **Then** the call produces an error indicating there is no properly configured genus service
+
+##### Unable to send request to Genus service
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
+  sent
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 25)
+    ```
+* **Then** the call produces an error indicating that the request could not be sent
+
+##### The genus service returned an error
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
+  processing the request
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 25)
+    ```
+* **Then** the call produces an error indicating that there was a problem processing the request.
+
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 25, 99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
+
