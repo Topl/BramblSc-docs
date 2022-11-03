@@ -12,7 +12,7 @@
       "fn": [
         {
           "inputs": {
-            "quantifiers": {"height": 10}
+            "ProposerContext": {"height": 10}
           },
           "outputs": {
             "PB_PropositionTemplate": {
@@ -23,7 +23,7 @@
         },
         {
           "inputs": {
-            "quantifiers": {"test": 999}
+            "ProposerContext": {"test": 999}
           },
           "outputs": {
             "PB_PropositionTemplate": {

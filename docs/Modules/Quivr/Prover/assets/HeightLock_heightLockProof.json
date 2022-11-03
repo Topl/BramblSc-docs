@@ -5,7 +5,7 @@
         "fn": [
           {
             "inputs": {
-              "ProofContext": {
+              "ProverContext": {
                   "PB_UnprovenTransaction": {
                     "inputs": ["UnprovenInput1"],
                     "outputs": ["Output1"],
@@ -13,16 +13,19 @@
                     "data": "",
                     "dataHash": ""
                   },
-                  "signingKey": "XXXXXXXXX"
+                  "signingKey": "AAAAAAAA"
                 }
             },
             "outputs": {
-              "ProofContextualHeightLock_Contextual": "000000BBBBBB"
+              "PB_Proof": {
+                "contextualHeightLock": {},
+                "txSignature": "BBBBBBBB"
+              }
             }
           },
           {
             "inputs": {
-              "ProofContext": {
+              "ProverContext": {
                   "PB_UnprovenTransaction": {
                     "inputs": ["UnprovenInput2"],
                     "outputs": ["Output2"],
@@ -30,11 +33,14 @@
                     "data": "",
                     "dataHash": ""
                   },
-                  "signingKey": "YYYYYYYYY"
+                  "signingKey": "DDDDDDDD"
                 }
             },
             "outputs": {
-              "ProofContextualHeightLock_Contextual": "000000ZZZZZZ"
+              "PB_Proof": {
+                "contextualHeightLock": {},
+                "txSignature": "EEEEEEEE"
+              }
             }
           }
         ]
