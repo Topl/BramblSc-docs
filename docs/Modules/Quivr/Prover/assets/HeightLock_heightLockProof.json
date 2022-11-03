@@ -1,49 +1,57 @@
 [
-    {
-      "inputs": {},
-      "outputs": {
-        "fn": [
-          {
-            "inputs": {
-              "ProverContext": {
-                  "PB_UnprovenTransaction": {
-                    "inputs": ["UnprovenInput1"],
-                    "outputs": ["Output1"],
-                    "schedule": "",
-                    "data": "",
-                    "dataHash": ""
-                  },
-                  "signingKey": "AAAAAAAA"
-                }
-            },
-            "outputs": {
-              "PB_Proof": {
-                "contextualHeightLock": {},
-                "txSignature": "BBBBBBBB"
-              }
+  {
+    "inputs": {},
+    "outputs": {
+      "fn": [
+        {
+          "inputs": {
+            "ProverContext": {
+              "PB_UnprovenTransaction": {
+                "inputs": [
+                  "UnprovenInput1"
+                ],
+                "outputs": [
+                  "Output1"
+                ],
+                "schedule": "",
+                "data": "",
+                "dataHash": ""
+              },
+              "signingKey": "AAAAAAAA"
             }
           },
-          {
-            "inputs": {
-              "ProverContext": {
-                  "PB_UnprovenTransaction": {
-                    "inputs": ["UnprovenInput2"],
-                    "outputs": ["Output2"],
-                    "schedule": "",
-                    "data": "",
-                    "dataHash": ""
-                  },
-                  "signingKey": "DDDDDDDD"
-                }
-            },
-            "outputs": {
-              "PB_Proof": {
-                "contextualHeightLock": {},
-                "txSignature": "EEEEEEEE"
-              }
+          "outputs": {
+            "PB_Proof": {
+              "contextualHeightLock": {},
+              "txSignature": "BBBBBBBB"
             }
           }
-        ]
-      } 
+        },
+        {
+          "inputs": {
+            "ProverContext": {
+              "PB_UnprovenTransaction": {
+                "inputs": [
+                  "UnprovenInput2"
+                ],
+                "outputs": [
+                  "Output2"
+                ],
+                "schedule": "",
+                "data": "",
+                "dataHash": ""
+              },
+              "signingKey": "DDDDDDDD"
+            }
+          },
+          "outputs": {
+            "PB_Proof": {
+              "contextualHeightLock": {},
+              "txSignature": "EEEEEEEE"
+            }
+          }
+        }
+      ]
     }
-  ]
+  }
+]

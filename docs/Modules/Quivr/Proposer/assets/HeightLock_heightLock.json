@@ -1,10 +1,14 @@
 [
-    {
-      "inputs": {"height": 10},
-      "outputs": {
-        "PB_Proposition": {
-          "contextualHeightLock": {"height": 10}
+  {
+    "inputs": {
+      "height": 10
+    },
+    "outputs": {
+      "PB_Proposition": {
+        "contextualHeightLock": {
+          "height": 10
         }
       }
+    }
   }
 ]

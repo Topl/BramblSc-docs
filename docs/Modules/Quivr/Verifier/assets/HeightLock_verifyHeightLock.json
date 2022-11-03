@@ -1,53 +1,63 @@
 [
-    {
-      "inputs": {
-        "PB_Proposition": {
-            "contextualHeightLock": {"height": 10}
-        },
-        "PB_Proof": {
-          "contextualHeightLock": {},
-          "txSignature": "BBBBBBBB"
+  {
+    "inputs": {
+      "PB_Proposition": {
+        "contextualHeightLock": {
+          "height": 10
         }
       },
-      "outputs": {
-        "fn": [
-          {
-            "inputs": {
-              "VerifierContext": {
-                "PB_UnprovenTransaction": {
-                  "inputs": ["UnprovenInput1"],
-                  "outputs": ["Output1"],
-                  "schedule": "",
-                  "data": "",
-                  "dataHash": ""
-                },
-                "verificationKey": "CCCCCCCC",
-                "height": 12
-              }
-            },
-            "outputs": {
-              "result": true
+      "PB_Proof": {
+        "contextualHeightLock": {},
+        "txSignature": "BBBBBBBB"
+      }
+    },
+    "outputs": {
+      "fn": [
+        {
+          "inputs": {
+            "VerifierContext": {
+              "PB_UnprovenTransaction": {
+                "inputs": [
+                  "UnprovenInput1"
+                ],
+                "outputs": [
+                  "Output1"
+                ],
+                "schedule": "",
+                "data": "",
+                "dataHash": ""
+              },
+              "verificationKey": "CCCCCCCC",
+              "height": 12
             }
           },
-          {
-            "inputs": {
-              "VerifierContext": {
-                "PB_UnprovenTransaction": {
-                  "inputs": ["UnprovenInput2"],
-                  "outputs": ["Output2"],
-                  "schedule": "",
-                  "data": "",
-                  "dataHash": ""
-                },
-                "verificationKey": "FFFFFFFF",
-                "height": 8
-              }
-            },
-            "outputs": {
-              "result": false
-            }
+          "outputs": {
+            "result": true
           }
-        ]
-      } 
+        },
+        {
+          "inputs": {
+            "VerifierContext": {
+              "PB_UnprovenTransaction": {
+                "inputs": [
+                  "UnprovenInput2"
+                ],
+                "outputs": [
+                  "Output2"
+                ],
+                "schedule": "",
+                "data": "",
+                "dataHash": ""
+              },
+              "verificationKey": "FFFFFFFF",
+              "height": 8
+            }
+          },
+          "outputs": {
+            "result": false
+          }
+        }
+      ]
     }
-  ]
+  }
+]
