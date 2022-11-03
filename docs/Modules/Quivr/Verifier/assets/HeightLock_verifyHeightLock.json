@@ -1,13 +1,11 @@
 [
   {
     "inputs": {
-      "PB_Proposition": {
-        "contextualHeightLock": {
-          "height": 10
-        }
+      "PropositionHeightLock": {
+        "height": 10
       },
-      "PB_Proof": {
-        "contextualHeightLock": {},
+      "ProofHeightLock": {
+        "heightLock": {},
         "txSignature": "BBBBBBBB"
       }
     },
@@ -16,7 +14,7 @@
         {
           "inputs": {
             "VerifierContext": {
-              "PB_UnprovenTransaction": {
+              "UnprovenTransaction": {
                 "inputs": [
                   "UnprovenInput1"
                 ],
@@ -38,7 +36,7 @@
         {
           "inputs": {
             "VerifierContext": {
-              "PB_UnprovenTransaction": {
+              "UnprovenTransaction": {
                 "inputs": [
                   "UnprovenInput2"
                 ],

@@ -4,11 +4,9 @@
       "height": 10
     },
     "outputs": {
-      "PB_Proposition": {
-        "contextualHeightLock": {
-          "height": 10
-        }
+      "PropositionHeightLock": {
+        "height": 10
       }
     }
   }
-]
+] 

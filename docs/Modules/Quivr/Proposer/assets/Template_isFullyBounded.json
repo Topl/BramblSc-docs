@@ -1,8 +1,8 @@
 [
   {
     "inputs": {
-      "PB_PropositionTemplate": {
-        "contextualHeightLockTemplate": {
+      "PropositionTemplate": {
+        "heightLockTemplate": {
           "quantifierName": "height"
         },
         "quantifiers": [
@@ -19,8 +19,8 @@
   },
   {
     "inputs": {
-      "PB_PropositionTemplate": {
-        "contextualHeightLock": {
+      "PropositionTemplate": {
+        "heightLock": {
           "height": 10
         },
         "quantifiers": []

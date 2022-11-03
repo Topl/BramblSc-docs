@@ -2,8 +2,8 @@
   {
     "inputs": {},
     "outputs": {
-      "PB_PropositionTemplate": {
-        "contextualHeightLockTemplate": {
+      "PropositionTemplate": {
+        "heightLockTemplate": {
           "quantifierName": "height"
         },
         "quantifiers": [

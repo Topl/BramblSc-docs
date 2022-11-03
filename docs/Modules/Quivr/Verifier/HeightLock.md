@@ -2,4 +2,4 @@
 
 check the transaction context?. takes in proof.
 contextual?
-`verifyHeightLock(PropositionContextualHeightLock, ProofContextualHeightLock) => ((VerifierContext) => Boolean)`
+`verifyHeightLock(PropositionHeightLock, ProofHeightLock) => ((VerifierContext) => Boolean)`

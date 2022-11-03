@@ -1,0 +1,80 @@
+[
+  {
+    "inputs": {
+      "PropositionTemplate": {
+        "heightLockTemplate": {
+          "quantifierName": "height"
+        },
+        "quantifiers": [
+          {
+            "type": 1,
+            "name": "height"
+          }
+        ]
+      },
+      "quantifierValues": {
+        "height": 10
+      }
+    },
+    "outputs": {
+      "PropositionTemplate": {
+        "heightLock": {
+          "height": 10
+        },
+        "quantifiers": []
+      }
+    }
+  },
+  {
+    "inputs": {
+      "PropositionTemplate": {
+        "heightLockTemplate": {
+          "quantifierName": "height"
+        },
+        "quantifiers": [
+          {
+            "type": 1,
+            "name": "height"
+          }
+        ]
+      },
+      "quantifierValues": {
+        "test": 999
+      }
+    },
+    "outputs": {
+      "PropositionTemplate": {
+        "heightLockTemplate": {
+          "quantifierName": "height"
+        },
+        "quantifiers": [
+          {
+            "type": 1,
+            "name": "height"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "inputs": {
+      "PropositionTemplate": {
+        "heightLock": {
+          "height": 10
+        },
+        "quantifiers": []
+      },
+      "quantifierValues": {
+        "height": 999
+      }
+    },
+    "outputs": {
+      "PropositionTemplate": {
+        "heightLock": {
+          "height": 10
+        },
+        "quantifiers": []
+      }
+    }
+  }
+]

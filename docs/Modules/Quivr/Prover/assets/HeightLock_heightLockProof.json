@@ -6,7 +6,7 @@
         {
           "inputs": {
             "ProverContext": {
-              "PB_UnprovenTransaction": {
+              "UnprovenTransaction": {
                 "inputs": [
                   "UnprovenInput1"
                 ],
@@ -21,8 +21,8 @@
             }
           },
           "outputs": {
-            "PB_Proof": {
-              "contextualHeightLock": {},
+            "ProofHeightLock": {
+              "heightLock": {},
               "txSignature": "BBBBBBBB"
             }
           }
@@ -30,7 +30,7 @@
         {
           "inputs": {
             "ProverContext": {
-              "PB_UnprovenTransaction": {
+              "UnprovenTransaction": {
                 "inputs": [
                   "UnprovenInput2"
                 ],
@@ -45,8 +45,8 @@
             }
           },
           "outputs": {
-            "PB_Proof": {
-              "contextualHeightLock": {},
+            "ProofHeightLock": {
+              "heightLock": {},
               "txSignature": "EEEEEEEE"
             }
           }
