@@ -786,7 +786,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                               |
-  |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+      |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                            |
   | Poly     | `"LVL"`                                                                                                                                              |
   | Arbit    | `"TOPL"`                                                                                                                                             |
@@ -1252,10 +1252,11 @@ The following testing scenarios are required:
     getIndexedTransactions("csvIndex")
     ```
 * **Then** the values passed to the gRPC library are:
-  * for `keys` an empty list of `IndexMatchValue`
-  * for `maxResults` 2147483647
-  * for `skipResults` 0
-  * for `confidenceFactor` 0.9999999
+    * for `keys` an empty list of `IndexMatchValue`
+    * for `maxResults` 2147483647
+    * for `skipResults` 0
+    * for `confidenceFactor` 0.9999999
+    * for `timeoutMillis` 1000
 
 ##### No properly configured Genus service
 
@@ -1295,6 +1296,111 @@ The following testing scenarios are required:
 * **When**
     ```
     getIndexedTransactions("bigIndex", emptyList, 10, 25, 99)
+    ```
+* **Then** the call produces an error indicating that there was a timeout error.
+
+### dropIndex
+
+#### Signature(s)
+
+```
+  dropIndex(indexName: String, timeoutMillis: uint64) returns boolean
+```
+
+#### Description
+
+Delete an index from the Genus database.
+
+#### Parameters
+
+* `indexName` The name of the index to be deleted.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
+
+#### Returns
+
+True if the index was deleted or false if the index did not exist.
+
+#### Errors
+
+The errors that the method/function will be able to produce include:
+
+* No properly configured Genus service
+* Unable to send request to Genus service
+* The Genus service returned an error
+* The Genus service did not return a result before the timeout happened
+
+#### Testing Procedure
+
+The following testing scenarios are required:
+
+##### Happy Path
+
+* **Given** the tests for `createOnChainTransactionIndex`, `getExistingTransactionIndexes` and 'getIndexedTransactions'
+  have successfully completed.
+* **When**
+    ```
+    dropIndex("csvSpec", 1000)
+    ```
+* **Then** the call returns `true`
+* **When**
+  ```
+    getExistingTransactionIndexes()
+  ```
+* **Then** the call returns a collection of two `IndexSpec` objects. One should be equal to `fooSpec` and the other
+  equal to `fooSpec2`.
+* **When**
+    ```
+    dropIndex("csvSpec", 1000)
+    ```
+* **Then** the call returns `false`
+
+##### Default Parameter Values
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **When**
+    ```
+    dropIndex("csvSpec")
+    ```
+* **Then** the value passed to the gRPC library for `timeoutMillis` is 1000
+
+##### No properly configured Genus service
+
+* **Given** that there is no properly configured genus service
+* **When**
+    ```
+    dropIndex("csvSpec", 1000)
+    ```
+* **Then** the call produces an error indicating there is no properly configured genus service
+
+##### Unable to send request to Genus service
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
+  sent
+* **When**
+    ```
+    dropIndex("csvSpec", 1000)
+    ```
+* **Then** the call produces an error indicating that the request could not be sent
+
+##### The genus service returned an error
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
+  processing the request
+* **When**
+    ```
+    dropIndex("csvSpec", 1000)
+    ```
+* **Then** the call produces an error indicating that there was a problem processing the request.
+
+##### The Genus service did not return a result before the timeout happened
+
+* **Given** that calls to the underlying gRPC library are mocked
+* **And** mocked calls to the gRPC library are configured to never return
+* **When**
+    ```
+    dropIndex("csvSpec", 1000)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
 
