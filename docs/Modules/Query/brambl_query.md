@@ -4,8 +4,13 @@ This document describes the interfaces that the Bramble SDK provides for queryin
 
 ## Interface BifrostQuery
 
+The details of this interface are yet to be specified. They will be based on the bifrost_rpc specification.
 
 ## Interface GenusBlockQuery
+This interface is used to query Genus to query a database get information extracted from the canonical blockchain.
+
+There will be two implementation of this interface. One will use gRPC to access a stand-alone Genus server that runs
+independently of Topl clients. The other is to access a Genus database that is embedded in the Topl client.
 
 ### getBlockById
 
@@ -790,13 +795,13 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
 * `assetLabel` Is a string that identifies the type of asset in a TxO. The format of the assetLabel depends on the type
   of box that is in the TxO:
 
-  | Box Type | Format                                                                                                                                               |
-      |----------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | Empty    | `"EMPTY"`                                                                                                                                            |
-  | Poly     | `"LVL"`                                                                                                                                              |
-  | Arbit    | `"TOPL"`                                                                                                                                             |
-  | AssetV1  | _version_&#124;_address_<br>where _version_ is the hex value of the version byte and _address_ is the base58 encoded minting address.                |
-  | TAM2     | _group_:_series_<br>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
+  | Box Type | Format                                                                                                                                                |
+      |-------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | Empty    | `"EMPTY"`                                                                                                                                             |
+  | Poly     | `"LVL"`                                                                                                                                               |
+  | Arbit    | `"TOPL"`                                                                                                                                              |
+  | AssetV1  | _version_&#124;_address_<br/>where _version_ is the hex value of the version byte and _address_ is the base58 encoded minting address.                |
+  | TAM2     | _group_:_series_<br/>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
 
 * `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
@@ -907,7 +912,7 @@ will asynchronously populate the index.
     * name — The name of the index
     * indexFieldSpec — describes how to parse the transaction date to find the fields that will be the index values.
       JSON and CSV are supported for this. A JSON indexFieldSpec will cause transactions with data that is not a valid
-      JSON object containing the needed fields to be excluded from the index.<br>
+      JSON object containing the needed fields to be excluded from the index.<br/>
       If no value is provided, then the index will include every transaction to be included in the index using the full
       contents of their data fields as index keys.
     * indexFilter — An optional regular expression to filter which transactions are included in the created index. If
@@ -1195,10 +1200,10 @@ whose index records match the specified key values will be included in the resul
 * `keys` A list of values to match against field in records of the named index. The default value for this is an empty
   list, which allows all transactions covered by the index to be returned.
 * `maxResults` is the maximum number of transactions to be returned. This parameter can be used with the `skipResults`
-  parameter to page forward or backward through the transactions.<br>
+  parameter to page forward or backward through the transactions.<br/>
   The default value for this parameter is 2<sup>31</sup>-1.
 * `skipResults` is the number of transactions to be skipped. This parameter can be used with the `maxResults` parameter
-  to page forward or backward through the transactions.<br>
+  to page forward or backward through the transactions.<br/>
   The default value for this parameter is 0.
 * `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
 
