@@ -13,6 +13,8 @@ defined in the protobuf specs:
 * `List`
   This is an ordered collection. It provides operations to iterate over its contents in their order and to determine if
   an object is an element of the collection.
+* `Stream`
+  is a first-in-first-out data structure to which data can be asynchronously added and removed.
 
 ## Interface BifrostQuery
 
@@ -498,7 +500,9 @@ The following testing scenarios are required:
 #### Signature(s)
 
 ```
-  getTransactionsByAddressStream(addresses: List[Address], timeoutMillis: uint64, confidenceFactor: double) 
+  getTransactionsByAddressStream(addresses: Collection[Address],
+                                 timeoutMillis: uint64,
+                                 confidenceFactor: double) 
       returns Stream[TransactionReceipt]
 ```
 
@@ -516,7 +520,7 @@ that are in a block with confidence factor greater than or equal to the value of
 
 #### Returns
 
-A stream of transaction receipts that includes the specified transactions and genus-supplied metadata.
+A stream of transaction receipts that includes the specified transactions with genus-supplied metadata.
 
 #### Errors
 
@@ -535,7 +539,7 @@ The following testing scenarios are required:
 
 * **Given** that there are already transactions with inputs or outputs associated with the specified addresses (some
   with only an input, some with only an output and some with both) in the Genus service's database
-* **And** these transaction have a confidence factor greater than 0.99
+* **And** these transaction have a confidence factor greater than 0.9
 * **And** `addresses` is the list of addresses
 * **When**
     ```
@@ -620,7 +624,8 @@ parameter. This returns immediately.
 
 #### Returns
 
-A Map whose keys addresses as base58 encoded strings and whose values are a collection of TxOs.
+A Map whose keys addresses as base58 encoded strings and whose values are a collection of TxOs associated with their key
+address.
 
 #### Errors
 
@@ -639,13 +644,13 @@ The following testing scenarios are required:
 
 * **Given** that there are already TxOs (spent and unspent) associated with the specified addresses in the Genus
   service's database
-* **And** these transaction have a confidence factor greater than 0.99
+* **And** these transaction have a confidence factor greater than 0.9
 * **And** `addresses` is the list of addresses
 * **When**
     ```
     getTxosByAddress(addresses, 0.9)
     ```
-* **Then** the call immediately returns the matching TxOs in the database
+* **Then** the call immediately returns matching TxOs from the database
 
 ##### Default Parameter Values
 
@@ -746,7 +751,7 @@ The following testing scenarios are required:
     getTxosByAddressStream(addresses, 0.9)
     ```
 * **Then** the call immediately returns the matching TxOs in the database
-* **Then** additional transactions are added to the genus database that have UTxOs and STxOs that match the request
+* **Then** additional transactions are added to the genus database that have UTxOs or STxOs that match the request
 * **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
 * **Then** a map of the new TxOs is returned as part of the stream.
 
@@ -821,7 +826,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                                |
-                        |-------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+          |-------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                             |
   | Poly     | `"LVL"`                                                                                                                                               |
   | Arbit    | `"TOPL"`                                                                                                                                              |
@@ -848,19 +853,63 @@ The errors that the method/function produces include:
 
 The following testing scenarios are required:
 
-##### Happy Path
+##### Happy Path POLLY
 
-* **Given** that there are already TxOs (spent and unspent) associated with the specified addresses in the Genus
-  service's database
-* **And** these transactions have a confidence factor greater than 0.99
-* **And** `addresses` is the list of addresses
+* **Given** that there are already TxOs (spent and unspent) that have POLY boxes
+* **And** their associated transactions have a confidence factor greater than 0.9
 * **When**
     ```
-    getTxosByAssetLabel("LVL", 0.9)
+    getTxosByAssetLabel("LVL", 1000, 0.9)
     ```
-* **Then** the call immediately begins returning the matching TxOs in the database
+* **Then** the call immediately begins returning the matching TxOs
 * **After** all the matching TxOs in the database have been returned
-* **Then** additional transactions are added to the genus database that have UTxOs and STxOs that match the request
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Poly boxes
+* **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
+* **Then** the new TxOs are returned as part of the stream.
+
+##### Happy Path TOPL
+
+* **Given** that there are already TxOs (spent and unspent) that have Arbit boxes
+* **And** their associated transactions have a confidence factor greater than 0.9
+* **When**
+    ```
+    getTxosByAssetLabel("TOPL", 1000, 0.9)
+    ```
+* **Then** the call immediately begins returning the matching TxOs
+* **After** all the matching TxOs in the database have been returned
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Arbit boxes
+* **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
+* **Then** the new TxOs are returned as part of the stream.
+
+##### Happy Path AssetV1
+
+* **Given** that `v1Asset` has a value that is a string that identifies a V1 asset version and minting address
+* **And** there are already TxOs (spent and unspent) that have `AssetV1` boxes that match the version and minting
+  address specified by `v1Asset`
+* **And** their associated transactions have a confidence factor greater than 0.9
+* **When**
+    ```
+    getTxosByAssetLabel(v1Asset, 1000, 0.9)
+    ```
+* **Then** the call immediately begins returning the matching TxOs
+* **After** all the matching TxOs in the database have been returned
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Arbit boxes
+* **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
+* **Then** the new TxOs are returned as part of the stream.
+
+##### Happy Path TAM2
+
+* **Given** that `tam2Asset` has a value that is a string that identifies a TAM2 group and series constructor
+* **And** there are already TxOs (spent and unspent) that have `TAM2` boxes that match the version and minting
+  address specified by `tam2Asset`
+* **And** their associated transactions have a confidence factor greater than 0.9
+* **When**
+    ```
+    getTxosByAssetLabel(tam2Asset, 1000, 0.9)
+    ```
+* **Then** the call immediately begins returning the matching TxOs
+* **After** all the matching TxOs in the database have been returned
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Arbit boxes
 * **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
 * **Then** the new TxOs are returned as part of the stream.
 
@@ -871,14 +920,15 @@ The following testing scenarios are required:
     ```
     getTxosByAssetLabel("LVL")
     ```
-* **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999
+* **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999 and the value passed
+  for `timeoutMillis` is 1000.
 
 ##### No properly configured Genus service
 
 * **Given** that there is no properly configured genus service
 * **When**
     ```
-    getTxosByAssetLabel("LVL", 0.9)
+    getTxosByAssetLabel("LVL", 1000, 0.9)
     ```
 * **Then** the call produces an error indicating there is no properly configured genus service
 
@@ -889,7 +939,7 @@ The following testing scenarios are required:
   sent
 * **When**
     ```
-    getTxosByAssetLabel("LVL", 0.9)
+    getTxosByAssetLabel("LVL", 1000, 0.9)
     ```
 * **Then** the call produces an error indicating that the request could not be sent
 
@@ -900,7 +950,7 @@ The following testing scenarios are required:
   processing the request
 * **When**
     ```
-    getTxosByAssetLabel("LVL", 0.9)
+    getTxosByAssetLabel("LVL", 1000, 0.9)
     ```
 * **Then** the call produces an error indicating that there was a problem processing the request.
 
@@ -942,7 +992,8 @@ will asynchronously populate the index.
       contents of their data fields as index keys.
     * indexFilter — An optional regular expression to filter which transactions are included in the created index. If
       this is specified then only transactions whose data matches the regular expression are included in the index.
-      If no indexFilter is specified, then all transactions are included in the index.
+      If no indexFilter is specified, then all transactions are included in the index if the indexFieldSpec value allows
+      it.
 * `populate` If this is true then existing transactions in the database are scanned to populate the index; otherwise the
   index is left empty until a new transaction that passes the filter gets into the index.
 * `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
@@ -997,8 +1048,8 @@ The following testing scenarios are required:
   ```
 * **Then** the call returns all transactions that should be included in the index and none of the transaction that
   should not be included.
-* **Given** that the value of `idx` is a list that contains one string that matches the value of the `id` field in the
-  data of exactly on of the transactions returned by the previous call
+* **Given** that the value of `idx` is a list that contains one `IndexMatchValue` that matches the value of the `id`
+  field in the data of exactly on of the transactions returned by the previous call
 * **When**
   ```
   getIndexedTransactions("fooIndex", idx)
@@ -1008,7 +1059,7 @@ The following testing scenarios are required:
 ##### Happy Path for JSON without pre-population
 
 * **Given** the previous tests for `getIndexedTransactions` were successful
-* **And** there is no existing index in the database named `fooIndex`
+* **And** there is no existing index in the database named `fooIndex2`
 * **And** the value of `fooSpec2` is an `IndexSpec` object that specifies:
     * name is `fooIndex2`
     * fooSpec specifies that the index should be based on transactions with data that is a JSON object and that the
@@ -1038,7 +1089,7 @@ The following testing scenarios are required:
 * **And** there is no existing index in the database named `csvIndex`
 * **And** the value of `csvSpec` is an `IndexSpec` object that specifies:
     * name is `csvIndex`
-    * fooSpec specifies that the index should be based on transactions with data that is in CSV format and that the
+    * csvSpec specifies that the index should be based on transactions with data that is in CSV format and that the
       index should use the value of a field named "id".
     * indexFilter specifies that only records matching `"12345"` should be included in the index
 * **And** there are multiple existing transactions in the database that match the filter
@@ -1059,7 +1110,7 @@ The following testing scenarios are required:
   ```
 * **Then** the call returns all transactions that should be included in the index and none of the transaction that
   should not be included.
-* **Given** that the value of `idx` is a list that contains one string that matches the value of the `id` field in the
+* **Given** that the value of `idx` is a list that contains one `IndexMatchValue` that matches the value of the `id` field in the
   data of exactly on of the transactions returned by the previous call
 * **When**
   ```
@@ -1353,7 +1404,7 @@ Delete an index from the Genus database.
 
 #### Returns
 
-True if the index was deleted or false if the index did not exist.
+True if the index was deleted otherwise false if the index did not exist.
 
 #### Errors
 
