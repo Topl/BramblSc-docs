@@ -1,10 +1,53 @@
-# Proposition functions generic to all prop types
+# Templates
 
+Proposer Functions Generic to All Templates
 
-Takes in a proposition template and binds the quantifier(s) within the template to the quantifier value of the same name within the quantifiers mapping (given by quantifierValues)
-` bindPropositionTemplate(PropositionTemplate, quantifierValues) => PropositionTemplate`
+## Bind a Proposition Template
 
-If the PropositionTemplate has remaining unbound quantifiers. If the  PropositionTemplate is compositional, it is only considered fully bounded if all PropositionTemplates within are also fully bounded
+### Signature
+
+` bindPropositionTemplate(PropositionTemplate, quantifierValues) => PropositionTemplate `
+
+> TODO: Explain parameters and return type
+
+### Example Usage
+
+` bindPropositionTemplate(propTemplate, quantifierValues)`
+
+> TODO: make more comprehensive
+
+### Description
+
+Binds quantifier values to unbound quantifiers referenced in the given template.
+
+> TODO: add more
+
+![diagram](./assets/Template_bindPropositiontemplate.png)
+
+### Test Vectors
+
+> TODO: embed test vectors
+
+## Check if a Proposition Template is Fully Bound
+
+### Signature
+
 ` isFullyBounded(PropositionTemplate) => Boolean ` 
 
- 
+> TODO: Explain parameters and return type
+
+### Example Usage
+
+` isFullyBounded(propTemplate)`
+
+> TODO: make more comprehensive
+
+### Description
+
+Returns whether the given proposition template is fully bound. Fully bound means no unbound quantifiers remain. 
+
+![diagram](./assets/Template_isFullyBounded.png)
+
+### Test Vectors
+
+> TODO: embed test vectors

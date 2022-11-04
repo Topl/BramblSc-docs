@@ -1,18 +1,29 @@
-# Height Lock Proof functions generic to all Height Lock Proof
+# Height Lock 
+
+Prover Functions Specific to Height Lock
+
+## Create a Height Lock Proof
+
+### Signature
 
 ` heightLockProof() => ((ProverContext) => ProofHeightLock) `
 
-Where ProofContext contains the Transaction and a signing key. heightLockProof has no args since a height lock proof has no arguments
+> TODO: Explain parameters and return type
 
+### Example Usage
 
-motivation behind returning function
+` heightLockProof()(proverCtx) `
 
+> TODO: make more comprehensive
 
-a = thresholdProof(
-    heightLockProof(),
-    hashLockProof(digest)
-)
+### Description
 
-b = heightLockProof()
+Create a contextual height lock proof.
 
-[a, b].map(_(proverctx))
+> TODO: add more
+
+![diagram](./assets/HeightLock_heightLockProof.png)
+
+### Test Vectors
+
+> TODO: embed test vectors
