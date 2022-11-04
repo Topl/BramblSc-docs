@@ -1,12 +1,25 @@
 # Bramble Query Functions
 
-This document describes the interfaces that the Bramble SDK provides for querying Genus and bifrost nodes. 
+This document describes the interfaces that the Bramble SDK provides for querying Genus and bifrost nodes. The
+descriptions are in a language-neutral form.
+
+Various data types are used to describe the parameters and return types of functions/methods. Most of these are defined
+in protobuf specifications from which language specific definitions are generated. A few collection types are not
+defined in the protobuf specs:
+
+* `Collection`
+  This is an unordered collection. It provides operations to iterate over its contents and to determine if an object
+  is an element of the collection.
+* `List`
+  This is an ordered collection. It provides operations to iterate over its contents in their order and to determine if
+  an object is an element of the collection.
 
 ## Interface BifrostQuery
 
 The details of this interface are yet to be specified. They will be based on the bifrost_rpc specification.
 
 ## Interface GenusBlockQuery
+
 This interface is used to query Genus to query a database get information extracted from the canonical blockchain.
 
 There will be two implementation of this interface. One will use gRPC to access a stand-alone Genus server that runs
@@ -18,7 +31,7 @@ independently of Topl clients. The other is to access a Genus database that is e
 
 ```
 getBlockById(id: models.TypedIdentifier, timeoutMillis: uint64, confidenceFactor: double)
-    returns models.BlockV2.Full
+    returns co.topl.proto.models.block.FullBlock
 ```
 
 #### Description
@@ -33,16 +46,17 @@ has waited this amount of time and there is no result to be returned, the method
 #### Parameters
 
 * `id` the ID of the block to find
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 2000 (2 seconds).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+* `confidenceFactor` is 1 minus the probability that a block is reorged. The default value is 0.9999999.
 
 #### Returns
 
-A `BlockV2.Full` that contains the block header and block body for the with block with the specified id.
+A `co.topl.proto.models.block.FullBlock` that contains the block header and block body for the with block with the
+specified id.
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function will produce include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -55,25 +69,27 @@ The following testing scenarios are required:
 
 ##### Happy Path with No Waiting
 
-* **Given** that there is already a block with the ID *blockId* in the Genus service's database
-* **And** block *blockId* has a confidence factor greater than 0.999
+* **Given** that the value of `blockId` is a block ID
+* **And** there is already a block with the ID `blockId` in the Genus service's database
+* **And** block `blockId` has a confidence factor greater than 0.99
 * **When**
     ```
     getBlockById(blockId, 10, 0.9)
     ```
-* **Then** the call immediately returns the `BlockV2.Full`
+* **Then** the call immediately returns the `co.topl.proto.models.block.FullBlock`.
 
 ##### Happy Path with Waiting
 
-* **Given** that there is no block with the ID *blockId* in the Genus service's database
+* **Given** that the value of `blockId2` is a block ID
+* **And** that there is no block with the ID `blockId2` in the Genus service's database
 * **When**
     ```
-    getBlockById(blockId, 5000, 0.99)
+    getBlockById(blockId2, 5000, 0.99)
     ```
-* **And Then** A block *blockId* is added to Genus
+* **And Then** A block with ID `blockId2` is added to Genus
 * **AND Then** Enough blocks are added to Genus to raise the block's confidence factor to greater than 0.99 in
   less than 3 seconds.
-* **Then** the call returns the `BlockV2.Full`
+* **Then** the call returns the `co.topl.proto.models.block.FullBlock`.
 
 ##### Default Parameter Values
 
@@ -130,13 +146,14 @@ The following testing scenarios are required:
 #### Signature(s)
 
 ```
-  getBlockByHeight(height: int64, timeoutMillis: uint64, confidenceFactor: double) returns models.BlockV2.Full
+  getBlockByHeight(height: int64, timeoutMillis: uint64, confidenceFactor: double)
+      returns co.topl.proto.models.block.FullBlock
 ```
 
 #### Description
 
 Retrieve the block at the specified height from the configured Genus service, where the height of the genesis block
-is 1. This returns its result when there is a block present in the genus service at the specified height and the
+is 1. This returns a result when there is a block present in the genus service at the specified height and the
 confidence factor of the block is greater than or equal to the value of the `confidenceFactor` parameter.
 
 This method/function will wait no longer than the specified number of milliseconds to return. When the method/function
@@ -145,16 +162,17 @@ has waited this amount of time and there is no result to be returned, the method
 #### Parameters
 
 * `height` the height of the block to get. The height of the genesis block 1.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 2000 (2 seconds).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
-A `BlockV2.Full` that contains the block header and block body for the block with at specified height.
+A `co.topl.proto.models.block.FullBlock` that contains the block header and block body for the block with at specified
+height.
 
 #### Error
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -168,12 +186,12 @@ The following testing scenarios are required:
 ##### Happy Path with No Waiting
 
 * **Given** that there is already a block at height *h* in the Genus service's database
-* **And** the block at height *h* has a confidence factor greater than 0.999
+* **And** the block at height *h* has a confidence factor greater than 0.99
 * **When**
     ```
     getBlockByHeight(h, 10, 0.9)
     ```
-* **Then** the call immediately returns the `BlockV2.Full`
+* **Then** the call immediately returns the `co.topl.proto.models.block.FullBlock`
 
 ##### Happy Path with Waiting
 
@@ -185,7 +203,7 @@ The following testing scenarios are required:
 * **And Then** A block at height *h* is added to Genus
 * **AND Then** Enough blocks are added to Genus to raise the block's confidence factor to greater than 0.99 in
   less than 3 seconds.
-* **Then** the call returns the `BlockV2.Full`
+* **Then** the call returns the `co.topl.proto.models.block.FullBlock`
 
 ##### Default Parameter Values
 
@@ -242,7 +260,8 @@ The following testing scenarios are required:
 #### Signature(s)
 
 ```
-  getBlockByDepth(depth: int64, timeoutMillis: uint64, confidenceFactor: double) returns models.BlockV2.Full
+  getBlockByDepth(depth: int64, timeoutMillis: uint64, confidenceFactor: double)
+      returns co.topl.proto.models.block.FullBlock
 ```
 
 #### Description
@@ -255,18 +274,19 @@ equal to the value of the `confidenceFactor` parameter.
 
 * `depth` the depth of the block to get. The block at depth 1 is the highest block with a confidence factor that is
   greater than or equal to the value of the `confidenceFactor` parameter.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
-A `BlockV2.Full` that contains the block header and block body for the block with at specified depth.
+A `co.topl.proto.models.block.FullBlock` that contains the block header and block body for the block with at specified
+depth.
 
 #### Error
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
-* There is no block at the requested height or the block is not visible due to its confidence factor.
+* There is no block at the requested depth or the block is not visible due to its confidence factor.
 * No properly configured Genus service
 * Unable to send request to Genus service
 * The Genus service returned an error
@@ -278,21 +298,23 @@ The following testing scenarios are required:
 
 ##### Happy Path with Varied Confidence Factor
 
-* **Given** that there are already at least six blocks other in the Genus service's database
+* **Given** that there are already at least six other blocks in the Genus service's database
 * **And** no additional blocks are added to the Genus service's database while this test is in progress
-* **And** the block at the top of the blockchain has a confidence factor less than .9
+* **And** the block at the top of the blockchain has a confidence factor less than 0.9
 * **And** there is a block in the blockchain other than the genesis block that has a confidence factor greater than
-  0.99
+  0.9
 * **When**
     ```
     getBlockByDepth(h, 0.0)
     ```
-* **Then** the call immediately returns a `BlockV2.Full` for the block that is at the top of the blockchain
+* **Then** the call immediately returns a `co.topl.proto.models.block.FullBlock` for the block that is at the top of the
+  blockchain
 * **When**
     ```
     getBlockByDepth(h, 0.9)
     ```
-* **Then** the call immediately returns a `BlockV2.Full` for a block that is at a lower height in the blockchain.
+* **Then** the call immediately returns a `co.topl.proto.models.block.FullBlock` for a block that is at a lower height
+  in the blockchain.
 
 ##### Non Existent Block
 
@@ -310,7 +332,8 @@ The following testing scenarios are required:
     ```
     getBlockByDepth(n)
     ```
-* **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999
+* **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999 and the value for `timeoutMillis` is
+    1000.
 
 ##### No properly configured Genus service
 
@@ -360,24 +383,24 @@ The following testing scenarios are required:
 #### Signature(s)
 
 ```
-  getTransactionById(id: models.TransactionId, timeoutMillis: uint64, confidenceFactor: double) returns TransactionReceipt
+  getTransactionById(id: models.TransactionId, timeoutMillis: uint64, confidenceFactor: double)
+      returns TransactionReceipt
 ```
 
 #### Description
 
 Retrieve a transaction with the specified `id` from the configured Genus service. This returns its result when there is
-a
-transaction present in the genus service with the specified id and the confidence factor of the block that contains the
-transaction is greater than or equal to the value of the `confidenceFactor` parameter.
+a transaction present in the genus service with the specified id and the confidence factor of the block that contains
+the transaction is greater than or equal to the value of the `confidenceFactor` parameter.
 
 This method/function will wait no longer than the specified number of milliseconds to return. When the method/function
-has waited this amount of time and there is no result to be returned, the method produces an error.
+has waited this amount of time and there is no result to be returned, the method/function produces an error.
 
 #### Parameters
 
 * `id` the ID of the transaction to find.
-* `timeoutMillis` The maximum number of milliseconds to wait. The default value will be 2000 (2 seconds).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis` The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -385,7 +408,7 @@ A transaction receipt that includes the specified transaction and genus-supplied
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -398,8 +421,9 @@ The following testing scenarios are required:
 
 ##### Happy Path with No Waiting
 
-* **Given** that there is already a transaction with the ID *xactnId* in the Genus service's database
-* **And** transaction *xactnId* has a confidence factor greater than 0.999
+* **Given** that the value of `xactnId` is a transaction ID
+* **And** that there is already a transaction with the ID `xactnId` in the Genus service's database
+* **And** the transaction with ID `xactnId` has a confidence factor greater than 0.99
 * **When**
     ```
     getTransactionById(xactnId, 10, 0.9)
@@ -408,13 +432,14 @@ The following testing scenarios are required:
 
 ##### Happy Path with Waiting
 
-* **Given** that there is no transaction with the ID *xactnId* in the Genus service's database
+* **Given** that the value of `xactnId` is a transaction ID
+* **And** that there is no transaction with the ID `xactnId` in the Genus service's database
 * **When**
     ```
-    getTransactionById(xactnId, 5000, 0.99)
+    getTransactionById(xactnId, 5000, 0.9)
     ```
-* **And Then** A transaction *xactnId* is added to Genus
-* **AND Then** Enough blocks are added to Genus to raise the transaction's confidence factor to greater than 0.99 in
+* **And Then** A transaction with ID `xactnId` is added to Genus
+* **AND Then** Enough blocks are added to Genus to raise the transaction's confidence factor to greater than 0.9 in
   less than 3 seconds.
 * **Then** the call returns the transaction receipt
 
@@ -486,8 +511,8 @@ that are in a block with confidence factor greater than or equal to the value of
 #### Parameters
 
 * `addresses` The addresses to search for.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -495,7 +520,7 @@ A stream of transaction receipts that includes the specified transactions and ge
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -590,8 +615,8 @@ parameter. This returns immediately.
 #### Parameters
 
 * `addresses` The addresses to search for.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -599,7 +624,7 @@ A Map whose keys addresses as base58 encoded strings and whose values are a coll
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -690,8 +715,8 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
 #### Parameters
 
 * `addresses` The addresses to search for.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -699,7 +724,7 @@ A stream of Maps whose keys addresses as base58 encoded strings and whose values
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -796,15 +821,15 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                                |
-      |-------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+                        |-------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                             |
   | Poly     | `"LVL"`                                                                                                                                               |
   | Arbit    | `"TOPL"`                                                                                                                                              |
   | AssetV1  | _version_&#124;_address_<br/>where _version_ is the hex value of the version byte and _address_ is the base58 encoded minting address.                |
   | TAM2     | _group_:_series_<br/>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
 
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value will be 0.9999999.
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -812,7 +837,7 @@ A stream of TxOs.
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -910,17 +935,17 @@ will asynchronously populate the index.
 
 * `indexSpec` Is an object that describes the index to be created. It includes
     * name — The name of the index
-    * indexFieldSpec — describes how to parse the transaction date to find the fields that will be the index values.
+    * indexFieldSpec — describes how to parse the transaction date to find the fields that are the index values.
       JSON and CSV are supported for this. A JSON indexFieldSpec will cause transactions with data that is not a valid
       JSON object containing the needed fields to be excluded from the index.<br/>
       If no value is provided, then the index will include every transaction to be included in the index using the full
       contents of their data fields as index keys.
     * indexFilter — An optional regular expression to filter which transactions are included in the created index. If
-      this is specified then only transactions whose data matches the regular expression will be included in the index.
+      this is specified then only transactions whose data matches the regular expression are included in the index.
       If no indexFilter is specified, then all transactions are included in the index.
 * `populate` If this is true then existing transactions in the database are scanned to populate the index; otherwise the
   index is left empty until a new transaction that passes the filter gets into the index.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
@@ -928,7 +953,7 @@ True if the index was created; False if the index already existed.
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -1107,7 +1132,7 @@ The content of each `IndexSpec` object is the same as the `IndexSpec ` object us
 
 #### Parameters
 
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
@@ -1116,7 +1141,7 @@ The content of each `IndexSpec` object is the same as the `IndexSpec ` object us
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -1192,7 +1217,7 @@ The following testing scenarios are required:
 #### Description
 
 Retrieve transactions that are included in the named index. If the `keys` parameter is supplied, then only transactions
-whose index records match the specified key values will be included in the result.
+whose index records match the specified key values are included in the result.
 
 #### Parameters
 
@@ -1205,7 +1230,7 @@ whose index records match the specified key values will be included in the resul
 * `skipResults` is the number of transactions to be skipped. This parameter can be used with the `maxResults` parameter
   to page forward or backward through the transactions.<br/>
   The default value for this parameter is 0.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
@@ -1213,7 +1238,7 @@ A stream of transactions that were found through the index.
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
@@ -1324,7 +1349,7 @@ Delete an index from the Genus database.
 #### Parameters
 
 * `indexName` The name of the index to be deleted.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value will be 1000 (1 second).
+* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
@@ -1332,7 +1357,7 @@ True if the index was deleted or false if the index did not exist.
 
 #### Errors
 
-The errors that the method/function will be able to produce include:
+The errors that the method/function produces include:
 
 * No properly configured Genus service
 * Unable to send request to Genus service
