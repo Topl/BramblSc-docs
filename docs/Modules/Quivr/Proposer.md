@@ -2,7 +2,7 @@
 
 Functions related to creating Propositions
 
-## Proposer Height Lock
+## Propose Height Lock
 
 ### Signature
 

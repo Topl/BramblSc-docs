@@ -16,7 +16,7 @@ note that tag should only contain a single byte. Protobuf does not have a type f
 
 Generate a binding for a proof. This binding is a hash of the tag and message.
 
-![diagram](....)
+![diagram](./assets/Prover_bind.png)
 
 ### Test Vectors
 

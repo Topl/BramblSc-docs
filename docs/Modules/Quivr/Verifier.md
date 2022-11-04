@@ -6,7 +6,7 @@ Functions related to verifying if a Proof satisfies a Proposition
 
 ### Signature
 
-` verifyHeight(PropositionHeightLock, ProofHeightLock) => ((EvaluationContext) => Boolean) `
+` verifyHeight(proposition: PropositionHeightLock, proof: ProofHeightLock) => ((evalCtx: EvaluationContext) => Boolean) `
 
 > TODO: Explain parameters and return type
 
@@ -16,12 +16,12 @@ Verify that a given Height Lock Proof satisfies the given Height Lock Propositio
 
 > TODO: add more
 
-![diagram](./assets/HeightLock_verifyHeight.png)
+![diagram](./assets/Verifier_verifyHeight.png)
 
 ### Test Vectors
 
 The test vectors represent the inputs and outputs of the following language-agnostic pseudo code:
 
-` isValid = Quivr.Verifier.verifyHeight(heightLockProp, heightLockProof)(evalCtx) `
+` isValid = Quivr.Verifier.verifyHeight(proposition, proof)(evalCtx) `
 
 > TODO: embed test vectors
