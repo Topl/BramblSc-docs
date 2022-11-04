@@ -1,6 +1,6 @@
 # Proposer 
 
-Functions related to creating Propositions
+Functions related to creating Propositions.
 
 ## Propose Height Lock
 
@@ -8,13 +8,22 @@ Functions related to creating Propositions
 
 ` proposeHeight(min: uint64, max: uint64) => PropositionHeightLock `
 
-> TODO: Explain parameters and return type
+* Parameters
+  * `min`  
+  The minimum allowable block height.
+    * Type: `uint64`
+    * Required: true
+  * `max`  
+  The maximum allowable block height.
+    * Type: `uint64`
+    * Required: true
+* Return  
+The created Height Lock Proposition.
+  * Type: `PropositionHeightLock`
 
 ### Description
 
-Create a Height Lock Proposition.
-
-> TODO: add more
+Create a Height Lock Proposition. A Height Lock Proposition requires that its containing transaction joins a block whose height is valid (per `min` and `max` parameters).
 
 ![diagram](./assets/Proposer_proposeHeight.png)
 
