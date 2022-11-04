@@ -29,9 +29,24 @@ Create a Height Lock Proposition. A Height Lock Proposition requires that its co
 
 ### Test Vectors
 
-The test vectors represent the inputs and outputs of the following: language-agnostic pseudo code:
+The test vectors represent the inputs and outputs of the following language-agnostic pseudo code:
 
 ` proposition = Quivr.Proposer.proposeHeight(min, max) `
 
-> TODO: embed test vectors
+```json
+[
+  {
+    "inputs": {
+      "min": 8,
+      "max": 12
+    },
+    "outputs": {
+      "proposition": {
+        "min": 8,
+        "max": 12
+      }
+    }
+  }
+]
+```
 

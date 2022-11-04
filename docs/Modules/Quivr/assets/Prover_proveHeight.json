@@ -5,49 +5,11 @@
       "fn": [
         {
           "inputs": {
-            "ProverContext": {
-              "UnprovenTransaction": {
-                "inputs": [
-                  "UnprovenInput1"
-                ],
-                "outputs": [
-                  "Output1"
-                ],
-                "schedule": "",
-                "data": "",
-                "dataHash": ""
-              },
-              "signingKey": "AAAAAAAA"
-            }
+            "msg": "abcde"
           },
           "outputs": {
-            "ProofHeightLock": {
-              "heightLock": {},
-              "txSignature": "BBBBBBBB"
-            }
-          }
-        },
-        {
-          "inputs": {
-            "ProverContext": {
-              "UnprovenTransaction": {
-                "inputs": [
-                  "UnprovenInput2"
-                ],
-                "outputs": [
-                  "Output2"
-                ],
-                "schedule": "",
-                "data": "",
-                "dataHash": ""
-              },
-              "signingKey": "DDDDDDDD"
-            }
-          },
-          "outputs": {
-            "ProofHeightLock": {
-              "heightLock": {},
-              "txSignature": "EEEEEEEE"
+            "proof": {
+              "transactionBind": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
             }
           }
         }

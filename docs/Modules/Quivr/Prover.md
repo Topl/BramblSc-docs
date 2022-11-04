@@ -30,11 +30,23 @@ Generate a binding for a proof. This binding is a hash of the tag and message.
 
 ### Test Vectors
 
-The test vectors represent the inputs and outputs of the following: language-agnostic pseudo code:
+The test vectors represent the inputs and outputs of the following language-agnostic pseudo code:
 
 ` binding = Quivr.Prover.bind(tag, message) `
 
-> TODO: embed test vectors
+```json
+[
+  {
+    "inputs": {
+      "tag": "x",
+      "message": "abcde"
+    },
+    "outputs": {
+      "binding": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
+    }
+  }
+]
+```
 
 ## Prove Height Lock
 
@@ -67,4 +79,26 @@ The test vectors represent the inputs and outputs of the following language-agno
 
 ` proof = Quivr.Proposer.proveHeight()(msg) `
 
-> TODO: embed test vectors
+> Note: The following is assuming that the tag for Height Lock is given by the byte "x".
+
+```json
+[
+  {
+    "inputs": {},
+    "outputs": {
+      "fn": [
+        {
+          "inputs": {
+            "msg": "abcde"
+          },
+          "outputs": {
+            "proof": {
+              "transactionBind": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
+            }
+          }
+        }
+      ]
+    }
+  }
+]
+```

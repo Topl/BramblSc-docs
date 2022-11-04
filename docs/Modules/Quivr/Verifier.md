@@ -40,4 +40,110 @@ The test vectors represent the inputs and outputs of the following language-agno
 
 ` isValid = Quivr.Verifier.verifyHeight(proposition, proof)(ctx) `
 
-> TODO: embed test vectors
+```json
+[
+  {
+    "inputs": {
+      "proposition": {
+        "min": 8,
+        "max": 12
+      },
+      "proof": {
+        "transactionBind": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
+      }
+    },
+    "outputs": {
+      "fn": [
+        {
+          "inputs": {
+            "ctx": {
+              "header": {
+                "slot": 1,
+                "height": 10
+              },
+              "body": {
+                "root": "0"
+              },
+              "iotx": {
+                "signableBytes": "abcde"
+              },
+              "box": {
+                "metadata": "0"
+              }
+            }
+          },
+          "outputs": {
+            "result": true
+          }
+        },
+        {
+          "inputs": {
+            "ctx": {
+              "header": {
+                "slot": 1,
+                "height": 10
+              },
+              "body": {
+                "root": "0"
+              },
+              "iotx": {
+                "signableBytes": "1234"
+              },
+              "box": {
+                "metadata": "0"
+              }
+            }
+          },
+          "outputs": {
+            "result": false
+          }
+        },
+        {
+          "inputs": {
+            "ctx": {
+              "header": {
+                "slot": 1,
+                "height": 2
+              },
+              "body": {
+                "root": "0"
+              },
+              "iotx": {
+                "signableBytes": "abcde"
+              },
+              "box": {
+                "metadata": "0"
+              }
+            }
+          },
+          "outputs": {
+            "result": false
+          }
+        },
+        {
+          "inputs": {
+            "ctx": {
+              "header": {
+                "slot": 20,
+                "height": 10
+              },
+              "body": {
+                "root": "xyz"
+              },
+              "iotx": {
+                "signableBytes": "abcde"
+              },
+              "box": {
+                "metadata": "789"
+              }
+            }
+          },
+          "outputs": {
+            "result": true
+          }
+        }
+      ]
+    }
+  }
+]
+```

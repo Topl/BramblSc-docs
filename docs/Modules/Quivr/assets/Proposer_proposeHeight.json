@@ -1,12 +1,14 @@
 [
   {
     "inputs": {
-      "height": 10
+      "min": 8,
+      "max": 12
     },
     "outputs": {
-      "PropositionHeightLock": {
-        "height": 10
+      "proposition": {
+        "min": 8,
+        "max": 12
       }
     }
   }
-] 
+]
