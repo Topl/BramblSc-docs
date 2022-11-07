@@ -11,9 +11,11 @@
             "proof": {
               "transactionBind": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
             }
-          }
+          },
+          "errors": []
         }
       ]
-    }
+    },
+    "errors": []
   }
 ]

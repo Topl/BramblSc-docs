@@ -6,6 +6,25 @@
     },
     "outputs": {
       "binding": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
-    }
+    },
+    "errors": []
+  },
+  {
+    "inputs": {
+      "tag": "xyz",
+      "message": "abcde"
+    },
+    "outputs": {},
+    "errors": [
+      {"msg": "tag is invalid. The value must be a single byte."}
+    ]
+  },
+  {
+    "inputs": {},
+    "outputs": {},
+    "errors": [
+      {"msg": "The required parameter tag is missing."},
+      {"msg": "The required parameter message is missing."}
+    ]
   }
 ]
