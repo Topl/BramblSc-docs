@@ -853,9 +853,9 @@ The errors that the method/function produces include:
 
 The following testing scenarios are required:
 
-##### Happy Path POLLY
+##### Happy Path LVL
 
-* **Given** that there are already TxOs (spent and unspent) that have POLY boxes
+* **Given** that there are already TxOs (spent and unspent) that have LVL boxes
 * **And** their associated transactions have a confidence factor greater than 0.9
 * **When**
     ```
@@ -863,13 +863,13 @@ The following testing scenarios are required:
     ```
 * **Then** the call immediately begins returning the matching TxOs
 * **After** all the matching TxOs in the database have been returned
-* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Poly boxes
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain LVL boxes
 * **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
 * **Then** the new TxOs are returned as part of the stream.
 
 ##### Happy Path TOPL
 
-* **Given** that there are already TxOs (spent and unspent) that have Arbit boxes
+* **Given** that there are already TxOs (spent and unspent) that have TOPL boxes
 * **And** their associated transactions have a confidence factor greater than 0.9
 * **When**
     ```
@@ -877,7 +877,7 @@ The following testing scenarios are required:
     ```
 * **Then** the call immediately begins returning the matching TxOs
 * **After** all the matching TxOs in the database have been returned
-* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Arbit boxes
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain TOPL boxes
 * **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
 * **Then** the new TxOs are returned as part of the stream.
 
@@ -893,15 +893,16 @@ The following testing scenarios are required:
     ```
 * **Then** the call immediately begins returning the matching TxOs
 * **After** all the matching TxOs in the database have been returned
-* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Arbit boxes
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain AssetV1 boxes with
+  the same minting address and version as specified in `v1Asset`
 * **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
 * **Then** the new TxOs are returned as part of the stream.
 
-##### Happy Path TAM2
+##### Happy Path AssetV2
 
-* **Given** that `tam2Asset` has a value that is a string that identifies a TAM2 group and series constructor
-* **And** there are already TxOs (spent and unspent) that have `TAM2` boxes that match the version and minting
-  address specified by `tam2Asset`
+* **Given** that `v2` has a value that is a string that identifies an AssetV2 group and series constructor
+* **And** there are already TxOs (spent and unspent) that have `AssetV2` boxes that match the group and series
+  specified by `v2`
 * **And** their associated transactions have a confidence factor greater than 0.9
 * **When**
     ```
@@ -909,7 +910,8 @@ The following testing scenarios are required:
     ```
 * **Then** the call immediately begins returning the matching TxOs
 * **After** all the matching TxOs in the database have been returned
-* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain Arbit boxes
+* **Then** additional transactions are added to the genus database with UTxOs and STxOs that contain AssetV2 boxes with
+  the same group and series
 * **When** these new transactions are deep enough in the blockchain to have a confidence factor greater than .9
 * **Then** the new TxOs are returned as part of the stream.
 
