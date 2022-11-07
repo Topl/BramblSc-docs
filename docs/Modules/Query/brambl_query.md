@@ -1,4 +1,4 @@
-# Bramble Query Functions
+# Brambl Query Functions
 
 This document describes the interfaces that the Bramble SDK provides for querying Genus and bifrost nodes. The
 descriptions are in a language-neutral form.
@@ -67,81 +67,7 @@ The errors that the method/function will produce include:
 
 #### Testing Procedure
 
-The following testing scenarios are required:
-
-##### Happy Path with No Waiting
-
-* **Given** that the value of `blockId` is a block ID
-* **And** there is already a block with the ID `blockId` in the Genus service's database
-* **And** block `blockId` has a confidence factor greater than 0.99
-* **When**
-    ```
-    getBlockById(blockId, 10, 0.9)
-    ```
-* **Then** the call immediately returns the `co.topl.proto.models.block.FullBlock`.
-
-##### Happy Path with Waiting
-
-* **Given** that the value of `blockId2` is a block ID
-* **And** that there is no block with the ID `blockId2` in the Genus service's database
-* **When**
-    ```
-    getBlockById(blockId2, 5000, 0.99)
-    ```
-* **And Then** A block with ID `blockId2` is added to Genus
-* **AND Then** Enough blocks are added to Genus to raise the block's confidence factor to greater than 0.99 in
-  less than 3 seconds.
-* **Then** the call returns the `co.topl.proto.models.block.FullBlock`.
-
-##### Default Parameter Values
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **When**
-    ```
-    getBlockById(blockId)
-    ```
-* **Then** the values passed to the gRPC library for `timeoutMillis` and `confidenceFactor` are 2000 and 0.9999999
-
-##### No properly configured Genus service
-
-* **Given** that there is no properly configured genus service
-* **When**
-    ```
-    getBlockById(blockId, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating there is no properly configured genus service
-
-##### Unable to send request to Genus service
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
-  sent
-* **When**
-    ```
-    getBlockById(blockId, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating that the request could not be sent
-
-##### The genus service returned an error
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
-  processing the request
-* **When**
-    ```
-    getBlockById(blockId, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating that there was a problem processing the request.
-
-##### The Genus service did not return a result before the timeout happened
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to never return
-* **When**
-    ```
-    getBlockById(blockId, 50, 0.99)
-    ```
-* **Then** the call produces an error indicating that there was a timeout error.
+The testing procedure for getBlockById is [described on a separate page](brambl_query_tests/getBlockById_test)
 
 ### getBlockByHeight
 
@@ -182,80 +108,7 @@ The errors that the method/function produces include:
 * The Genus service did not return a result before the timeout happened
 
 #### Testing Procedure
-
-The following testing scenarios are required:
-
-##### Happy Path with No Waiting
-
-* **Given** that there is already a block at height *h* in the Genus service's database
-* **And** the block at height *h* has a confidence factor greater than 0.99
-* **When**
-    ```
-    getBlockByHeight(h, 10, 0.9)
-    ```
-* **Then** the call immediately returns the `co.topl.proto.models.block.FullBlock`
-
-##### Happy Path with Waiting
-
-* **Given** that there is no block at height *h* in the Genus service's database
-* **When**
-    ```
-    getBlockByHeight(h, 5000, 0.99)
-    ```
-* **And Then** A block at height *h* is added to Genus
-* **AND Then** Enough blocks are added to Genus to raise the block's confidence factor to greater than 0.99 in
-  less than 3 seconds.
-* **Then** the call returns the `co.topl.proto.models.block.FullBlock`
-
-##### Default Parameter Values
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **When**
-    ```
-    getBlockByHeight(h)
-    ```
-* **Then** the values passed to the gRPC library for `timeoutMillis` and `confidenceFactor` are 2000 and 0.9999999
-
-##### No properly configured Genus service
-
-* **Given** that there is no properly configured genus service
-* **When**
-    ```
-    getBlockByHeight(h, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating there is no properly configured genus service
-
-##### Unable to send request to Genus service
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
-  sent
-* **When**
-    ```
-    getBlockByHeight(h, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating that the request could not be sent
-
-##### The genus service returned an error
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
-  processing the request
-* **When**
-    ```
-    getBlockByHeight(h, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating that there was a problem processing the request.
-
-##### The Genus service did not return a result before the timeout happened
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to never return
-* **When**
-    ```
-    getBlockByHeight(h, 50, 0.99)
-    ```
-* **Then** the call produces an error indicating that there was a timeout error.
+The testing procedure for getBlockByHeight is [described on a separate page](brambl_query_tests/getBlockByHeight_test)
 
 ### getBlockByDepth
 
@@ -295,88 +148,7 @@ The errors that the method/function produces include:
 * The Genus service did not return a result before the timeout happened
 
 #### Testing Procedure
-
-The following testing scenarios are required:
-
-##### Happy Path with Varied Confidence Factor
-
-* **Given** that there are already at least six other blocks in the Genus service's database
-* **And** no additional blocks are added to the Genus service's database while this test is in progress
-* **And** the block at the top of the blockchain has a confidence factor less than 0.9
-* **And** there is a block in the blockchain other than the genesis block that has a confidence factor greater than
-  0.9
-* **When**
-    ```
-    getBlockByDepth(h, 0.0)
-    ```
-* **Then** the call immediately returns a `co.topl.proto.models.block.FullBlock` for the block that is at the top of the
-  blockchain
-* **When**
-    ```
-    getBlockByDepth(h, 0.9)
-    ```
-* **Then** the call immediately returns a `co.topl.proto.models.block.FullBlock` for a block that is at a lower height
-  in the blockchain.
-
-##### Non Existent Block
-
-* **Given** that the current height of the blockchain is *n* in the Genus service's database
-* **When**
-    ```
-    getBlockByDepth(n+1, 0)
-    ```
-* **Then** the call returns immediately with an error
-
-##### Default Parameter Values
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **When**
-    ```
-    getBlockByDepth(n)
-    ```
-* **Then** the value passed to the gRPC library for `confidenceFactor` is 0.9999999 and the value for `timeoutMillis` is
-    1000.
-
-##### No properly configured Genus service
-
-* **Given** that there is no properly configured genus service
-* **When**
-    ```
-    getBlockByDepth(n, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating there is no properly configured genus service
-
-##### Unable to send request to Genus service
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to return an error indicating that the request could not be
-  sent
-* **When**
-    ```
-    getBlockByDepth(n, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating that the request could not be sent
-
-##### The genus service returned an error
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to return an error indicating that there was a problem
-  processing the request
-* **When**
-    ```
-    getBlockByDepth(n, 5000, 0.99)
-    ```
-* **Then** the call produces an error indicating that there was a problem processing the request.
-
-##### The Genus service did not return a result before the timeout happened
-
-* **Given** that calls to the underlying gRPC library are mocked
-* **And** mocked calls to the gRPC library are configured to never return
-* **When**
-    ```
-    getBlockByDepth(n, 50, 0.99)
-    ```
-* **Then** the call produces an error indicating that there was a timeout error.
+The testing procedure for getBlockByDepth is [described on a separate page](brambl_query_tests/getBlockByDepth_test)
 
 ## Interface GenusTransactionQuery
 
