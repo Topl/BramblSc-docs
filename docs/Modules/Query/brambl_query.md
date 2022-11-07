@@ -826,12 +826,12 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                                |
-          |-------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+  |----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                             |
-  | Poly     | `"LVL"`                                                                                                                                               |
-  | Arbit    | `"TOPL"`                                                                                                                                              |
+  | Lvl      | `"LVL"`                                                                                                                                               |
+  | Topl     | `"TOPL"`                                                                                                                                              |
   | AssetV1  | _version_&#124;_address_<br/>where _version_ is the hex value of the version byte and _address_ is the base58 encoded minting address.                |
-  | TAM2     | _group_:_series_<br/>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
+  | AssetV2  | _group_:_series_<br/>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
 
 * `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 * `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
