@@ -1,0 +1,19 @@
+@startuml
+title Data Flow for Native Transaction Builder
+skinparam rectangle {
+  BackgroundColor LightPink
+}
+skinparam storage {
+  BackgroundColor LightCyan
+}
+storage listOfTxos
+storage listOfContracts
+rectangle buildInputs
+storage listOfUnprovenInputs
+
+listOfTxos -> buildInputs
+listOfContracts -> buildInputs
+buildInputs -> listOfUnprovenInputs
+
+listOfTxos -[hidden]- listOfContracts
+@enduml
