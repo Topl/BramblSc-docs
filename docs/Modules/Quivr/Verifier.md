@@ -64,8 +64,83 @@ The test vectors represent the inputs and outputs of the following language-agno
 ```
 isValid = Quivr.Verifier.verifyHeight(proposition, proof)(ctx)
 ```
-> TODO: paste updated test vectors
 
 ```json
-...
+[
+  {
+    "inputs": {
+      "proposition": {
+        "contextualHeightLock": {
+          "chain": "test",
+          "min": 8,
+          "max": 12
+        }
+      },
+      "proof": {
+        "contextualHeightLock": {},
+        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
+      },
+      "context": {
+        "signableBytes": "abcde",
+        "heightOf": {
+          "test": 10
+        }
+      }
+    },
+    "outputs": {
+      "result": true
+    },
+    "errors": []
+  },
+  {
+    "inputs": {
+      "proposition": {
+        "contextualHeightLock": {
+          "chain": "test",
+          "min": 8,
+          "max": 9
+        }
+      },
+      "proof": {
+        "contextualHeightLock": {},
+        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
+      },
+      "context": {
+        "signableBytes": "abcde",
+        "heightOf": {
+          "test": 10
+        }
+      }
+    },
+    "outputs": {
+      "result": false
+    },
+    "errors": []
+  },
+  {
+    "inputs": {
+      "proposition": {
+        "contextualHeightLock": {
+          "chain": "test",
+          "min": 8,
+          "max": 12
+        }
+      },
+      "proof": {
+        "contextualHeightLock": {},
+        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
+      },
+      "context": {
+        "signableBytes": "wxyz",
+        "heightOf": {
+          "test": 10
+        }
+      }
+    },
+    "outputs": {
+      "result": true
+    },
+    "errors": []
+  }
+]
 ```

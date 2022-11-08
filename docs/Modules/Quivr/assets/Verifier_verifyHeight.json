@@ -2,108 +2,75 @@
   {
     "inputs": {
       "proposition": {
-        "min": 8,
-        "max": 12
+        "contextualHeightLock": {
+          "chain": "test",
+          "min": 8,
+          "max": 12
+        }
       },
       "proof": {
-        "transactionBind": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
+        "contextualHeightLock": {},
+        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
+      },
+      "context": {
+        "signableBytes": "abcde",
+        "heightOf": {
+          "test": 10
+        }
       }
     },
     "outputs": {
-      "fn": [
-        {
-          "inputs": {
-            "ctx": {
-              "header": {
-                "slot": 1,
-                "height": 10
-              },
-              "body": {
-                "root": "0"
-              },
-              "iotx": {
-                "signableBytes": "abcde"
-              },
-              "box": {
-                "metadata": "0"
-              }
-            }
-          },
-          "outputs": {
-            "result": true
-          },
-          "errors": []
-        },
-        {
-          "inputs": {
-            "ctx": {
-              "header": {
-                "slot": 1,
-                "height": 10
-              },
-              "body": {
-                "root": "0"
-              },
-              "iotx": {
-                "signableBytes": "1234"
-              },
-              "box": {
-                "metadata": "0"
-              }
-            }
-          },
-          "outputs": {
-            "result": false
-          },
-          "errors": []
-        },
-        {
-          "inputs": {
-            "ctx": {
-              "header": {
-                "slot": 1,
-                "height": 2
-              },
-              "body": {
-                "root": "0"
-              },
-              "iotx": {
-                "signableBytes": "abcde"
-              },
-              "box": {
-                "metadata": "0"
-              }
-            }
-          },
-          "outputs": {
-            "result": false
-          },
-          "errors": []
-        },
-        {
-          "inputs": {
-            "ctx": {
-              "header": {
-                "slot": 20,
-                "height": 10
-              },
-              "body": {
-                "root": "xyz"
-              },
-              "iotx": {
-                "signableBytes": "abcde"
-              },
-              "box": {
-                "metadata": "789"
-              }
-            }
-          },
-          "outputs": {
-            "result": true
-          },
-          "errors": []
+      "result": true
+    },
+    "errors": []
+  },
+  {
+    "inputs": {
+      "proposition": {
+        "contextualHeightLock": {
+          "chain": "test",
+          "min": 8,
+          "max": 9
         }
-      ]
+      },
+      "proof": {
+        "contextualHeightLock": {},
+        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
+      },
+      "context": {
+        "signableBytes": "abcde",
+        "heightOf": {
+          "test": 10
+        }
+      }
+    },
+    "outputs": {
+      "result": false
+    },
+    "errors": []
+  },
+  {
+    "inputs": {
+      "proposition": {
+        "contextualHeightLock": {
+          "chain": "test",
+          "min": 8,
+          "max": 12
+        }
+      },
+      "proof": {
+        "contextualHeightLock": {},
+        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
+      },
+      "context": {
+        "signableBytes": "wxyz",
+        "heightOf": {
+          "test": 10
+        }
+      }
+    },
+    "outputs": {
+      "result": true
     },
     "errors": []
   }

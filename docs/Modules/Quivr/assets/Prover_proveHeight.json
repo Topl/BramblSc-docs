@@ -1,20 +1,13 @@
 [
   {
-    "inputs": {},
+    "inputs": {
+      "message": "abcde"
+    },
     "outputs": {
-      "fn": [
-        {
-          "inputs": {
-            "msg": "abcde"
-          },
-          "outputs": {
-            "proof": {
-              "transactionBind": "9c04e724809effa55f85ace7eac6d93a065d850150b9cead708b470e0c0e7ace"
-            }
-          },
-          "errors": []
-        }
-      ]
+      "proof": {
+        "contextualHeightLock": {},
+        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
+      }
     },
     "errors": []
   }
