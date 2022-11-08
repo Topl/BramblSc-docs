@@ -15,6 +15,12 @@ defined in the protobuf specs:
   an object is an element of the collection.
 * `Stream`
   is a first-in-first-out data structure to which data can be asynchronously added and removed.
+* `Map`
+  is a map/dictionary/associative array that associated keys with values.
+
+Most implementation types will have commonly used equivalents of these. The most appropriate equivalent should be used.
+Because some implementation languages will provide collection types that take type parameters, the declarations include
+type parameters for these.
 
 ## Interface BifrostQuery
 
