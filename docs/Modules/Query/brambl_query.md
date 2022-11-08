@@ -75,8 +75,8 @@ has waited this amount of time and there is no result to be returned, the method
 #### Parameters
 
 * `id` the ID of the block to find
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
-* `confidenceFactor` is 1 minus the probability that a block is reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block is reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -117,8 +117,8 @@ has waited this amount of time and there is no result to be returned, the method
 #### Parameters
 
 * `height` the height of the block to get. The height of the genesis block 1.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -156,8 +156,8 @@ equal to the value of the `confidenceFactor` parameter.
 
 * `depth` the depth of the block to get. The block at depth 1 is the highest block with a confidence factor that is
   greater than or equal to the value of the `confidenceFactor` parameter.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -200,8 +200,8 @@ has waited this amount of time and there is no result to be returned, the method
 #### Parameters
 
 * `id` the ID of the transaction to find.
-* `timeoutMillis` The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -239,8 +239,8 @@ that are in a block with confidence factor greater than or equal to the value of
 #### Parameters
 
 * `addresses` The addresses to search for.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -276,8 +276,8 @@ parameter. This returns immediately.
 #### Parameters
 
 * `addresses` The addresses to search for.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -315,8 +315,8 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
 #### Parameters
 
 * `addresses` The addresses to search for.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -363,8 +363,8 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   | AssetV1  | _version_&#124;_address_<br/>where _version_ is the hex value of the version byte and _address_ is the base58 encoded minting address.                |
   | AssetV2  | _group_:_series_<br/>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
 
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `timeoutMillis` _(optional)_  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -415,7 +415,7 @@ will asynchronously populate the index.
       it.
 * `populate` If this is true then existing transactions in the database are scanned to populate the index; otherwise the
   index is left empty until a new transaction that passes the filter gets into the index.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
@@ -449,7 +449,7 @@ The content of each `IndexSpec` object is the same as the `IndexSpec ` object us
 
 #### Parameters
 
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
@@ -491,13 +491,14 @@ whose index records match the specified key values are included in the result.
 * `indexSpec` Is an object that describes the index to be created. It includes
 * `keys` A list of values to match against field in records of the named index. The default value for this is an empty
   list, which allows all transactions covered by the index to be returned.
-* `maxResults` is the maximum number of transactions to be returned. This parameter can be used with the `skipResults`
-  parameter to page forward or backward through the transactions.<br/>
+* `maxResults` _(optional)_ is the maximum number of transactions to be returned. This parameter can be used with the 
+  `skipResults` parameter to page forward or backward through the transactions.<br/>
   The default value for this parameter is 2<sup>31</sup>-1.
-* `skipResults` is the number of transactions to be skipped. This parameter can be used with the `maxResults` parameter
+* `skipResults` _(optional)_ is the number of transactions to be skipped. This parameter can be used with the 
+  `maxResults` parameter
   to page forward or backward through the transactions.<br/>
   The default value for this parameter is 0.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `timeoutMillis` _(optional)_  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
@@ -532,8 +533,8 @@ Delete an index from the Genus database.
 
 #### Parameters
 
-* `indexName` The name of the index to be deleted.
-* `timeoutMillis`  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `indexName` _(optional)_ The name of the index to be deleted.
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
 
 #### Returns
 
