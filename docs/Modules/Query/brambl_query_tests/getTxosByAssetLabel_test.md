@@ -114,3 +114,16 @@ The following testing scenarios are required:
     getTxosByAssetLabel("LVL", 50, 0.99)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
+
+##### Confidence Factor is out of range
+
+* **When**
+    ```
+    getTxosByAssetLabel("LVL", 1000, 1.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.
+* **When**
+    ```
+    getTxosByAssetLabel("LVL", 1000, -0.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.

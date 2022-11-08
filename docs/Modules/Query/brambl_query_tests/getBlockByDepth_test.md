@@ -81,3 +81,16 @@ The following testing scenarios are required:
     getBlockByDepth(n, 50, 0.99)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
+
+##### Confidence Factor is out of range
+
+* **When**
+    ```
+    getBlockByDepth(n, 50, 1.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.
+* **When**
+    ```
+    getBlockByDepth(n, 50, -0.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.

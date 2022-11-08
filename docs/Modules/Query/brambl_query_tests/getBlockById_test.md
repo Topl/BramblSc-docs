@@ -75,3 +75,16 @@ The following testing scenarios are required:
     getBlockById(blockId, 50, 0.99)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
+
+##### Confidence Factor is out of range
+
+* **When**
+    ```
+    getBlockById(blockId, 50, 1.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.
+* **When**
+    ```
+    getBlockById(blockId, 50, -0.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.

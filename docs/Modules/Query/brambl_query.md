@@ -483,7 +483,8 @@ The testing procedure for `getExistingTransactionIndexes` is [described on a sep
 
 ```
   getIndexedTransactions(indexName: String, keys: List[IndexMatchValue], 
-                         maxResults: int32, skipResults: uint64, timeoutMillis: uint64)
+                         maxResults: int32, skipResults: uint64, timeoutMillis: uint64,
+                         confidenceFactor: double)
       returns Stream[TransactionReceipt]
 ```
 
@@ -505,6 +506,7 @@ whose index records match the specified key values are included in the result.
   to page forward or backward through the transactions.<br/>
   The default value for this parameter is 0.
 * `timeoutMillis` _(optional)_  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
 
 #### Returns
 
@@ -518,6 +520,7 @@ The errors that the method/function produces include:
 * Unable to send request to Genus service
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
+* `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
 

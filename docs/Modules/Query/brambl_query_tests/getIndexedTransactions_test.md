@@ -11,22 +11,22 @@ The following testing scenarios are required:
 * **And** `emptyList` is an empty list of `IndexMatchValue`
 * **When**
     ```
-    getIndexedTransactions("bigIndex", emptyList, 10, 0)
+    getIndexedTransactions("bigIndex", emptyList, 10, 0, 0.0)
     ```
 * **Then** the call returns 10 transactions
 * **When**
     ```
-    getIndexedTransactions("bigIndex", emptyList, 10, 10)
+    getIndexedTransactions("bigIndex", emptyList, 10, 10, 0.0)
     ```
 * **Then** the call returns 10 transactions
 * **When**
    ```
-    getIndexedTransactions("bigIndex", emptyList, 10, 20)
+    getIndexedTransactions("bigIndex", emptyList, 10, 20, 0.0)
    ```
 * **Then** the call returns 5 transactions
 * **When**
   ```
-    getIndexedTransactions("bigIndex", emptyList, 10, 25)
+    getIndexedTransactions("bigIndex", emptyList, 10, 25, 0.0)
   ```
 * **Then** the call returns no transactions
 
@@ -84,3 +84,16 @@ The following testing scenarios are required:
     getIndexedTransactions("bigIndex", emptyList, 10, 25, 99)
     ```
 * **Then** the call produces an error indicating that there was a timeout error.
+
+##### Confidence Factor is out of range
+
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 20, 1.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.
+* **When**
+    ```
+    getIndexedTransactions("bigIndex", emptyList, 10, 20, -0.001)
+    ```
+* **Then** the call produces an error indicating that `confidenceFactor` is out of range.
