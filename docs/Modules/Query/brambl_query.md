@@ -133,7 +133,7 @@ The errors that the method/function produces include:
 * Unable to send request to Genus service
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
-* `confidenceFactor` is not >=0.1 and <= 1.0
+* `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
 The testing procedure for getBlockByHeight is [described on a separate page](brambl_query_tests/getBlockByHeight_test)
@@ -174,7 +174,7 @@ The errors that the method/function produces include:
 * Unable to send request to Genus service
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
-* `confidenceFactor` is not >=0.1 and <= 1.0
+* `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
 The testing procedure for getBlockByDepth is [described on a separate page](brambl_query_tests/getBlockByDepth_test)
@@ -256,7 +256,7 @@ The errors that the method/function produces include:
 * Unable to send request to Genus service
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
-* `confidenceFactor` is not >=0.1 and <= 1.0
+* `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
 The testing procedure for getTransactionByAddressStream is [described on a separate page](brambl_query_tests/getTransactionByAddressStream_test)
@@ -295,7 +295,7 @@ The errors that the method/function produces include:
 * Unable to send request to Genus service
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
-* `confidenceFactor` is not >=0.1 and <= 1.0
+* `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
 The testing procedure for getTxosByAddress is [described on a separate page](brambl_query_tests/getTxosByAddress_test)
@@ -334,7 +334,7 @@ The errors that the method/function produces include:
 * Unable to send request to Genus service
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
-* `confidenceFactor` is not >=0.1 and <= 1.0
+* `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
 The testing procedure for getTxosByAddressStream is [described on a separate page](brambl_query_tests/getTxosByAddressStream_test)
@@ -383,7 +383,7 @@ The errors that the method/function produces include:
 * Unable to send request to Genus service
 * The Genus service returned an error
 * The Genus service did not return a result before the timeout happened
-* `confidenceFactor` is not >=0.1 and <= 1.0
+* `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
 The testing procedure for getTxosByAssetLabel is [described on a separate page](brambl_query_tests/getTxosByAssetLabel_test)
