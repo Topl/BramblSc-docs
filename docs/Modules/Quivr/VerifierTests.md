@@ -5,37 +5,37 @@
 ### Test Cases
 
 * General Case
-  * Given:
+  * **Given**:
     * `proposition` is a Height Lock Proposition denoting a valid range of 8-12 from chain "test".
     * `proof` is a Height Lock Proof whose binding was generated from the signable bytes of "abcde"
     * `context` is an object providing signable bytes "abcde" and height 10 for chain "test"
-  * Then:
+  * **Then**:
     * `true` is returned.
 * Height Not Satisfied
-  * Given:
+  * **Given**:
     * `proposition` is a Height Lock Proposition denoting a valid range of 8-9 from chain "test".
     * `proof` is a Height Lock Proof whose binding was generated from the signable bytes of "abcde"
     * `context` is an object providing signable bytes "abcde" and height 10 for chain "test"
-  * Then:
+  * **Then**:
     * `false` is returned.
 * Transaction Binding Invalid
-  * Given:
+  * **Given**:
     * `proposition` is a Height Lock Proposition denoting a valid range of 8-12 from chain "test".
     * `proof` is a Height Lock Proof whose binding was generated from the signable bytes of "abcde"
     * `context` is an object providing signable bytes "wxyz" and height 10 for chain "test"
-  * Then:
+  * **Then**:
     * `false` is returned.
 * Context Does Not Contain a Height for Specified Chain
-  * Given:
+  * **Given**:
     * `proposition` is a Height Lock Proposition denoting a valid range of 8-12 from chain "test".
     * `proof` is a Height Lock Proof whose binding was generated from the signable bytes of "abcde"
     * `context` is an object providing signable bytes "wxyz" and height 10 for chain "test-2"
-  * Then:
+  * **Then**:
     * `false` is returned.
 * Parameters Missing
-  * Given:  
+  * **Given**:  
   *None*
-  * Then:
+  * **Then**:
     * Errors occur:
       * "The required parameter proposition is missing."
       * "The required parameter proof is missing."

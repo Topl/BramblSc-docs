@@ -5,22 +5,22 @@
 ### Test Cases
 
 * General Case
-  * Given:
+  * **Given**:
     * `tag` is a single byte.
     * `message` is an arbitrary sequence of bytes.
-  * Then:
-    * A blake2b256 hash of the message followed by the tag is returned.
+  * **Then**:
+    * Produce a blake2b256 hash of the message followed by the tag.
 * Tag is not Exactly One Byte
-  * Given:
+  * **Given**:
     * `tag` is greater than a single byte.
     * `message` is an arbitrary sequence of bytes.
-  * Then:
+  * **Then**:
     * Errors occur:
       * "tag is invalid. The value must be a single byte."
 * Parameters Missing
-  * Given:  
+  * **Given**:  
   *None*
-  * Then:
+  * **Then**:
     * Errors occur:
       * "The required parameter tag is missing."
       * "The required parameter message is missing."
@@ -71,14 +71,14 @@ binding = Quivr.Prover.bind(tag, message)
 ### Test Cases
 
 * General Case
-  * Given:
+  * **Given**:
     * `message` is an arbitrary sequence of bytes.
-  * Then:
-    * A Height Lock Proof that encompasses the transaction binding is returned.
+  * **Then**:
+    * Produce a Height Lock Proof that encompasses the transaction binding.
 * Parameters Missing
-  * Given:  
+  * **Given**:  
   *None*
-  * Then:
+  * **Then**:
     * Errors occur:
       * "The required parameter message is missing."
 
