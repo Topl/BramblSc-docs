@@ -6,14 +6,47 @@ skinparam rectangle {
 skinparam storage {
   BackgroundColor LightCyan
 }
-storage listOfTxos
-storage listOfPredicates
+skinparam collections {
+  BackgroundColor LightGreen
+}
+storage list as list_of_UTxOs {
+  collections UTxOs
+}
+storage list as list_of_predicates {
+  collections predicates
+}
 rectangle buildInputs
 storage listOfUnprovenInputs
+storage creationTimestamp
+storage minimumSlot
+storage maximumSlot
+storage schedule [
+schedule
+==
+uint64 creationTimestamp
+--
+uint64 minimumSlot
+--
+uint64 maximumSlot
+]
+rectangle constructSchedule
+storage quantity
+rectangle constructLvlBoxValue
+storage lvlBoxValue
 
-listOfTxos -> buildInputs
-listOfPredicates -> buildInputs
+creationTimestamp --> constructSchedule
+minimumSlot -> constructSchedule
+constructSchedule <-- maximumSlot
+constructSchedule -> schedule
+
+list_of_predicates --> buildInputs
+list_of_UTxOs -> buildInputs
 buildInputs -> listOfUnprovenInputs
 
-listOfTxos -[hidden]- listOfPredicates
+quantity -> constructLvlBoxValue
+constructLvlBoxValue -> lvlBoxValue
+
+note "Must be \nthe same length" as N1
+N1 . list_of_predicates
+N1 .. list_of_UTxOs
 @enduml
