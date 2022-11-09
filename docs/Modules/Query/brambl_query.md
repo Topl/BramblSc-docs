@@ -3,24 +3,7 @@
 This document describes the interfaces that the Bramble SDK provides for querying Genus and bifrost nodes. The
 descriptions are in a language-neutral form.
 
-Various data types are used to describe the parameters and return types of functions/methods. Most of these are defined
-in protobuf specifications from which language specific definitions are generated. A few collection types are not
-defined in the protobuf specs:
-
-* `Collection`
-  This is an unordered collection. It provides operations to iterate over its contents and to determine if an object
-  is an element of the collection.
-* `List`
-  This is an ordered collection. It provides operations to iterate over its contents in their order and to determine if
-  an object is an element of the collection.
-* `Stream`
-  is a first-in-first-out data structure to which data can be asynchronously added and removed.
-* `Map`
-  is a map/dictionary/associative array that associated keys with values.
-
-Most implementation types will have commonly used equivalents of these. The most appropriate equivalent should be used.
-Because some implementation languages will provide collection types that take type parameters, the declarations include
-type parameters for these.
+The syntax of the types used throughout this specification are explained in a [separate page](../../Overview/Types.md).
 
 ## Interface BifrostQuery
 

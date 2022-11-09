@@ -2,17 +2,7 @@
 
 Functions related to verifying if a Proof satisfies a Proposition.
 
-Various data types are used to describe the parameters and return types of the functions. These types are either the data types provided by [Protobuf](https://developers.google.com/protocol-buffers/docs/proto3) or will be defined in a separate [protobuf specifications repo](https://github.com/Topl/protobuf-specs/) from which language specific denitions will be generated. To denote a specific type given by Protobuf's `oneof`, the data types in this specification will make use of the following syntax: `ParentType[ChildType]`. For example, `Parent[Child1]` denotes the type `Parent` whose oneof-value is of type `Child1` given the following Protobuf definition:
-
-```
-message Parent {
-  oneof sealed_value {
-    Child1 c1 = 1;
-    Child2 c2 = 2;
-    ...
-  }
-}
-```
+The syntax of the types used throughout this specification are explained in a [separate page](../../Overview/Types.md).
 
 ## Verify Height Range
 
