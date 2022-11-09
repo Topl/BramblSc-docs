@@ -19,7 +19,7 @@ message Parent {
 ### Signature
 
 ```
-proposeHeight(min: uint64, max: uint64) => PropositionHeightLock
+proposeHeight(chain: string, min: uint64, max: uint64) => Proposition[PropositionContextualHeightLock]
 ```
 
 * Parameters
@@ -39,6 +39,14 @@ proposeHeight(min: uint64, max: uint64) => PropositionHeightLock
 The created Height Lock Proposition. A Height Lock Proposition specifies the minimum height that a blockchain must be, the maximum height that a blockchain must be, and a label denoting the chain for which these minimum and maximum values must be verified against. 
   * Type: `Proposition[PropositionContextualHeightLock]`
 
+### Errors
+
+The errors that the method/function will produce include:
+
+* `min` or `max` parameters are not provided.
+* `min` or `max` is out of range. Acceptable values are 1 to 9223372036854775807 inclusive.
+* `max`is not greater or equal to `min`
+
 ### Description
 
 Create a Height Lock Proposition. A Height Lock Proposition requires that its containing transaction joins a block whose height is valid. The height of the block will be specified by the parameter `chain`. A given block height is valid if both of the following conditions are true:
@@ -52,122 +60,6 @@ If any of the provided parameters are invalid, then an error will occur. The err
 
 ![diagram](./assets/Proposer_proposeHeight.png)
 
-### Test Vectors
+### Tests
 
-The test vectors represent the inputs and outputs of the following language-agnostic pseudo code:
-
-```
-proposition = Quivr.Proposer.proposeHeight(min, max)
-```
-
-```json
-[
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 8,
-      "max": 12
-    },
-    "outputs": {
-      "proposition": {
-        "contextualHeightLock": {
-            "chain": "test",
-            "min": 8,
-            "max": 12
-        }
-      }
-    },
-    "errors": []
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 1,
-      "max": 9223372036854775807
-    },
-    "outputs": {
-      "proposition": {
-        "contextualHeightLock": {
-          "chain": "test",
-          "min": 1,
-          "max": 9223372036854775807
-        }
-      }
-    },
-    "errors": []
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 8,
-      "max": 8
-    },
-    "outputs": {
-      "proposition": {
-        "contextualHeightLock": {
-          "chain": "test",
-          "min": 8,
-          "max": 8
-        }
-      }
-    },
-    "errors": []
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 0,
-      "max": 9223372036854775808
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "min is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
-      {"msg": "max is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."}
-    ]
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 8,
-      "max": 7
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "max must be greater or equal to min."}
-    ]
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 8,
-      "max": -1
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "max is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
-      {"msg": "max must be greater or equal to min."}
-    ]
-  },
-  {
-    "inputs": {},
-    "outputs": {},
-    "errors": [
-      {"msg": "The required parameter chain is missing."},
-      {"msg": "The required parameter min is missing."},
-      {"msg": "The required parameter max is missing."}
-    ]
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 0
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "min is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
-      {"msg": "The required parameter max is missing."}
-    ]
-  }
-]
-```
-
+The testing procedure and vectors are provided in a [separate page](ProposerTests.md#propose-height-range-tests).

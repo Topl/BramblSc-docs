@@ -1,3 +1,20 @@
+# Verifier Tests
+
+## Verify Height Range Tests
+
+### Test Cases
+
+> TODO: In english detail the test cases
+
+### Test Vectors
+
+The test vectors represent the inputs and outputs(for the test scenarios above) of the following language-agnostic pseudo code:
+
+```
+isValid = Quivr.Verifier.verifyHeight(proposition, proof, context)
+```
+
+```json
 [
   {
     "inputs": {
@@ -100,3 +117,4 @@
     "errors": []
   }
 ]
+```

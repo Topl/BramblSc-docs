@@ -19,7 +19,7 @@ message Parent {
 ### Signature
 
 ```
-verifyHeight(proposition: PropositionHeightLock, proof: ProofHeightLock) => ((ctx: EvaluationContext) => Boolean)
+verifyHeight(proposition: Proposition[PropositionContextualHeightLock], proof: Proof[ProofContextualHeightLock], context: DynamicContext) => Boolean
 ```
 
 * Parameters
@@ -29,7 +29,7 @@ verifyHeight(proposition: PropositionHeightLock, proof: ProofHeightLock) => ((ct
     * Required: true
   * `proof`  
   The Height Lock Proof.
-    * Type: ``Proof[ProofContextualHeightLock]``
+    * Type: `Proof[ProofContextualHeightLock]`
     * Required: true
 * Return  
 A function to verify the Height Lock Proof against the Height Lock Proposition given an evaluation context.
@@ -41,6 +41,10 @@ A function to verify the Height Lock Proof against the Height Lock Proposition g
   * Return  
   A flag indicating if the proof is verified.
     * Type: `bool`
+
+### Errors
+
+This method/function should not produce any errors.
 
 ### Description
 
@@ -57,90 +61,6 @@ To verify the Proof's binding, the transactionBind within the Proof must match a
 
 ![diagram](./assets/Verifier_verifyHeight.png)
 
-### Test Vectors
+### Tests
 
-The test vectors represent the inputs and outputs of the following language-agnostic pseudo code:
-
-```
-isValid = Quivr.Verifier.verifyHeight(proposition, proof)(ctx)
-```
-
-```json
-[
-  {
-    "inputs": {
-      "proposition": {
-        "contextualHeightLock": {
-          "chain": "test",
-          "min": 8,
-          "max": 12
-        }
-      },
-      "proof": {
-        "contextualHeightLock": {},
-        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
-      },
-      "context": {
-        "signableBytes": "abcde",
-        "heightOf": {
-          "test": 10
-        }
-      }
-    },
-    "outputs": {
-      "result": true
-    },
-    "errors": []
-  },
-  {
-    "inputs": {
-      "proposition": {
-        "contextualHeightLock": {
-          "chain": "test",
-          "min": 8,
-          "max": 9
-        }
-      },
-      "proof": {
-        "contextualHeightLock": {},
-        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
-      },
-      "context": {
-        "signableBytes": "abcde",
-        "heightOf": {
-          "test": 10
-        }
-      }
-    },
-    "outputs": {
-      "result": false
-    },
-    "errors": []
-  },
-  {
-    "inputs": {
-      "proposition": {
-        "contextualHeightLock": {
-          "chain": "test",
-          "min": 8,
-          "max": 12
-        }
-      },
-      "proof": {
-        "contextualHeightLock": {},
-        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
-      },
-      "context": {
-        "signableBytes": "wxyz",
-        "heightOf": {
-          "test": 10
-        }
-      }
-    },
-    "outputs": {
-      "result": true
-    },
-    "errors": []
-  }
-]
-```
+The testing procedure and vectors are provided in a [separate page](VerifierTests.md#prove-height-range-tests).

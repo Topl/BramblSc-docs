@@ -36,6 +36,13 @@ bind(tag: bytes, message: bytes) => bytes
 A transaction binding for a proof. Similar to a "signature".
   * Type: `bytes`
 
+### Errors
+
+The errors that the method/function will produce include:
+
+* `tag` or `message` parameters are not provided.
+* `tag` contains more than a single byte.
+
 ### Description
 
 Generate a binding for a proof. This binding is a blake2b256 hash of the `message` followed by the `tag`. Each Quivr operation can be identified by its own unique tag. These associations can be found in the table below:
@@ -61,67 +68,30 @@ Generate a binding for a proof. This binding is a blake2b256 hash of the `messag
 
 ![diagram](./assets/Prover_bind.png)
 
-### Test Vectors
+### Tests
 
-The test vectors represent the inputs and outputs of the following language-agnostic pseudo code:
-
-```
-binding = Quivr.Prover.bind(tag, message)
-```
-
-```json
-[
-  {
-    "inputs": {
-      "tag": -1,
-      "message": "abcde"
-    },
-    "outputs": {
-      "binding": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
-    },
-    "errors": []
-  },
-  {
-    "inputs": {
-      "tag": 9999999,
-      "message": "abcde"
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "tag is invalid. The value must be a single byte."}
-    ]
-  },
-  {
-    "inputs": {},
-    "outputs": {},
-    "errors": [
-      {"msg": "The required parameter tag is missing."},
-      {"msg": "The required parameter message is missing."}
-    ]
-  }
-]
-```
+The testing procedure and vectors are provided in a [separate page](ProverTests.md#bind-proof-tests).
 
 ## Prove Height Range
 
 ### Signature
 
 ```
-proveHeight() => ((msg: bytes) => ProofHeightLock)
+proveHeight(msg: bytes) => Proof[ProofContextualHeightLock]
 ```
 
-* Parameters  
-*None*
+* Parameters
+  * `msg`  
+  A message to bind with the proof. This should represent unique signable bytes of the containing transaction.
+    * Type: `bytes`
+    * Required: true
 * Return  
-A function to create a Height Lock Proof given a message to bound to.
-  * Parameters
-    * `msg`  
-    A message to bind with the proof. This should represent unique signable bytes of the containing transaction.
-      * Type: `bytes`
-      * Required: true
-  * Return  
-  The created Height Lock Proof. 
-    * Type: `Proof[ProofContextualHeightLock]`
+The created Height Lock Proof.
+  * Type: `Proof[ProofContextualHeightLock]`
+
+### Errors
+
+This method/function should not produce any errors.
 
 ### Description
 
@@ -131,29 +101,6 @@ Create a Proof for a Height Lock Proposition. A Proof contains information to sa
 
 ![diagram](./assets/Prover_proveHeight.png)
 
-### Test Vectors
+### Tests
 
-The test vectors represent the inputs and outputs of the following language-agnostic pseudo code:
-
-```
-proof = Quivr.Proposer.proveHeight()(msg)
-```
-
-> Note: The following is assuming that the tag for Height Lock is given by the byte -1.
-
-```json
-[
-  {
-    "inputs": {
-      "message": "abcde"
-    },
-    "outputs": {
-      "proof": {
-        "contextualHeightLock": {},
-        "transactionBind": "-74-6956-92-11155-41-41118-973436881147712311355-61119-614155-68-50-87-46113-2311250117"
-      }
-    },
-    "errors": []
-  }
-]
-```
+The testing procedure and vectors are provided in a [separate page](ProverTests.md#prove-height-range-tests).
