@@ -63,9 +63,6 @@ Generate a binding for a proof. This binding is a blake2b256 hash of the `messag
 | And               | 125           |
 | Or                | 124           |
 
-
-> TODO: Update diagram
-
 ![diagram](./assets/Prover_bind.png)
 
 ### Tests
@@ -98,8 +95,6 @@ The errors that the method/function will produce include:
 ### Description
 
 Create a Proof for a Height Lock Proposition. A Proof contains information to satisfy the Proposition in addition to information to bind the proof with the transaction it will be a part of (i.e., "transactionBind"). In the case of a Height Lock, the proof contains only the transactionBind since its corresponding proposition will be evaluated against the context (instead of any proof data) during verification.
-
-> TODO: Update diagram
 
 ![diagram](./assets/Prover_proveHeight.png)
 

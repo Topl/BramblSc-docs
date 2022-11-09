@@ -56,10 +56,8 @@ To satisfy a Height Lock Proposition, the height requirements within the Proposi
 
 To verify the Proof's binding, the transactionBind within the Proof must match an expected binding that's created using the signable bytes of the transaction (given by `context`).
 
-> TODO: Update diagram
-
 ![diagram](./assets/Verifier_verifyHeight.png)
 
 ### Tests
 
-The testing procedure and vectors are provided in a [separate page](VerifierTests.md#prove-height-range-tests).
+The testing procedure and vectors are provided in a [separate page](VerifierTests.md#verify-height-range-tests).

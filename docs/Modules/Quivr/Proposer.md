@@ -56,8 +56,6 @@ Create a Height Lock Proposition. A Height Lock Proposition requires that its co
 
 If any of the provided parameters are invalid, then an error will occur. The error will be presented in a way that adheres to the best practices of the implementing language.
 
-> TODO: Update diagram
-
 ![diagram](./assets/Proposer_proposeHeight.png)
 
 ### Tests
