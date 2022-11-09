@@ -26,7 +26,7 @@ bind(tag: bytes, message: bytes) => bytes
   * `tag`  
   An identifier of the Quivr operation. Each type of Quivr operation has its own unique tag that are pre-defined (see description below).
     * Type: `bytes`  
-    This parameter should only contain a single byte. This specification denotes this type as `bytes` since Protobuf does not have a type for a single byte.
+    This parameter should only contain a single byte. This specification denotes this type as `bytes` since Protobuf does not have a type for a single byte. Values for this parameter are defined in the table below.
     * Required: true
   * `message`  
   Unique bytes from a transaction that will be bound to a proof. It represents the signable bytes of the transaction for which the proof will become apart of.
@@ -94,7 +94,7 @@ The errors that the method/function will produce include:
 
 ### Description
 
-Create a Proof for a Height Lock Proposition. A Proof contains information to satisfy the Proposition in addition to information to bind the proof with the transaction it will be a part of (i.e., "transactionBind"). In the case of a Height Lock, the proof contains only the transactionBind since its corresponding proposition will be evaluated against the context (instead of any proof data) during verification.
+Creates a Proof for a Height Lock Proposition. A Proof contains information to satisfy the Proposition in addition to information to bind the proof with the transaction it will be a part of (i.e., "transactionBind"). In the case of a Height Lock, the proof contains only the transactionBind since its corresponding proposition will be evaluated against the context (instead of any proof data) during verification.
 
 ![diagram](./assets/Prover_proveHeight.png)
 

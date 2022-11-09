@@ -45,11 +45,11 @@ The errors that the method/function will produce include:
 
 * `min` or `max` parameters are not provided.
 * `min` or `max` is out of range. Acceptable values are 1 to 9223372036854775807 inclusive.
-* `max`is not greater or equal to `min`
+* `max` is less than `min`
 
 ### Description
 
-Create a Height Lock Proposition. A Height Lock Proposition requires that its containing transaction joins a block whose height is valid. The height of the block will be specified by the parameter `chain`. A given block height is valid if both of the following conditions are true:
+Creates a Height Lock Proposition. A Height Lock Proposition requires that its containing transaction joins a block whose height is valid. The height of the block will be specified by the parameter `chain`. A given block height is valid if both of the following conditions are true:
 
 * height is less than or equal to `max`
 * height is greater than or equal to `min`

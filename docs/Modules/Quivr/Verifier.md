@@ -47,7 +47,7 @@ The errors that the method/function will produce include:
 
 ### Description
 
-Verify that a given Height Lock Proof satisfies the given Height Lock Proposition and context. In order for Proofs to verified, the following two conditions must be satisfied:
+Verifies that a given Height Lock Proof satisfies the given Height Lock Proposition and context. In order for Proofs to verified, the following two conditions must be satisfied:
 
 * Proposition must be satisfied
 * The Proof's binding verified.

@@ -10,7 +10,7 @@
     * `message` is an arbitrary sequence of bytes.
   * Then:
     * A blake2b256 hash of the message followed by the tag is returned.
-* Tag is More Than a Byte
+* Tag is not Exactly One Byte
   * Given:
     * `tag` is greater than a single byte.
     * `message` is an arbitrary sequence of bytes.
