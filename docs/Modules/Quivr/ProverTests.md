@@ -4,7 +4,26 @@
 
 ### Test Cases
 
-> TODO: In english detail the test cases
+* General Case
+  * Given:
+    * `tag` is a single byte.
+    * `message` is an arbitrary sequence of bytes.
+  * Then:
+    * A blake2b256 hash of the message followed by the tag is returned.
+* Tag is More Than a Byte
+  * Given:
+    * `tag` is greater than a single byte.
+    * `message` is an arbitrary sequence of bytes.
+  * Then:
+    * Errors occur:
+      * "tag is invalid. The value must be a single byte."
+* Parameters Missing
+  * Given:  
+  *None*
+  * Then:
+    * Errors occur:
+      * "The required parameter tag is missing."
+      * "The required parameter message is missing."
 
 ### Test Vectors
 
@@ -51,7 +70,17 @@ binding = Quivr.Prover.bind(tag, message)
 
 ### Test Cases
 
-> TODO: In english detail the test cases
+* General Case
+  * Given:
+    * `message` is an arbitrary sequence of bytes.
+  * Then:
+    * A Height Lock Proof that encompasses the transaction binding is returned.
+* Parameters Missing
+  * Given:  
+  *None*
+  * Then:
+    * Errors occur:
+      * "The required parameter message is missing."
 
 ### Test Vectors
 
@@ -76,6 +105,13 @@ proof = Quivr.Proposer.proveHeight(msg)
       }
     },
     "errors": []
+  },
+  {
+    "inputs": {},
+    "outputs": {},
+    "errors": [
+      {"msg": "The required parameter message is missing."}
+    ]
   }
 ]
 ```

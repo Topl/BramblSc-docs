@@ -10,5 +10,12 @@
       }
     },
     "errors": []
+  },
+  {
+    "inputs": {},
+    "outputs": {},
+    "errors": [
+      {"msg": "The required parameter message is missing."}
+    ]
   }
 ]

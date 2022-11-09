@@ -74,34 +74,11 @@
     ]
   },
   {
-    "inputs": {
-      "chain": "test",
-      "min": 8,
-      "max": -1
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "max is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
-      {"msg": "max must be greater or equal to min."}
-    ]
-  },
-  {
     "inputs": {},
     "outputs": {},
     "errors": [
       {"msg": "The required parameter chain is missing."},
       {"msg": "The required parameter min is missing."},
-      {"msg": "The required parameter max is missing."}
-    ]
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 0
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "min is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
       {"msg": "The required parameter max is missing."}
     ]
   }

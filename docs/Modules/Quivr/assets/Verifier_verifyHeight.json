@@ -70,7 +70,7 @@
       }
     },
     "outputs": {
-      "result": true
+      "result": false
     },
     "errors": []
   },
@@ -98,5 +98,14 @@
       "result": false
     },
     "errors": []
+  },
+  {
+    "inputs": {},
+    "outputs": {},
+    "errors": [
+      {"msg": "The required parameter proposition is missing."},
+      {"msg": "The required parameter proof is missing."},
+      {"msg": "The required parameter context is missing."}
+    ]
   }
 ]

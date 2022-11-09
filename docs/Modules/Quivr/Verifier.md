@@ -31,20 +31,19 @@ verifyHeight(proposition: Proposition[PropositionContextualHeightLock], proof: P
   The Height Lock Proof.
     * Type: `Proof[ProofContextualHeightLock]`
     * Required: true
+  * `context`  
+  A context to verify the Proposition and Proof against. It provides additional contextual information (such as height, transaction signable bytes and more) to the verifier.
+    * Type: `DynamicContext`
+    * Required: true
 * Return  
-A function to verify the Height Lock Proof against the Height Lock Proposition given an evaluation context.
-  * Parameters
-    * `context`  
-    A context to verify the Proposition and Proof against. It provides additional contextual information (such as height, transaction signable bytes and more) to the verifier.
-      * Type: `DynamicContext`
-      * Required: true
-  * Return  
-  A flag indicating if the proof is verified.
+  A flag indicating if the Height Lock Proof is verified against the Height Lock Proposition given the evaluation context.
     * Type: `bool`
 
 ### Errors
 
-This method/function should not produce any errors.
+The errors that the method/function will produce include:
+
+* `proposition`, `proof`, or `context` parameters are not provided.
 
 ### Description
 

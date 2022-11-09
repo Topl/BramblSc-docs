@@ -4,7 +4,52 @@
 
 ### Test Cases
 
-> TODO: In english detail the test cases
+* General Case
+  * Given:
+    * `chain` is an arbitrary string representing a label in the verification context.
+    * `min` is an arbitrary number in the valid range.
+    * `max` is an arbitrary number in the valid range, greater than `min`.
+  * Then:
+    * A Height Lock Proposition that encompasses the provided data is returned.
+* Widest Window
+  * Given:
+    * `chain` is an arbitrary string representing a label in the verification context.
+    * `min` is the minimum possible value.
+    * `max` is the maximum possible value.
+  * Then:
+    * A Height Lock Proposition that encompasses the provided data is returned.
+* Smallest Window
+  * Given:
+    * `chain` is an arbitrary string representing a label in the verification context.
+    * `min` is an arbitrary number in the valid range.
+    * `max` is equal to `min`.
+  * Then:
+    * A Height Lock Proposition that encompasses the provided data is returned.
+* Values out of Range
+  * Given:
+    * `chain` is an arbitrary string representing a label in the verification context.
+    * `min` is 1 less than the allowable range.
+    * `max` is 1 more than the allowable range.
+  * Then:
+    * Errors occur:
+      * "min is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."
+      * "max is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."
+* Negative Window
+  * Given:
+    * `chain` is an arbitrary string representing a label in the verification context.
+    * `min` is an arbitrary number in the valid range.
+    * `max` is less than `min`.
+  * Then:
+    * Errors occur: 
+      * "max must be greater or equal to min."
+* Parameters Missing
+  * Given:  
+  *None*
+  * Then:
+    * Errors occur: 
+      * "The required parameter chain is missing."
+      * "The required parameter min is missing."
+      * "The required parameter max is missing."
 
 ### Test Vectors
 
@@ -91,34 +136,11 @@ proposition = Quivr.Proposer.proposeHeight(chain, min, max)
     ]
   },
   {
-    "inputs": {
-      "chain": "test",
-      "min": 8,
-      "max": -1
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "max is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
-      {"msg": "max must be greater or equal to min."}
-    ]
-  },
-  {
     "inputs": {},
     "outputs": {},
     "errors": [
       {"msg": "The required parameter chain is missing."},
       {"msg": "The required parameter min is missing."},
-      {"msg": "The required parameter max is missing."}
-    ]
-  },
-  {
-    "inputs": {
-      "chain": "test",
-      "min": 0
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "min is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
       {"msg": "The required parameter max is missing."}
     ]
   }

@@ -77,11 +77,11 @@ The testing procedure and vectors are provided in a [separate page](ProverTests.
 ### Signature
 
 ```
-proveHeight(msg: bytes) => Proof[ProofContextualHeightLock]
+proveHeight(message: bytes) => Proof[ProofContextualHeightLock]
 ```
 
 * Parameters
-  * `msg`  
+  * `message`  
   A message to bind with the proof. This should represent unique signable bytes of the containing transaction.
     * Type: `bytes`
     * Required: true
@@ -91,7 +91,9 @@ The created Height Lock Proof.
 
 ### Errors
 
-This method/function should not produce any errors.
+The errors that the method/function will produce include:
+
+* `message` parameter is not provided.
 
 ### Description
 
