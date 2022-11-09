@@ -7,13 +7,13 @@ skinparam storage {
   BackgroundColor LightCyan
 }
 storage listOfTxos
-storage listOfContracts
+storage listOfPredicates
 rectangle buildInputs
 storage listOfUnprovenInputs
 
 listOfTxos -> buildInputs
-listOfContracts -> buildInputs
+listOfPredicates -> buildInputs
 buildInputs -> listOfUnprovenInputs
 
-listOfTxos -[hidden]- listOfContracts
+listOfTxos -[hidden]- listOfPredicates
 @enduml
