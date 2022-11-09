@@ -10,7 +10,13 @@ skinparam collections {
   BackgroundColor LightGreen
 }
 storage list as list_of_UTxOs {
-  collections UTxOs
+  collections UTxOs [
+    UTxOs
+    ==
+    Box box
+    BoxId id
+    SpendingAddress address
+  ]
 }
 storage list as list_of_predicates {
   collections predicates
@@ -24,9 +30,7 @@ storage schedule [
 schedule
 ==
 uint64 creationTimestamp
---
 uint64 minimumSlot
---
 uint64 maximumSlot
 ]
 rectangle constructSchedule
@@ -39,14 +43,14 @@ minimumSlot -> constructSchedule
 constructSchedule <-- maximumSlot
 constructSchedule -> schedule
 
-list_of_predicates --> buildInputs
-list_of_UTxOs -> buildInputs
+list_of_predicates -> buildInputs
+list_of_UTxOs --> buildInputs
 buildInputs -> listOfUnprovenInputs
 
 quantity -> constructLvlBoxValue
 constructLvlBoxValue -> lvlBoxValue
 
 note "Must be \nthe same length" as N1
-N1 . list_of_predicates
-N1 .. list_of_UTxOs
+N1 .. list_of_predicates
+N1 . list_of_UTxOs
 @enduml
