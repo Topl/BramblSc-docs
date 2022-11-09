@@ -9,25 +9,33 @@ skinparam storage {
 skinparam collections {
   BackgroundColor LightGreen
 }
-storage list as list_of_UTxOs {
+storage List as list_of_UTxOs {
   collections UTxOs [
-    UTxOs
+    UTxO
     ==
     Box box
     BoxId id
-    SpendingAddress address
+    TypedEvidence address
   ]
 }
-storage list as list_of_predicates {
-  collections predicates
+storage List as list_of_predicates {
+  collections predicate
 }
 rectangle buildInputs
-storage listOfUnprovenInputs
+storage List as listOfUnprovenInputs {
+  collections UnprovenInput [
+    UnprovenInput
+    ==
+    BoxId id
+    Proposition proposition
+    LvlBoxValue
+  ]
+}
 storage creationTimestamp
 storage minimumSlot
 storage maximumSlot
 storage schedule [
-schedule
+Schedule
 ==
 uint64 creationTimestamp
 uint64 minimumSlot
@@ -36,21 +44,64 @@ uint64 maximumSlot
 rectangle constructSchedule
 storage quantity
 rectangle constructLvlBoxValue
-storage lvlBoxValue
+storage LvlBoxValue [
+  LvlBoxValue
+  ==
+  Int128 quantity
+]
+storage networkPrefix
+storage spendingAddress
+rectangle constructOutput
+storage Output [
+  Output
+  ==
+  TypedEvidence address
+  LvlBoxValue value
+  Option[Minting] minting = None
+]
+storage List as list_of_outputs {
+    collections output
+}
+storage transactionData
+storage transactionDataHash
+rectangle unprovenTransactionBuilder
+storage UnprovenTransaction [
+  UnprovenTransaction
+  ==
+  List[UnprovenInput] inputs
+  List[Output] outputs
+  Schedule schedule
+  bytes transactionData
+  bytes transactionDataHash
+]
 
 creationTimestamp --> constructSchedule
 minimumSlot -> constructSchedule
 constructSchedule <-- maximumSlot
 constructSchedule -> schedule
 
-list_of_predicates -> buildInputs
+buildInputs <- list_of_predicates
 list_of_UTxOs --> buildInputs
-buildInputs -> listOfUnprovenInputs
+buildInputs --> listOfUnprovenInputs
 
 quantity -> constructLvlBoxValue
-constructLvlBoxValue -> lvlBoxValue
+constructLvlBoxValue -> LvlBoxValue
 
 note "Must be \nthe same length" as N1
 N1 .. list_of_predicates
-N1 . list_of_UTxOs
+list_of_UTxOs .. N1
+
+networkPrefix -> constructOutput
+LvlBoxValue --> constructOutput
+spendingAddress -->constructOutput
+constructOutput -> Output
+
+Output ..o list_of_outputs
+
+unprovenTransactionBuilder <- listOfUnprovenInputs
+list_of_outputs --> unprovenTransactionBuilder
+schedule -> unprovenTransactionBuilder
+unprovenTransactionBuilder <-- transactionData
+unprovenTransactionBuilder <-- transactionDataHash
+unprovenTransactionBuilder --> UnprovenTransaction
 @enduml
