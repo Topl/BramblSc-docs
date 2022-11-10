@@ -23,7 +23,6 @@ an `UnprovenTransaction` is used to create a `ProvenTransaction`.
 
 ### Creating a Schedule
 
-
 ### Creating the Outputs
 
 ### Creating the Inputs
