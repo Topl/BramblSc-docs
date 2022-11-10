@@ -30,8 +30,9 @@ A transaction binding for a proof. Similar to a "signature".
 
 The errors that the method/function will produce include:
 
-* `tag` or `message` parameters are not provided.
 * `tag` contains more than a single byte.
+
+If any of the supplied parameters do not conform to specification above (only possible for untyped languages), then an error will occur. The error will be presented in a way that adheres to the best practices of the implementing language.
 
 ### Description
 
@@ -78,9 +79,7 @@ The created Height Lock Proof.
 
 ### Errors
 
-The errors that the method/function will produce include:
-
-* `message` parameter is not provided.
+If any of the supplied parameters do not conform to specification above (only possible for untyped languages), then an error will occur. The error will be presented in a way that adheres to the best practices of the implementing language.
 
 ### Description
 

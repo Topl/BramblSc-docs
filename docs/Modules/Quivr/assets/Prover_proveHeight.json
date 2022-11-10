@@ -1,5 +1,6 @@
 [
   {
+    "description": "General Case",
     "inputs": {
       "message": "abcde"
     },
@@ -12,6 +13,7 @@
     "errors": []
   },
   {
+    "description": "Parameters Missing. *Only for untyped languages*",
     "inputs": {},
     "outputs": {},
     "errors": [

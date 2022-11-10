@@ -1,5 +1,6 @@
 [
   {
+    "description": "General Case",
     "inputs": {
       "tag": -1,
       "message": "abcde"
@@ -10,6 +11,7 @@
     "errors": []
   },
   {
+    "description": "Tag is not Exactly One Byte",
     "inputs": {
       "tag": 9999999,
       "message": "abcde"
@@ -20,6 +22,7 @@
     ]
   },
   {
+    "description": "Parameters Missing. *Only for untyped languages*",
     "inputs": {},
     "outputs": {},
     "errors": [

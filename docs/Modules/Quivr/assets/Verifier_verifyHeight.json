@@ -1,5 +1,6 @@
 [
   {
+    "description": "General Case",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -25,6 +26,7 @@
     "errors": []
   },
   {
+    "description": "Height Not Satisfied",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -50,6 +52,7 @@
     "errors": []
   },
   {
+    "description": "Transaction Binding Invalid",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -75,6 +78,7 @@
     "errors": []
   },
   {
+    "description": "Context Does Not Contain a Height for Specified Chain",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -100,6 +104,7 @@
     "errors": []
   },
   {
+    "description": "Parameters Missing. *Only for untyped languages*",
     "inputs": {},
     "outputs": {},
     "errors": [

@@ -31,9 +31,7 @@ verifyHeight(proposition: Proposition[PropositionContextualHeightLock], proof: P
 
 ### Errors
 
-The errors that the method/function will produce include:
-
-* `proposition`, `proof`, or `context` parameters are not provided.
+If any of the supplied parameters do not conform to specification above (only possible for untyped languages), then an error will occur. The error will be presented in a way that adheres to the best practices of the implementing language.
 
 ### Description
 

@@ -32,7 +32,7 @@
     * `context` is an object providing signable bytes "wxyz" and height 10 for chain "test-2"
   * **Then**:
     * `false` is returned.
-* Parameters Missing
+* Parameters Missing. *Only for untyped languages*
   * **Given**:  
   *None*
   * **Then**:
@@ -52,6 +52,7 @@ isValid = Quivr.Verifier.verifyHeight(proposition, proof, context)
 ```json
 [
   {
+    "description": "General Case",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -77,6 +78,7 @@ isValid = Quivr.Verifier.verifyHeight(proposition, proof, context)
     "errors": []
   },
   {
+    "description": "Height Not Satisfied",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -102,6 +104,7 @@ isValid = Quivr.Verifier.verifyHeight(proposition, proof, context)
     "errors": []
   },
   {
+    "description": "Transaction Binding Invalid",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -127,6 +130,7 @@ isValid = Quivr.Verifier.verifyHeight(proposition, proof, context)
     "errors": []
   },
   {
+    "description": "Context Does Not Contain a Height for Specified Chain",
     "inputs": {
       "proposition": {
         "contextualHeightLock": {
@@ -152,6 +156,7 @@ isValid = Quivr.Verifier.verifyHeight(proposition, proof, context)
     "errors": []
   },
   {
+    "description": "Parameters Missing. *Only for untyped languages*",
     "inputs": {},
     "outputs": {},
     "errors": [

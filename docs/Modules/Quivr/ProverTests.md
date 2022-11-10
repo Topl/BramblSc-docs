@@ -17,7 +17,7 @@
   * **Then**:
     * Errors occur:
       * "tag is invalid. The value must be a single byte."
-* Parameters Missing
+* Parameters Missing. *Only for untyped languages*
   * **Given**:  
   *None*
   * **Then**:
@@ -36,6 +36,7 @@ binding = Quivr.Prover.bind(tag, message)
 ```json
 [
   {
+    "description": "General Case",
     "inputs": {
       "tag": -1,
       "message": "abcde"
@@ -46,6 +47,7 @@ binding = Quivr.Prover.bind(tag, message)
     "errors": []
   },
   {
+    "description": "Tag is not Exactly One Byte",
     "inputs": {
       "tag": 9999999,
       "message": "abcde"
@@ -56,6 +58,7 @@ binding = Quivr.Prover.bind(tag, message)
     ]
   },
   {
+    "description": "Parameters Missing. *Only for untyped languages*",
     "inputs": {},
     "outputs": {},
     "errors": [
@@ -75,7 +78,7 @@ binding = Quivr.Prover.bind(tag, message)
     * `message` is an arbitrary sequence of bytes.
   * **Then**:
     * Produce a Height Lock Proof that encompasses the transaction binding.
-* Parameters Missing
+* Parameters Missing. *Only for untyped languages*
   * **Given**:  
   *None*
   * **Then**:
@@ -95,6 +98,7 @@ proof = Quivr.Proposer.proveHeight(msg)
 ```json
 [
   {
+    "description": "General Case",
     "inputs": {
       "message": "abcde"
     },
@@ -107,6 +111,7 @@ proof = Quivr.Proposer.proveHeight(msg)
     "errors": []
   },
   {
+    "description": "Parameters Missing. *Only for untyped languages*",
     "inputs": {},
     "outputs": {},
     "errors": [

@@ -18,11 +18,11 @@ proposeHeight(chain: string, min: uint64, max: uint64) => Proposition[Propositio
     * Type: string
     * Required: true
   * `min`  
-  The minimum allowable block height, inclusive. This value must satisfy the following range: 1 <= `min` <= 2<sup>63</sup>-1. Must be less than or equal to `max`.
+  The minimum allowable block height, inclusive. Must be less than or equal to `max`.
     * Type: `uint64`
     * Required: true
   * `max`  
-  The maximum allowable block height, inclusive. This value must satisfy the following range: 1 <= `min` <= 2<sup>63</sup>-1. Must be greater than or equal to `min`.
+  The maximum allowable block height, inclusive. Must be greater than or equal to `min`.
     * Type: `uint64`
     * Required: true
 * Return  
@@ -33,9 +33,9 @@ The created Height Lock Proposition. A Height Lock Proposition specifies the min
 
 The errors that the method/function will produce include:
 
-* `min` or `max` parameters are not provided.
-* `min` or `max` is out of range. Acceptable values are 1 to 9223372036854775807 inclusive.
 * `max` is less than `min`
+
+If any of the supplied parameters do not conform to specification above (only possible for untyped languages), then an error will occur. The error will be presented in a way that adheres to the best practices of the implementing language.
 
 ### Description
 
@@ -43,8 +43,6 @@ Creates a Height Lock Proposition. A Height Lock Proposition requires that its c
 
 * height is less than or equal to `max`
 * height is greater than or equal to `min`
-
-If any of the provided parameters are invalid, then an error will occur. The error will be presented in a way that adheres to the best practices of the implementing language.
 
 ![diagram](./assets/Proposer_proposeHeight.png)
 

@@ -7,42 +7,35 @@
 * General Case
   * **Given**:
     * `chain` is an arbitrary string representing a label in the verification context.
-    * `min` is an arbitrary number in the valid range.
-    * `max` is an arbitrary number in the valid range, greater than `min`.
-  * **Then**:
-    * Produce a Height Lock Proposition that encompasses the provided data.
-* Widest Window
-  * **Given**:
-    * `chain` is an arbitrary string representing a label in the verification context.
-    * `min` is the minimum possible value.
-    * `max` is the maximum possible value.
+    * `min` is an arbitrary number.
+    * `max` is an arbitrary number, greater than `min`.
   * **Then**:
     * Produce a Height Lock Proposition that encompasses the provided data.
 * Smallest Window
   * **Given**:
     * `chain` is an arbitrary string representing a label in the verification context.
-    * `min` is an arbitrary number in the valid range.
-    * `max` is equal to `min`.
+    * `min` is an arbitrary number.
+    * `max` is the same as `min`.
   * **Then**:
     * Produce a Height Lock Proposition that encompasses the provided data.
-* Values out of Range
-  * **Given**:
-    * `chain` is an arbitrary string representing a label in the verification context.
-    * `min` is 1 less than the allowable range.
-    * `max` is 1 more than the allowable range.
-  * **Then**:
-    * Errors occur:
-      * "min is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."
-      * "max is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."
 * Negative Window
   * **Given**:
     * `chain` is an arbitrary string representing a label in the verification context.
-    * `min` is an arbitrary number in the valid range.
+    * `min` is an arbitrary number.
     * `max` is less than `min`.
   * **Then**:
     * Errors occur: 
       * "max must be greater or equal to min."
-* Parameters Missing
+* Negative Values. *Only for untyped languages*
+  * **Given**:
+    * `chain` is an arbitrary string representing a label in the verification context.
+    * `min` is an arbitrary negative number.
+    * `max` is an arbitrary negative number, greater than `min`.
+  * **Then**:
+    * Errors occur:
+      * "The parameter min is negative when required to be positive."
+      * "The parameter max is negative when required to be positive."
+* Parameters Missing. *Only for untyped languages*
   * **Given**:  
   *None*
   * **Then**:
@@ -62,6 +55,7 @@ proposition = Quivr.Proposer.proposeHeight(chain, min, max)
 ```json
 [
   {
+    "description": "General Case",
     "inputs": {
       "chain": "test",
       "min": 8,
@@ -79,23 +73,7 @@ proposition = Quivr.Proposer.proposeHeight(chain, min, max)
     "errors": []
   },
   {
-    "inputs": {
-      "chain": "test",
-      "min": 1,
-      "max": 9223372036854775807
-    },
-    "outputs": {
-      "proposition": {
-        "contextualHeightLock": {
-          "chain": "test",
-          "min": 1,
-          "max": 9223372036854775807
-        }
-      }
-    },
-    "errors": []
-  },
-  {
+    "description": "Smallest Window",
     "inputs": {
       "chain": "test",
       "min": 8,
@@ -113,18 +91,7 @@ proposition = Quivr.Proposer.proposeHeight(chain, min, max)
     "errors": []
   },
   {
-    "inputs": {
-      "chain": "test",
-      "min": 0,
-      "max": 9223372036854775808
-    },
-    "outputs": {},
-    "errors": [
-      {"msg": "min is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."},
-      {"msg": "max is out of range. Acceptable values are 1 to 9223372036854775807 inclusive."}
-    ]
-  },
-  {
+    "description": "Negative Window",
     "inputs": {
       "chain": "test",
       "min": 8,
@@ -136,6 +103,20 @@ proposition = Quivr.Proposer.proposeHeight(chain, min, max)
     ]
   },
   {
+    "description": "Negative Values. *Only for untyped languages*",
+    "inputs": {
+      "chain": "test",
+      "min": -10,
+      "max": -11
+    },
+    "outputs": {},
+    "errors": [
+      {"msg": "The parameter min is negative when required to be positive."},
+      {"msg": "The parameter max is negative when required to be positive."}
+    ]
+  },
+  {
+    "description": "Parameters Missing. *Only for untyped languages*",
     "inputs": {},
     "outputs": {},
     "errors": [
