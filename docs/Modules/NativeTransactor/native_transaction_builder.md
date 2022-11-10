@@ -21,8 +21,20 @@ detailed description of this data flow below the diagram.
 In the following discussion, we describe the inputs to `unprovenTransactionBuilder` and then how its output,
 an `UnprovenTransaction` is used to create a `ProvenTransaction`.
 
+### Creating a Schedule
+
+### Creating the Outputs
+
+### Creating the Inputs
+
+### Application-Provided Data
+
+### Proving the Transaction
+
 ## Structure of the Transaction
 
 Below, we describe the classes and interfaces that the Bramble SDK provides for building transactions. The
 descriptions are in a language-neutral form. To be language-neutral,
-we [follow a set of assumptions](../../Overview/Assumptions).
+we [follow a set of assumptions](../../Overview/Assumptions)
+
+
