@@ -4,6 +4,12 @@ This document describes the interfaces that the Bramble SDK provides for queryin
 descriptions are in a language-neutral form. To be lanuage-neutral,
 we [follow a set of assumptions](../../Overview/Assumptions).
 
+Three interfaces are documented on this page. They are:
+
+* [BifrostQuery](#interface-bifrostquery)
+* [GenusBlockQuery](#interface-genusblockquery)
+* [GenusTransactionQuery](#interface-genustransactionquery)
+
 ## Interface BifrostQuery
 
 The details of this interface are incomplete. They will be based on the bifrost_rpc specification.
@@ -17,34 +23,10 @@ independently of Topl clients. The other is to access a Genus database that is e
 
 Here is a summary of the methods/functions in this interface:
 
-* Block Queries
-    * [getBlockByDepth](#getblockbydepth) — Get the block at a specified depth.
-    * [getBlockByHeight](#getblockbyheight) — get the block at a specified height.
-    * [getBlockById](#getblockbyid) — Get a block using its Id.
+* [getBlockByDepth](#getblockbydepth) — Get the block at a specified depth.
+* [getBlockByHeight](#getblockbyheight) — get the block at a specified height.
+* [getBlockById](#getblockbyid) — Get a block using its Id.
 
-<p></p>
-
-* Transaction Queries by Blockchain Identifiers
-    * [getTransactionById](#gettransactionbyid) — Get a transaction using its ID.
-    * [getTransactionByAddressStream](#gettransactionbyaddressstream) — Get a stream of transactions connected to a
-      given
-      address
-
-<p></p>
-
-* Transaction Queries Using Application Defined Indexes
-    - [createOnChainTransactionIndex](#createonchaintransactionindex) — Create transaction index
-    - [getExistingTransactionIndexes](#getexistingtransactionindexes) — Get existing transaction indexes
-    - [getIndexedTransactions](#getindexedtransactions) — Get transactions using an index
-    - [dropIndex](#dropindex) — drop a named index
-
-<p></p>
-
-* TxO Queries
-    * [getTxosByAddress](#gettxosbyaddress) — Get TxOs that are currently associated with specified addresses
-    * [getTxosByAddressStream](#gettxosbyaddressstream) — Get TxOs that are associated with specified addresses now and
-      in the future.
-    * [getTxosByAssetLabel](#gettxosbyassetlabel) — Tet TxOs having a specified address label.
 
 ### getBlockById
 
@@ -176,6 +158,36 @@ The errors that the method/function produces include:
 The testing procedure for getBlockByDepth is [described on a separate page](brambl_query_tests/getBlockByDepth_test)
 
 ## Interface GenusTransactionQuery
+
+This interface is used to query Genus to query a database get transaction information extracted from the canonical
+blockchain.
+
+There will be two implementation of this interface. One will use gRPC to access a stand-alone Genus server that runs
+independently of Topl clients. The other is to access a Genus database that is embedded in the Topl client.
+
+Here is a summary of the methods/functions in this interface:
+
+* Transaction Queries by Blockchain Identifiers
+    * [getTransactionById](#gettransactionbyid) — Get a transaction using its ID.
+    * [getTransactionByAddressStream](#gettransactionbyaddressstream) — Get a stream of transactions connected to a
+      given
+      address
+
+<p></p>
+
+* Transaction Queries Using Application Defined Indexes
+    - [createOnChainTransactionIndex](#createonchaintransactionindex) — Create transaction index
+    - [getExistingTransactionIndexes](#getexistingtransactionindexes) — Get existing transaction indexes
+    - [getIndexedTransactions](#getindexedtransactions) — Get transactions using an index
+    - [dropIndex](#dropindex) — drop a named index
+
+<p></p>
+
+* TxO Queries
+    * [getTxosByAddress](#gettxosbyaddress) — Get TxOs that are currently associated with specified addresses
+    * [getTxosByAddressStream](#gettxosbyaddressstream) — Get TxOs that are associated with specified addresses now and
+      in the future.
+    * [getTxosByAssetLabel](#gettxosbyassetlabel) — Tet TxOs having a specified address label.
 
 ### getTransactionById
 
@@ -366,7 +378,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                                |
-    |----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+      |----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                             |
   | Lvl      | `"LVL"`                                                                                                                                               |
   | Topl     | `"TOPL"`                                                                                                                                              |
