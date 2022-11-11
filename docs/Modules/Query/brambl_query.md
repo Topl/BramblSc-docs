@@ -6,7 +6,7 @@ we [follow a set of assumptions](../../Overview/Assumptions).
 
 ## Interface BifrostQuery
 
-The details of this interface are yet to be specified. They will be based on the bifrost_rpc specification.
+The details of this interface are incomplete. They will be based on the bifrost_rpc specification.
 
 ## Interface GenusBlockQuery
 
