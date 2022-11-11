@@ -18,6 +18,46 @@ The details of this interface are incomplete. They will be based on the bifrost_
 
 This interface is used to query Genus to query a database get information extracted from the canonical blockchain.
 
+Here is a summary of the methods/functions in this interface:
+
+* [getNodeConfig](#getnodeconfig) — Get the configuration of the Bifrost node we are querying
+
+### getNodeConfig
+
+#### Signature(s)
+
+```
+getNodeConfig(timeoutMillis: uint64) returns co.topl.proto.models.node.NodeConfig
+```
+
+#### Description
+
+Retrieve the configuration of the Bifrost node we are connected to.
+
+#### Parameters
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+
+#### Returns
+A `co.topl.proto.models.node.NodeConfig` that contains the node's configuration. The encapsulated configuration must
+include the configured slot duration.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+* No properly configured Bifrost node
+* Unable to send request to Bifrost node
+* The Bifrost node returned an error
+* The Bifrost node did not return a result before the timeout happened
+
+#### Testing Procedure
+
+The testing procedure for `getNodeConfig` is [described on a separate page](brambl_query_tests/getNodeConfig_test)
+
+## Interface GenusBlockQuery
+
+This interface is used to query Genus to query a database get information extracted from the canonical blockchain.
+
 There will be two implementation of this interface. One will use gRPC to access a stand-alone Genus server that runs
 independently of Topl clients. The other is to access a Genus database that is embedded in the Topl client.
 
@@ -26,7 +66,6 @@ Here is a summary of the methods/functions in this interface:
 * [getBlockByDepth](#getblockbydepth) — Get the block at a specified depth.
 * [getBlockByHeight](#getblockbyheight) — get the block at a specified height.
 * [getBlockById](#getblockbyid) — Get a block using its Id.
-
 
 ### getBlockById
 
@@ -378,7 +417,7 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   of box that is in the TxO:
 
   | Box Type | Format                                                                                                                                                |
-      |----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+  |----------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
   | Empty    | `"EMPTY"`                                                                                                                                             |
   | Lvl      | `"LVL"`                                                                                                                                               |
   | Topl     | `"TOPL"`                                                                                                                                              |
