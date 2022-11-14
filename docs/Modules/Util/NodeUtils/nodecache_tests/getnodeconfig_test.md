@@ -22,3 +22,14 @@ The following testing scenarios are required:
 * **Then** this method calls the mocked `BifrostQuery.getNodeCache` with a `timeoutMillis` value of 100
 * **Then** the call returns the `co.topl.proto.models.node.NodeConfig` object it just got from the
   mocked `BifrostQuery.getNodeCache`
+
+##### Happy Path
+
+* **Given** that there is an object `mockBifrost` that mocks `BifrostQuery.getNodeCache` and simulates an error from the
+  Bifrost node
+* **And** at least 10 milliseconds have elapsed
+* **When**
+    ```
+    getNodeConfig(mockBifrost, 2000, 1)
+    ```
+* **Then** `getNodeConfig` produces the same error as is produced by the mocked `BifrostQuery.getNodeCache`.
