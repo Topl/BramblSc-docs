@@ -23,7 +23,7 @@ The following testing scenarios are required:
 * **Then** the call returns the `co.topl.proto.models.node.NodeConfig` object it just got from the
   mocked `BifrostQuery.getNodeCache`
 
-##### Happy Path
+##### Error Path
 
 * **Given** that there is an object `mockBifrost` that mocks `BifrostQuery.getNodeCache` and simulates an error from the
   Bifrost node

@@ -86,7 +86,42 @@ The errors that the method/function will produce include:
 
 #### Testing Procedure
 
-The testing procedure for `getNodeConfig` is [described on a separate page](nodecache_tests/constructor_test)
+The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/nodecache_tests/constructor_test)
+
+### getGenesisBlock
+
+#### Signature(s)
+
+```
+getGenesisBlock() returns co.topl.proto.models.FullBlock
+```
+
+#### Description
+
+Get a cached version of the genesis block. This cached object is obtained by the `NodeCache` constructor initiating a
+call to calling `BifrostQuery.getBlockByHeight(1)`.
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The cached `co.topl.proto.models.FullBlock` object.
+
+#### Errors
+
+The errors that the method/function will produce as a result of a failed asynchronous query initiated by the constructor
+include:
+
+* Unable to connect to Bifrost node.
+* Bifrost node returned an error.
+* The Bifrost node returned an error .
+* The Bifrost node did not return a result before the timeout happened
+
+#### Testing Procedure
+
+The testing procedure for the constructor is [described on a separate page](NodeUtils/nodecache_tests/getgenesisblock_test)
 
 ### getNodeConfig
 
@@ -127,5 +162,5 @@ The errors that the method/function will produce include:
 
 #### Testing Procedure
 
-The testing procedure for the constructor is [described on a separate page](nodecache_tests/getnodeconfig_test)
+The testing procedure for the constructor is [described on a separate page](NodeUtils/nodecache_tests/getnodeconfig_test)
 
