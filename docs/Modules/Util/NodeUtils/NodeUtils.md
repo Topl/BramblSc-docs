@@ -183,7 +183,7 @@ The testing procedure for the constructor is [described on a separate page](Node
 #### Signature(s)
 
 ```
-slotNumberToTimestamp(slotNumber: uint64) returns int64
+slotNumberToTimestamp(slotNumber: uint64, slotDuration: uint32, genesisTimestamp: int64) returns int64
 ```
 
 #### Description
@@ -204,10 +204,42 @@ A [Unix timestamp](https://www.unixtimestamp.com/)
 
 The errors that the method/function will produce include:
 
-* Negative slot number
 * Non-positive slot duration
 * Slot number translates to a time too far in the future to be represented as a Unix timestamp (overflow).
 
 #### Testing Procedure
 
-The testing procedure for the constructor is [described on a separate page](NodeUtils/nodecache_tests/getgenesisblock_test)
+The testing procedure for the constructor is [described on a separate page](NodeUtils/slotutil_tests/slot_timestamp_conversion_test)
+
+### timestampToSlotNumber
+
+#### Signature(s)
+
+```
+timestampToSlotNumber(timestamp: int64, slotDuration: uint32, genesisTimestamp: int64) returns uint64
+```
+
+#### Description
+
+Convert a timestamp to a slot number.
+
+#### Parameters
+
+* `timestamp` a [Unix timestamp](https://www.unixtimestamp.com/)
+* `slotDuration` the duration of a slot in milliseconds
+* `genesisTimestamp` The Unix timestamp from the genesis block which is the beginning of slot 0
+
+#### Returns
+
+The slot number that includes the given timestamp.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+* Timestamp is before slot 0
+* Non-positive slot duration
+
+#### Testing Procedure
+
+The testing procedure for the constructor is [described on a separate page](NodeUtils/slotutil_tests/slot_timestamp_conversion_test)
