@@ -7,6 +7,7 @@ The interfaces and classes documented on this page are:
 
 * [BifrostConnection](#interface-bifrostconnection)
 * [NodeCache](#class-nodecache)
+* [SlotUtil](#class-slotutil)
 
 ## Interface BifrostConnection
 
@@ -16,6 +17,10 @@ Bifrost node. Such objects also provide information about how the connections ar
 All classes that implement this interface will implementation specific. In particular, this interface does not specify
 anything about how connections are managed. The expectation is that all details related to connection management will be
 determined by the gRPC implementation used, as that will be the main consumer of this interface's implementation.
+
+Here is a summary of the methods/functions in this interface:
+
+* [getUrl](#geturl) — Get the URL of the Bifrost node that a BifrostConnection works with.
 
 ### getUrl
 
@@ -50,6 +55,12 @@ The testing procedure for `getNodeConfig` is [described on a separate page](bifr
 ## Class NodeCache
 
 This class is responsible for caching various information from a BiFrost node.
+
+Here is a summary of the methods/functions in this class:
+
+* [Constructor](#constructor) — Construct a `NodeCache`
+* [getGenesisBlock](#getgenesisblock) — Get the Bifrost node's genesis block
+* [getNodeConfig](#getnodeconfig) — Get the Bifrost node's configuration information.
 
 ### Constructor
 
@@ -164,3 +175,39 @@ The errors that the method/function will produce include:
 
 The testing procedure for the constructor is [described on a separate page](NodeUtils/nodecache_tests/getnodeconfig_test)
 
+## Class SlotUtil
+
+
+### slotNumberToTimestamp
+
+#### Signature(s)
+
+```
+slotNumberToTimestamp(slotNumber: uint64) returns int64
+```
+
+#### Description
+
+Convert a slot number to a timestamp.
+
+#### Parameters
+
+* `slotNumber` a number that identifies a slot in a Topl blockchain network.
+* `slotDuration` the duration of a slot in milliseconds
+* `genesisTimestamp` The Unix timestamp from the genesis block which is the beginning of slot 0
+
+#### Returns
+
+A [Unix timestamp](https://www.unixtimestamp.com/)
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+* Negative slot number
+* Non-positive slot duration
+* Slot number translates to a time too far in the future to be represented as a Unix timestamp (overflow).
+
+#### Testing Procedure
+
+The testing procedure for the constructor is [described on a separate page](NodeUtils/nodecache_tests/getgenesisblock_test)
