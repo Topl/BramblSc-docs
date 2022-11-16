@@ -4,4 +4,3 @@
 * codecs
 * cryptography
     * MessageDigester and MessageDigestFactory
-* utilities
