@@ -30,6 +30,9 @@ Various data types are used to describe the parameters and return types of funct
 in protobuf specifications from which language specific definitions are generated. A few collection types are not
 defined in the protobuf specs:
 
+* `Option`
+  This is a very simple collection that either contains one element or None. It is used to indicate that a field or
+  parameter may not have a value.
 * `Collection`
   This is an unordered collection. It provides operations to iterate over its contents and to determine if an object
   is an element of the collection.
