@@ -1,5 +1,3 @@
-.idea
-
 # Dependencies
 /node_modules
 
@@ -9,6 +7,9 @@
 # Generated files
 .docusaurus
 .cache-loader
+.idea
+*.bkp
+*.dtmp
 
 # Misc
 .DS_Store

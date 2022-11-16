@@ -1,30 +1,58 @@
 # Brambl Query Functions
 
 This document describes the interfaces that the Bramble SDK provides for querying Genus and bifrost nodes. The
-descriptions are in a language-neutral form.
+descriptions are in a language-neutral form. To be lanuage-neutral,
+we [follow a set of assumptions](../../Overview/Assumptions).
 
-Various data types are used to describe the parameters and return types of functions/methods. Most of these are defined
-in protobuf specifications from which language specific definitions are generated. A few collection types are not
-defined in the protobuf specs:
+Three interfaces are documented on this page. They are:
 
-* `Collection`
-  This is an unordered collection. It provides operations to iterate over its contents and to determine if an object
-  is an element of the collection.
-* `List`
-  This is an ordered collection. It provides operations to iterate over its contents in their order and to determine if
-  an object is an element of the collection.
-* `Stream`
-  is a first-in-first-out data structure to which data can be asynchronously added and removed.
-* `Map`
-  is a map/dictionary/associative array that associated keys with values.
-
-Most implementation types will have commonly used equivalents of these. The most appropriate equivalent should be used.
-Because some implementation languages will provide collection types that take type parameters, the declarations include
-type parameters for these.
+* [BifrostQuery](#interface-bifrostquery)
+* [GenusBlockQuery](#interface-genusblockquery)
+* [GenusTransactionQuery](#interface-genustransactionquery)
 
 ## Interface BifrostQuery
 
-The details of this interface are yet to be specified. They will be based on the bifrost_rpc specification.
+The details of this interface are incomplete. They will be based on the bifrost_rpc specification.
+
+## Interface GenusBlockQuery
+
+This interface is used to query Genus to query a database get information extracted from the canonical blockchain.
+
+Here is a summary of the methods/functions in this interface:
+
+* [getNodeConfig](#getnodeconfig) — Get the configuration of the Bifrost node we are querying
+
+### getNodeConfig
+
+#### Signature(s)
+
+```
+getNodeConfig(timeoutMillis: uint64) returns co.topl.proto.models.node.NodeConfig
+```
+
+#### Description
+
+Retrieve the configuration of the Bifrost node we are connected to.
+
+#### Parameters
+* `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
+
+#### Returns
+A `co.topl.proto.models.node.NodeConfig` that contains the node's configuration. The encapsulated configuration must
+include the configured slot duration.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+* No properly configured Bifrost node
+* Unable to send request to Bifrost node
+* The Bifrost node returned an error
+* The Bifrost node did not return a result before the timeout happened
+
+#### Testing Procedure
+
+The testing procedure for `getNodeConfig` is [described on a separate page](brambl_query_tests/getNodeConfig_test)
 
 ## Interface GenusBlockQuery
 
@@ -35,30 +63,9 @@ independently of Topl clients. The other is to access a Genus database that is e
 
 Here is a summary of the methods/functions in this interface:
 
-* Block Queries
-  * [getBlockByDepth](#getblockbydepth) — Get the block at a specified depth.
-  * [getBlockByHeight](#getblockbyheight) — get the block at a specified height.
-  * [getBlockById](#getblockbyid) — Get a block using its Id.
-<p></p>
-
-* Transaction Queries by Blockchain Identifiers
-  * [getTransactionById](#gettransactionbyid) — Get a transaction using its ID.
-  * [getTransactionByAddressStream](#gettransactionbyaddressstream) — Get a stream of transactions connected to a given
-     address 
-<p></p>
-
-* Transaction Queries Using Application Defined Indexes
-  - [createOnChainTransactionIndex](#createonchaintransactionindex) — Create transaction index
-  - [getExistingTransactionIndexes](#getexistingtransactionindexes) — Get existing transaction indexes
-  - [getIndexedTransactions](#getindexedtransactions) — Get transactions using an index
-  - [dropIndex](#dropindex) — drop a named index
-<p></p>
-
-* TxO Queries
-  * [getTxosByAddress](#gettxosbyaddress) — Get TxOs that are currently associated with specified addresses
-  * [getTxosByAddressStream](#gettxosbyaddressstream) — Get TxOs that are associated with specified addresses now and
-    in the future.
-  * [getTxosByAssetLabel](#gettxosbyassetlabel) — Tet TxOs having a specified address label.
+* [getBlockByDepth](#getblockbydepth) — Get the block at a specified depth.
+* [getBlockByHeight](#getblockbyheight) — get the block at a specified height.
+* [getBlockById](#getblockbyid) — Get a block using its Id.
 
 ### getBlockById
 
@@ -124,7 +131,8 @@ has waited this amount of time and there is no result to be returned, the method
 
 * `height` the height of the block to get. The height of the genesis block 1.
 * `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -142,6 +150,7 @@ The errors that the method/function produces include:
 * `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
+
 The testing procedure for getBlockByHeight is [described on a separate page](brambl_query_tests/getBlockByHeight_test)
 
 ### getBlockByDepth
@@ -164,7 +173,8 @@ equal to the value of the `confidenceFactor` parameter.
 * `depth` the depth of the block to get. The block at depth 1 is the highest block with a confidence factor that is
   greater than or equal to the value of the `confidenceFactor` parameter.
 * `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -183,9 +193,40 @@ The errors that the method/function produces include:
 * `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
+
 The testing procedure for getBlockByDepth is [described on a separate page](brambl_query_tests/getBlockByDepth_test)
 
 ## Interface GenusTransactionQuery
+
+This interface is used to query Genus to query a database get transaction information extracted from the canonical
+blockchain.
+
+There will be two implementation of this interface. One will use gRPC to access a stand-alone Genus server that runs
+independently of Topl clients. The other is to access a Genus database that is embedded in the Topl client.
+
+Here is a summary of the methods/functions in this interface:
+
+* Transaction Queries by Blockchain Identifiers
+    * [getTransactionById](#gettransactionbyid) — Get a transaction using its ID.
+    * [getTransactionByAddressStream](#gettransactionbyaddressstream) — Get a stream of transactions connected to a
+      given
+      address
+
+<p></p>
+
+* Transaction Queries Using Application Defined Indexes
+    - [createOnChainTransactionIndex](#createonchaintransactionindex) — Create transaction index
+    - [getExistingTransactionIndexes](#getexistingtransactionindexes) — Get existing transaction indexes
+    - [getIndexedTransactions](#getindexedtransactions) — Get transactions using an index
+    - [dropIndex](#dropindex) — drop a named index
+
+<p></p>
+
+* TxO Queries
+    * [getTxosByAddress](#gettxosbyaddress) — Get TxOs that are currently associated with specified addresses
+    * [getTxosByAddressStream](#gettxosbyaddressstream) — Get TxOs that are associated with specified addresses now and
+      in the future.
+    * [getTxosByAssetLabel](#gettxosbyassetlabel) — Tet TxOs having a specified address label.
 
 ### getTransactionById
 
@@ -209,7 +250,8 @@ has waited this amount of time and there is no result to be returned, the method
 
 * `id` the ID of the transaction to find.
 * `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -225,7 +267,9 @@ The errors that the method/function produces include:
 * The Genus service did not return a result before the timeout happened
 
 #### Testing Procedure
-The testing procedure for getTransactionById is [described on a separate page](brambl_query_tests/getTransactionById_test)
+
+The testing procedure for getTransactionById
+is [described on a separate page](brambl_query_tests/getTransactionById_test)
 
 ### getTransactionByAddressStream
 
@@ -248,7 +292,8 @@ that are in a block with confidence factor greater than or equal to the value of
 
 * `addresses` The addresses to search for.
 * `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -265,7 +310,9 @@ The errors that the method/function produces include:
 * `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
-The testing procedure for getTransactionByAddressStream is [described on a separate page](brambl_query_tests/getTransactionByAddressStream_test)
+
+The testing procedure for getTransactionByAddressStream
+is [described on a separate page](brambl_query_tests/getTransactionByAddressStream_test)
 
 ### getTxosByAddress
 
@@ -286,7 +333,8 @@ parameter. This returns immediately.
 
 * `addresses` The addresses to search for.
 * `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -304,8 +352,8 @@ The errors that the method/function produces include:
 * `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
-The testing procedure for getTxosByAddress is [described on a separate page](brambl_query_tests/getTxosByAddress_test)
 
+The testing procedure for getTxosByAddress is [described on a separate page](brambl_query_tests/getTxosByAddress_test)
 
 ### getTxosByAddressStream
 
@@ -326,7 +374,8 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
 
 * `addresses` The addresses to search for.
 * `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -343,8 +392,9 @@ The errors that the method/function produces include:
 * `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
-The testing procedure for getTxosByAddressStream is [described on a separate page](brambl_query_tests/getTxosByAddressStream_test)
 
+The testing procedure for getTxosByAddressStream
+is [described on a separate page](brambl_query_tests/getTxosByAddressStream_test)
 
 ### getTxosByAssetLabel
 
@@ -375,7 +425,8 @@ parameter. As new TxOs are added or UTxOs are spent that match the request, addi
   | AssetV2  | _group_:_series_<br/>where _group_ is the base58 encoded ID of the group constructor and _series_ is the base58 encoded id of the series constructor. |
 
 * `timeoutMillis` _(optional)_  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -392,8 +443,9 @@ The errors that the method/function produces include:
 * `confidenceFactor` is not >= 0.0 and <= 1.0
 
 #### Testing Procedure
-The testing procedure for getTxosByAssetLabel is [described on a separate page](brambl_query_tests/getTxosByAssetLabel_test)
 
+The testing procedure for getTxosByAssetLabel
+is [described on a separate page](brambl_query_tests/getTxosByAssetLabel_test)
 
 ### createOnChainTransactionIndex
 
@@ -443,8 +495,9 @@ The errors that the method/function produces include:
 * The Genus service did not return a result before the timeout happened
 
 #### Testing Procedure
-The testing procedure for createOnChainTransactionIndex is [described on a separate page](brambl_query_tests/createOnChainTransactionIndex_test)
 
+The testing procedure for createOnChainTransactionIndex
+is [described on a separate page](brambl_query_tests/createOnChainTransactionIndex_test)
 
 ### getExistingTransactionIndexes
 
@@ -481,7 +534,8 @@ The errors that the method/function produces include:
 
 Happy path testing of `getExistingTransactionIndexes` is done as part of testing `createOnChainTransactionIndex`.
 
-The testing procedure for `getExistingTransactionIndexes` is [described on a separate page](brambl_query_tests/getExistingTransactionIndexes_test)
+The testing procedure for `getExistingTransactionIndexes`
+is [described on a separate page](brambl_query_tests/getExistingTransactionIndexes_test)
 
 ### getIndexedTransactions
 
@@ -504,15 +558,16 @@ whose index records match the specified key values are included in the result.
 * `indexSpec` Is an object that describes the index to be created. It includes
 * `keys` A list of values to match against field in records of the named index. The default value for this is an empty
   list, which allows all transactions covered by the index to be returned.
-* `maxResults` _(optional)_ is the maximum number of transactions to be returned. This parameter can be used with the 
+* `maxResults` _(optional)_ is the maximum number of transactions to be returned. This parameter can be used with the
   `skipResults` parameter to page forward or backward through the transactions.<br/>
   The default value for this parameter is 2<sup>31</sup>-1.
-* `skipResults` _(optional)_ is the number of transactions to be skipped. This parameter can be used with the 
+* `skipResults` _(optional)_ is the number of transactions to be skipped. This parameter can be used with the
   `maxResults` parameter
   to page forward or backward through the transactions.<br/>
   The default value for this parameter is 0.
 * `timeoutMillis` _(optional)_  The maximum number of milliseconds to wait. The default value is 1000 (1 second).
-* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is 0.9999999.
+* `confidenceFactor` _(optional)_ is 1 minus the probability that a block will be reorged. The default value is
+  0.9999999.
 
 #### Returns
 
@@ -532,7 +587,8 @@ The errors that the method/function produces include:
 
 Some happy path cases are covered by tests for other functions.
 
-The testing procedure for `getIndexedTransactions` is [described on a separate page](brambl_query_tests/getIndexedTransactions_test)
+The testing procedure for `getIndexedTransactions`
+is [described on a separate page](brambl_query_tests/getIndexedTransactions_test)
 
 ### dropIndex
 

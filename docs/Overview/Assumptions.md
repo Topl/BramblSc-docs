@@ -25,10 +25,22 @@ all languages used for implementations have a common set of features related to 
   whether the computation has finished and a blocking operation to get the value of the computation.  
   In the rest of this document, we consider “future” and “promise” to be synonyms and use “future” to refer to both.
 * We assume that methods/functions can have parameters whose values are methods/functions (first-class functions).
-* Though this specification describes some methods/functions as having optional parameters, we do not assume that all
-  implementation languages support method/function signatures with optional parameters. For this reason, if a
-  method/function is described in this specification as having an optional parameter then
-    * the parameter must be described as having a default value
-    * optional parameters must appear towards the end of the formal parameter list. This is to support languages that
-      only allow positional parameters. The more likely a parameter is to be omitted, the closer it should be to the end
-      of the formal parameter list.
+
+Various data types are used to describe the parameters and return types of functions/methods. Most of these are defined
+in protobuf specifications from which language specific definitions are generated. A few collection types are not
+defined in the protobuf specs:
+
+* `Collection`
+  This is an unordered collection. It provides operations to iterate over its contents and to determine if an object
+  is an element of the collection.
+* `List`
+  This is an ordered collection. It provides operations to iterate over its contents in their order and to determine if
+  an object is an element of the collection.
+* `Stream`
+  is a first-in-first-out data structure to which data can be asynchronously added and removed.
+* `Map`
+  is a map/dictionary/associative array that associated keys with values.
+
+Most implementation types will have commonly used equivalents of these. The most appropriate equivalent should be used.
+Because some implementation languages will provide collection types that take type parameters, the declarations include
+type parameters for these.
