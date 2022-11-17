@@ -16,8 +16,8 @@ transaction builder. The flow of the diagram is from left to right.
 
 ![Native Transaction Builder Flow](./transaction_builder.drawio.png)
 
-In the following discussion, we describe the inputs to `unprovenTransactionBuilder` and then how its output,
-an `UnprovenTransaction` is used to create a `ProvenTransaction`.
+In the following discussion, we describe the inputs to unproven transaction constructor that produces
+an `UnprovenTransaction`.
 
 ### Creating a Schedule
 
@@ -35,6 +35,10 @@ we [follow a set of assumptions](../../Overview/Assumptions)
 
 Here are the interfaces and classes that are described on this page:
 
+* [Schedule](#class-schedule)
+* [SignableBytes](#interface-signablebytes)
+* [UnprovenTransaction](#class-unproventransaction)
+
 ## Interfaces
 
 ### Interface SignableBytes
@@ -42,5 +46,7 @@ Here are the interfaces and classes that are described on this page:
 ## Classes
 
 ### Class Schedule
+
+### Class UnprovenTransaction
 
 
