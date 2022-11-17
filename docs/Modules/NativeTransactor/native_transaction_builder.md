@@ -3,14 +3,16 @@
 This page describes the Brambl SDK's transaction builder. This is the portion of the SDK that is responsible for
 building Topl unproven transactions.
 
-This page is organized into two parts. The first part describes the data flow that the transaction builder supports for
-building unproven transactions. The second part describes the structure of the transaction builder in detail.
+This page is organized into two parts.
+
+* [The first part](#transaction-builder-data-flow) describes the data flow that the transaction builder supports for
+  building unproven transactions.
+* [The second part](#structure-of-the-transaction-builder) describes the structure of the transaction builder in detail.
 
 ## Transaction Builder Data Flow
 
 The following diagram shows the typical data flow that will be used to build transactions using the
-transaction builder. To understand this diagram, start with the call to `unprovenTransactionBuilder` that is in the
-middle of this document and work backwards.
+transaction builder. The flow of the diagram is from left to right.
 
 ![Native Transaction Builder Flow](./transaction_builder.drawio.png)
 
@@ -30,5 +32,15 @@ an `UnprovenTransaction` is used to create a `ProvenTransaction`.
 Below, we describe the classes and interfaces that the Bramble SDK provides for building transactions. The
 descriptions are in a language-neutral form. To be language-neutral,
 we [follow a set of assumptions](../../Overview/Assumptions)
+
+Here are the interfaces and classes that are described on this page:
+
+## Interfaces
+
+### Interface SignableBytes
+
+## Classes
+
+### Class Schedule
 
 
