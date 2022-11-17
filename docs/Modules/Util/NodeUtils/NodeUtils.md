@@ -50,7 +50,7 @@ No expected errors
 
 #### Testing Procedure
 
-The testing procedure for `getNodeConfig` is [described on a separate page](bifrost_connection_tests/getUrl_test)
+The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/bifrost_connection_tests/getUrl_test)
 
 ## Class NodeCache
 
