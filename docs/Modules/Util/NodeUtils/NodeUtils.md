@@ -1,7 +1,7 @@
 # NodeUtils
 
 This page describes interfaces and helper classes that are used to work with a Bifrost node. The descriptions are in a
-language-neutral form. To be language-neutral, we [follow a set of assumptions](../../../Overview/Assumptions).
+language-neutral form. To be language-neutral, we [follow a set of assumptions](../../Overview/Assumptions).
 
 The interfaces and classes documented on this page are:
 
