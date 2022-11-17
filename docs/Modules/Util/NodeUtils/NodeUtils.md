@@ -177,6 +177,12 @@ The testing procedure for the constructor is [described on a separate page](Node
 
 ## Class SlotUtil
 
+This a utility class (not intended to be instatiated) that contains methods for working with slot numbers.
+
+Here is a summary of the methods/functions in this class:
+
+* [slotNumberToTimestamp](#slotnumbertotimestamp) — Convert a slot number to a Unix Timestamp
+* [timestampToSlotNumber](#timestamptoslotnumber) — Convert a Unix timestamp to a slot number.
 
 ### slotNumberToTimestamp
 
