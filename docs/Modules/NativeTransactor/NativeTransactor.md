@@ -65,7 +65,7 @@ method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber).
 
 Below, we describe the classes and interfaces that the Bramble SDK provides for building transactions. The
 descriptions are in a language-neutral form. To be language-neutral,
-we [follow a set of assumptions](../../Overview/Assumptions)
+we [follow a set of assumptions](../Overview/Assumptions)
 
 Here are the interfaces and classes that are described on this page:
 
