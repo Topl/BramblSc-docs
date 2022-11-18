@@ -14,10 +14,6 @@ Three interfaces are documented on this page. They are:
 
 The details of this interface are incomplete. They will be based on the bifrost_rpc specification.
 
-## Interface GenusBlockQuery
-
-This interface is used to query Genus to query a database get information extracted from the canonical blockchain.
-
 Here is a summary of the methods/functions in this interface:
 
 * [getNodeConfig](#getnodeconfig) — Get the configuration of the Bifrost node we are querying
