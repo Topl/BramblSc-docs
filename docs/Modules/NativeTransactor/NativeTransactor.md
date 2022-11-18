@@ -7,7 +7,7 @@ This page is organized into two parts.
 
 * [The first part](#transaction-builder-data-flow) describes the data flow that the transaction builder supports for
   building unproven transactions.
-* [The second part](#structure-of-the-transaction-builder) describes the structure of the transaction builder in detail.
+* [The second part](#structure-of-the-unproven-transaction-builder) describes the structure of the transaction builder in detail.
 
 ## Transaction Builder Data Flow
 
@@ -55,13 +55,16 @@ Bifrost nodes.
 To convert timestamps to slot numbers we use the
 method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber).
 
+Once we have the two slot numbers and are given a Unix timestamp value, we use the three values to construct a
+`Schedule` object.
+
 ### Creating the Outputs
 
 ### Creating the Inputs
 
 ### Application-Provided Data
 
-## Structure of the Transaction Builder
+## Structure of the Unproven Transaction Builder
 
 Below, we describe the classes and interfaces that the Bramble SDK provides for building transactions. The
 descriptions are in a language-neutral form. To be language-neutral,
