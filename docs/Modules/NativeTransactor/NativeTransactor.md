@@ -162,7 +162,7 @@ include:
 #### Testing Procedure
 
 The testing procedure for the constructor
-is [described on a separate page](NodeUtils/nodecache_tests/getgenesisblock_test)
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/getgenesisblock_test)
 
 =============================
 
