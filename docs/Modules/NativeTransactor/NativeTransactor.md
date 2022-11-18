@@ -52,6 +52,11 @@ Once we have Unix timestamps specifying the earliest and latest times that the t
 in a block, the next step is to convert those times into slot numbers. Slot numbers are the way that time is tracked by
 Bifrost nodes.
 
+To convert timestamps to slot numbers we use the
+method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber). This takes three parameters:
+* the Unix timestamp to convert
+* the duration of slots on the bifrost node we are working with. 
+
 ### Creating the Outputs
 
 ### Creating the Inputs

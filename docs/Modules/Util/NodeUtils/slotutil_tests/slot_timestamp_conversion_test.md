@@ -7,60 +7,49 @@ The following testing scenarios are required:
 
 ##### Happy Path
 
-* **Given** a variable named `zeroTime` whose value is an arbitrary Unix timestamp
+* **Given** an instance of `SlotUtil` that is the value of the variable `su`
+* **And** that `su` was constructed with a mock instance of `NodeCache` that is configured so that
+    * `getNodeConfig` returns a `NodeConfig` object that specified a slot duration of 1000 milliseconds
+    * `getGenesisBlock` returns a `FullBlock` that contains a `BlockHeader` that contains a timestamp with an arbitrary
+      positive value _t<sub>0</sub>_
+* **And** `t1` is an arbitrary Unix timestamp greater than _t<sub>0 and less than </sub>_ 999,999,999,999.
 * **Then**
     ```
-    0 == timestampToSlotNumber(slotNumberToTimestamp(0, 1000, zeroTime), 1000, zeroTime)
+    0 == su.timestampToSlotNumber(su.slotNumberToTimestamp(0))
     ```
 * **And**
     ```
-    zeroTime == slotNumberToTimestamp(timestampToSlotNumber(zeroTime, 1000, zeroTime), 1000, zeroTime)
+    t1 == su.slotNumberToTimestamp(su.timestampToSlotNumber(t1))
     ```
 * **And**
     ```
-    zeroTime+99999 == slotNumberToTimestamp(timestampToSlotNumber(zeroTime+99999, 1000, zeroTime), 1000, zeroTime)
+    t1+99999 == su.slotNumberToTimestamp(su.timestampToSlotNumber(t1+99999))
     ```
-
-
-#### Non-Positive Slot Duration
-* **Given** a variable named `zeroTime` whose value is an arbitrary Unix timestamp
-* **Then**
-    ```
-    slotNumberToTimestamp(0, 0, zeroTime)
-    ```
-  produces an error
-* **And**
-    ```
-    timestampToSlotNumber(zeroTime, 0, zeroTime)
-    ```
-  produces an error
-* **And**
-    ```
-    slotNumberToTimestamp(0, -1, zeroTime)
-    ```
-  produces an error
-* **And**
-    ```
-    timestampToSlotNumber(zeroTime, -1, zeroTime)
-    ```
-  produces an error
-
 
 #### Slot Number Too Big
-* **Given** a variable named `zeroTime` whose value is an arbitrary Unix timestamp
+
+* **Given** an instance of `SlotUtil` that is the value of the variable `su`
+* **And** that `su` was constructed with a mock instance of `NodeCache` that is configured so that
+  * `getNodeConfig` returns a `NodeConfig` object that specified a slot duration of 1000 milliseconds
+  * `getGenesisBlock` returns a `FullBlock` that contains a `BlockHeader` that contains a timestamp with an arbitrary
+    positive value
 * **And** a variable named `slotNumber` whose value is 4,611,686,018,427,387,904
 * **Then**
     ```
-    slotNumberToTimestamp(slotNumber, 1000, zeroTime)
+    su.slotNumberToTimestamp(slotNumber)
     ```
   produces an error indicating that the slot number is too big to be represented as a Unix timestamp.
 
 #### Timestamp too Early
-* **Given** a variable named `zeroTime` whose value is an arbitrary Unix timestamp
-* **And** a variable named `negativeTime` whose value is less than `zeroTime`.
+
+* **Given** an instance of `SlotUtil` that is the value of the variable `su`
+* **And** that `su` was constructed with a mock instance of `NodeCache` that is configured so that
+  * `getNodeConfig` returns a `NodeConfig` object that specified a slot duration of 1000 milliseconds
+  * `getGenesisBlock` returns a `FullBlock` that contains a `BlockHeader` that contains a timestamp with the value
+    1668784352
 * **Then**
     ```
-    TimestampToSlotNumber(negativeTime, 1000, zeroTime)
+    TimestampToSlotNumber(1668784350)
     ```
   produces an error indicating that the timestamp is before slot 0.
 
