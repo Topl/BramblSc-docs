@@ -13,10 +13,16 @@ The following testing scenarios are required:
     ```
 * **Then**
   should successfully construct a Schedule object with the given values for `minValidSlot`
+* **When**
+    ```
+    Schedule(minValidSlot: uint64, maxValidSlot: uint64, timestamp: int64).signableBytes()
+    ```
+* **Then**
 
+[//]: # (Sean, please provide the details for this test of signableBytes)
 
 #### Max less than Min
-* **Given** `minValidSlot` is an arbitrary `uint64
+* **Given** `minValidSlot` is an arbitrary `uint64`
 * **And** `maxValidSlot` is an arbitrary `uint64` less than `minValidSlot`
 * **When**
     ```

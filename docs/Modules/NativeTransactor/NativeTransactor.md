@@ -53,7 +53,7 @@ in a block, the next step is to convert those times into slot numbers. Slot numb
 Bifrost nodes.
 
 To convert timestamps to slot numbers we use the
-method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber). 
+method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber).
 
 ### Creating the Outputs
 
@@ -73,10 +73,8 @@ Here are the interfaces and classes that are described on this page:
 * [Signable](#interface-signable)
 * [UnprovenTransaction](#class-unproventransaction)
 
-## Interfaces
-These interfaces must be implemented by some of the classes that are used to build an `UnprovenTransaction`
 
-### Interface Signable
+## Interface Signable
 
 [//]: # (TODO: Sean please add missing details)
 This interface is responsible for caching various information from a BiFrost node.
@@ -126,10 +124,8 @@ The exact tests used for this method will vary with the implementation, but shou
 objects implement `Signable` and compare as equal, then the `signableBytes` methods of both objects returns identical
 results.
 
-## Classes
-These classes are used to build an `UnprovenTransaction`
+## Class Schedule
 
-### Class Schedule 
 **Implements** `Signable`
 
 ### Constructor
@@ -162,11 +158,45 @@ include:
 #### Testing Procedure
 
 The testing procedure for the constructor
-is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/getgenesisblock_test)
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/schedule_test)
 
-=============================
+### signableBytes
 
-### Class UnprovenTransaction
+#### Signature(s)
+
+```
+signableBytes() returns Array[byte]
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+the testing procedure for this method/functions
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/schedule_test)
+
+
+## Class UnprovenTransaction
+
 **Implements** `Signable`
 
 
