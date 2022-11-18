@@ -51,7 +51,7 @@ No expected errors
 #### Testing Procedure
 
 The testing procedure for `getNodeConfig`
-is [described on a separate page](NodeUtils/bifrost_connection_tests/getUrl_test)
+is [described on a separate page](NodeUtils/BifrostConnection%20Tests/getUrl_test)
 
 ## Class NodeCache
 
@@ -98,7 +98,7 @@ The errors that the method/function will produce include:
 
 #### Testing Procedure
 
-The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/nodecache_tests/constructor_test)
+The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/NodeCache%20Tests/constructor_test)
 
 ### getGenesisBlock
 
@@ -134,7 +134,7 @@ include:
 #### Testing Procedure
 
 The testing procedure for the constructor
-is [described on a separate page](NodeUtils/nodecache_tests/getgenesisblock_test)
+is [described on a separate page](NodeUtils/NodeCache%20Tests/getgenesisblock_test)
 
 ### getNodeConfig
 
@@ -176,7 +176,7 @@ The errors that the method/function will produce include:
 #### Testing Procedure
 
 The testing procedure for the constructor
-is [described on a separate page](NodeUtils/nodecache_tests/getnodeconfig_test)
+is [described on a separate page](NodeUtils/NodeCache%20Tests/getnodeconfig_test)
 
 ## Class SlotUtil
 
@@ -250,7 +250,7 @@ The errors that the method/function will produce include:
 #### Testing Procedure
 
 The testing procedure for the constructor
-is [described on a separate page](NodeUtils/slotutil_tests/slot_timestamp_conversion_test)
+is [described on a separate page](NodeUtils/SlotUtil%20Tests/slot_timestamp_conversion_test)
 
 ### timestampToSlotNumber
 
@@ -282,4 +282,4 @@ The errors that the method/function will produce include:
 #### Testing Procedure
 
 The testing procedure for the constructor
-is [described on a separate page](NodeUtils/slotutil_tests/slot_timestamp_conversion_test)
+is [described on a separate page](NodeUtils/SlotUtil%20Tests/slot_timestamp_conversion_test)

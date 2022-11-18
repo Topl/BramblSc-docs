@@ -53,9 +53,7 @@ in a block, the next step is to convert those times into slot numbers. Slot numb
 Bifrost nodes.
 
 To convert timestamps to slot numbers we use the
-method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber). This takes three parameters:
-* the Unix timestamp to convert
-* the duration of slots on the bifrost node we are working with. 
+method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber). 
 
 ### Creating the Outputs
 
@@ -76,9 +74,11 @@ Here are the interfaces and classes that are described on this page:
 * [UnprovenTransaction](#class-unproventransaction)
 
 ## Interfaces
+These interfaces must be implemented by some of the classes that are used to build an `UnprovenTransaction`
 
 ### Interface Signable
 
+[//]: # (TODO: Sean please add missing details)
 This interface is responsible for caching various information from a BiFrost node.
 
 This interface contains just one method/function.
@@ -127,9 +127,46 @@ objects implement `Signable` and compare as equal, then the `signableBytes` meth
 results.
 
 ## Classes
+These classes are used to build an `UnprovenTransaction`
 
-### Class Schedule
+### Class Schedule 
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+Schedule(minValidSlot: uint64, maxValidSlot: uint64, timestamp: int64)
+```
+
+#### Description
+
+Construct a `Schedule` object.
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The cached `co.topl.proto.models.FullBlock` object.
+
+#### Errors
+
+The errors that the method/function will produce as a result of a failed asynchronous query initiated by the constructor
+include:
+
+* minValidSlot > maxValidSlot
+
+#### Testing Procedure
+
+The testing procedure for the constructor
+is [described on a separate page](NodeUtils/nodecache_tests/getgenesisblock_test)
+
+=============================
 
 ### Class UnprovenTransaction
+**Implements** `Signable`
 
 
