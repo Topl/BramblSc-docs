@@ -60,6 +60,13 @@ Once we have the two slot numbers and are given a Unix timestamp value, we use t
 
 ### Creating the Outputs
 
+Building the outputs for a transaction begins by creating an empty `List[Output]`. After we have appending one or more
+outputs to the list, we can use the list as one of the inputs to construct an `UnprovenIoTx`.
+
+To construct ...
+
+==================
+
 ### Creating the Inputs
 
 ### Application-Provided Data
