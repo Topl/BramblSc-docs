@@ -32,7 +32,9 @@ defined in the protobuf specs:
 
 * `Option`
   This is a very simple collection that either contains one element or None. It is used to indicate that a field or
-  parameter may not have a value.
+  parameter may not have a value. For implementation languages that do not have an equivalent, `Option` can be
+  implemented by the use of null values.
+* `Array` a fixed length ordered collection.
 * `Collection`
   This is an unordered collection. It provides operations to iterate over its contents and to determine if an object
   is an element of the collection.
@@ -47,3 +49,17 @@ defined in the protobuf specs:
 Most implementation types will have commonly used equivalents of these. The most appropriate equivalent should be used.
 Because some implementation languages will provide collection types that take type parameters, the declarations include
 type parameters for these.
+
+For implementation using strongly typed languages, we use all of these in our specification with a data type indicating
+the type of content that the collection has. For example, `Array[byte]`.
+
+For specifying integer types we use these:
+* `byte` an 8 bit quantity that we do not do arithmetic or inequality comparisons (`<`, `<=`, `>=` or `>`) on.
+* `uint8` an unsigned 8 bit quantity.
+* `int8` a signed 8 bit quantity.
+* `uint16` an unsigned 16 bit quantity.
+* `int16` a signed 16 bit quantity.
+* `uint32` an unsigned 32 bit quantity.
+* `int32` a signed 32 bit quantity.
+* `uint64` an unsigned 64 bit quantity.
+* `int64` a signed 64 bit quanity.

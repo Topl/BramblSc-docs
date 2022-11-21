@@ -50,7 +50,8 @@ No expected errors
 
 #### Testing Procedure
 
-The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/bifrost_connection_tests/getUrl_test)
+The testing procedure for `getNodeConfig`
+is [described on a separate page](NodeUtils/BifrostConnection%20Tests/getUrl_test)
 
 ## Class NodeCache
 
@@ -97,7 +98,7 @@ The errors that the method/function will produce include:
 
 #### Testing Procedure
 
-The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/nodecache_tests/constructor_test)
+The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/NodeCache%20Tests/constructor_test)
 
 ### getGenesisBlock
 
@@ -132,7 +133,8 @@ include:
 
 #### Testing Procedure
 
-The testing procedure for the constructor is [described on a separate page](NodeUtils/nodecache_tests/getgenesisblock_test)
+The testing procedure for the constructor
+is [described on a separate page](NodeUtils/NodeCache%20Tests/getgenesisblock_test)
 
 ### getNodeConfig
 
@@ -173,28 +175,67 @@ The errors that the method/function will produce include:
 
 #### Testing Procedure
 
-The testing procedure for the constructor is [described on a separate page](NodeUtils/nodecache_tests/getnodeconfig_test)
+The testing procedure for the constructor
+is [described on a separate page](NodeUtils/NodeCache%20Tests/getnodeconfig_test)
 
 ## Class SlotUtil
 
+This a class for working with slot numbers.
+
+Here is a summary of the methods/functions in this class:
+
+* [Constructor](#slotutil-constructor) — Construct an instance of `SlotUtil`
+* [slotNumberToTimestamp](#slotnumbertotimestamp) — Convert a slot number to a Unix Timestamp
+* [timestampToSlotNumber](#timestamptoslotnumber) — Convert a Unix timestamp to a slot number.
+
+### SlotUtil Constructor
+
+#### Signature(s)
+
+```
+SlotUtil(nodeCache: NodeCache)
+```
+
+#### Description
+
+Construct an instance of `SlotUtil` that gets the duration of slots
+from [nodeCache.getNodeConfig.slotDuration](#getnodeconfig) and the start of slot 0
+from[nodeCache.getGenesisBlock().header.timestamp](#getgenesisblock).
+
+#### Parameters
+
+* `connection` the `BifrostConnection` object that will be used to communicate with the Bifrost node.
+
+#### Returns
+
+The constructed object.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_No Errors_
+
+#### Testing Procedure
+
+_No Prescribed Tests_
 
 ### slotNumberToTimestamp
 
 #### Signature(s)
 
 ```
-slotNumberToTimestamp(slotNumber: uint64, slotDuration: uint32, genesisTimestamp: int64) returns int64
+slotNumberToTimestamp(slotNumber: uint64) returns int64
 ```
 
 #### Description
 
-Convert a slot number to a timestamp.
+Convert a slot number to a timestamp using the slot duration and start of slot 0 obtained from this object's `nodeCache`
+.
 
 #### Parameters
 
 * `slotNumber` a number that identifies a slot in a Topl blockchain network.
-* `slotDuration` the duration of a slot in milliseconds
-* `genesisTimestamp` The Unix timestamp from the genesis block which is the beginning of slot 0
 
 #### Returns
 
@@ -204,30 +245,29 @@ A [Unix timestamp](https://www.unixtimestamp.com/)
 
 The errors that the method/function will produce include:
 
-* Non-positive slot duration
 * Slot number translates to a time too far in the future to be represented as a Unix timestamp (overflow).
 
 #### Testing Procedure
 
-The testing procedure for the constructor is [described on a separate page](NodeUtils/slotutil_tests/slot_timestamp_conversion_test)
+The testing procedure for the constructor
+is [described on a separate page](NodeUtils/SlotUtil%20Tests/slot_timestamp_conversion_test)
 
 ### timestampToSlotNumber
 
 #### Signature(s)
 
 ```
-timestampToSlotNumber(timestamp: int64, slotDuration: uint32, genesisTimestamp: int64) returns uint64
+timestampToSlotNumber(timestamp: int64) returns uint64
 ```
 
 #### Description
 
-Convert a timestamp to a slot number.
+Convert a timestamp to a slot number using the slot duration and start of slot 0 obtained from this object's
+`nodeCache`.
 
 #### Parameters
 
 * `timestamp` a [Unix timestamp](https://www.unixtimestamp.com/)
-* `slotDuration` the duration of a slot in milliseconds
-* `genesisTimestamp` The Unix timestamp from the genesis block which is the beginning of slot 0
 
 #### Returns
 
@@ -238,8 +278,8 @@ The slot number that includes the given timestamp.
 The errors that the method/function will produce include:
 
 * Timestamp is before slot 0
-* Non-positive slot duration
 
 #### Testing Procedure
 
-The testing procedure for the constructor is [described on a separate page](NodeUtils/slotutil_tests/slot_timestamp_conversion_test)
+The testing procedure for the constructor
+is [described on a separate page](NodeUtils/SlotUtil%20Tests/slot_timestamp_conversion_test)
