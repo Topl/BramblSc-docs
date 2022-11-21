@@ -64,8 +64,10 @@ Once we have the two slot numbers and are given a Unix timestamp value, we use t
 Building the outputs for a transaction begins by creating an empty `List[UnspentOutput]`. After we have appended one or
 more outputs to the list, we can use the list as one of the inputs to construct an `UnprovenIoTx`.
 
-To construct an `UnspentOutput`, we begin with a quantity. To create a quantity of tokens, we use the quantity to create
-a `Values.Token`. 
+To construct an `UnspentOutput` object, we begin with a quantity. To create a quantity of tokens, we use the quantity to
+construct a `Values.Token` object.
+
+We use `UnspentOutput` object
 
 ==================
 
