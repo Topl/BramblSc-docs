@@ -53,13 +53,5 @@ type parameters for these.
 For implementation using strongly typed languages, we use all of these in our specification with a data type indicating
 the type of content that the collection has. For example, `Array[byte]`.
 
-For specifying integer types we use these:
-* `byte` an 8 bit quantity that we do not do arithmetic or inequality comparisons (`<`, `<=`, `>=` or `>`) on.
-* `uint8` an unsigned 8 bit quantity.
-* `int8` a signed 8 bit quantity.
-* `uint16` an unsigned 16 bit quantity.
-* `int16` a signed 16 bit quantity.
-* `uint32` an unsigned 32 bit quantity.
-* `int32` a signed 32 bit quantity.
-* `uint64` an unsigned 64 bit quantity.
-* `int64` a signed 64 bit quanity.
+For specifying other types we
+use [protobuf types](https://developers.google.com/protocol-buffers/docs/reference/proto3-spec#fields)
