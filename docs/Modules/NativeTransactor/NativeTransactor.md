@@ -7,7 +7,8 @@ This page is organized into two parts.
 
 * [The first part](#transaction-builder-data-flow) describes the data flow that the transaction builder supports for
   building unproven transactions.
-* [The second part](#structure-of-the-unproven-transaction-builder) describes the structure of the transaction builder in detail.
+* [The second part](#structure-of-the-unproven-transaction-builder) describes the structure of the transaction builder
+  in detail.
 
 ## Transaction Builder Data Flow
 
@@ -60,10 +61,11 @@ Once we have the two slot numbers and are given a Unix timestamp value, we use t
 
 ### Creating the Outputs
 
-Building the outputs for a transaction begins by creating an empty `List[Output]`. After we have appending one or more
-outputs to the list, we can use the list as one of the inputs to construct an `UnprovenIoTx`.
+Building the outputs for a transaction begins by creating an empty `List[UnspentOutput]`. After we have appended one or
+more outputs to the list, we can use the list as one of the inputs to construct an `UnprovenIoTx`.
 
-To construct ...
+To construct an `UnspentOutput`, we begin with a quantity. To create a quantity of tokens, we use the quantity to create
+a `Values.Token`. 
 
 ==================
 
@@ -82,7 +84,6 @@ Here are the interfaces and classes that are described on this page:
 * [Schedule](#class-schedule)
 * [Signable](#interface-signable)
 * [UnprovenTransaction](#class-unproventransaction)
-
 
 ## Interface Signable
 
@@ -203,7 +204,6 @@ _None_
 
 the testing procedure for this method/functions
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/schedule_test)
-
 
 ## Class UnprovenTransaction
 
