@@ -230,7 +230,8 @@ Construct an `UnspentOutput` object.
 
 * `address` — the address that the output will be associated with.
 * `value` — The value that will be in the box that is created from this output.
-* `metadata` — optional client supplied data that is stored along with the output.
+* `metadata` — optional client supplied data that is stored along with the output. Default is a value such as null or
+  None that is used in the implementation value to indicate the absence of a value.
 
 #### Returns
 
