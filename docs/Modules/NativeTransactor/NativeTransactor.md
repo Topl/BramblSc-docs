@@ -99,7 +99,7 @@ This interface contains just one method/function.
 #### Signature(s)
 
 ```
-signableBytes() returns Array[byte]
+signableBytes() returns co.topl.proto.node.SignableBytes
 ```
 
 #### Description
@@ -159,7 +159,7 @@ _No Parameters_
 
 #### Returns
 
-The cached `co.topl.proto.models.FullBlock` object.
+The constructed `Schedule` object.
 
 #### Errors
 
@@ -178,7 +178,7 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/sche
 #### Signature(s)
 
 ```
-signableBytes() returns Array[byte]
+signableBytes() returns co.topl.proto.node.SignableBytes
 ```
 
 #### Description
