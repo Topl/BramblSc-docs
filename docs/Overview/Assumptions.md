@@ -6,7 +6,7 @@ all languages used for implementations have a common set of features related to 
 * Classes that can be used to create instances or objects. The objects have functions/methods and attributes. We do not
   assume that there is inheritance between classes.
 * Some implementation languages allow functions or methods to throw exceptions or panic when something unexpected
-  happens that is outside of the assumptions, requirements and behaviors documented here. This way of dealing with
+  happens that is outside the assumptions, requirements and behaviors documented here. This way of dealing with
   unexpected behavior is not be documented as part of any interface documented here. If implementations need to respond
   to an unexpected situation in this way, the implementation must document this behavior.
 * Interfaces describe a set of functions/methods provided by classes that implement the interfaces. We do not assume
@@ -26,6 +26,7 @@ all languages used for implementations have a common set of features related to 
   In the rest of this document, we consider “future” and “promise” to be synonyms and use “future” to refer to both.
 * We assume that methods/functions can have parameters whose values are methods/functions (first-class functions).
 
+# Collections
 Various data types are used to describe the parameters and return types of functions/methods. Most of these are defined
 in protobuf specifications from which language specific definitions are generated. A few collection types are not
 defined in the protobuf specs:
