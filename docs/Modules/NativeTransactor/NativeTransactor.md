@@ -155,7 +155,10 @@ Construct a `Schedule` object.
 
 #### Parameters
 
-_No Parameters_
+* minValidSlot — the earliest slot that the containing transaction is valid for inclusion in a block.
+* maxValidSlot — the latest slot that the containing transaction is valid for inclusion in a block.
+* timestamp — A timestamp provided by the client that is stored as part of the enclosing transaction's schedule, but is
+  not otherwise used by the Topl protocol.
 
 #### Returns
 
@@ -207,7 +210,6 @@ _None_
 the testing procedure for this method/functions
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/schedule_test)
 
-
 ## Class UnspentOutput
 
 **Implements** `Signable`
@@ -226,7 +228,9 @@ Construct an `UnspentOutput` object.
 
 #### Parameters
 
-_No Parameters_
+* `address` — the address that the output will be associated with.
+* `value` — The value that will be in the box that is created from this output.
+* `metadata` — optional client supplied data that is stored along with the output.
 
 #### Returns
 
@@ -274,9 +278,6 @@ _None_
 
 the testing procedure for this method/functions
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unspent_output_test)
-
-
-
 
 ## Class UnprovenTransaction
 
