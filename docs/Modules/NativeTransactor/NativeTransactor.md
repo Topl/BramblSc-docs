@@ -67,13 +67,20 @@ more outputs to the list, we can use the list as one of the inputs to construct 
 To construct an `UnspentOutput` object, we begin with a quantity. To create a quantity of tokens, we use the quantity to
 construct a `Values.Token` object.
 
-We then use the `Values.Token` object and the `Address` to create an `UnspentOutput` object.
-
-==================
+We then use the `Values.Token` object and the `Address` to create an `UnspentOutput` object. Once created, we can append
+the `UnspentOutput` to the list of `UnspentOutput` objects we are building.
 
 ### Creating the Inputs
 
+====================
+
 ### Application-Provided Data
+
+An optional array of bytes may be provided by the client to be included as part of the `UnprovenIoTx`.
+
+### Creating the UnprovenIoTx
+
+Once we have the `Schedule`, `List[UnprovenInput]`, `List[UnspentOutput]` and metadata, we construct the UnprovenIoTx.
 
 ## Structure of the Unproven Transaction Builder
 
@@ -284,4 +291,71 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unsp
 
 **Implements** `Signable`
 
+### Constructor
+
+#### Signature(s)
+
+```
+UnprovenIoTx(inputs: List[UnprovenInput], outputs: List[UnspentOutput],
+             schedule: IoTransaction.Schedule, metadata: Metadata)
+```
+
+#### Description
+
+Construct an `UnprovenIoTx` object.
+
+#### Parameters
+
+* `inputs` — A list of `UnprovenInput` objects
+* `outputs` — A list of `UnspentOutput` objects
+* `schedule` — A schedule object with the 
+* `metadata` — optional client supplied data that is stored along with the transaction. Default is a value such as null or
+  None that is used in the implementation value to indicate the absence of a value.
+
+#### Returns
+
+The constructed `UnprovenIoTx` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+The testing procedure for the constructor
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/UnprovenIoTx_test)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+the testing procedure for this method/functions
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/UnprovenIoTx_test)
 
