@@ -67,7 +67,7 @@ more outputs to the list, we can use the list as one of the inputs to construct 
 To construct an `UnspentOutput` object, we begin with a quantity. To create a quantity of tokens, we use the quantity to
 construct a `Values.Token` object.
 
-We use `UnspentOutput` object
+We then use the `Values.Token` object and the `Address` to create an `UnspentOutput` object.
 
 ==================
 
@@ -206,6 +206,77 @@ _None_
 
 the testing procedure for this method/functions
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/schedule_test)
+
+
+## Class UnspentOutput
+
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+UnspentOutput(address: Address, value: Box.Value, metadata: Option[Array[byte])
+```
+
+#### Description
+
+Construct an `UnspentOutput` object.
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The constructed `UnspentOutput` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+The testing procedure for the constructor
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unspent_output_test)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+the testing procedure for this method/functions
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unspent_output_test)
+
+
+
 
 ## Class UnprovenTransaction
 
