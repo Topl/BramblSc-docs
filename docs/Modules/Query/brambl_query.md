@@ -23,7 +23,7 @@ Here is a summary of the methods/functions in this interface:
 #### Signature(s)
 
 ```
-getNodeConfig(timeoutMillis: uint64) returns co.topl.proto.models.node.NodeConfig
+getNodeConfig(timeoutMillis: uint64) returns co.topl.proto.node.NodeConfigMap
 ```
 
 #### Description
@@ -34,8 +34,7 @@ Retrieve the configuration of the Bifrost node we are connected to.
 * `timeoutMillis` _(optional)_ The maximum number of milliseconds to wait. The default value is 2000 (2 seconds).
 
 #### Returns
-A `co.topl.proto.models.node.NodeConfig` that contains the node's configuration. The encapsulated configuration must
-include the configured slot duration.
+A `co.topl.proto.node.NodeConfig` that contains the node's configuration.
 
 #### Errors
 
@@ -68,8 +67,8 @@ Here is a summary of the methods/functions in this interface:
 #### Signature(s)
 
 ```
-getBlockById(id: models.TypedIdentifier, timeoutMillis: uint64, confidenceFactor: double)
-    returns co.topl.proto.models.block.FullBlock
+getBlockById(id: co.topl.proto.common.BlockId, timeoutMillis: uint64, confidenceFactor: double)
+    returns co.topl.proto.node.FullBlock
 ```
 
 #### Description
@@ -89,7 +88,7 @@ has waited this amount of time and there is no result to be returned, the method
 
 #### Returns
 
-A `co.topl.proto.models.block.FullBlock` that contains the block header and block body for the with block with the
+A `co.topl.proto.node.FullBlock` that contains the block header and block body for the with block with the
 specified id.
 
 #### Errors
@@ -110,8 +109,8 @@ The testing procedure for getBlockById is [described on a separate page](brambl_
 #### Signature(s)
 
 ```
-  getBlockByHeight(height: int64, timeoutMillis: uint64, confidenceFactor: double)
-      returns co.topl.proto.models.block.FullBlock
+  getBlockByHeight(height: uint64, timeoutMillis: uint64, confidenceFactor: double)
+      returns co.topl.proto.node.FullBlock
 ```
 
 #### Description
@@ -132,7 +131,7 @@ has waited this amount of time and there is no result to be returned, the method
 
 #### Returns
 
-A `co.topl.proto.models.block.FullBlock` that contains the block header and block body for the block with at specified
+A `co.topl.proto.node.FullBlock` that contains the block header and block body for the block with at specified
 height.
 
 #### Error
@@ -155,7 +154,7 @@ The testing procedure for getBlockByHeight is [described on a separate page](bra
 
 ```
   getBlockByDepth(depth: int64, timeoutMillis: uint64, confidenceFactor: double)
-      returns co.topl.proto.models.block.FullBlock
+      returns co.topl.proto.node.FullBlock
 ```
 
 #### Description
@@ -174,7 +173,7 @@ equal to the value of the `confidenceFactor` parameter.
 
 #### Returns
 
-A `co.topl.proto.models.block.FullBlock` that contains the block header and block body for the block with at specified
+A `co.topl.proto.node.FullBlock` that contains the block header and block body for the block with at specified
 depth.
 
 #### Error
@@ -229,7 +228,7 @@ Here is a summary of the methods/functions in this interface:
 #### Signature(s)
 
 ```
-  getTransactionById(id: models.TransactionId, timeoutMillis: uint64, confidenceFactor: double)
+  getTransactionById(id: co.topl.proto.common.TransactionId, timeoutMillis: uint64, confidenceFactor: double)
       returns TransactionReceipt
 ```
 
@@ -272,7 +271,7 @@ is [described on a separate page](brambl_query_tests/getTransactionById_test)
 #### Signature(s)
 
 ```
-  getTransactionsByAddressStream(addresses: Collection[Address],
+  getTransactionsByAddressStream(addresses: Collection[SpendingAddress],
                                  timeoutMillis: uint64,
                                  confidenceFactor: double) 
       returns Stream[TransactionReceipt]
@@ -315,7 +314,7 @@ is [described on a separate page](brambl_query_tests/getTransactionByAddressStre
 #### Signature(s)
 
 ```
-  getTxosByAddress(addresses: List[Address], timeoutMillis: uint64, confidenceFactor: double)
+  getTxosByAddress(addresses: List[SpendingAddress], timeoutMillis: uint64, confidenceFactor: double)
       returns Map[String, Collection[Txo]]
 ```
 
@@ -356,7 +355,7 @@ The testing procedure for getTxosByAddress is [described on a separate page](bra
 #### Signature(s)
 
 ```
-  getTxosByAddressStream(addresses: List[Address], timeoutMillis: uint64, confidenceFactor: double) 
+  getTxosByAddressStream(addresses: List[SpendingAddress], timeoutMillis: uint64, confidenceFactor: double) 
            returns Stream[Map[String, Collection[Txo]]]
 ```
 
