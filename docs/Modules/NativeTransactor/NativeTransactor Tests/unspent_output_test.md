@@ -9,7 +9,7 @@ The following testing scenarios are required:
 * **And** a variable `m` whose value is an arbitrary array of bytes 64 bytes in length
 * **When** 
   ```
-  uo ⇦ UnspendOutput(a, v)
+  uo ⇦ UnspentOutput(a, v)
   ```
 * **Then** a == uo.address
 * **And** v == uo.value
