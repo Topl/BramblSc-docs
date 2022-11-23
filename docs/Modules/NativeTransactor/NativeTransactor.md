@@ -7,7 +7,8 @@ This page is organized into two parts.
 
 * [The first part](#transaction-builder-data-flow) describes the data flow that the transaction builder supports for
   building unproven transactions.
-* [The second part](#structure-of-the-unproven-transaction-builder) describes the structure of the transaction builder in detail.
+* [The second part](#structure-of-the-unproven-transaction-builder) describes the structure of the transaction builder
+  in detail.
 
 ## Transaction Builder Data Flow
 
@@ -60,16 +61,26 @@ Once we have the two slot numbers and are given a Unix timestamp value, we use t
 
 ### Creating the Outputs
 
-Building the outputs for a transaction begins by creating an empty `List[Output]`. After we have appending one or more
-outputs to the list, we can use the list as one of the inputs to construct an `UnprovenIoTx`.
+Building the outputs for a transaction begins by creating an empty `List[UnspentOutput]`. After we have appended one or
+more outputs to the list, we can use the list as one of the inputs to construct an `UnprovenIoTx`.
 
-To construct ...
+To construct an `UnspentOutput` object, we begin with a quantity. To create a quantity of tokens, we use the quantity to
+construct a `Values.Token` object.
 
-==================
+We then use the `Values.Token` object and the `Address` to create an `UnspentOutput` object. Once created, we can append
+the `UnspentOutput` to the list of `UnspentOutput` objects we are building.
 
 ### Creating the Inputs
 
+====================
+
 ### Application-Provided Data
+
+An optional array of bytes may be provided by the client to be included as part of the `UnprovenIoTx`.
+
+### Creating the UnprovenIoTx
+
+Once we have the `Schedule`, `List[UnprovenInput]`, `List[UnspentOutput]` and metadata, we construct the UnprovenIoTx.
 
 ## Structure of the Unproven Transaction Builder
 
@@ -83,7 +94,6 @@ Here are the interfaces and classes that are described on this page:
 * [Signable](#interface-signable)
 * [UnprovenTransaction](#class-unproventransaction)
 
-
 ## Interface Signable
 
 [//]: # (TODO: Sean please add missing details)
@@ -96,7 +106,7 @@ This interface contains just one method/function.
 #### Signature(s)
 
 ```
-signableBytes() returns Array[byte]
+signableBytes() returns co.topl.proto.node.SignableBytes
 ```
 
 #### Description
@@ -152,11 +162,14 @@ Construct a `Schedule` object.
 
 #### Parameters
 
-_No Parameters_
+* minValidSlot — the earliest slot that the containing transaction is valid for inclusion in a block.
+* maxValidSlot — the latest slot that the containing transaction is valid for inclusion in a block.
+* timestamp — A timestamp provided by the client that is stored as part of the enclosing transaction's schedule, but is
+  not otherwise used by the Topl protocol.
 
 #### Returns
 
-The cached `co.topl.proto.models.FullBlock` object.
+The constructed `Schedule` object.
 
 #### Errors
 
@@ -175,7 +188,7 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/sche
 #### Signature(s)
 
 ```
-signableBytes() returns Array[byte]
+signableBytes() returns co.topl.proto.node.SignableBytes
 ```
 
 #### Description
@@ -204,9 +217,145 @@ _None_
 the testing procedure for this method/functions
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/schedule_test)
 
+## Class UnspentOutput
+
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+UnspentOutput(address: Address, value: Box.Value, metadata: Option[Array[byte])
+```
+
+#### Description
+
+Construct an `UnspentOutput` object.
+
+#### Parameters
+
+* `address` — the address that the output will be associated with.
+* `value` — The value that will be in the box that is created from this output.
+* `metadata` — optional client supplied data that is stored along with the output. Default is a value such as null or
+  None that is used in the implementation value to indicate the absence of a value.
+
+#### Returns
+
+The constructed `UnspentOutput` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+The testing procedure for the constructor
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unspent_output_test)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+the testing procedure for this method/functions
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unspent_output_test)
 
 ## Class UnprovenTransaction
 
 **Implements** `Signable`
 
+### Constructor
+
+#### Signature(s)
+
+```
+UnprovenIoTx(inputs: List[UnprovenInput], outputs: List[UnspentOutput],
+             schedule: IoTransaction.Schedule, metadata: Metadata)
+```
+
+#### Description
+
+Construct an `UnprovenIoTx` object.
+
+#### Parameters
+
+* `inputs` — A list of `UnprovenInput` objects
+* `outputs` — A list of `UnspentOutput` objects
+* `schedule` — A schedule object with the 
+* `metadata` — optional client supplied data that is stored along with the transaction. Default is a value such as null or
+  None that is used in the implementation value to indicate the absence of a value.
+
+#### Returns
+
+The constructed `UnprovenIoTx` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+The testing procedure for the constructor
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/UnprovenIoTx_test)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+the testing procedure for this method/functions
+is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/UnprovenIoTx_test)
 

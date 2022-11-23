@@ -180,7 +180,7 @@ is [described on a separate page](NodeUtils/NodeCache%20Tests/getnodeconfig_test
 
 ## Class SlotUtil
 
-This a class for working with slot numbers.
+This a class for working with [slot](../../Overview/Glossary#Slot) numbers.
 
 Here is a summary of the methods/functions in this class:
 
