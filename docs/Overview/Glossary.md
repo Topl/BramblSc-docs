@@ -2,7 +2,7 @@
 
 ### Slot
 
-A Topl blockchain network measures times in units called _slots_. At most one node is authorized to create aa block in
+A Topl blockchain network measures times in units called _slots_. At most one node is authorized to create a block in
 each slot.
 
 The duration of a slot is currently determined by the configuration of bifrost nodes in the chain. Node that are
