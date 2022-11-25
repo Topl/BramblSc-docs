@@ -18,7 +18,7 @@ transaction builder. The flow of the diagram is from left to right.
 ![Native Transaction Builder Flow](./transaction_builder.drawio.png)
 
 In the following discussion, we describe the inputs to unproven transaction constructor that produces
-an `UnprovenTransaction`.
+an unproven `IoTransaction`.
 
 ### Creating a Schedule
 
@@ -59,10 +59,15 @@ method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber).
 Once we have the two slot numbers and are given a Unix timestamp value, we use the three values to construct a
 `Schedule` object.
 
+### Creating Transaction Datum
+
+Once we have a constructed a [`Schedule`](#creating-a-schedule) and obtain an array of bytes representing a blob ID and
+another array of bytes (up to 64 bytes) representing metadata, we can construct the the transaction datum `Datums.IoTx`.
+
 ### Creating the Outputs
 
-Building the outputs for a transaction begins by creating an empty `List[UnspentOutput]`. After we have appended one or
-more outputs to the list, we can use the list as one of the inputs to construct an `UnprovenIoTx`.
+Building the outputs for a transaction begins by creating an empty `List[UnspentOutput]`. After we have appended one or 
+more outputs to the list, we can use the list as one of the inputs to construct an unproven `IoTransaction`.
 
 To construct an `UnspentOutput` object, we begin with a quantity. To create a quantity of tokens, we use the quantity to
 construct a `Values.Token` object.
@@ -72,15 +77,29 @@ the `UnspentOutput` to the list of `UnspentOutput` objects we are building.
 
 ### Creating the Inputs
 
-====================
+Building the inputs (unproven `SpentOutput`) for an unproven transaction begins by creating `List[SpentOutput]` where each 
+`SpentOutput` is unproven (the contained `Attestation`s each have an empty `responses` list). This `List[SpentOutput]` can 
+be constructed by either taking in a corresponding `List[Txo]` or `List[Indices]`.
+
+Beginning with `List[Txo]`, we can extract the `Predicate.Id` from each `Txo` via the `address` field. With a `Predicate.Id`, 
+we can construct the aforementioned unproven `Attestation` by fetching the corresponding `Predicate.Image` and generating 
+`Predicate.Known`. If we begin with `List[Indices]` we can use the `Indices` to retrieve a corresponding `List[Indices]`.
+
+In addition to the unproven `Attestation`, `Box.Id`, `Box.Value`, `Datums.Output`, and optionally metadata are needed 
+to construct an unproven `SpentOutput`. Both `Box.Id` and `Box.Value` can be retrieved from a `Txo`. An object containing
+ an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata will need
+ to be supplied for `Datums.Output`. The optional metadata can be supplied as array of bytes (up to 15KB).
+
+Once we have the above, the `List[SpentOutput]` can be constructed.
 
 ### Application-Provided Data
 
-An optional array of bytes may be provided by the client to be included as part of the `UnprovenIoTx`.
+An optional array of bytes (up to 15KB) representing metadata may be provided by the client to be included as part of the
+ unproven `IoTransaction`.
 
-### Creating the UnprovenIoTx
+### Creating the Unproven IoTransaction
 
-Once we have the `Schedule`, `List[UnprovenInput]`, `List[UnspentOutput]` and metadata, we construct the UnprovenIoTx.
+Once we have `Datums.IoTx`, `List[SpentInput]`, `List[UnspentOutput]` and metadata, we construct the unproven IoTransaction.
 
 ## Structure of the Unproven Transaction Builder
 
@@ -90,9 +109,14 @@ we [follow a set of assumptions](../Overview/Assumptions)
 
 Here are the interfaces and classes that are described on this page:
 
+* [Attestation](#class-attestation)
+* [Datums.IoTx](#class-datumsiotx)
+* [Datums.Output](#class-datumsoutput)
+* [IoTransaction](#class-iotransaction)
 * [Schedule](#class-schedule)
 * [Signable](#interface-signable)
-* [UnprovenTransaction](#class-unproventransaction)
+* [SpentOutput](#class-spentoutput)
+* [UnspentOutput](#class-unspentoutput)
 
 ## Interface Signable
 
@@ -226,7 +250,8 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/sche
 #### Signature(s)
 
 ```
-UnspentOutput(address: Address, value: Box.Value, metadata: Option[Array[byte])
+UnspentOutput(address: Address, value: Box.Value, 
+      datum: Datums.Output, metadata: Option[Array[byte])
 ```
 
 #### Description
@@ -237,7 +262,8 @@ Construct an `UnspentOutput` object.
 
 * `address` — the address that the output will be associated with.
 * `value` — The value that will be in the box that is created from this output.
-* `metadata` — optional client supplied data that is stored along with the output. Default is a value such as null or
+* `datum` - A object containing an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata. See [Datums.Output](#class-datumsoutput).
+* `metadata` — optional client supplied data that is stored along with the output. Up to 15Kb. Default is a value such as null or
   None that is used in the implementation value to indicate the absence of a value.
 
 #### Returns
@@ -287,7 +313,7 @@ _None_
 the testing procedure for this method/functions
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unspent_output_test)
 
-## Class UnprovenTransaction
+## Class IoTransaction
 
 **Implements** `Signable`
 
@@ -296,25 +322,25 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unsp
 #### Signature(s)
 
 ```
-UnprovenIoTx(inputs: List[UnprovenInput], outputs: List[UnspentOutput],
-             schedule: IoTransaction.Schedule, metadata: Metadata)
+IoTransaction(inputs: List[SpentOutput], outputs: List[UnspentOutput],
+             datum: Datums.IoTx, metadata: Option[Array[Byte]])
 ```
 
 #### Description
 
-Construct an `UnprovenIoTx` object.
+Construct an unproven `IoTransaction` object.
 
 #### Parameters
 
-* `inputs` — A list of `UnprovenInput` objects
+* `inputs` — A list of unproven `SpentOutput` objects
 * `outputs` — A list of `UnspentOutput` objects
-* `schedule` — A schedule object with the 
-* `metadata` — optional client supplied data that is stored along with the transaction. Default is a value such as null or
+* `datum` — A object containing schedule, an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata. See [Datums.IoTx](#class-datumsiotx).
+* `metadata` — optional client supplied data that is stored along with the transaction. Up to 15KB. Default is a value such as null or
   None that is used in the implementation value to indicate the absence of a value.
 
 #### Returns
 
-The constructed `UnprovenIoTx` object.
+The constructed unproven `IoTransaction` object.
 
 #### Errors
 
@@ -359,3 +385,291 @@ _None_
 the testing procedure for this method/functions
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/UnprovenIoTx_test)
 
+## Class Attestation
+
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+Attestation(image: Predicate.Image, known: Predicate.Known,
+             responses: List[Option[Proof]])
+```
+
+#### Description
+
+Construct an unproven `IoTransaction` object.
+
+#### Parameters
+
+* `image` — A image that exposes the evidences of the propositions within the associated predicate.
+* `known` — A object containing a list of known propositions for a predicate.
+* `responses` — An optional list of optional proofs. Defaults to an empty list.
+
+#### Returns
+
+The constructed `Attestation` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for the constructor
+is [described on a separate page](#)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for this method/functions
+is [described on a separate page](#)
+
+## Class SpentOutput
+
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+SpentOutput(reference: Box.Id, value: Box.Value, attestation: Attestation,
+             datum: Datums.Output, metadata: Option[Array[Byte]])
+```
+
+#### Description
+
+Construct an unproven `SpentOutput` object.
+
+#### Parameters
+
+* `reference` — The ID of the box for which we want to spend from.
+* `value` — The value that is in the box that is referenced by `reference`.
+* `attestation` — The attestation required to spend this output.
+* `datum` — A object containing an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata. See [Datums.Output](#class-datumsoutput).
+* `metadata` — optional client supplied data that is stored along with the output. Up to 15Kb. Default is a value such as null or
+  None that is used in the implementation value to indicate the absence of a value.
+
+#### Returns
+
+The constructed unproven `SpentOutput` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for the constructor
+is [described on a separate page](#)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for this method/functions
+is [described on a separate page](#)
+
+## Class Datums.IoTx
+
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+Datums.IoTx(schedule: Schedule, blobId: Blob.Id,
+             metadata: Array[Byte])
+```
+
+#### Description
+
+Construct a `Datums.IoTx` object.
+
+#### Parameters
+
+* `schedule` — An object representing when a transaction can be accepted onto the chain.
+* `blobId` — array of bytes representing a blob ID
+* `metadata` — array of bytes (up to 64 bytes).
+
+#### Returns
+
+The constructed `Datums.IoTx` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for the constructor
+is [described on a separate page](#)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for this method/functions
+is [described on a separate page](#)
+
+## Class Datums.Output
+
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+Datums.Output(blobId: Blob.Id, metadata: Array[Byte])
+```
+
+#### Description
+
+Construct a `Datums.Output` object.
+
+#### Parameters
+
+* `blobId` — array of bytes representing a blob ID
+* `metadata` — array of bytes (up to 64 bytes).
+
+#### Returns
+
+The constructed `Datums.Output` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for the constructor
+is [described on a separate page](#)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for this method/functions
+is [described on a separate page](#)
