@@ -59,10 +59,19 @@ method/function [timestampToSlotNumber](Util/NodeUtils#timestamptoslotnumber).
 Once we have the two slot numbers and are given a Unix timestamp value, we use the three values to construct a
 `Schedule` object.
 
-### Creating Transaction Datum
+### Creating Datums.IoTx
 
-Once we have a constructed a [`Schedule`](#creating-a-schedule) and obtain an array of bytes representing a blob ID and
+Once we have a constructed a [`Schedule`](#creating-a-schedule) and obtain an array of `references` and
 another array of bytes (up to 64 bytes) representing metadata, we can construct the the transaction datum `Datums.IoTx`.
+
+[//]: # (TODO explain references)
+
+### Creating Datums.UnspentOutput
+
+Once we have an array of `references` and
+another array of bytes (up to 64 bytes) representing metadata, we can construct the the output datum `Datums.UnspentOutput`.
+
+[//]: # (TODO explain references)
 
 ### Creating the Outputs
 
@@ -75,31 +84,37 @@ construct a `Values.Token` object.
 We then use the `Values.Token` object and the `Address` to create an `UnspentOutput` object. Once created, we can append
 the `UnspentOutput` to the list of `UnspentOutput` objects we are building.
 
+See [Creating Datums.UnspentOutput](#creating-datumsunspentoutput) for more information.
+
+[//]: # (TODO explain blobsOpt)
+
+### Creating the Attestation
+
+[//]: # (TODO once settled)
+
+### Creating Datums.SpentOutput
+
+Once we have an array of `references` and
+another array of bytes (up to 64 bytes) representing metadata, we can construct the the input datum `Datums.SpentOutput`.
+
+[//]: # (TODO explain references)
+
 ### Creating the Inputs
 
 Building the inputs (unproven `SpentOutput`) for an unproven transaction begins by creating `List[SpentOutput]` where each 
-`SpentOutput` is unproven (the contained `Attestation`s each have an empty `responses` list). This `List[SpentOutput]` can 
-be constructed by either taking in a corresponding `List[Txo]` or `List[Indices]`.
+`SpentOutput` is unproven (see [`SpentOutput`](#class-spentoutput)).
 
-Beginning with `List[Txo]`, we extract the `Predicate.Id` from each `Txo` via the `address` field. With a `Predicate.Id`, 
-we can construct the aforementioned unproven `Attestation` by fetching the corresponding `Predicate.Image` and generating 
-`Predicate.Known`. Alternatively, if we begin with `List[Indices]` we use the `Indices` to retrieve a corresponding `List[Indices]`.
+For each given `Txo`, once we have an unproven `Attestation`, a reference (`Box.Id`), value (`Box.Value`), datum (`Datums.SpentOutput`), and `locksOpt` we can construct its corresponding unproven `SpentOutput`. 
 
-In addition to the unproven `Attestation`, `Box.Id`, `Box.Value`, `Datums.Output`, and optionally metadata are needed 
-to construct an unproven `SpentOutput`. Both `Box.Id` and `Box.Value` can be retrieved from a `Txo`. An object containing
- an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata will need
- to be supplied for `Datums.Output`. The optional metadata can be supplied as array of bytes (up to 15KB).
+Both `Box.Id` and `Box.Value` can be retrieved from a `Txo`. See [Creating the Attestation](#creating-the-attestation) and [Creating Datums.SpentOutput](#creating-datumsspentoutput) for more information.
 
-Once we have the above, the `List[SpentOutput]` can be constructed.
-
-### Application-Provided Data
-
-An optional array of bytes (up to 15KB) representing metadata may be provided by the client to be included as part of the
- unproven `IoTransaction`.
+[//]: # (TODO explain locksOpt)
 
 ### Creating the Unproven IoTransaction
 
-Once we have `Datums.IoTx`, `List[SpentInput]`, `List[UnspentOutput]` and metadata, we construct the unproven IoTransaction.
+Once we have `Datums.IoTx`, `List[SpentInput]`, `List[UnspentOutput]` and `outputsOpt`, we construct the unproven IoTransaction.
+
+[//]: # (TODO explain outputsOpt)
 
 ## Structure of the Unproven Transaction Builder
 
@@ -111,7 +126,8 @@ Here are the interfaces and classes that are described on this page:
 
 * [Attestation](#class-attestation)
 * [Datums.IoTx](#class-datumsiotx)
-* [Datums.Output](#class-datumsoutput)
+* [Datums.SpentOutput](#class-datumsspentoutput)
+* [Datums.UnspentOutput](#class-datumsunspentoutput)
 * [IoTransaction](#class-iotransaction)
 * [Schedule](#class-schedule)
 * [Signable](#interface-signable)
@@ -251,7 +267,7 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/sche
 
 ```
 UnspentOutput(address: Address, value: Box.Value, 
-      datum: Datums.Output, metadata: Option[Array[byte])
+      datum: Datums.Output, blobsOpt: ???)
 ```
 
 #### Description
@@ -262,9 +278,8 @@ Construct an `UnspentOutput` object.
 
 * `address` — the address that the output will be associated with.
 * `value` — The value that will be in the box that is created from this output.
-* `datum` - A object containing an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata. See [Datums.Output](#class-datumsoutput).
-* `metadata` — optional client supplied data that is stored along with the output. Up to 15Kb. Default is a value such as null or
-  None that is used in the implementation value to indicate the absence of a value.
+* `datum` - A object containing output datum. See [Datums.UnspentOutput](#class-datumsunspentoutput).
+* `blobsOpt` — array of ???? [//]: # (TODO)
 
 #### Returns
 
@@ -323,7 +338,7 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unsp
 
 ```
 IoTransaction(inputs: List[SpentOutput], outputs: List[UnspentOutput],
-             datum: Datums.IoTx, metadata: Option[Array[Byte]])
+             datum: Datums.IoTx, outputsOpt: ???)
 ```
 
 #### Description
@@ -334,9 +349,8 @@ Construct an unproven `IoTransaction` object.
 
 * `inputs` — A list of unproven `SpentOutput` objects
 * `outputs` — A list of `UnspentOutput` objects
-* `datum` — A object containing schedule, an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata. See [Datums.IoTx](#class-datumsiotx).
-* `metadata` — optional client supplied data that is stored along with the transaction. Up to 15KB. Default is a value such as null or
-  None that is used in the implementation value to indicate the absence of a value.
+* `datum` — A object containing schedule and other datum for this transaction. See [Datums.IoTx](#class-datumsiotx).
+* `outputsOpt` — array of ???? [//]: # (TODO)
 
 #### Returns
 
@@ -387,6 +401,10 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/Unpr
 
 ## Class Attestation
 
+An instance of this class represents an Attestation. An attestation contains information indicating the spending logic. It includes references to the spending condition (i.e., the `lock`), values used to prove the spending condition (the `responses`) and optionally a list of propositions for which the supplied `responses` map to (`known`). 
+
+An unproven Attestation is one where the `responses` do not satisfy the `lock`. 
+
 **Implements** `Signable`
 
 ### Constructor
@@ -394,19 +412,19 @@ is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/Unpr
 #### Signature(s)
 
 ```
-Attestation(image: Predicate.Image, known: Predicate.Known,
+Attestation(lock: Lock, known: List[Option[Proposition]],
              responses: List[Option[Proof]])
 ```
 
 #### Description
 
-Construct an unproven `Attestation` object.
+Construct an `Attestation` object.
 
 #### Parameters
 
-* `image` — A image that exposes the evidences of the propositions within the associated predicate.
-* `known` — A object containing a list of known propositions for a predicate.
-* `responses` — An optional list of optional proofs. Defaults to an empty list.
+* `lock` — An object that encodes the  image that exposes the evidences of the propositions within the associated predicate.
+* `known` — An optional list of optional proofs. The length must be equal to the length of the challenges within `lock`. Defaults to a list filled with implementation specific values that denotes None.
+* `responses` — An optional list of optional proofs. The length must be equal to the length of the challenges within `lock`. Defaults to a list filled with implementation specific values that denotes None. If not supplied, an unproven Attestation will be created.
 
 #### Returns
 
@@ -414,7 +432,9 @@ The constructed `Attestation` object.
 
 #### Errors
 
-_None expected_
+* The length of the challenges within `lock`, `known` and `responses` are not all equal.
+
+[//]: # (TODO: Have a separate section explaining "Lock")
 
 #### Testing Procedure
 
@@ -459,6 +479,11 @@ is [described on a separate page](#)
 
 ## Class SpentOutput
 
+An instance of this class represents a SpentOutput. A SpentOutput are the inputs to a [IoTransaction](#class-iotransaction).
+
+
+An unproven SpentOutput is one where the `attestation` is unproven.
+
 **Implements** `Signable`
 
 ### Constructor
@@ -467,7 +492,8 @@ is [described on a separate page](#)
 
 ```
 SpentOutput(reference: Box.Id, value: Box.Value, attestation: Attestation,
-             datum: Datums.Output, metadata: Option[Array[Byte]])
+             datum: Datums.Output, metadata: Option[Array[Byte]]
+             locksOpt: ???)
 ```
 
 #### Description
@@ -479,9 +505,8 @@ Construct an unproven `SpentOutput` object.
 * `reference` — The ID of the box for which we want to spend from.
 * `value` — The value that is in the box that is referenced by `reference`.
 * `attestation` — The attestation required to spend this output.
-* `datum` — A object containing an array of bytes representing a blob ID and another array of bytes (up to 64 bytes) representing metadata. See [Datums.Output](#class-datumsoutput).
-* `metadata` — optional client supplied data that is stored along with the output. Up to 15Kb. Default is a value such as null or
-  None that is used in the implementation value to indicate the absence of a value.
+* `datum` — A object containing input datum. See [Datums.SpentOutput](#class-datumsspentoutput).
+* `locksOpt` — array of ???? [//]: # (TODO)
 
 #### Returns
 
@@ -541,7 +566,7 @@ is [described on a separate page](#)
 #### Signature(s)
 
 ```
-Datums.IoTx(schedule: Schedule, blobId: Blob.Id,
+Datums.IoTx(schedule: Schedule, references: List[???],
              metadata: Array[Byte])
 ```
 
@@ -552,7 +577,7 @@ Construct a `Datums.IoTx` object.
 #### Parameters
 
 * `schedule` — An object representing when a transaction can be accepted onto the chain.
-* `blobId` — array of bytes representing a blob ID
+* `references` — array of ???? [//]: # (TODO)
 * `metadata` — array of bytes (up to 64 bytes).
 
 #### Returns
@@ -604,7 +629,7 @@ _None_
 The testing procedure for this method/functions
 is [described on a separate page](#)
 
-## Class Datums.Output
+## Class Datums.SpentOutput
 
 **Implements** `Signable`
 
@@ -613,21 +638,91 @@ is [described on a separate page](#)
 #### Signature(s)
 
 ```
-Datums.Output(blobId: Blob.Id, metadata: Array[Byte])
+Datums.SpentOutput(references: List[???], metadata: Array[Byte])
 ```
 
 #### Description
 
-Construct a `Datums.Output` object.
+Construct a `Datums.SpentOutput` object.
 
 #### Parameters
 
-* `blobId` — array of bytes representing a blob ID
+* `references` — array of ???? [//]: # (TODO)
 * `metadata` — array of bytes (up to 64 bytes).
 
 #### Returns
 
-The constructed `Datums.Output` object.
+The constructed `Datums.SpentOutput` object.
+
+#### Errors
+
+_None expected_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for the constructor
+is [described on a separate page](#)
+
+### signableBytes
+
+#### Signature(s)
+
+```
+signableBytes() returns co.topl.proto.node.SignableBytes
+```
+
+#### Description
+
+Gets a byte array representation of this object that should be used as sequence of bytes to use for hashes and
+signatures based on the contents of this object.
+
+[//]: # (Sean, Please add the specifics of the signable bytes)
+
+#### Parameters
+
+_No Parameters_
+
+#### Returns
+
+The array of bytes.
+
+#### Errors
+
+The errors that the method/function will produce include:
+
+_None_
+
+#### Testing Procedure
+
+[//]: # (TODO)
+The testing procedure for this method/functions
+is [described on a separate page](#)
+
+## Class Datums.UnspentOutput
+
+**Implements** `Signable`
+
+### Constructor
+
+#### Signature(s)
+
+```
+Datums.UnspentOutput(references: List[???], metadata: Array[Byte])
+```
+
+#### Description
+
+Construct a `Datums.UnspentOutput` object.
+
+#### Parameters
+
+* `references` — array of ???? [//]: # (TODO)
+* `metadata` — array of bytes (up to 64 bytes).
+
+#### Returns
+
+The constructed `Datums.UnspentOutput` object.
 
 #### Errors
 
