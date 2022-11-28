@@ -81,9 +81,9 @@ Building the inputs (unproven `SpentOutput`) for an unproven transaction begins 
 `SpentOutput` is unproven (the contained `Attestation`s each have an empty `responses` list). This `List[SpentOutput]` can 
 be constructed by either taking in a corresponding `List[Txo]` or `List[Indices]`.
 
-Beginning with `List[Txo]`, we can extract the `Predicate.Id` from each `Txo` via the `address` field. With a `Predicate.Id`, 
+Beginning with `List[Txo]`, we extract the `Predicate.Id` from each `Txo` via the `address` field. With a `Predicate.Id`, 
 we can construct the aforementioned unproven `Attestation` by fetching the corresponding `Predicate.Image` and generating 
-`Predicate.Known`. If we begin with `List[Indices]` we can use the `Indices` to retrieve a corresponding `List[Indices]`.
+`Predicate.Known`. Alternatively, if we begin with `List[Indices]` we use the `Indices` to retrieve a corresponding `List[Indices]`.
 
 In addition to the unproven `Attestation`, `Box.Id`, `Box.Value`, `Datums.Output`, and optionally metadata are needed 
 to construct an unproven `SpentOutput`. Both `Box.Id` and `Box.Value` can be retrieved from a `Txo`. An object containing
@@ -400,7 +400,7 @@ Attestation(image: Predicate.Image, known: Predicate.Known,
 
 #### Description
 
-Construct an unproven `IoTransaction` object.
+Construct an unproven `Attestation` object.
 
 #### Parameters
 
