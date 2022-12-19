@@ -4,30 +4,52 @@ The Credentialler is a local prover that is able to create the proofs needed for
 
 ## Module Credentialler
 
-Functions:
+### Prove an Unproven Transaction
+
+> TODO: Link to models
 
 ```
-prove(unprovenTx: IoTransaction): IoTransaction
+prove(unprovenTx: IoTransaction): Either[List[ProverError], IoTransaction]
 ```
 
-```
-proveInput(unprovenInput: SpentTransactionOutput, msg: SignableBytes): SpentTransactionOutput
-```
+#### Description
+
+TBD
+
+#### Test Vectors
+
+TBD
+
+### Validate a Proven Transaction
+
+> TODO: Link to models
 
 ```
-getProof(msg: SignableBytes, proposition: Proposition, idx: Indices): Option[Proof]
+validate(tx: IoTransaction, ctx: ValidationContext): List[ValidationError]
 ```
 
-```
-validate(tx: IoTransaction, ctx: ValidationContext): Boolean
-```
+#### Description
+
+TBD
+
+#### Test Vectors
+
+TBD
+
+### Prove Then Validate a Transaction
+
+This function is a combination of the aforementioned [`prove`](#prove-an-unproven-transaction) and [`validate`](#validate-a-proven-transaction) functions.
+
+> TODO: Link to models
 
 ```
-proveAndValidate(unprovenTx: IoTransaction, ctx: ValidationContext): Either[ValidationError, IoTransaction]
+proveAndValidate(unprovenTx: IoTransaction, ctx: ValidationContext): Either[List[CredentiallerError], IoTransaction]
 ```
 
-## Class ValidationContext extends DynamicContext[Option, String]
+#### Description
 
-members: 
+TBD
 
-hashingRoutines, signingRoutines, interfaces (TBD), signableBytes, currentTick, datums
+#### Test Vectors
+
+TBD
