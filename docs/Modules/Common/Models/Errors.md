@@ -2,11 +2,11 @@
 
 > TODO: Link to Error models in protobuf
 
-The documentation in this page compliments the protobuf specification found here.
+The documentation in this page compliments the protobuf specification found [here](#).
 
 ## Wallet
 
-### Credentialler Errors
+### CredentiallerError
 
 Tag: CR
 
@@ -32,4 +32,3 @@ Transaction is not satisfactorily proven.
 
 Sequence: 002
 Name: ValidationError
-Parameters: List[QuivrRuntimeError]
