@@ -26,3 +26,10 @@ Sequence: 002
 Name: TransactionMalformed
 Parameters: IoTransaction
 
+#### CR003: ValidationError
+
+Transaction is not satisfactorily proven.
+
+Sequence: 002
+Name: ValidationError
+Parameters: List[QuivrRuntimeError]
