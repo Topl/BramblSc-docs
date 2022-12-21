@@ -10,7 +10,7 @@ prove(unprovenTx: IoTransaction): Either[List[CredentiallerError], IoTransaction
 
 ## Description
 
-Prove an unproven IoTransaction. This involves adding responses to the transaction inputs' attestations.
+Prove an unproven IoTransaction. This involves adding proofs to the transaction inputs' attestations.
 
 ![prove diagram](./images/prove/prove.drawio.png)
 
