@@ -15,7 +15,9 @@ Tag: CR
 A KnownIdentifier is not recognized in the Wallet.
 
 Sequence: 001
+
 Name: KnownIdentifierUnknown
+
 Parameters: KnownIdentifier
 
 #### CR002: TransactionMalformed
@@ -23,12 +25,15 @@ Parameters: KnownIdentifier
 Transaction is not formed correctly
 
 Sequence: 002
+
 Name: TransactionMalformed
+
 Parameters: IoTransaction
 
 #### CR003: ValidationError
 
 Transaction is not satisfactorily proven.
 
-Sequence: 002
+Sequence: 003
+
 Name: ValidationError

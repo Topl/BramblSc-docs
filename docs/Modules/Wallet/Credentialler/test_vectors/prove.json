@@ -33,7 +33,7 @@
       }
     },
     "outputs": {
-      "left": ["CR001: KnownIdentifierUnknown"]
+      "left": ["CredentiallerError.KnownIdentifierUnknown"]
     }
   },  
   {
@@ -148,7 +148,7 @@
       }
     },
     "outputs": {
-      "left": ["CR002: TransactionMalformed"]
+      "left": ["CredentiallerError.TransactionMalformed"]
     }
   },
   {
@@ -169,7 +169,7 @@
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1
@@ -206,7 +206,7 @@
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1
@@ -249,7 +249,7 @@
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1
@@ -286,7 +286,7 @@
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1

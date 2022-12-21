@@ -88,7 +88,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "xxxx",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
@@ -147,7 +147,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "xxxx",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
@@ -188,7 +188,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "lock": {
               "challenges": [
                 {"locked": {}},
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                 {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                 {"tickRange": {"min": 2, "max": 15}}
@@ -220,11 +220,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "wrong signable bytes",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -262,7 +262,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "lock": {
               "challenges": [
                 {"locked": {}},
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                 {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                 {"tickRange": {"min": 2, "max": 15}}
@@ -294,11 +294,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -361,11 +361,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -404,7 +404,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "lock": {
               "challenges": [
                 {"locked": {}},
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                 {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                 {"tickRange": {"min": 2, "max": 15}}
@@ -436,11 +436,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -449,10 +449,10 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ![diagram](./images/validate/signatureVerifierNotFound.png)
 
 * **Given** `tx` is an IoTransaction with a single input with an attestation `Predicate` with a DigitalSignature proposition 
-* **And** DigitalSignature proposition uses routine "curve25519"
+* **And** DigitalSignature proposition uses routine "ed25519"
 * **And** `responses` contains a DigitalSignature proof
 * **And** The predicate's threshold is 1
-* **And** `ctx` is a DynamicContext whose `signingRoutines` does *not* contain "curve25519"
+* **And** `ctx` is a DynamicContext whose `signingRoutines` does *not* contain "ed25519"
 * **When**
     ```
     validate(tx: IoTransaction, ctx: DynamicContext)
@@ -479,7 +479,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
           "attestation": {
             "lock": {
               "challenges": [
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
               ], 
               "threshold": 1
             },
@@ -508,7 +508,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -517,10 +517,10 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ![diagram](./images/validate/signatureProofInvalid.png)
 
 * **Given** `tx` is an IoTransaction with a single input with an attestation `Predicate` with a DigitalSignature proposition 
-* **And** DigitalSignature proposition uses routine "curve25519"
+* **And** DigitalSignature proposition uses routine "ed25519"
 * **And** `responses` contains a DigitalSignature proof that was created with a different key than the proposition
 * **And** The predicate's threshold is 1
-* **And** `ctx` is a DynamicContext whose `signingRoutines` contains "curve25519"
+* **And** `ctx` is a DynamicContext whose `signingRoutines` contains "ed25519"
 * **When**
     ```
     validate(tx: IoTransaction, ctx: DynamicContext)
@@ -547,7 +547,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
           "attestation": {
             "lock": {
               "challenges": [
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
               ], 
               "threshold": 1
             },
@@ -572,11 +572,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -585,10 +585,10 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ![diagram](./images/validate/signatureProofValid.png)
 
 * **Given** `tx` is an IoTransaction with a single input with an attestation `Predicate` with a DigitalSignature proposition 
-* **And** DigitalSignature proposition uses routine "curve25519"
+* **And** DigitalSignature proposition uses routine "ed25519"
 * **And** `responses` contains a DigitalSignature proof that was created with the same key as the proposition
 * **And** The predicate's threshold is 1
-* **And** `ctx` is a DynamicContext whose `signingRoutines` contains "curve25519"
+* **And** `ctx` is a DynamicContext whose `signingRoutines` contains "ed25519"
 * **When**
     ```
     validate(tx: IoTransaction, ctx: DynamicContext)
@@ -615,7 +615,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
           "attestation": {
             "lock": {
               "challenges": [
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
               ], 
               "threshold": 1
             },
@@ -640,7 +640,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
@@ -708,11 +708,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"random": {"verify": "arbitrary verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -776,11 +776,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -844,7 +844,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
@@ -860,7 +860,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 * **And** HeightRange proposition uses chain "header"
 * **And** `responses` contains a HeightRange proof
 * **And** The predicate's threshold is 1
-* **And** `ctx` is a DynamicContext whose `datums` does *not* contain a height value for "header"
+* **And** `ctx` is a DynamicContext whose `datums` does *not* contains an entry for the chain "header"
 * **When**
     ```
     validate(tx: IoTransaction, ctx: DynamicContext)
@@ -912,11 +912,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"era": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -928,7 +928,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 * **And** HeightRange proposition uses chain "header", min: 2, and max: 15
 * **And** `responses` contains a HeightRange proof
 * **And** The predicate's threshold is 1
-* **And** `ctx` is a DynamicContext whose `datums` contains the height value 100 for "header"
+* **And** `ctx` is a DynamicContext whose `datums` contains an entry for the chain "header" with a height value of 100
 * **When**
     ```
     validate(tx: IoTransaction, ctx: DynamicContext)
@@ -980,11 +980,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 100}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -996,7 +996,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 * **And** HeightRange proposition uses chain "header", min: 2, and max: 15
 * **And** `responses` contains a HeightRange proof
 * **And** The predicate's threshold is 1
-* **And** `ctx` is a DynamicContext whose `datums` contains the height value 10 for "header"
+* **And** `ctx` is a DynamicContext whose `datums` contains an entry for the chain "header" with a height value of 10
 * **When**
     ```
     validate(tx: IoTransaction, ctx: DynamicContext)
@@ -1048,7 +1048,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
@@ -1116,11 +1116,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 50,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
-  "outputs": ["CR003: ValidationError"]
+  "outputs": ["CredentiallerError.ValidationError"]
 }
 ```
 
@@ -1184,7 +1184,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       "signableBytes": "txBind",
       "currentTick": 10,
       "datums": {"header": {"height": 10}},
-      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
       "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
     }
   },
@@ -1233,7 +1233,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "xxxx",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -1276,7 +1276,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "xxxx",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -1301,7 +1301,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
               "lock": {
                 "challenges": [
                   {"locked": {}},
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                   {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                   {"tickRange": {"min": 2, "max": 15}}
@@ -1333,11 +1333,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "wrong signable bytes",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate Whose Threshold is Unobtainable",
@@ -1358,7 +1358,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
               "lock": {
                 "challenges": [
                   {"locked": {}},
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                   {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                   {"tickRange": {"min": 2, "max": 15}}
@@ -1390,11 +1390,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And Locked Challenge",
@@ -1439,11 +1439,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And None-Proofs",
@@ -1464,7 +1464,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
               "lock": {
                 "challenges": [
                   {"locked": {}},
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                   {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                   {"tickRange": {"min": 2, "max": 15}}
@@ -1496,11 +1496,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And DigitalSignature But Signature Verifier not in Context",
@@ -1520,7 +1520,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
                 ], 
                 "threshold": 1
               },
@@ -1549,7 +1549,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Invalid Proof",
@@ -1569,7 +1569,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
                 ], 
                 "threshold": 1
               },
@@ -1594,11 +1594,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Valid Proof",
@@ -1618,7 +1618,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
                 ], 
                 "threshold": 1
               },
@@ -1643,7 +1643,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -1692,11 +1692,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"random": {"verify": "arbitrary verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And Digest With Invalid Proof",
@@ -1741,11 +1741,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And Digest With Valid Proof",
@@ -1790,7 +1790,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -1839,11 +1839,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"era": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And HeightRange But not Satisfied",
@@ -1888,11 +1888,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 100}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And HeightRange Satisfied",
@@ -1937,7 +1937,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -1986,11 +1986,11 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 50,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And TickRange Satisfied",
@@ -2035,7 +2035,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },

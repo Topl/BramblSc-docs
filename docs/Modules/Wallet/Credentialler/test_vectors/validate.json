@@ -36,7 +36,7 @@
         "signableBytes": "xxxx",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -79,7 +79,7 @@
         "signableBytes": "xxxx",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -104,7 +104,7 @@
               "lock": {
                 "challenges": [
                   {"locked": {}},
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                   {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                   {"tickRange": {"min": 2, "max": 15}}
@@ -136,11 +136,11 @@
         "signableBytes": "wrong signable bytes",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate Whose Threshold is Unobtainable",
@@ -161,7 +161,7 @@
               "lock": {
                 "challenges": [
                   {"locked": {}},
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                   {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                   {"tickRange": {"min": 2, "max": 15}}
@@ -193,11 +193,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And Locked Challenge",
@@ -242,11 +242,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And None-Proofs",
@@ -267,7 +267,7 @@
               "lock": {
                 "challenges": [
                   {"locked": {}},
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
                   {"heightRange": {"chain": "header", "min": 2, "max": 15}},
                   {"tickRange": {"min": 2, "max": 15}}
@@ -299,11 +299,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And DigitalSignature But Signature Verifier not in Context",
@@ -323,7 +323,7 @@
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
                 ], 
                 "threshold": 1
               },
@@ -352,7 +352,7 @@
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Invalid Proof",
@@ -372,7 +372,7 @@
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
                 ], 
                 "threshold": 1
               },
@@ -397,11 +397,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Valid Proof",
@@ -421,7 +421,7 @@
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}}
                 ], 
                 "threshold": 1
               },
@@ -446,7 +446,7 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -495,11 +495,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"random": {"verify": "arbitrary verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And Digest With Invalid Proof",
@@ -544,11 +544,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And Digest With Valid Proof",
@@ -593,7 +593,7 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -642,11 +642,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"era": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And HeightRange But not Satisfied",
@@ -691,11 +691,11 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 100}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And HeightRange Satisfied",
@@ -740,7 +740,7 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
@@ -789,11 +789,11 @@
         "signableBytes": "txBind",
         "currentTick": 50,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },
-    "outputs": ["CR003: ValidationError"]
+    "outputs": ["CredentiallerError.ValidationError"]
   },
   {
     "description": "Transaction Input with Attestation Type Predicate And TickRange Satisfied",
@@ -838,7 +838,7 @@
         "signableBytes": "txBind",
         "currentTick": 10,
         "datums": {"header": {"height": 10}},
-        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "signingRoutines": {"ed25519": {"verify": "ed25519 verification"}},
         "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
       }
     },

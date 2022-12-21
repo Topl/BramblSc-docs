@@ -82,7 +82,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     }
   },
   "outputs": {
-    "left": ["CR001: KnownIdentifierUnknown"]
+    "left": ["CredentiallerError.KnownIdentifierUnknown"]
   }
 }
 ```
@@ -243,7 +243,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     }
   },
   "outputs": {
-    "left": ["CR002: TransactionMalformed"]
+    "left": ["CredentiallerError.TransactionMalformed"]
   }
 }
 ```
@@ -281,7 +281,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
           "attestation": {
             "lock": {
               "challenges": [
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
               ], 
               "threshold": 1
@@ -318,7 +318,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
           "attestation": {
             "lock": {
               "challenges": [
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
               ], 
               "threshold": 1
@@ -357,7 +357,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     prove(unprovenTx: IoTransaction)
     ```
 * **Then**
-    The unproven transaction is returned.
+    The unmodified transaction is returned.
 
 ```json
 {
@@ -378,7 +378,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
           "attestation": {
             "lock": {
               "challenges": [
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
               ], 
               "threshold": 1
@@ -415,7 +415,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
           "attestation": {
             "lock": {
               "challenges": [
-                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
               ], 
               "threshold": 1
@@ -576,7 +576,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       }
     },
     "outputs": {
-      "left": ["CR001: KnownIdentifierUnknown"]
+      "left": ["CredentiallerError.KnownIdentifierUnknown"]
     }
   },  
   {
@@ -691,7 +691,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       }
     },
     "outputs": {
-      "left": ["CR002: TransactionMalformed"]
+      "left": ["CredentiallerError.TransactionMalformed"]
     }
   },
   {
@@ -712,7 +712,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1
@@ -749,7 +749,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1
@@ -792,7 +792,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1
@@ -829,7 +829,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "attestation": {
               "lock": {
                 "challenges": [
-                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
                 "threshold": 1
