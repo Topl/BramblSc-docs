@@ -51,7 +51,49 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   TBD
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Image32/64",
+  "inputs": {
+    "tx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {"leaves": [], "threshold": 0},
+            "known": [],
+            "responses": []
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "xxxx",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": "TBD"
+}
 ```
 
 #### Transaction Input with Attestation Type Commitment32/64
@@ -68,7 +110,49 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   TBD
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Commitment32/64",
+  "inputs": {
+    "tx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {"root": "", "threshold": 0},
+            "known": [],
+            "responses": []
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "xxxx",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": "TBD"
+}
 ```
 
 #### Transaction Input with Proofs Whose TransactionBind Does Not Match the Context SignableBytes
@@ -85,15 +169,71 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Proofs Whose TransactionBind Does Not Match the Context SignableBytes",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"locked": {}},
+                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}},
+                {"tickRange": {"min": 2, "max": 15}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"locked": {}},
+              {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}},
+              {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}},
+              {"heightRange": {"transactionBind": "txBind"}},
+              {"tickRange": {"transactionBind": "txBind"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "wrong signable bytes",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate Whose Threshold is Unobtainable
 
 ![diagram](./images/validate/thresholdUnobtainable.png)
 
-* **Given** `tx` is an IoTransaction with a single input with an attestation `Predicate` with `challenges` and `responses` having length 1
-* **And** The predicate's threshold is 2
+* **Given** `tx` is an IoTransaction with a single input with an attestation `Predicate` with `challenges` and `responses` having length 5
+* **And** The predicate's threshold is 6
 * **And** `ctx` is an arbitrary DynamicContext
 * **When**
     ```
@@ -103,7 +243,63 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate Whose Threshold is Unobtainable",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"locked": {}},
+                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}},
+                {"tickRange": {"min": 2, "max": 15}}
+              ], 
+              "threshold": 6
+            },
+            "responses": [
+              {"locked": {}},
+              {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}},
+              {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}},
+              {"heightRange": {"transactionBind": "txBind"}},
+              {"tickRange": {"transactionBind": "txBind"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And Locked Challenge
@@ -122,7 +318,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And Locked Challenge",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"locked": {}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"locked": {}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And None-Proofs
@@ -141,7 +385,63 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And None-Proofs",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"locked": {}},
+                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}},
+                {"tickRange": {"min": 2, "max": 15}}
+              ], 
+              "threshold": 6
+            },
+            "responses": [
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And DigitalSignature But Signature Verifier not in Context
@@ -161,7 +461,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And DigitalSignature But Signature Verifier not in Context",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"random": {"verify": "arbitrary verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And DigitalSignature With Invalid Proof
@@ -181,7 +529,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Invalid Proof",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"signature": {"transactionBind": "txBind", "witness": "witness_abc"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And DigitalSignature With Valid Proof
@@ -201,7 +597,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   The transaction is valid thus an empty list is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Valid Proof",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": []
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And Digest But Digest Verifier not in Context
@@ -221,7 +665,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And Digest But Digest Verifier not in Context",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"random": {"verify": "arbitrary verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And Digest With Invalid Proof
@@ -241,7 +733,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And Digest With Invalid Proof",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"digest": {"transactionBind": "txBind", "preimage": "preimage_abc"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And Digest With Valid Proof
@@ -261,7 +801,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   The transaction is valid thus an empty list is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And Digest With Valid Proof",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": []
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And HeightRange But Height not in Context Datums
@@ -281,7 +869,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And HeightRange But Height not in Context Datums",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"heightRange": {"transactionBind": "txBind"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"era": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And HeightRange But not Satisfied
@@ -301,7 +937,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And HeightRange But not Satisfied",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"heightRange": {"transactionBind": "txBind"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 100}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And HeightRange Satisfied
@@ -321,7 +1005,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   The transaction is valid thus an empty list is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And HeightRange Satisfied",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"heightRange": {"transactionBind": "txBind"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": []
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And TickRange But not Satisfied
@@ -341,7 +1073,55 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   A list containing the error [`CR003`](../../Common/Models/Errors.md#cr003-validationerror) is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And TickRange But not Satisfied",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"heightRange": {"transactionBind": "txBind"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 50,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": ["CR003: ValidationError"]
+}
 ```
 
 #### Transaction Input with Attestation Type Predicate And TickRange Satisfied
@@ -361,11 +1141,905 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
   The transaction is valid thus an empty list is returned
 
 ```json
-
+{
+  "description": "Transaction Input with Attestation Type Predicate And TickRange Satisfied",
+  "inputs": {
+    "unprovenTx": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "real commitment that does exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"heightRange": {"transactionBind": "txBind"}}
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    },
+    "ctx": {
+      "signableBytes": "txBind",
+      "currentTick": 10,
+      "datums": {"header": {"height": 10}},
+      "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+      "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+    }
+  },
+  "outputs": []
+}
 ```
 
 ### Test Vectors
 
 ```json
-
+[
+  {
+    "description": "Transaction Input with Attestation Type Image32/64",
+    "inputs": {
+      "tx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {"leaves": [], "threshold": 0},
+              "known": [],
+              "responses": []
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "xxxx",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": "TBD"
+  },
+  {
+    "description": "Transaction Input with Attestation Type Commitment32/64",
+    "inputs": {
+      "tx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {"root": "", "threshold": 0},
+              "known": [],
+              "responses": []
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "xxxx",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": "TBD"
+  },
+  {
+    "description": "Transaction Input with Proofs Whose TransactionBind Does Not Match the Context SignableBytes",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}},
+                  {"tickRange": {"min": 2, "max": 15}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"locked": {}},
+                {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}},
+                {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}},
+                {"heightRange": {"transactionBind": "txBind"}},
+                {"tickRange": {"transactionBind": "txBind"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "wrong signable bytes",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate Whose Threshold is Unobtainable",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}},
+                  {"tickRange": {"min": 2, "max": 15}}
+                ], 
+                "threshold": 6
+              },
+              "responses": [
+                {"locked": {}},
+                {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}},
+                {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}},
+                {"heightRange": {"transactionBind": "txBind"}},
+                {"tickRange": {"transactionBind": "txBind"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And Locked Challenge",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"locked": {}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"locked": {}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And None-Proofs",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}},
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}},
+                  {"tickRange": {"min": 2, "max": 15}}
+                ], 
+                "threshold": 6
+              },
+              "responses": [
+                null,
+                null,
+                null,
+                null,
+                null
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And DigitalSignature But Signature Verifier not in Context",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"random": {"verify": "arbitrary verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Invalid Proof",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"signature": {"transactionBind": "txBind", "witness": "witness_abc"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And DigitalSignature With Valid Proof",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"signature": {"routine": "curve25519", "vk": "verificationKey_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"signature": {"transactionBind": "txBind", "witness": "witness_ijk"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": []
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And Digest But Digest Verifier not in Context",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"random": {"verify": "arbitrary verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And Digest With Invalid Proof",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"digest": {"transactionBind": "txBind", "preimage": "preimage_abc"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And Digest With Valid Proof",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"digest": {"transactionBind": "txBind", "preimage": "preimage_ijk"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": []
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And HeightRange But Height not in Context Datums",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"heightRange": {"transactionBind": "txBind"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"era": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And HeightRange But not Satisfied",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"heightRange": {"transactionBind": "txBind"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 100}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And HeightRange Satisfied",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"heightRange": {"transactionBind": "txBind"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": []
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And TickRange But not Satisfied",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"heightRange": {"transactionBind": "txBind"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 50,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": ["CR003: ValidationError"]
+  },
+  {
+    "description": "Transaction Input with Attestation Type Predicate And TickRange Satisfied",
+    "inputs": {
+      "unprovenTx": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "real commitment that does exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"heightRange": {"chain": "header", "min": 2, "max": 15}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"heightRange": {"transactionBind": "txBind"}}
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      },
+      "ctx": {
+        "signableBytes": "txBind",
+        "currentTick": 10,
+        "datums": {"header": {"height": 10}},
+        "signingRoutines": {"curve25519": {"verify": "curve25519 verification"}},
+        "hashingRoutines": {"blake2b256": {"verify": "blake2b256 verification"}}
+      }
+    },
+    "outputs": []
+  }
+]
 ```
