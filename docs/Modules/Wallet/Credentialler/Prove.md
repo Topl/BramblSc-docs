@@ -27,7 +27,7 @@ Prove an unproven IoTransaction. This involves adding proofs to the transaction 
 
 Either[List[[CredentiallerError](../../Common/Models/Errors.md#credentiallererror)], IoTransaction]
 
-The proven IoTransaction is possible. If not, a list of errors that occured.
+The proven IoTransaction if possible. If not, a list of errors that occured.
 
 ## Testing Procedure
 
