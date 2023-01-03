@@ -191,7 +191,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 
 #### Transaction Input with Attestation Type Predicate Whose Challenges and Responses Lengths Differ 
 
-![diagram](./images/prove/transactionMalformed.png)
+![diagram](./images/prove/attestationMalformed.png)
 
 * **Given** `unprovenTx` is an IoTransaction with a single input with an attestation type `Predicate`
 * **And** the length of `responses` and length of `lock.challenges` do not match
@@ -200,7 +200,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     prove(unprovenTx: IoTransaction)
     ```
 * **Then**
-  A list containing the error [`CR002`](../../Common/Models/Errors.md#cr002-transactionmalformed) is returned
+  A list containing the error [`CR002`](../../Common/Models/Errors.md#cr002-attestationmalformed) is returned
 
 ```json
 {
@@ -243,7 +243,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     }
   },
   "outputs": {
-    "left": ["CredentiallerError.TransactionMalformed"]
+    "left": ["CredentiallerError.AttestationMalformed"]
   }
 }
 ```
@@ -691,7 +691,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       }
     },
     "outputs": {
-      "left": ["CredentiallerError.TransactionMalformed"]
+      "left": ["CredentiallerError.AttestationMalformed"]
     }
   },
   {

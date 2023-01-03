@@ -148,7 +148,7 @@
       }
     },
     "outputs": {
-      "left": ["CredentiallerError.TransactionMalformed"]
+      "left": ["CredentiallerError.AttestationMalformed"]
     }
   },
   {

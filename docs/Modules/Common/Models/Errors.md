@@ -10,25 +10,15 @@ The documentation in this page compliments the protobuf specification found [her
 
 Tag: CR
 
-#### CR001: KnownIdentifierUnknown
-
-A KnownIdentifier is not recognized in the Wallet.
-
-Sequence: 001
-
-Name: KnownIdentifierUnknown
-
-Parameters: KnownIdentifier
-
-#### CR002: TransactionMalformed
+#### CR002: AttestationMalformed
 
 Transaction is not formed correctly
 
 Sequence: 002
 
-Name: TransactionMalformed
+Name: AttestationMalformed
 
-Parameters: IoTransaction
+Parameters: Attestation
 
 #### CR003: ValidationError
 
