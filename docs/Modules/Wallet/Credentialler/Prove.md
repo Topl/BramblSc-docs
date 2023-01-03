@@ -73,9 +73,9 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
                 {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                 {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
               ], 
-              "threshold": 0
+              "threshold": 1
             },
-            "responses": []
+            "responses": [null, null, null, null, null]
           },
           "value": {"quantity": 1, "blobs": []},
           "datum": {"references": [], "metadata": []},
@@ -108,14 +108,20 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             "lock": {
               "challenges": [
                 {"locked": {}},
-                {"height": {"transactionBind": "xxxx"}},
-                {"tick": {"transactionBind": "xxxx"}},
-                null,
-                null
+                {"height": {"chain": "header", "min": 2, "max": 15}},
+                {"tick": {"min": 2, "max": 15}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
               ], 
-              "threshold": 0
+              "threshold": 1
             },
-            "responses": []
+            "responses": [
+              {"locked": {}},
+              {"height": {"transactionBind": "xxxx"}},
+              {"tick": {"transactionBind": "xxxx"}},
+              null,
+              null
+            ]
           },
           "value": {"quantity": 1, "blobs": []},
           "datum": {"references": [], "metadata": []},
@@ -589,7 +595,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 
 ```json
 [
-  {
+{
     "description": "Transaction Input Referencing a KnownIdentifier Unknown to the Wallet",
     "inputs": {
       "unprovenTx": {
@@ -613,9 +619,9 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
                   {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
                   {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
-                "threshold": 0
+                "threshold": 1
               },
-              "responses": []
+              "responses": [null, null, null, null, null]
             },
             "value": {"quantity": 1, "blobs": []},
             "datum": {"references": [], "metadata": []},
@@ -648,14 +654,20 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
               "lock": {
                 "challenges": [
                   {"locked": {}},
-                  {"height": {"transactionBind": "xxxx"}},
-                  {"tick": {"transactionBind": "xxxx"}},
-                  null,
-                  null
+                  {"height": {"chain": "header", "min": 2, "max": 15}},
+                  {"tick": {"min": 2, "max": 15}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
                 ], 
-                "threshold": 0
+                "threshold": 1
               },
-              "responses": []
+              "responses": [
+                {"locked": {}},
+                {"height": {"transactionBind": "xxxx"}},
+                {"tick": {"transactionBind": "xxxx"}},
+                null,
+                null
+              ]
             },
             "value": {"quantity": 1, "blobs": []},
             "datum": {"references": [], "metadata": []},
