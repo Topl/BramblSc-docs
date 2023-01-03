@@ -40,12 +40,13 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ![diagram](./images/prove/knownIdentifierUnknown.png)
 
 * **Given** `unprovenTx` is an IoTransaction with a single input that refers to a `knownIdentifier` that is unknown to the wallet
+* **And** `lock.challenges` in the Attestation contains a Locked, Tick, Height, DigitalSignature, and Digest proposition
 * **When**
     ```
     prove(unprovenTx: IoTransaction)
     ```
 * **Then**
-  A list containing the error [`CR001`](../../Common/Models/Errors.md#cr001-knownidentifierunknown) is returned
+  The proven transaction containing proofs for Locked, Tick, and Height propositions and None for DigitalSignature and Digest propositions is returned
 
 ```json
 {
@@ -64,7 +65,16 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             }
           },
           "attestation": {
-            "lock": {"challenges": [], "threshold": 0},
+            "lock": {
+              "challenges": [
+                {"locked": {}},
+                {"height": {"chain": "header", "min": 2, "max": 15}},
+                {"tick": {"min": 2, "max": 15}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+              ], 
+              "threshold": 0
+            },
             "responses": []
           },
           "value": {"quantity": 1, "blobs": []},
@@ -82,7 +92,44 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     }
   },
   "outputs": {
-    "left": ["CredentiallerError.KnownIdentifierUnknown"]
+    "right": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "fake commitment that does not exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"locked": {}},
+                {"height": {"transactionBind": "xxxx"}},
+                {"tick": {"transactionBind": "xxxx"}},
+                null,
+                null
+              ], 
+              "threshold": 0
+            },
+            "responses": []
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    }
   }
 }
 ```
@@ -558,7 +605,16 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
               }
             },
             "attestation": {
-              "lock": {"challenges": [], "threshold": 0},
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"height": {"chain": "header", "min": 2, "max": 15}},
+                  {"tick": {"min": 2, "max": 15}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 0
+              },
               "responses": []
             },
             "value": {"quantity": 1, "blobs": []},
@@ -576,7 +632,44 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       }
     },
     "outputs": {
-      "left": ["CredentiallerError.KnownIdentifierUnknown"]
+      "right": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "fake commitment that does not exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"height": {"transactionBind": "xxxx"}},
+                  {"tick": {"transactionBind": "xxxx"}},
+                  null,
+                  null
+                ], 
+                "threshold": 0
+              },
+              "responses": []
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      }
     }
   },  
   {
