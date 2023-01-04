@@ -46,7 +46,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     prove(unprovenTx: IoTransaction)
     ```
 * **Then**
-  The proven transaction containing proofs for Locked, Tick, and Height propositions and None for DigitalSignature and Digest propositions is returned
+  Return the proven transaction containing proofs for Locked, Tick, and Height propositions and None for DigitalSignature and Digest propositions
 
 ```json
 {
