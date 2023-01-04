@@ -35,7 +35,11 @@ The list of validation errors that occured, if any.
 
 ### Test Cases
 
+![diagram](./images/legend.png)
+
 The following test cases only consider a transaction of 3 : a : A => 3 : a : B. That is, a single input to single output transaction where the quantity and asset type do not change but the Address does.
+
+![diagram](./images/transaction.png)
 
 #### Transaction Input with Attestation Type Image32/64
 

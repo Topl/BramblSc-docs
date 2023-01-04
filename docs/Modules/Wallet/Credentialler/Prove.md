@@ -33,9 +33,15 @@ The proven IoTransaction if possible. If not, a list of errors that occured.
 
 ### Test Cases
 
+![diagram](./images/legend.png)
+
 The following test cases only consider a transaction of 3 : a : A => 3 : a : B. That is, a single input to single output transaction where the quantity and asset type do not change but the Address does.
 
+![diagram](./images/transaction.png)
+
 #### Transaction Input Referencing a KnownIdentifier Unknown to the Wallet
+
+![diagram](./images/prove/knownIdentifierUnknown_transaction.png)
 
 ![diagram](./images/prove/knownIdentifierUnknown.png)
 
@@ -142,6 +148,8 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 
 #### Transaction Input with Attestation Type Image32/64
 
+![diagram](./images/prove/attestationImage_transaction.png)
+
 ![diagram](./images/prove/attestationImage.png)
 
 * **Given** `unprovenTx` is an IoTransaction with a single input with an attestation type `Image32` or `Image64`
@@ -193,6 +201,8 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 
 #### Transaction Input with Attestation Type Commitment32/64
 
+![diagram](./images/prove/attestationCommitment_transaction.png)
+
 ![diagram](./images/prove/attestationCommitment.png)
 
 * **Given** `unprovenTx` is an IoTransaction with a single input with an attestation type `Commitment32` or `Commitment64`
@@ -243,6 +253,8 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ```
 
 #### Transaction Input with Attestation Type Predicate Whose Challenges and Responses Lengths Differ 
+
+![diagram](./images/prove/attestationMalformed_transaction.png)
 
 ![diagram](./images/prove/attestationMalformed.png)
 
@@ -302,6 +314,8 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ```
 
 #### Transaction Input with Attestation Type Predicate With Proof That Requires Secret Data (Available)
+
+![diagram](./images/prove/dataNeeded_transaction.png)
 
 ![diagram](./images/prove/dataAvailable.png)
 
@@ -400,6 +414,8 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 
 #### Transaction Input with Attestation Type Predicate With Proof That Requires Secret Data (Unavailable)
 
+![diagram](./images/prove/dataNeeded_transaction.png)
+
 ![diagram](./images/prove/dataUnvailable.png)
 
 * **Given** `unprovenTx` is an IoTransaction with a single input with an attestation type `Predicate`
@@ -493,6 +509,8 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ```
 
 #### Transaction Input with Attestation Type Predicate With Proof That Does Not Require Secret Data
+
+![diagram](./images/prove/dataUnneeded_transaction.png)
 
 ![diagram](./images/prove/dataUnneeded.png)
 
