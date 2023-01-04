@@ -15,8 +15,17 @@
               }
             },
             "attestation": {
-              "lock": {"challenges": [], "threshold": 0},
-              "responses": []
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"height": {"chain": "header", "min": 2, "max": 15}},
+                  {"tick": {"min": 2, "max": 15}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [null, null, null, null, null]
             },
             "value": {"quantity": 1, "blobs": []},
             "datum": {"references": [], "metadata": []},
@@ -33,7 +42,50 @@
       }
     },
     "outputs": {
-      "left": ["CredentiallerError.KnownIdentifierUnknown"]
+      "right": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "fake commitment that does not exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"height": {"chain": "header", "min": 2, "max": 15}},
+                  {"tick": {"min": 2, "max": 15}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"locked": {}},
+                {"height": {"transactionBind": "xxxx"}},
+                {"tick": {"transactionBind": "xxxx"}},
+                null,
+                null
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      }
     }
   },  
   {
@@ -148,7 +200,7 @@
       }
     },
     "outputs": {
-      "left": ["CredentiallerError.TransactionMalformed"]
+      "left": ["CredentiallerError.AttestationMalformed"]
     }
   },
   {

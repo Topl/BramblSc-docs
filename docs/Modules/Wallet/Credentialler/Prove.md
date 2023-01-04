@@ -40,12 +40,13 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 ![diagram](./images/prove/knownIdentifierUnknown.png)
 
 * **Given** `unprovenTx` is an IoTransaction with a single input that refers to a `knownIdentifier` that is unknown to the wallet
+* **And** `lock.challenges` in the Attestation contains a Locked, Tick, Height, DigitalSignature, and Digest proposition
 * **When**
     ```
     prove(unprovenTx: IoTransaction)
     ```
 * **Then**
-  A list containing the error [`CR001`](../../Common/Models/Errors.md#cr001-knownidentifierunknown) is returned
+  Return the proven transaction containing proofs for Locked, Tick, and Height propositions and None for DigitalSignature and Digest propositions
 
 ```json
 {
@@ -64,8 +65,17 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
             }
           },
           "attestation": {
-            "lock": {"challenges": [], "threshold": 0},
-            "responses": []
+            "lock": {
+              "challenges": [
+                {"locked": {}},
+                {"height": {"chain": "header", "min": 2, "max": 15}},
+                {"tick": {"min": 2, "max": 15}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [null, null, null, null, null]
           },
           "value": {"quantity": 1, "blobs": []},
           "datum": {"references": [], "metadata": []},
@@ -82,7 +92,50 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     }
   },
   "outputs": {
-    "left": ["CredentiallerError.KnownIdentifierUnknown"]
+    "right": {
+      "inputs": [
+        {
+          "knownIdentifier": {
+            "network": 0,
+            "ledger": 0,
+            "index": 0,
+            "id": {
+              "tag": "iotx_32",
+              "evidence": "fake commitment that does not exist"
+            }
+          },
+          "attestation": {
+            "lock": {
+              "challenges": [
+                {"locked": {}},
+                {"height": {"chain": "header", "min": 2, "max": 15}},
+                {"tick": {"min": 2, "max": 15}},
+                {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+              ], 
+              "threshold": 1
+            },
+            "responses": [
+              {"locked": {}},
+              {"height": {"transactionBind": "xxxx"}},
+              {"tick": {"transactionBind": "xxxx"}},
+              null,
+              null
+            ]
+          },
+          "value": {"quantity": 1, "blobs": []},
+          "datum": {"references": [], "metadata": []},
+          "opts": []
+        }
+      ],
+      "outputs": [],
+      "datum": {
+        "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+        "references32": [],
+        "references64": [],
+        "metadata": []
+      }
+    }
   }
 }
 ```
@@ -191,7 +244,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 
 #### Transaction Input with Attestation Type Predicate Whose Challenges and Responses Lengths Differ 
 
-![diagram](./images/prove/transactionMalformed.png)
+![diagram](./images/prove/attestationMalformed.png)
 
 * **Given** `unprovenTx` is an IoTransaction with a single input with an attestation type `Predicate`
 * **And** the length of `responses` and length of `lock.challenges` do not match
@@ -200,7 +253,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     prove(unprovenTx: IoTransaction)
     ```
 * **Then**
-  A list containing the error [`CR002`](../../Common/Models/Errors.md#cr002-transactionmalformed) is returned
+  A list containing the error [`CR002`](../../Common/Models/Errors.md#cr002-attestationmalformed) is returned
 
 ```json
 {
@@ -243,7 +296,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
     }
   },
   "outputs": {
-    "left": ["CredentiallerError.TransactionMalformed"]
+    "left": ["CredentiallerError.AttestationMalformed"]
   }
 }
 ```
@@ -542,7 +595,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
 
 ```json
 [
-  {
+{
     "description": "Transaction Input Referencing a KnownIdentifier Unknown to the Wallet",
     "inputs": {
       "unprovenTx": {
@@ -558,8 +611,17 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
               }
             },
             "attestation": {
-              "lock": {"challenges": [], "threshold": 0},
-              "responses": []
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"height": {"chain": "header", "min": 2, "max": 15}},
+                  {"tick": {"min": 2, "max": 15}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [null, null, null, null, null]
             },
             "value": {"quantity": 1, "blobs": []},
             "datum": {"references": [], "metadata": []},
@@ -576,7 +638,50 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       }
     },
     "outputs": {
-      "left": ["CredentiallerError.KnownIdentifierUnknown"]
+      "right": {
+        "inputs": [
+          {
+            "knownIdentifier": {
+              "network": 0,
+              "ledger": 0,
+              "index": 0,
+              "id": {
+                "tag": "iotx_32",
+                "evidence": "fake commitment that does not exist"
+              }
+            },
+            "attestation": {
+              "lock": {
+                "challenges": [
+                  {"locked": {}},
+                  {"height": {"chain": "header", "min": 2, "max": 15}},
+                  {"tick": {"min": 2, "max": 15}},
+                  {"signature": {"routine": "ed25519", "vk": "verificationKey_ijk"}},
+                  {"digest": {"routine": "blake2b256", "digest": "digest_ijk"}}
+                ], 
+                "threshold": 1
+              },
+              "responses": [
+                {"locked": {}},
+                {"height": {"transactionBind": "xxxx"}},
+                {"tick": {"transactionBind": "xxxx"}},
+                null,
+                null
+              ]
+            },
+            "value": {"quantity": 1, "blobs": []},
+            "datum": {"references": [], "metadata": []},
+            "opts": []
+          }
+        ],
+        "outputs": [],
+        "datum": {
+          "schedule": {"min": 1, "max": 100, "timestamp": 99999},
+          "references32": [],
+          "references64": [],
+          "metadata": []
+        }
+      }
     }
   },  
   {
@@ -691,7 +796,7 @@ The following test cases only consider a transaction of 3 : a : A => 3 : a : B. 
       }
     },
     "outputs": {
-      "left": ["CredentiallerError.TransactionMalformed"]
+      "left": ["CredentiallerError.AttestationMalformed"]
     }
   },
   {
