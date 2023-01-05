@@ -141,7 +141,6 @@ The updated vector.
 Signals an error if the index is out of bounds (<0 or >= size).
 
 
-
 ### insert
 
 #### Signature(s)
@@ -166,6 +165,33 @@ Returns a new `ByteVector` with the insertion.
 #### Errors
 
 Signals an error if the index is out of bounds (<0 or >= size).
+
+
+### splice
+
+#### Signature(s)
+
+```
+splice(idx: Long, b: ByteVector) returns ByteVector
+```
+
+#### Description
+
+Returns a vector with the specified byte vector inserted at the specified index.
+
+#### Parameters
+
+* `idx` — The index at which to insert the byte.
+* `b` `ByteVector` — The byte vector to insert.
+
+#### Returns
+
+Returns a new `ByteVector` with the insertion.
+
+#### Errors
+
+Signals an error if the index is out of bounds (<0 or >= size).
+
 
 =========================================
 
