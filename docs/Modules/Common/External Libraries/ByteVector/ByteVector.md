@@ -114,6 +114,59 @@ Returns the byte at the specified index.
 Signals an error if the index is out of bounds (<0 or >= size).
 
 
+
+### update
+
+#### Signature(s)
+
+```
+update(idx: Long, b: Byte) returns ByteVector
+```
+
+#### Description
+
+Create a vector with the byte at the specified index replaced with the specified byte.
+
+#### Parameters
+
+* `idx` — The index of the byte to replace.
+* `b` — The byte to replace the byte at the specified index with.
+
+#### Returns
+
+The updated vector.
+
+#### Errors
+
+Signals an error if the index is out of bounds (<0 or >= size).
+
+
+
+### insert
+
+#### Signature(s)
+
+```
+insert(idx: Long, b: Byte) returns ByteVector
+```
+
+#### Description
+
+Returns a vector with the specified byte inserted at the specified index.
+
+#### Parameters
+
+* `idx` — The index at which to insert the byte.
+* `b` — The byte to insert.
+
+#### Returns
+
+Returns a new `ByteVector` with the insertion.
+
+#### Errors
+
+Signals an error if the index is out of bounds (<0 or >= size).
+
 =========================================
 
 ### size
