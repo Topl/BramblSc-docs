@@ -611,6 +611,216 @@ Returns true if this byte vector ends with the specified vector.
 
 _*None*_
 
+
+
+### indexOfSlice
+
+#### Signature(s)
+
+```
+indexOfSlice(slice: ByteVector): Long
+indexOfSlice(slice: ByteVector, from: Long): Long
+```
+
+#### Description
+
+Finds the first index of the specified byte pattern in this vector.
+
+#### Parameters
+
+* `slice` — The byte pattern to search for.
+* `from` — The index at which to start the search. Defaults to 0.
+
+#### Returns
+
+Returns the index of the first occurrence of the specified byte pattern, or -1 if the pattern is not found.
+
+#### Errors
+
+_*None*_
+
+
+
+### containsSlice
+
+#### Signature(s)
+
+```
+containsSlice(slice: ByteVector) returns Boolean
+```
+
+#### Description
+
+Determines if the specified slice is in this vector.
+
+#### Parameters
+
+* `slice` — The byte pattern to search for.
+
+#### Returns
+
+Returns true if the specified slice is in this vector.
+
+#### Errors
+
+_*None*_
+
+
+
+### head
+
+#### Signature(s)
+
+```
+head() returns Byte
+```
+
+#### Description
+
+Returns the first byte in this vector.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the first byte in this vector.
+
+#### Errors
+
+Signals an error if this vector is empty.
+
+
+### headOption
+
+#### Signature(s)
+
+```
+headOption() returns Option[Byte]
+```
+
+#### Description
+
+Returns the first byte of this vector or None if the vector is empty.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an Option containing the first byte of this vector or None if the vector is empty.
+
+#### Errors
+
+_*None*_
+
+
+
+### tail
+
+#### Signature(s)
+
+```
+tail() returns ByteVector
+```
+
+#### Description
+
+Returns a vector containing all bytes in this vector except the first byte.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+
+### init
+
+#### Signature(s)
+
+```
+init() returns ByteVector
+```
+
+#### Description
+
+Returns a vector containing all bytes in this vector except the last byte.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+
+### last
+
+#### Signature(s)
+
+```
+last() returns Byte
+```
+
+#### Description
+
+Returns the last byte in this vector.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the last byte in this vector.
+
+#### Errors
+
+Signals an error if this vector is empty.
+
+
+
+### tailOption
+
+#### Signature(s)
+
+```
+tailOption() returns Option[Byte]
+```
+
+#### Description
+
+Returns the last byte of this vector or None if the vector is empty.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an Option containing the last byte of this vector or None if the vector is empty.
+
+#### Errors
+
+_*None*_
+
+
 =========================================
 
 ### size
