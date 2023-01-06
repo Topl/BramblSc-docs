@@ -897,7 +897,6 @@ Returns a vector with the bytes of this vector in reverse order.
 
 _*None*_
 
-
 ### shiftLeft
 
 #### Signature(s)
@@ -945,8 +944,6 @@ Returns the new `ByteVector`.
 #### Errors
 
 _*None*_
-
-
 
 ### rotateLeft
 
@@ -996,6 +993,215 @@ Returns the new `ByteVector`.
 
 _*None*_
 
+### compact
+
+#### Signature(s)
+
+```
+compact() returns ByteVector
+```
+
+#### Description
+
+Returns a vector with the same contents but represented as a single tree node internally.
+This may involve copying data, but has the advantage that lookups index directly into a single node rather than
+traversing a logarithmic number of nodes in this tree.
+Calling this method on an already compacted vector is a no-op.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the compacted `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+### partialCompact
+
+#### Signature(s)
+
+```
+partialCompact(chunkSize: Long) returns ByteVector
+```
+
+#### Description
+
+Invokes compact on any subtrees whose size is <= chunkSize.
+
+#### Parameters
+
+* `chunkSize` — The threshold size of chunks to compact.
+
+#### Returns
+
+Returns the compacted `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+### copy
+
+#### Signature(s)
+
+```
+copy() returns ByteVector
+```
+
+#### Description
+
+Returns a vector with the same contents as this vector but with a single compacted node made up by evaluating all
+internal nodes and concatenating their values.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the copied `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+
+### toArray
+
+#### Signature(s)
+
+```
+toArray returns Array[Byte]
+```
+
+#### Description
+
+Allocate a new array and copy the contents of this vector into it.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the byte array.
+
+#### Errors
+
+_*None*_
+
+
+
+### copyToArray
+
+#### Signature(s)
+
+```
+copyToArray(xs: Array[Byte], start: Int)
+copyToArray(xs: Array[Byte], start: Int)copyToArray(xs: Array[Byte], start: Int, offset: Long, size: Int)
+```
+
+#### Description
+
+Copies the contents of this vector into the specified array starting at the specified index.
+
+#### Parameters
+
+* `xs` — The array to copy into.
+* `start` — The index in the array to start copying at.
+* `offset` — The offset in this vector to start copying from. Defaults to zero.
+* `size` — The number of bytes to copy.
+
+#### Returns
+
+_*None*_
+
+#### Errors
+
+_*None*_
+
+
+
+### toHex
+
+#### Signature(s)
+
+```
+toHex() returns String
+```
+
+#### Description
+
+Returns a hexadecimal string representation of this vector. Each byte is represented by two hexadecimal digits.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the number of bytes in this `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+
+### hashCode
+
+#### Signature(s)
+
+```
+hashCode() returns Int
+```
+
+#### Description
+
+Calculates a hash code for this vector. The result is cached.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the hashcode.
+
+#### Errors
+
+_*None*_
+
+
+
+### equals
+
+#### Signature(s)
+
+```
+equals(that: Object) returns Bool
+```
+
+#### Description
+
+Returns true if `that` is a `ByteVector` that has the same content as this.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns true if `that` is a `ByteVector` that has the same content as this.
+
+#### Errors
+
+_*None*_
 
 =========================================
 
@@ -1022,3 +1228,8 @@ Returns the number of bytes in this `ByteVector`.
 #### Errors
 
 _*None*_
+
+=============================
+
+Additional conversion functions/methods may be useful. The specific types will vary with the implementation language.
+Some conversion functions/methods that may be useful will be to streams, I/O streams, buffers and bit vectors.
