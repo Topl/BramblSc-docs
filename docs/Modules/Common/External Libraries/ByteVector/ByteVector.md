@@ -346,6 +346,87 @@ Returns the new `ByteVector`.
 
 _*None*_
 
+
+### dropWhile
+
+#### Signature(s)
+
+```
+dropWhile(f: (Byte) returns Boolean) returns ByteVector
+```
+
+#### Description
+
+Drops the longest prefix of this vector such that every byte of the prefix satisfies the specific predicate.
+
+#### Parameters
+
+* `f` — The predicate used to test bytes. This is a function that takes a byte and returns a boolean.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+### take
+
+#### Signature(s)
+
+```
+take(n: Long) returns ByteVector
+```
+
+#### Description
+
+Returns a vector of the first n bytes of this vector.
+The resulting vector's size is `min(n, size)`.
+
+*Note*: if an exactly n-byte vector is required, use the acquire method instead.
+
+#### Parameters
+
+* `n` — The number of bytes to take from the beginning of this vector. Negative values are treated as 0.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+### takeRight
+
+#### Signature(s)
+
+```
+takeRight(n: Long) returns ByteVector
+```
+
+#### Description
+
+Returns a vector of the last n bytes of this vector.
+The resulting vector's size is `min(n, size)`.
+
+#### Parameters
+
+* `n` — The number of bytes to take from the end of this vector. Negative values are treated as 0.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+
 =========================================
 
 ### size
