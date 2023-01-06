@@ -181,7 +181,7 @@ Returns a vector with the specified byte vector inserted at the specified index.
 
 #### Parameters
 
-* `idx` — The index at which to insert the byte.
+* `idx` — The index at which to insert the byte vector.
 * `b` `ByteVector` — The byte vector to insert.
 
 #### Returns
@@ -191,6 +191,82 @@ Returns a new `ByteVector` with the insertion.
 #### Errors
 
 Signals an error if the index is out of bounds (<0 or >= size).
+
+
+### patch
+
+#### Signature(s)
+
+```
+patch(idx: Long, b: ByteVector) returns ByteVector
+```
+
+#### Description
+
+Returns a vector with the specified byte vector replacing bytes `idx` to `idx + b.size`.
+
+#### Parameters
+
+* `idx` — The index at which to replace the byte vector.
+* `b` `ByteVector` — The byte vector to replace the existing bytes.
+
+#### Returns
+
+Returns a new `ByteVector` with the replacement.
+
+#### Errors
+
+Signals an error if the index is out of bounds (<0 or >= size).
+
+
+### append
+
+#### Signature(s)
+
+```
+append(other: ByteVector) returns ByteVector
+```
+
+#### Description
+
+Returns a new byte vector representing this vector's contents followed by the specified vector's contents.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns a new byte vector representing this vector's contents followed by the specified vector's contents.
+
+#### Errors
+
+_*None*_
+
+
+### prepend
+
+#### Signature(s)
+
+```
+prepend(other: ByteVector) returns ByteVector
+```
+
+#### Description
+
+Returns a new byte vector representing this vector's contents preceded by the specified vector's contents.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns a new byte vector representing this vector's contents preceded by the specified vector's contents.
+
+#### Errors
+
+_*None*_
 
 
 =========================================
