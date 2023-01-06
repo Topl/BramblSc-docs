@@ -517,7 +517,7 @@ consume( n: Long, decode: (ByteVector) returns Object) returns Array[Object]
 #### Description
 
 Consumes the first n bytes of this vector and decodes them with the specified function, resulting in a vector of the
-remaining bytes and the decoded value. 
+remaining bytes and the decoded value.
 
 #### Parameters
 
@@ -532,8 +532,6 @@ element is the decoded value.
 #### Errors
 
 If this vector does not have n bytes or an error occurs while decoding, an error is signaled.
-
-
 
 ### foreach
 
@@ -559,8 +557,6 @@ Returns nothing.
 
 Signals an error if the specified function signals an error.
 
-
-
 ### startsWith
 
 #### Signature(s)
@@ -585,8 +581,6 @@ Returns true if this byte vector starts with the specified vector.
 
 _*None*_
 
-
-
 ### endsWith
 
 #### Signature(s)
@@ -610,8 +604,6 @@ Returns true if this byte vector ends with the specified vector.
 #### Errors
 
 _*None*_
-
-
 
 ### indexOfSlice
 
@@ -639,8 +631,6 @@ Returns the index of the first occurrence of the specified byte pattern, or -1 i
 
 _*None*_
 
-
-
 ### containsSlice
 
 #### Signature(s)
@@ -664,8 +654,6 @@ Returns true if the specified slice is in this vector.
 #### Errors
 
 _*None*_
-
-
 
 ### head
 
@@ -691,7 +679,6 @@ Returns the first byte in this vector.
 
 Signals an error if this vector is empty.
 
-
 ### headOption
 
 #### Signature(s)
@@ -715,8 +702,6 @@ Returns an Option containing the first byte of this vector or None if the vector
 #### Errors
 
 _*None*_
-
-
 
 ### tail
 
@@ -742,8 +727,6 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-
-
 ### init
 
 #### Signature(s)
@@ -767,8 +750,6 @@ Returns the new `ByteVector`.
 #### Errors
 
 _*None*_
-
-
 
 ### last
 
@@ -794,8 +775,6 @@ Returns the last byte in this vector.
 
 Signals an error if this vector is empty.
 
-
-
 ### tailOption
 
 #### Signature(s)
@@ -819,8 +798,6 @@ Returns an Option containing the last byte of this vector or None if the vector 
 #### Errors
 
 _*None*_
-
-
 
 ### padRight
 
@@ -846,7 +823,6 @@ Returns the new padded `ByteVector`.
 
 Signals an error if n is less than the size of this vector.
 
-
 ### padLeft
 
 #### Signature(s)
@@ -871,6 +847,30 @@ Returns the new padded `ByteVector`.
 
 Signals an error if n is less than the size of this vector.
 
+### map
+
+#### Signature(s)
+
+```
+map(f: (Byte) returns Byte) returns ByteVector
+```
+
+#### Description
+
+Computes a new byte vector where each byte is the result of applying the specified function to the corresponding byte in
+this vector. This method returns a view and hence, is O(1). Call compact to generate a new strict vector.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+Signals an error if the specified function signals an error.
 
 =========================================
 
