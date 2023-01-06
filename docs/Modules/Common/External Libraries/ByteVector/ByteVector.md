@@ -1,6 +1,6 @@
 # ByteVector
 
-This page describes a data type named `ByteVector` that is used in the Brambl SDK for some of its methods/functions. 
+This page describes a data type named `ByteVector` that is used in the Brambl SDK for some of its methods/functions.
 
 A `ByteVector` object is an immutable vector of bytes, backed by a balanced binary tree of chunks. Most operations are
 logarithmic in the depth of this tree, including ++, :+, +:, update, and insert. Where possible, operations return lazy
@@ -36,8 +36,6 @@ Returns the number of bytes in this `ByteVector`.
 
 _*None*_
 
-
-
 ### isEmpty
 
 #### Signature(s)
@@ -61,8 +59,6 @@ Returns true if this vector has no bytes.
 #### Errors
 
 _*None*_
-
-
 
 ### nonEmpty
 
@@ -88,7 +84,6 @@ Returns true if this vector has a non-zero number of bytes.
 
 _*None*_
 
-
 ### get
 
 #### Signature(s)
@@ -112,8 +107,6 @@ Returns the byte at the specified index.
 #### Errors
 
 Signals an error if the index is out of bounds (<0 or >= size).
-
-
 
 ### update
 
@@ -140,7 +133,6 @@ The updated vector.
 
 Signals an error if the index is out of bounds (<0 or >= size).
 
-
 ### insert
 
 #### Signature(s)
@@ -165,7 +157,6 @@ Returns a new `ByteVector` with the insertion.
 #### Errors
 
 Signals an error if the index is out of bounds (<0 or >= size).
-
 
 ### splice
 
@@ -192,7 +183,6 @@ Returns a new `ByteVector` with the insertion.
 
 Signals an error if the index is out of bounds (<0 or >= size).
 
-
 ### patch
 
 #### Signature(s)
@@ -218,8 +208,6 @@ Returns a new `ByteVector` with the replacement.
 
 Signals an error if the index is out of bounds (<0 or >= size).
 
-
-
 ### concatenate
 
 #### Signature(s)
@@ -243,7 +231,6 @@ Returns a new byte vector representing this vector's contents followed by the sp
 #### Errors
 
 _*None*_
-
 
 ### append
 
@@ -269,7 +256,6 @@ Returns a new byte vector representing this vector's contents followed by the sp
 
 _*None*_
 
-
 ### prepend
 
 #### Signature(s)
@@ -293,7 +279,6 @@ Returns a new byte vector representing this vector's contents preceded by the sp
 #### Errors
 
 _*None*_
-
 
 ### drop
 
@@ -320,7 +305,6 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-
 ### dropRight
 
 #### Signature(s)
@@ -346,7 +330,6 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-
 ### dropWhile
 
 #### Signature(s)
@@ -370,7 +353,6 @@ Returns the new `ByteVector`.
 #### Errors
 
 _*None*_
-
 
 ### take
 
@@ -399,7 +381,6 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-
 ### takeRight
 
 #### Signature(s)
@@ -425,7 +406,210 @@ Returns the new `ByteVector`.
 
 _*None*_
 
+### takeWhile
 
+#### Signature(s)
+
+```
+takeWhile(f: (Byte) returns Boolean) returns ByteVector
+```
+
+#### Description
+
+Returns the longest prefix of this vector such that every byte of the prefix satisfies the specific predicate.
+
+#### Parameters
+
+* `f` — The predicate used to test bytes. This is a function that takes a byte and returns a boolean.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+### splitAt
+
+#### Signature(s)
+
+```
+splitAt(n: Long): Array[ByteVector]
+```
+
+#### Description
+
+Returns an array of two vectors such that the first element is equal to `take(n)` and the second element is equal to
+`drop(n)`.
+
+#### Parameters
+
+* `n` — The index at which to split this vector.
+
+#### Returns
+
+The array of two byte vectors.
+
+#### Errors
+
+_*None*_
+
+### slice
+
+#### Signature(s)
+
+```
+slice(from: Long, until: Long) returns ByteVector
+```
+
+#### Description
+
+Returns a vector made up of the bytes starting at index from up to index until.
+
+#### Parameters
+
+* `from` — The index at which to start the slice.
+* `until` — The index at which to end the slice.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+### acquire
+
+#### Signature(s)
+
+```
+acquire(n: Long) returns ByteVector
+```
+
+#### Description
+
+Returns a vector whose contents are the results of taking the first n bytes of this vector.
+
+_See also_: take
+
+#### Parameters
+
+* `n` — The number of bytes to take from the beginning of this vector. Negative values are treated as 0.
+
+#### Returns
+
+Returns the number of bytes in this `ByteVector`.
+
+#### Errors
+
+If this vector does not contain at least n bytes, an error is signalled.
+
+### consume
+
+#### Signature(s)
+
+```
+consume( n: Long, decode: (ByteVector) returns Object) returns Array[Object]
+```
+
+#### Description
+
+Consumes the first n bytes of this vector and decodes them with the specified function, resulting in a vector of the
+remaining bytes and the decoded value. 
+
+#### Parameters
+
+* `n` — The number of bytes to consume.
+* `decode` — The function used to decode the bytes. This is a function that takes a `ByteVector` and returns an object.
+
+#### Returns
+
+Returns an array of two elements: the first element is a byte vector containing the remaining bytes, and the second
+element is the decoded value.
+
+#### Errors
+
+If this vector does not have n bytes or an error occurs while decoding, an error is signaled.
+
+
+
+### foreach
+
+#### Signature(s)
+
+```
+foreach(f: (Byte))
+```
+
+#### Description
+
+Apply the specified function to each byte in this vector.
+
+#### Parameters
+
+* `f` — The function to apply to each byte. This is a function that takes a byte and returns nothing.
+
+#### Returns
+
+Returns nothing.
+
+#### Errors
+
+Signals an error if the specified function signals an error.
+
+
+
+### startsWith
+
+#### Signature(s)
+
+```
+startsWith(b: ByteVector): Boolean
+```
+
+#### Description
+
+Returns true if this byte vector starts with the specified vector.
+
+#### Parameters
+
+* `b` — The vector to test as a prefix of the byte vector.
+
+#### Returns
+
+Returns true if this byte vector starts with the specified vector.
+
+#### Errors
+
+_*None*_
+
+
+
+### endsWith
+
+#### Signature(s)
+
+```
+endsWith(b: ByteVector): Boolean
+```
+
+#### Description
+
+Returns true if this byte vector ends with the specified vector.
+
+#### Parameters
+
+* `b` — The vector to test as a suffix of the byte vector.
+
+#### Returns
+
+Returns true if this byte vector ends with the specified vector.
+
+#### Errors
+
+_*None*_
 
 =========================================
 
