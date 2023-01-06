@@ -872,6 +872,131 @@ Returns the new `ByteVector`.
 
 Signals an error if the specified function signals an error.
 
+### reverse
+
+#### Signature(s)
+
+```
+reverse() returns ByteVector
+```
+
+#### Description
+
+Returns a vector with the bytes of this vector in reverse order. This method returns a view and hence, is O(1). Call
+compact to generate a new strict vector.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns a vector with the bytes of this vector in reverse order.
+
+#### Errors
+
+_*None*_
+
+
+### shiftLeft
+
+#### Signature(s)
+
+```
+shiftLeft(n: Long) returns ByteVector
+```
+
+#### Description
+
+Computes a new byte vector that contains the bits of this vector shifted left by the specified number of bits.
+
+#### Parameters
+
+* `n` — The number of bits to shift left.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+### shiftRight
+
+#### Signature(s)
+
+```
+shiftRight(n: Long) returns ByteVector
+```
+
+#### Description
+
+Computes a new byte vector that contains the bits of this vector shifted right by the specified number of bits.
+
+#### Parameters
+
+* `n` — The number of bits to shift right.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+
+### rotateLeft
+
+#### Signature(s)
+
+```
+rotateLeft(n: Long) returns ByteVector
+```
+
+#### Description
+
+Computes a new byte vector that contains the bits of this vector rotated left by the specified number of bits.
+
+#### Parameters
+
+* `n` — The number of bits to rotate left.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+### rotateRight
+
+#### Signature(s)
+
+```
+rotateRight(n: Long) returns ByteVector
+```
+
+#### Description
+
+Computes a new byte vector that contains the bits of this vector rotated right by the specified number of bits.
+
+#### Parameters
+
+* `n` — The number of bits to rotate right.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
 =========================================
 
 ### size
