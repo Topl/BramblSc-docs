@@ -821,6 +821,57 @@ Returns an Option containing the last byte of this vector or None if the vector 
 _*None*_
 
 
+
+### padRight
+
+#### Signature(s)
+
+```
+padRight(n: Long) returns ByteVector
+```
+
+#### Description
+
+Returns an n-byte vector whose contents are this vector's contents followed by 0 or more zero bytes.
+
+#### Parameters
+
+* `n` — The larger size to pad to.
+
+#### Returns
+
+Returns the new padded `ByteVector`.
+
+#### Errors
+
+Signals an error if n is less than the size of this vector.
+
+
+### padLeft
+
+#### Signature(s)
+
+```
+padLeft(n: Long) returns ByteVector
+```
+
+#### Description
+
+Returns an n-bytes vector whose contents are 0 or more zero bytes followed by this vector's contents.
+
+#### Parameters
+
+* `n` — The larger size to pad to.
+
+#### Returns
+
+Returns the new padded `ByteVector`.
+
+#### Errors
+
+Signals an error if n is less than the size of this vector.
+
+
 =========================================
 
 ### size
