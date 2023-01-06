@@ -219,12 +219,13 @@ Returns a new `ByteVector` with the replacement.
 Signals an error if the index is out of bounds (<0 or >= size).
 
 
-### append
+
+### concatenate
 
 #### Signature(s)
 
 ```
-append(other: ByteVector) returns ByteVector
+concatenate(other: ByteVector) returns ByteVector
 ```
 
 #### Description
@@ -238,6 +239,31 @@ _*None*_
 #### Returns
 
 Returns a new byte vector representing this vector's contents followed by the specified vector's contents.
+
+#### Errors
+
+_*None*_
+
+
+### append
+
+#### Signature(s)
+
+```
+append(other: Byte) returns ByteVector
+```
+
+#### Description
+
+Returns a new byte vector representing this vector's contents followed by the specified byte.
+
+#### Parameters
+
+* `other` — The byte to append to this vector.
+
+#### Returns
+
+Returns a new byte vector representing this vector's contents followed by the specified byte.
 
 #### Errors
 
@@ -249,25 +275,76 @@ _*None*_
 #### Signature(s)
 
 ```
-prepend(other: ByteVector) returns ByteVector
+prepend(other: Byte) returns ByteVector
 ```
 
 #### Description
 
-Returns a new byte vector representing this vector's contents preceded by the specified vector's contents.
+Returns a new byte vector representing this vector's contents preceded by the specified byte.
 
 #### Parameters
 
-_*None*_
+* `other` — The byte to prepend to this vector.
 
 #### Returns
 
-Returns a new byte vector representing this vector's contents preceded by the specified vector's contents.
+Returns a new byte vector representing this vector's contents preceded by the specified byte.
 
 #### Errors
 
 _*None*_
 
+
+### drop
+
+#### Signature(s)
+
+```
+drop(n: Long) returns ByteVector
+```
+
+#### Description
+
+Returns a vector of all bytes in this vector except the first n bytes.
+The resulting vector's size is `max(0, size - n)`.
+
+#### Parameters
+
+* `n` — The number of bytes to drop from the beginning of this vector. Negative values are treated as 0.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
+
+
+### dropRight
+
+#### Signature(s)
+
+```
+dropRight(n: Long) returns ByteVector
+```
+
+#### Description
+
+Returns a vector of all bytes in this vector except the last n bytes.
+The resulting vector's size is `max(0, size - n)`.
+
+#### Parameters
+
+* `n` — The number of bytes to drop from the end of this vector. Negative values are treated as 0.
+
+#### Returns
+
+Returns the new `ByteVector`.
+
+#### Errors
+
+_*None*_
 
 =========================================
 
