@@ -13,7 +13,17 @@ Represents a set of 2048 words that can be used to create a mnemonic.
 ### constructor
 
 The details of the constructor for this class are not exposed. Instead, instances of this class are obtained from its
-static methods.
+static methods
+
+* `Language.chineseSimplified`
+* `Language.chineseTraditional`
+* `Lanfuage.czech`
+* `Language.english`
+* `Language.french`
+* `Language.italian`
+* `Language.japanese`
+* `Language.korean`
+* `Language.spanish`
 
 ### filePath
 
@@ -64,7 +74,6 @@ Returns a SHA-256 hash of the expected contents of the file identified by `fileP
 
 _*None*_
 
-
 ### chineseSimplified
 
 #### Signature(s)
@@ -93,7 +102,10 @@ The value returned by `hash()` should be `"bfd683b91db88609fabad8968c7efe4bf6960
 
 _*None*_
 
+#### Testing Procedure
 
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### chineseTraditional
 
@@ -123,7 +135,10 @@ The value returned by `hash()` should be `"85b285c4e0e3eb1e52038e2cf4b4f8bba69fd
 
 _*None*_
 
+#### Testing Procedure
 
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### czech
 
@@ -153,7 +168,10 @@ The value returned by `hash()` should be `"f9016943461800f7870363b4c301c814dbcb8
 
 _*None*_
 
+#### Testing Procedure
 
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### english
 
@@ -183,7 +201,10 @@ The value returned by `hash()` should be `"ad90bf3beb7b0eb7e5acd74727dc0da96e0a2
 
 _*None*_
 
+#### Testing Procedure
 
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### french
 
@@ -213,7 +234,10 @@ The value returned by `hash()` should be `"9cbdaadbd3ce9cbaee1b360fce45e935b21e3
 
 _*None*_
 
+#### Testing Procedure
 
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### italian
 
@@ -241,9 +265,12 @@ The value returned by `hash()` should be `"80d2e90d7436603fd6e57cd9af6f839391e64
 
 #### Errors
 
+#### Testing Procedure
+
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
+
 _*None*_
-
-
 
 ### japanese
 
@@ -273,7 +300,10 @@ The value returned by `hash()` should be `"d9d1fde478cbeb45c06b93632a487eefa24f6
 
 _*None*_
 
+#### Testing Procedure
 
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### korean
 
@@ -303,7 +333,10 @@ The value returned by `hash()` should be `"f04f70b26cfef84474ff56582e798bcbc1a55
 
 _*None*_
 
+#### Testing Procedure
 
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### portuguese
 
@@ -333,8 +366,10 @@ The value returned by `hash()` should be `"eed387d44cf8f32f60754527e265230d8019e
 
 _*None*_
 
+#### Testing Procedure
 
-
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
 
 ### spanish
 
@@ -364,7 +399,83 @@ The value returned by `hash()` should be `"a556a26c6a5bb36db0fb7d8bf579cb7465fca
 
 _*None*_
 
-===========================
+#### Testing Procedure
+
+The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
+a `LanguageWordList` instance that contains the same words as the file.
+
+## class LanguageWordList
+
+This class provides a list of words in a given language. The list of words is used to generate or parse a mnemonic
+phrase.
+
+### Constructor
+
+The details of this class's constructor are not specified in this document. The constructor is not intended to be
+called directly by user code. Instead, instances of this class should be obtained by calling the static method
+`LanguageWordList.validate`.
+
+### value
+
+#### Signature(s)
+
+```
+value() returns List[String]
+```
+
+#### Description
+
+Returns a List of the words used by mnemonic phrases for this language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns a List of the words used by mnemonic phrases for this language.
+
+#### Errors
+
+_*None*_
+
+#### Testing Procedure
+
+Testing this method is covered by the tests for `Language.chineseSimplified`, `Language.chineseTraditional`,
+`Language.english`, `Language.french`, `Language.italian`, `Language.japanese`, `Language.korean`,
+`Language.portuguese`, and `Language.spanish`.
+
+### validated
+
+#### Signature(s)
+
+```
+static validated(language: Language) returns LanguageWordList
+```
+
+#### Description
+
+Returns a `LanguageWordList` instance that contains a list of the mnemonic words for the given language.
+
+#### Parameters
+
+A `Language` instance that represents the language for which a list of mnemonic words is desired.
+
+#### Returns
+
+Returns a `LanguageWordList` instance that contains a list of the mnemonic words for the given language.
+
+#### Errors
+
+Signal an error if the file identified by the `filePath()` method of the given `Language` instance cannot be read or if
+the SHA-256 hash of its contents is not what is expected.
+
+#### Testing Procedure
+
+Testing this method is covered by the tests for `Language.chineseSimplified`, `Language.chineseTraditional`,
+`Language.english`, `Language.french`, `Language.italian`, `Language.japanese`, `Language.korean`,
+`Language.portuguese`, and `Language.spanish`.
+
 
 ## class MnemonicSizes
 
@@ -613,3 +724,6 @@ The constructed
 
 _*None*_
 
+#### Testing Procedure
+
+The test for this method
