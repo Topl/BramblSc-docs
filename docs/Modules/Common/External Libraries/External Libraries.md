@@ -10,7 +10,10 @@ Not that neither test vectors nor testing procedures are specified for the exter
 
 Here are the types that are defined in external libraries:
 
-* ByteVector — An immutable sequence of bytes. This type is defined for the Scala implementation in the scodec
+* [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) — An immutable sequence of bytes with behavior
+  documented in the [linked page](/docs/Modules/Common/External%20Libraries/ByteVector).
+  This type is defined for the Scala implementation in the scodec
   library.<br/>
+
   The type is implemented in Scala as a balanced binary tree of chunks. This allows ByteVectors to be composed into
   larger ByteVectors without copying data.

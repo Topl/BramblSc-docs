@@ -3,9 +3,13 @@
 This page describes a data type named `ByteVector` that is used in the Brambl SDK for some of its methods/functions.
 
 A `ByteVector` object is an immutable vector of bytes, backed by a balanced binary tree of chunks. Most operations are
-logarithmic in the depth of this tree, including ++, :+, +:, update, and insert. Where possible, operations return lazy
-views rather than copying any underlying bytes. Use copy to copy all underlying bytes to a fresh, array-backed
-ByteVector.
+logarithmic in the depth of this tree, including concatenate, prepend, append, update, and insert. Where possible,
+operations return lazy views rather than copying any underlying bytes. Use copy to copy all underlying bytes to a fresh,
+array-backed ByteVector.
+
+Below is a description of an interface that defines the behavior of a `ByteVector` object. The details of the class
+that implements this interface are not specified in this document. In particular, the constructor(s) for the class will
+be implementation specific.
 
 ## Interface ByteVector
 
@@ -120,6 +124,8 @@ update(idx: Long, b: Byte) returns ByteVector
 
 Create a vector with the byte at the specified index replaced with the specified byte.
 
+This is equivalent to `this.take(idx).append(b).concatenate(this.drop(idx + 1))`.
+
 #### Parameters
 
 * `idx` — The index of the byte to replace.
@@ -131,7 +137,7 @@ The updated vector.
 
 #### Errors
 
-Signals an error if the index is out of bounds (<0 or >= size).
+_*None*_
 
 ### insert
 
@@ -144,6 +150,8 @@ insert(idx: Long, b: Byte) returns ByteVector
 #### Description
 
 Returns a vector with the specified byte inserted at the specified index.
+
+This is equivalent to `this.take(idx).append(b).concatenate(this.drop(idx))`.
 
 #### Parameters
 
@@ -170,6 +178,8 @@ splice(idx: Long, b: ByteVector) returns ByteVector
 
 Returns a vector with the specified byte vector inserted at the specified index.
 
+This is equivalent to `this.take(idx).concatenate(b).concatenate(this.drop(idx))`.
+
 #### Parameters
 
 * `idx` — The index at which to insert the byte vector.
@@ -181,7 +191,7 @@ Returns a new `ByteVector` with the insertion.
 
 #### Errors
 
-Signals an error if the index is out of bounds (<0 or >= size).
+_*None*_
 
 ### patch
 
@@ -193,7 +203,10 @@ patch(idx: Long, b: ByteVector) returns ByteVector
 
 #### Description
 
-Returns a vector with the specified byte vector replacing bytes `idx` to `idx + b.size`.
+Returns a vector with the specified byte vector replacing bytes `idx` to `idx + b.size`. If `idx+b.size` is greater than
+the size of this vector, then the result is longer than this vector.
+
+This is equivalent to `this.take(idx).concatenate(b).concatenate(this.drop(idx + b.size))`.
 
 #### Parameters
 
@@ -206,7 +219,7 @@ Returns a new `ByteVector` with the replacement.
 
 #### Errors
 
-Signals an error if the index is out of bounds (<0 or >= size).
+_*None*_
 
 ### concatenate
 
@@ -465,7 +478,9 @@ slice(from: Long, until: Long) returns ByteVector
 
 #### Description
 
-Returns a vector made up of the bytes starting at index from up to index until.
+Returns a vector made up of the bytes starting at index `from` up to index `until`.
+
+This is equivalent to `this.drop(from).take(until - from.max(0))`.
 
 #### Parameters
 
@@ -500,7 +515,7 @@ _See also_: take
 
 #### Returns
 
-Returns the number of bytes in this `ByteVector`.
+Returns a vector whose contents are the results of taking the first n bytes of this vector.
 
 #### Errors
 
@@ -1069,8 +1084,6 @@ Returns the copied `ByteVector`.
 
 _*None*_
 
-
-
 ### toArray
 
 #### Signature(s)
@@ -1095,8 +1108,6 @@ Returns the byte array.
 
 _*None*_
 
-
-
 ### copyToArray
 
 #### Signature(s)
@@ -1108,12 +1119,13 @@ copyToArray(xs: Array[Byte], start: Int)copyToArray(xs: Array[Byte], start: Int,
 
 #### Description
 
-Copies the contents of this vector into the specified array starting at the specified index.
+Copies the contents of this vector into the specified array starting at the specified index. Bytes that do not fit in
+the array are silently dropped.
 
 #### Parameters
 
 * `xs` — The array to copy into.
-* `start` — The index in the array to start copying at.
+* `start` — The index in the array `xs` to start copying at.
 * `offset` — The offset in this vector to start copying from. Defaults to zero.
 * `size` — The number of bytes to copy.
 
@@ -1122,10 +1134,6 @@ Copies the contents of this vector into the specified array starting at the spec
 _*None*_
 
 #### Errors
-
-_*None*_
-
-
 
 ### toHex
 
@@ -1151,8 +1159,6 @@ Returns the number of bytes in this `ByteVector`.
 
 _*None*_
 
-
-
 ### hashCode
 
 #### Signature(s)
@@ -1176,8 +1182,6 @@ Returns the hashcode.
 #### Errors
 
 _*None*_
-
-
 
 ### equals
 

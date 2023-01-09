@@ -41,7 +41,7 @@ The test for the constructor is included in the test for the `hash` method.
 #### Signature(s)
 
 ```
-hash(bytes: ByteVector) returns ByteVector
+hash(bytes: repeating ByteVector) returns ByteVector
 hash(byteVectorList: List[ByteVector]) returns ByteVector
 ```
 
