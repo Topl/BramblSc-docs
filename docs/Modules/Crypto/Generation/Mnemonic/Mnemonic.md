@@ -183,6 +183,187 @@ The value returned by `hash()` should be `"ad90bf3beb7b0eb7e5acd74727dc0da96e0a2
 
 _*None*_
 
+
+
+### french
+
+#### Signature(s)
+
+```
+static french() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the French language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the French language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/french.txt.
+
+The value returned by `hash()` should be `"9cbdaadbd3ce9cbaee1b360fce45e935b21e3e2c56d9fcd56b3398ced2371866"`
+
+#### Errors
+
+_*None*_
+
+
+
+### italian
+
+#### Signature(s)
+
+```
+static italian() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Italian language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Italian language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/italian.txt.
+
+The value returned by `hash()` should be `"80d2e90d7436603fd6e57cd9af6f839391e64beac1a3e015804f094fcc5ab24c"`
+
+#### Errors
+
+_*None*_
+
+
+
+### japanese
+
+#### Signature(s)
+
+```
+static japanese() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Japanese language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Japanese language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/japanese.txt.
+
+The value returned by `hash()` should be `"d9d1fde478cbeb45c06b93632a487eefa24f6533970f866ae81f136fbf810160"`
+
+#### Errors
+
+_*None*_
+
+
+
+### korean
+
+#### Signature(s)
+
+```
+static korean() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Korean language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Korean language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/korean.txt.
+
+The value returned by `hash()` should be `"f04f70b26cfef84474ff56582e798bcbc1a5572877d14c88ec66551272688c73"`
+
+#### Errors
+
+_*None*_
+
+
+
+### portuguese
+
+#### Signature(s)
+
+```
+static portuguese() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Portuguese language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Portuguese language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/portuguese.txt.
+
+The value returned by `hash()` should be `"eed387d44cf8f32f60754527e265230d8019e8a2277937c71ef812e7a46c93fd"`
+
+#### Errors
+
+_*None*_
+
+
+
+
+### spanish
+
+#### Signature(s)
+
+```
+static spanish() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Spanish language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Spanish language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/spanish.txt.
+
+The value returned by `hash()` should be `"a556a26c6a5bb36db0fb7d8bf579cb7465fcaeec03957c0dda61b569962d9da5"`
+
+#### Errors
+
+_*None*_
+
 ===========================
 
 ## class MnemonicSizes
