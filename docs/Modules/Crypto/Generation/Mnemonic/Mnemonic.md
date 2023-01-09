@@ -40,7 +40,6 @@ is implementation specific, but it should be usable by `LanguageWordList.validat
 
 _*None*_
 
-
 ### hash
 
 #### Signature(s)
@@ -66,6 +65,123 @@ Returns a SHA-256 hash of the expected contents of the file identified by `fileP
 _*None*_
 
 
+### chineseSimplified
+
+#### Signature(s)
+
+```
+static chineseSimplified() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Chinese Simplified language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Chinese Simplified language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/chinese_simplified.txt.
+
+The value returned by `hash()` should be `"bfd683b91db88609fabad8968c7efe4bf69606bf5a49ac4a4ba5e355955670cb"`
+
+#### Errors
+
+_*None*_
+
+
+
+### chineseTraditional
+
+#### Signature(s)
+
+```
+static chineseTraditional() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Chinese Traditional language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Chinese Traditional language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/chinese_traditional.txt.
+
+The value returned by `hash()` should be `"85b285c4e0e3eb1e52038e2cf4b4f8bba69fd814e1a09e063ce3609a1f67ad62"`
+
+#### Errors
+
+_*None*_
+
+
+
+### czech
+
+#### Signature(s)
+
+```
+static czech() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the Czech language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the Czech language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/czech.txt.
+
+The value returned by `hash()` should be `"f9016943461800f7870363b4c301c814dbcb8f4de801e6c87d859eba840469d5"`
+
+#### Errors
+
+_*None*_
+
+
+
+### english
+
+#### Signature(s)
+
+```
+static english() returns Language
+```
+
+#### Description
+
+Returns an instance of `Language` representing the English language.
+
+#### Parameters
+
+_*None*_
+
+#### Returns
+
+Returns an instance of `Language` representing the English language. The contents of the file identified by
+its `filePath()` should be the same as the contents of the file
+at https://raw.githubusercontent.com/Topl/BramblSc/main/crypto/src/main/resources/bip-0039/english.txt.
+
+The value returned by `hash()` should be `"ad90bf3beb7b0eb7e5acd74727dc0da96e0a280a258354e7293fb7e211ac03db"`
+
+#### Errors
+
+_*None*_
 
 ===========================
 
