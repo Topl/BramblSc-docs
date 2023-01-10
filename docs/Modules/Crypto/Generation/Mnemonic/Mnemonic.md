@@ -74,7 +74,7 @@ Returns an SHA-256 hash of the expected contents of the file identified by `file
 
 _*None*_
 
-### chineseSimplified
+### _static_ chineseSimplified
 
 #### Signature(s)
 
@@ -107,7 +107,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### chineseTraditional
+### _static_ chineseTraditional
 
 #### Signature(s)
 
@@ -140,7 +140,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### czech
+### _static_ czech
 
 #### Signature(s)
 
@@ -173,7 +173,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### english
+### _static_ english
 
 #### Signature(s)
 
@@ -206,7 +206,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### french
+### _static_ french
 
 #### Signature(s)
 
@@ -239,7 +239,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### italian
+### _static_ italian
 
 #### Signature(s)
 
@@ -272,7 +272,7 @@ a `LanguageWordList` instance that contains the same words as the file.
 
 _*None*_
 
-### japanese
+### _static_ japanese
 
 #### Signature(s)
 
@@ -305,7 +305,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### korean
+### _static_ korean
 
 #### Signature(s)
 
@@ -338,7 +338,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### portuguese
+### _static_ portuguese
 
 #### Signature(s)
 
@@ -371,7 +371,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### spanish
+### _static_ spanish
 
 #### Signature(s)
 
@@ -445,7 +445,7 @@ Testing this method is covered by the tests for `Language.chineseSimplified`, `L
 `Language.english`, `Language.french`, `Language.italian`, `Language.japanese`, `Language.korean`,
 `Language.portuguese`, and `Language.spanish`.
 
-### validated
+### _static_ validated
 
 #### Signature(s)
 
@@ -644,7 +644,7 @@ The constructed object
 
 _*None*_
 
-### generate
+### _static_ generate
 
 #### Signature(s)
 
@@ -677,7 +677,7 @@ There should not be any need to make this thread-safe. The only time this is cal
 
 `Entropy.generate().toMnemonicString()` should not signal an error.
 
-### toMnemonicString
+### _static_ toMnemonicString
 
 #### Signature(s)
 
@@ -722,7 +722,7 @@ entropy = Entropy.generate()
 entropy == Entropy.fromMnemonicString(Entropy.toMnemonicString(entropy), Language.english())
 ```
 
-### fromMnemonicString
+### _static_ fromMnemonicString
 
 #### Signature(s)
 
@@ -765,12 +765,12 @@ entropy = Entropy.generate()
 entropy == Entropy.fromMnemonicString(Entropy.toMnemonicString(entropy), Language.english())
 ```
 
-### fromUuid
+### _static_ fromUuid
 
 #### Signature(s)
 
 ```
-fromUuid(uuid: UUID) returns Entropy
+_static_ fromUuid(uuid: UUID) returns Entropy
 ```
 
 #### Description
