@@ -135,10 +135,12 @@ A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containin
 
 ## class Ed25519
 
-This class implements the Ed25519 signing scheme. It is used to sign data and verify signatures. It is also used to
-derive key pairs from entropy values and other key pairs.
+This class implements the Ed25519 elliptic curve digital signature scheme as described
+in [RFC 8032](https://tools.ietf.org/html/rfc8032).
 
 This class should be implemented as a wrapper for an external library that implements the Ed25519 signing scheme.
+
+**Implements** [EllipticCurveSignatureScheme](#interface-ellipticcurvesignaturescheme)
 
 ### _static_ instance
 
@@ -188,27 +190,141 @@ Int KeyLength
 
 A constant whose value is the length of the private signing keys in bytes.
 
-### deriveKeyPairFromSeed
+### deriveKeyPairFromEntropy
 
 #### Signature(s)
 
 ```
-deriveKeyPairFromSeed(seed: ByteVector): Array[ByteVector]
+deriveKeyPairFromEntropy(entropy: Entropy, password: Option[String]) returns List[ByteVector]
 ```
 
 #### Description
 
-Generate an Ed25519 key pair from the given seed.
+Derive a main key pair from an entropy value and a password.
 
 #### Parameters
 
-* `seed` — A 32 byte long seed to use to generate the key pair.
+* `entropy` — The entropy value to use to derive the key pair.
+* `password` — The password to use to derive the key pair. The default is `None`.
 
 #### Returns
 
-An array of length 2 containing the private signing key at index 0 and the public verification key at index 1.
+A list of two [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) objects. The first is the private
+signing key and the second is the public verification key.
 
 #### Errors
 
-Signals an error if the seed is not 32 bytes long.
+_*None*_
 
+#### Testing Procedure
+
+**Given**
+
+`entropy1` and `entropy2` are two arbitrary entropy values
+
+**And**
+
+`msg1` and `msg2` are two arbitrary  [byte vectors](/docs/Modules/Common/External%20Libraries/ByteVector)
+
+**When**
+
+```
+ed25519 = new Ed25519()
+keyPair1 = ed25519.deriveKeyPairFromEntropy(entropy1, None)
+keyPair2 = ed25519.deriveKeyPairFromEntropy(entropy2, None)
+sig = ed25519.sign(keyPair1[0], msg1)
+```
+
+**Then**
+
+`ed25519.verify(sig, msg1, keyPair1[0])` should return `true`
+
+`ed25519.verify(sig, msg1, keyPair2[0])` should return `false`
+
+`ed25519.verify(sig, msg2, keyPair1[0])` should return `false`
+
+### sign
+
+#### Signature(s)
+
+```
+sign(privateKey: ByteVector, message: ByteVector) returns ByteVector
+```
+
+#### Description
+
+Sign a message using a private signing key.
+
+#### Parameters
+
+* `privateKey` — A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containing the private signing
+  key to use to sign the message.
+* `message` — A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containing the message to sign.
+
+#### Returns
+
+A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containing the signature.
+
+#### Errors
+
+_*None*_
+
+#### Testing Procedure
+
+The test vectors in https://datatracker.ietf.org/doc/html/rfc8032#section-7.1 specify values for `secretKey`, `message`
+and `signature`. The test should verify that the signature returned by `sign` matches the expected signature for each
+value of `secretKey` and `message`.
+
+### verify
+
+#### Signature(s)
+
+```
+verify(signature: ByteVector, message:ByteVector, verificationKey: ByteVector) returns Boolean
+```
+
+#### Description
+
+Verify that a signature is valid for a message using a public verification key.
+
+#### Parameters
+
+* `signature` — A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containing the signature to
+  verify.
+* `message` — A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containing the message that was
+  signed.
+* `verificationKey` — A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containing the public
+  verification key to use to verify the signature.
+
+#### Returns
+
+True if the signature is valid, false otherwise.
+
+#### Errors
+
+_*None*_
+
+#### Testing Procedure
+
+The test vectors in https://datatracker.ietf.org/doc/html/rfc8032#section-7.1 specify values for `publicKey`, `message`
+and `signature`. The test should verify that the `verify` function returns true for the combinations of these values in
+the test vectors. The test should also include some combinations of the values from different test vectors for which it
+should return false.
+
+### getVerificationKey
+
+#### Signature(s)
+
+```
+getVerificationKey(privateKey: ByteVector) returns ByteVector
+```
+
+#### Description
+Get the public verification key corresponding to a private signing key.
+
+#### Parameters
+* `privateKey` — A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containing the private signing
+  key to use to derive the public verification key.
+
+#### Returns
+The verification key corresponding to the given private signing key.
