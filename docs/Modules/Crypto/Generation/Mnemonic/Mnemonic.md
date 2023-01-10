@@ -1,6 +1,6 @@
 # Mnemonic
 
-This sub-module is responsible for generating and consuming mnemonic phrases.
+This submodule is responsible for generating and consuming mnemonic phrases.
 
 A mnemonic represents a set of random entropy that can be used to derive a private key or other type of value.
 This implementation follows a combination of [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
@@ -60,7 +60,7 @@ hash() returns String
 
 #### Description
 
-Returns a SHA-256 hash of the expected contents of the file identified by `filePath()`.
+Returns an SHA-256 hash of the expected contents of the file identified by `filePath()`.
 
 #### Parameters
 
@@ -68,7 +68,7 @@ _*None*_
 
 #### Returns
 
-Returns a SHA-256 hash of the expected contents of the file identified by `filePath()`.
+Returns an SHA-256 hash of the expected contents of the file identified by `filePath()`.
 
 #### Errors
 
@@ -467,15 +467,14 @@ Returns a `LanguageWordList` instance that contains a list of the mnemonic words
 
 #### Errors
 
-Signal an error if the file identified by the `filePath()` method of the given `Language` instance cannot be read or if
-the SHA-256 hash of its contents is not what is expected.
+* Signal an error if the file identified by the `filePath()` method of the given `Language` instance cannot be read.
+* Signal an error if the SHA-256 hash of its contents is not what is expected.
 
 #### Testing Procedure
 
 Testing this method is covered by the tests for `Language.chineseSimplified`, `Language.chineseTraditional`,
 `Language.english`, `Language.french`, `Language.italian`, `Language.japanese`, `Language.korean`,
 `Language.portuguese`, and `Language.spanish`.
-
 
 ## class MnemonicSizes
 
@@ -484,7 +483,7 @@ This class provides entropy and checksum lengths in bits as described in
 mnemonic phrase in words.
 
 No unit tests are prescribed for this class. It is tested in the course of unit testing other classes such
-as [Entropy](#entropy).
+as [Entropy](#class-entropy).
 
 ### constructor
 
@@ -617,7 +616,7 @@ Returns a singleton `MnemonicSize` object for a mnemonic word length of 12, 15, 
 
 _*None*_
 
-## Entropy
+## class Entropy
 
 This class encapsulates a [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) entropy value.
 
@@ -635,7 +634,7 @@ Constructs an Entropy object
 
 #### Parameters
 
-* `value` — a `ByteVector` that contains the entropy value.
+* `value` — a [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) that contains the entropy value.
 
 #### Returns
 
@@ -674,12 +673,138 @@ _*None*_
 
 There should not be any need to make this thread-safe. The only time this is called is when a new wallet is created.
 
+#### Testing Procedure
+
+`Entropy.generate().toMnemonicString()` should not signal an error.
+
 ### toMnemonicString
 
 #### Signature(s)
 
 ```
-MnemonicSizes(wordLength: Int)
+static toMnemonicString(entropy: Entropy, language: Language) returns String
+```
+
+#### Description
+
+Constructs a mnemonic string from the entropy value.
+
+#### Parameters
+
+* `entropy` — an `Entropy` object that contains the entropy value.
+* `language` — a `Language` object that identifies the language to use for the mnemonic string.
+  The default value is `Language.english()`.
+
+#### Returns
+
+The constructed mnemonic string.
+
+#### Errors
+
+Signals an error if:
+
+* The entropy value is not a valid length.
+* The checksum of the mnemonic string is not equal to the hash of the entropy value.
+* The file identified by the `filePath()` method of the given `Language` instance cannot be read
+* The SHA-256 hash of the file's contents is not what is expected.
+
+#### Testing Procedure
+
+**Given**
+
+```
+entropy = Entropy.generate()
+```
+
+**Then**
+
+```
+entropy == Entropy.fromMnemonicString(Entropy.toMnemonicString(entropy), Language.english())
+```
+
+### fromMnemonicString
+
+#### Signature(s)
+
+```
+static fromMnemonicString(mnemonicString: String, language: Language) returns Entropy
+```
+
+#### Description
+
+Instantiates an `Entropy` object from a mnemonic string by validating the string and computing the entropy of the string
+according to [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) word lists.
+
+#### Parameters
+
+* `mnemonicString` — a mnemonic string to be decoded.
+* `language` — a `Language` object that identifies the language to pull the word list from.
+
+#### Returns
+
+The entropy object.
+
+#### Errors
+
+* Signal an error if the file identified by the `filePath()` method of the given `Language` instance cannot be read.
+* Signal an error if the SHA-256 hash of its contents is not what is expected.
+* Signal an error if the mnemonic string is not a valid length.
+* Signal an error if the mnemonic string cannot be decoded.
+
+#### Testing Procedure
+
+**Given**
+
+```
+entropy = Entropy.generate()
+```
+
+**Then**
+
+```
+entropy == Entropy.fromMnemonicString(Entropy.toMnemonicString(entropy), Language.english())
+```
+
+### fromUuid
+
+#### Signature(s)
+
+```
+fromUuid(uuid: UUID) returns Entropy
+```
+
+#### Description
+
+Instantiates an `Entropy` object from a UUID.
+
+#### Parameters
+
+* `uuid` — a `UUID` object to be converted to an `Entropy` object. The actual value of the UUID will be the usual
+  representation of a UUID in the implementation language.
+
+#### Returns
+
+The constructed `Entropy` object.
+
+#### Errors
+
+_*None*_
+
+#### Testing Procedure
+
+**Given**
+`uuid` is a valid UUID object.
+
+**Then**
+
+`Entropy.fromUuid(uuid).toMnemonicString()` should not signal an error.
+
+### fromBytes
+
+#### Signature(s)
+
+```
+fromBytes(bytes: ByteVector) returns Entropy
 ```
 
 #### Description
@@ -688,15 +813,30 @@ Constructs
 
 #### Parameters
 
-* `wordLength` — The length of a mnemonic phrase in words. BIP-39 requires this to be a multiple of 3.
+* `bytes` — a [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) that contains the entropy value.
 
 #### Returns
 
-The constructed
+The constructed `Entropy` object.
 
 #### Errors
 
-_*None*_
+Signals an error if the length of the given `ByteVector` is not a valid length for entropy.
+
+#### Testing Procedure
+
+**Given**
+
+`byteLengths` is List(16, 20, 24, 28, 32)
+
+**When**
+`byteLength` is each element of `byteLengths`
+
+**And**
+`bytes` is a `ByteVector` of length `byteLength`
+
+**Then**
+`Entropy.toMnemonicString(Entropy.fromBytes(bytes))` should not signal an error.
 
 ============================
 
