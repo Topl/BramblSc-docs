@@ -1,6 +1,6 @@
 # Signing
 
-The Signing sub-module of crypto is responsible for signing data. Currently only one signing scheme is supported, which
+The Signing submodule of crypto is responsible for signing data. Currently only one signing scheme is supported, which
 is the Ed25519 scheme. The class that implements it is below. 
 
 There is not currently any interface exposed that would be implemented by `Ed25519` and any additional signing schemes.

@@ -1,6 +1,6 @@
 # Hash
 
-This sub-module of crypto is responsible for hashing data. It contains the classes described below. It is likely that
+This submodule of crypto is responsible for hashing data. It contains the classes described below. It is likely that
 there will be more in the future.
 
 ## Class Blake2b256

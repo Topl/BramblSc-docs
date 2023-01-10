@@ -742,7 +742,7 @@ according to [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.med
 
 #### Returns
 
-The entropy object.
+The `Entropy` object.
 
 #### Errors
 
