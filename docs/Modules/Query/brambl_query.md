@@ -18,7 +18,7 @@ Here is a summary of the methods/functions in this interface:
 
 * [getNodeConfig](#getnodeconfig) — Get the configuration of the Bifrost node we are querying
 
-### getNodeConfig
+### method getNodeConfig
 
 #### Signature(s)
 
@@ -62,7 +62,7 @@ Here is a summary of the methods/functions in this interface:
 * [getBlockByHeight](#getblockbyheight) — get the block at a specified height.
 * [getBlockById](#getblockbyid) — Get a block using its Id.
 
-### getBlockById
+### method getBlockById
 
 #### Signature(s)
 
@@ -104,7 +104,7 @@ The errors that the method/function will produce include:
 
 The testing procedure for getBlockById is [described on a separate page](brambl_query_tests/getBlockById_test)
 
-### getBlockByHeight
+### method getBlockByHeight
 
 #### Signature(s)
 
@@ -148,7 +148,7 @@ The errors that the method/function produces include:
 
 The testing procedure for getBlockByHeight is [described on a separate page](brambl_query_tests/getBlockByHeight_test)
 
-### getBlockByDepth
+### method getBlockByDepth
 
 #### Signature(s)
 
@@ -223,7 +223,7 @@ Here is a summary of the methods/functions in this interface:
       in the future.
     * [getTxosByAssetLabel](#gettxosbyassetlabel) — Tet TxOs having a specified address label.
 
-### getTransactionById
+### method getTransactionById
 
 #### Signature(s)
 
@@ -266,7 +266,7 @@ The errors that the method/function produces include:
 The testing procedure for getTransactionById
 is [described on a separate page](brambl_query_tests/getTransactionById_test)
 
-### getTransactionByAddressStream
+### method getTransactionByAddressStream
 
 #### Signature(s)
 
@@ -309,7 +309,7 @@ The errors that the method/function produces include:
 The testing procedure for getTransactionByAddressStream
 is [described on a separate page](brambl_query_tests/getTransactionByAddressStream_test)
 
-### getTxosByAddress
+### method getTxosByAddress
 
 #### Signature(s)
 
@@ -350,7 +350,7 @@ The errors that the method/function produces include:
 
 The testing procedure for getTxosByAddress is [described on a separate page](brambl_query_tests/getTxosByAddress_test)
 
-### getTxosByAddressStream
+### method getTxosByAddressStream
 
 #### Signature(s)
 
@@ -391,7 +391,7 @@ The errors that the method/function produces include:
 The testing procedure for getTxosByAddressStream
 is [described on a separate page](brambl_query_tests/getTxosByAddressStream_test)
 
-### getTxosByAssetLabel
+### method getTxosByAssetLabel
 
 #### Signature(s)
 
@@ -442,7 +442,7 @@ The errors that the method/function produces include:
 The testing procedure for getTxosByAssetLabel
 is [described on a separate page](brambl_query_tests/getTxosByAssetLabel_test)
 
-### createOnChainTransactionIndex
+### method createOnChainTransactionIndex
 
 #### Signature(s)
 
@@ -494,7 +494,7 @@ The errors that the method/function produces include:
 The testing procedure for createOnChainTransactionIndex
 is [described on a separate page](brambl_query_tests/createOnChainTransactionIndex_test)
 
-### getExistingTransactionIndexes
+### method getExistingTransactionIndexes
 
 #### Signature(s)
 
@@ -532,7 +532,7 @@ Happy path testing of `getExistingTransactionIndexes` is done as part of testing
 The testing procedure for `getExistingTransactionIndexes`
 is [described on a separate page](brambl_query_tests/getExistingTransactionIndexes_test)
 
-### getIndexedTransactions
+### method getIndexedTransactions
 
 #### Signature(s)
 
@@ -585,7 +585,7 @@ Some happy path cases are covered by tests for other functions.
 The testing procedure for `getIndexedTransactions`
 is [described on a separate page](brambl_query_tests/getIndexedTransactions_test)
 
-### dropIndex
+### method dropIndex
 
 #### Signature(s)
 

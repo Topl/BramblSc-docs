@@ -25,7 +25,7 @@ static methods
 * `Language.korean`
 * `Language.spanish`
 
-### filePath
+### method filePath
 
 #### Signature(s)
 
@@ -50,7 +50,7 @@ is implementation specific, but it should be usable by `LanguageWordList.validat
 
 _*None*_
 
-### hash
+### method hash
 
 #### Signature(s)
 
@@ -74,7 +74,7 @@ Returns an SHA-256 hash of the expected contents of the file identified by `file
 
 _*None*_
 
-### _static_ chineseSimplified
+### _static_ method chineseSimplified
 
 #### Signature(s)
 
@@ -107,7 +107,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ chineseTraditional
+### _static_ method chineseTraditional
 
 #### Signature(s)
 
@@ -140,7 +140,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ czech
+### _static_ method czech
 
 #### Signature(s)
 
@@ -173,7 +173,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ english
+### _static_ method english
 
 #### Signature(s)
 
@@ -206,7 +206,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ french
+### _static_ method french
 
 #### Signature(s)
 
@@ -239,7 +239,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ italian
+### _static_ method italian
 
 #### Signature(s)
 
@@ -272,7 +272,7 @@ a `LanguageWordList` instance that contains the same words as the file.
 
 _*None*_
 
-### _static_ japanese
+### _static_ method japanese
 
 #### Signature(s)
 
@@ -305,7 +305,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ korean
+### _static_ method korean
 
 #### Signature(s)
 
@@ -338,7 +338,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ portuguese
+### _static_ method portuguese
 
 #### Signature(s)
 
@@ -371,7 +371,7 @@ _*None*_
 The test for this method is to pass its result to `LanguageWordList.validated` and verify that it returns
 a `LanguageWordList` instance that contains the same words as the file.
 
-### _static_ spanish
+### _static_ method spanish
 
 #### Signature(s)
 
@@ -415,7 +415,7 @@ The details of this class's constructor are not specified in this document. The 
 called directly by user code. Instead, instances of this class should be obtained by calling the static method
 `LanguageWordList.validate`.
 
-### value
+method value
 
 #### Signature(s)
 
@@ -445,7 +445,7 @@ Testing this method is covered by the tests for `Language.chineseSimplified`, `L
 `Language.english`, `Language.french`, `Language.italian`, `Language.japanese`, `Language.korean`,
 `Language.portuguese`, and `Language.spanish`.
 
-### _static_ validated
+### _static_ method validated
 
 #### Signature(s)
 
@@ -512,7 +512,7 @@ The constructed object with values set for the `wordLength`, `entropyLength` and
 
 Signal an error if `wordLength` is not a multiple of 3.
 
-### wordLength
+### method wordLength
 
 #### Signature(s)
 
@@ -536,7 +536,7 @@ Returns the wordLength value that this `MenomicSizes` object was constructed for
 
 _*None*_
 
-### entropyLength
+### method entropyLength
 
 #### Signature(s)
 
@@ -562,7 +562,7 @@ wordLength value that this `MenomicSizes` object was constructed for.
 
 _*None*_
 
-### checksumLength
+### method checksumLength
 
 #### Signature(s)
 
@@ -588,7 +588,7 @@ wordLength value that this `MenomicSizes` object was constructed for.
 
 _*None*_
 
-### words<x/>_nn_
+### method words<x/>_nn_
 
 #### Signature(s)
 
@@ -644,7 +644,7 @@ The constructed object
 
 _*None*_
 
-### _static_ generate
+### _static_ method generate
 
 #### Signature(s)
 
@@ -677,7 +677,7 @@ There should not be any need to make this thread-safe. The only time this is cal
 
 `Entropy.generate().toMnemonicString()` should not signal an error.
 
-### _static_ toMnemonicString
+### _static_ method toMnemonicString
 
 #### Signature(s)
 
@@ -722,7 +722,7 @@ entropy = Entropy.generate()
 entropy == Entropy.fromMnemonicString(Entropy.toMnemonicString(entropy), Language.english())
 ```
 
-### _static_ fromMnemonicString
+### _static_ method fromMnemonicString
 
 #### Signature(s)
 
@@ -765,7 +765,7 @@ entropy = Entropy.generate()
 entropy == Entropy.fromMnemonicString(Entropy.toMnemonicString(entropy), Language.english())
 ```
 
-### _static_ fromUuid
+### _static_ method fromUuid
 
 #### Signature(s)
 
@@ -799,7 +799,7 @@ _*None*_
 
 `Entropy.fromUuid(uuid).toMnemonicString()` should not signal an error.
 
-### fromBytes
+### method fromBytes
 
 #### Signature(s)
 

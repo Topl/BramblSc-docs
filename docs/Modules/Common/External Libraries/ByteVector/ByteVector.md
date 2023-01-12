@@ -11,12 +11,16 @@ Below is a description of an interface that defines the behavior of a `ByteVecto
 that implements this interface are not specified in this document. In particular, the constructor(s) for the class will
 be implementation specific.
 
+Additional conversion functions/methods beyond those mentioned belos may be useful. The specific types will vary with
+the implementation language. Some conversion functions/methods that may be useful will be to streams, I/O streams,
+buffers and bit vectors.
+
 ## Interface ByteVector
 
 This class is responsible for hashing data using the Blake2b-256 algorithm. It can be implemented as a thin wrapper
 around the Blake2b-256 algorithm provided by a library for the implementation language.
 
-### size
+### method size
 
 #### Signature(s)
 
@@ -40,7 +44,7 @@ Returns the number of bytes in this `ByteVector`.
 
 _*None*_
 
-### isEmpty
+### method isEmpty
 
 #### Signature(s)
 
@@ -64,7 +68,7 @@ Returns true if this vector has no bytes.
 
 _*None*_
 
-### nonEmpty
+### method nonEmpty
 
 #### Signature(s)
 
@@ -88,7 +92,7 @@ Returns true if this vector has a non-zero number of bytes.
 
 _*None*_
 
-### get
+### method get
 
 #### Signature(s)
 
@@ -112,7 +116,7 @@ Returns the byte at the specified index.
 
 Signals an error if the index is out of bounds (<0 or >= size).
 
-### update
+### method update
 
 #### Signature(s)
 
@@ -139,7 +143,7 @@ The updated vector.
 
 _*None*_
 
-### insert
+### method insert
 
 #### Signature(s)
 
@@ -166,7 +170,7 @@ Returns a new `ByteVector` with the insertion.
 
 Signals an error if the index is out of bounds (<0 or >= size).
 
-### splice
+### method splice
 
 #### Signature(s)
 
@@ -193,7 +197,7 @@ Returns a new `ByteVector` with the insertion.
 
 _*None*_
 
-### patch
+### method patch
 
 #### Signature(s)
 
@@ -221,7 +225,7 @@ Returns a new `ByteVector` with the replacement.
 
 _*None*_
 
-### concatenate
+### method concatenate
 
 #### Signature(s)
 
@@ -245,7 +249,7 @@ Returns a new byte vector representing this vector's contents followed by the sp
 
 _*None*_
 
-### append
+### method append
 
 #### Signature(s)
 
@@ -269,7 +273,7 @@ Returns a new byte vector representing this vector's contents followed by the sp
 
 _*None*_
 
-### prepend
+### method prepend
 
 #### Signature(s)
 
@@ -293,7 +297,7 @@ Returns a new byte vector representing this vector's contents preceded by the sp
 
 _*None*_
 
-### drop
+### method drop
 
 #### Signature(s)
 
@@ -318,7 +322,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### dropRight
+### method dropRight
 
 #### Signature(s)
 
@@ -343,7 +347,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### dropWhile
+### method dropWhile
 
 #### Signature(s)
 
@@ -367,7 +371,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### take
+### method take
 
 #### Signature(s)
 
@@ -394,7 +398,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### takeRight
+### method takeRight
 
 #### Signature(s)
 
@@ -419,7 +423,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### takeWhile
+### method takeWhile
 
 #### Signature(s)
 
@@ -443,7 +447,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### splitAt
+### method splitAt
 
 #### Signature(s)
 
@@ -468,7 +472,7 @@ The array of two byte vectors.
 
 _*None*_
 
-### slice
+### method slice
 
 #### Signature(s)
 
@@ -495,7 +499,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### acquire
+### method acquire
 
 #### Signature(s)
 
@@ -521,7 +525,7 @@ Returns a vector whose contents are the results of taking the first n bytes of t
 
 If this vector does not contain at least n bytes, an error is signalled.
 
-### consume
+### method consume
 
 #### Signature(s)
 
@@ -548,7 +552,7 @@ element is the decoded value.
 
 If this vector does not have n bytes or an error occurs while decoding, an error is signaled.
 
-### foreach
+### method foreach
 
 #### Signature(s)
 
@@ -572,7 +576,7 @@ Returns nothing.
 
 Signals an error if the specified function signals an error.
 
-### startsWith
+### method startsWith
 
 #### Signature(s)
 
@@ -596,7 +600,7 @@ Returns true if this byte vector starts with the specified vector.
 
 _*None*_
 
-### endsWith
+### method endsWith
 
 #### Signature(s)
 
@@ -620,7 +624,7 @@ Returns true if this byte vector ends with the specified vector.
 
 _*None*_
 
-### indexOfSlice
+### method indexOfSlice
 
 #### Signature(s)
 
@@ -646,7 +650,7 @@ Returns the index of the first occurrence of the specified byte pattern, or -1 i
 
 _*None*_
 
-### containsSlice
+### method containsSlice
 
 #### Signature(s)
 
@@ -670,7 +674,7 @@ Returns true if the specified slice is in this vector.
 
 _*None*_
 
-### head
+### method head
 
 #### Signature(s)
 
@@ -694,7 +698,7 @@ Returns the first byte in this vector.
 
 Signals an error if this vector is empty.
 
-### headOption
+### method headOption
 
 #### Signature(s)
 
@@ -718,7 +722,7 @@ Returns an Option containing the first byte of this vector or None if the vector
 
 _*None*_
 
-### tail
+### method tail
 
 #### Signature(s)
 
@@ -742,7 +746,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### init
+### method init
 
 #### Signature(s)
 
@@ -766,7 +770,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### last
+### method last
 
 #### Signature(s)
 
@@ -790,7 +794,7 @@ Returns the last byte in this vector.
 
 Signals an error if this vector is empty.
 
-### tailOption
+### method tailOption
 
 #### Signature(s)
 
@@ -814,7 +818,7 @@ Returns an Option containing the last byte of this vector or None if the vector 
 
 _*None*_
 
-### padRight
+### method padRight
 
 #### Signature(s)
 
@@ -838,7 +842,7 @@ Returns the new padded `ByteVector`.
 
 Signals an error if n is less than the size of this vector.
 
-### padLeft
+### method padLeft
 
 #### Signature(s)
 
@@ -862,7 +866,7 @@ Returns the new padded `ByteVector`.
 
 Signals an error if n is less than the size of this vector.
 
-### map
+### method map
 
 #### Signature(s)
 
@@ -887,7 +891,7 @@ Returns the new `ByteVector`.
 
 Signals an error if the specified function signals an error.
 
-### reverse
+### method reverse
 
 #### Signature(s)
 
@@ -912,7 +916,7 @@ Returns a vector with the bytes of this vector in reverse order.
 
 _*None*_
 
-### shiftLeft
+### method shiftLeft
 
 #### Signature(s)
 
@@ -936,7 +940,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### shiftRight
+### method shiftRight
 
 #### Signature(s)
 
@@ -960,7 +964,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### rotateLeft
+### method rotateLeft
 
 #### Signature(s)
 
@@ -984,7 +988,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### rotateRight
+### method rotateRight
 
 #### Signature(s)
 
@@ -1008,7 +1012,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### compact
+### method compact
 
 #### Signature(s)
 
@@ -1035,7 +1039,7 @@ Returns the compacted `ByteVector`.
 
 _*None*_
 
-### partialCompact
+### method partialCompact
 
 #### Signature(s)
 
@@ -1059,7 +1063,7 @@ Returns the compacted `ByteVector`.
 
 _*None*_
 
-### copy
+### method copy
 
 #### Signature(s)
 
@@ -1084,7 +1088,7 @@ Returns the copied `ByteVector`.
 
 _*None*_
 
-### toArray
+### method toArray
 
 #### Signature(s)
 
@@ -1108,7 +1112,7 @@ Returns the byte array.
 
 _*None*_
 
-### copyToArray
+### method copyToArray
 
 #### Signature(s)
 
@@ -1135,7 +1139,7 @@ _*None*_
 
 #### Errors
 
-### toHex
+### method toHex
 
 #### Signature(s)
 
@@ -1159,7 +1163,7 @@ Returns the number of bytes in this `ByteVector`.
 
 _*None*_
 
-### hashCode
+### method hashCode
 
 #### Signature(s)
 
@@ -1183,7 +1187,7 @@ Returns the hashcode.
 
 _*None*_
 
-### equals
+### method equals
 
 #### Signature(s)
 
@@ -1207,33 +1211,3 @@ Returns true if `that` is a `ByteVector` that has the same content as this.
 
 _*None*_
 
-=========================================
-
-### size
-
-#### Signature(s)
-
-```
-size() returns Long
-```
-
-#### Description
-
-Returns the number of bytes in this `ByteVector`.
-
-#### Parameters
-
-_*None*_
-
-#### Returns
-
-Returns the number of bytes in this `ByteVector`.
-
-#### Errors
-
-_*None*_
-
-=============================
-
-Additional conversion functions/methods may be useful. The specific types will vary with the implementation language.
-Some conversion functions/methods that may be useful will be to streams, I/O streams, buffers and bit vectors.

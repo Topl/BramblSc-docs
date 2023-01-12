@@ -22,7 +22,7 @@ Here is a summary of the methods/functions in this interface:
 
 * [getUrl](#geturl) — Get the URL of the Bifrost node that a BifrostConnection works with.
 
-### getUrl
+### method getUrl
 
 #### Signature(s)
 
@@ -100,7 +100,7 @@ The errors that the method/function will produce include:
 
 The testing procedure for `getNodeConfig` is [described on a separate page](NodeUtils/NodeCache%20Tests/constructor_test)
 
-### getGenesisBlock
+### method getGenesisBlock
 
 #### Signature(s)
 
@@ -136,7 +136,7 @@ include:
 The testing procedure for the constructor
 is [described on a separate page](NodeUtils/NodeCache%20Tests/getgenesisblock_test)
 
-### getNodeConfig
+### method getNodeConfig
 
 #### Signature(s)
 
@@ -188,7 +188,7 @@ Here is a summary of the methods/functions in this class:
 * [slotNumberToTimestamp](#slotnumbertotimestamp) — Convert a slot number to a Unix Timestamp
 * [timestampToSlotNumber](#timestamptoslotnumber) — Convert a Unix timestamp to a slot number.
 
-### SlotUtil Constructor
+### method SlotUtil Constructor
 
 #### Signature(s)
 
@@ -220,7 +220,7 @@ _No Errors_
 
 _No Prescribed Tests_
 
-### slotNumberToTimestamp
+### method slotNumberToTimestamp
 
 #### Signature(s)
 
@@ -252,7 +252,7 @@ The errors that the method/function will produce include:
 The testing procedure for the constructor
 is [described on a separate page](NodeUtils/SlotUtil%20Tests/slot_timestamp_conversion_test)
 
-### timestampToSlotNumber
+### method timestampToSlotNumber
 
 #### Signature(s)
 
