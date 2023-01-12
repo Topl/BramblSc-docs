@@ -3,16 +3,24 @@
 This page describes a data type named `ByteVector` that is used in the Brambl SDK for some of its methods/functions.
 
 A `ByteVector` object is an immutable vector of bytes, backed by a balanced binary tree of chunks. Most operations are
-logarithmic in the depth of this tree, including ++, :+, +:, update, and insert. Where possible, operations return lazy
-views rather than copying any underlying bytes. Use copy to copy all underlying bytes to a fresh, array-backed
-ByteVector.
+logarithmic in the depth of this tree, including concatenate, prepend, append, update, and insert. Where possible,
+operations return lazy views rather than copying any underlying bytes. Use copy to copy all underlying bytes to a fresh,
+array-backed ByteVector.
+
+Below is a description of an interface that defines the behavior of a `ByteVector` object. The details of the class
+that implements this interface are not specified in this document. In particular, the constructor(s) for the class will
+be implementation specific.
+
+Additional conversion functions/methods beyond those mentioned belos may be useful. The specific types will vary with
+the implementation language. Some conversion functions/methods that may be useful will be to streams, I/O streams,
+buffers and bit vectors.
 
 ## Interface ByteVector
 
 This class is responsible for hashing data using the Blake2b-256 algorithm. It can be implemented as a thin wrapper
 around the Blake2b-256 algorithm provided by a library for the implementation language.
 
-### size
+### method size
 
 #### Signature(s)
 
@@ -36,7 +44,7 @@ Returns the number of bytes in this `ByteVector`.
 
 _*None*_
 
-### isEmpty
+### method isEmpty
 
 #### Signature(s)
 
@@ -60,7 +68,7 @@ Returns true if this vector has no bytes.
 
 _*None*_
 
-### nonEmpty
+### method nonEmpty
 
 #### Signature(s)
 
@@ -84,7 +92,7 @@ Returns true if this vector has a non-zero number of bytes.
 
 _*None*_
 
-### get
+### method get
 
 #### Signature(s)
 
@@ -108,7 +116,7 @@ Returns the byte at the specified index.
 
 Signals an error if the index is out of bounds (<0 or >= size).
 
-### update
+### method update
 
 #### Signature(s)
 
@@ -119,6 +127,8 @@ update(idx: Long, b: Byte) returns ByteVector
 #### Description
 
 Create a vector with the byte at the specified index replaced with the specified byte.
+
+This is equivalent to `this.take(idx).append(b).concatenate(this.drop(idx + 1))`.
 
 #### Parameters
 
@@ -131,9 +141,9 @@ The updated vector.
 
 #### Errors
 
-Signals an error if the index is out of bounds (<0 or >= size).
+_*None*_
 
-### insert
+### method insert
 
 #### Signature(s)
 
@@ -144,6 +154,8 @@ insert(idx: Long, b: Byte) returns ByteVector
 #### Description
 
 Returns a vector with the specified byte inserted at the specified index.
+
+This is equivalent to `this.take(idx).append(b).concatenate(this.drop(idx))`.
 
 #### Parameters
 
@@ -158,7 +170,7 @@ Returns a new `ByteVector` with the insertion.
 
 Signals an error if the index is out of bounds (<0 or >= size).
 
-### splice
+### method splice
 
 #### Signature(s)
 
@@ -169,6 +181,8 @@ splice(idx: Long, b: ByteVector) returns ByteVector
 #### Description
 
 Returns a vector with the specified byte vector inserted at the specified index.
+
+This is equivalent to `this.take(idx).concatenate(b).concatenate(this.drop(idx))`.
 
 #### Parameters
 
@@ -181,9 +195,9 @@ Returns a new `ByteVector` with the insertion.
 
 #### Errors
 
-Signals an error if the index is out of bounds (<0 or >= size).
+_*None*_
 
-### patch
+### method patch
 
 #### Signature(s)
 
@@ -193,7 +207,10 @@ patch(idx: Long, b: ByteVector) returns ByteVector
 
 #### Description
 
-Returns a vector with the specified byte vector replacing bytes `idx` to `idx + b.size`.
+Returns a vector with the specified byte vector replacing bytes `idx` to `idx + b.size`. If `idx+b.size` is greater than
+the size of this vector, then the result is longer than this vector.
+
+This is equivalent to `this.take(idx).concatenate(b).concatenate(this.drop(idx + b.size))`.
 
 #### Parameters
 
@@ -206,9 +223,9 @@ Returns a new `ByteVector` with the replacement.
 
 #### Errors
 
-Signals an error if the index is out of bounds (<0 or >= size).
+_*None*_
 
-### concatenate
+### method concatenate
 
 #### Signature(s)
 
@@ -232,7 +249,7 @@ Returns a new byte vector representing this vector's contents followed by the sp
 
 _*None*_
 
-### append
+### method append
 
 #### Signature(s)
 
@@ -256,7 +273,7 @@ Returns a new byte vector representing this vector's contents followed by the sp
 
 _*None*_
 
-### prepend
+### method prepend
 
 #### Signature(s)
 
@@ -280,7 +297,7 @@ Returns a new byte vector representing this vector's contents preceded by the sp
 
 _*None*_
 
-### drop
+### method drop
 
 #### Signature(s)
 
@@ -305,7 +322,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### dropRight
+### method dropRight
 
 #### Signature(s)
 
@@ -330,7 +347,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### dropWhile
+### method dropWhile
 
 #### Signature(s)
 
@@ -354,7 +371,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### take
+### method take
 
 #### Signature(s)
 
@@ -381,7 +398,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### takeRight
+### method takeRight
 
 #### Signature(s)
 
@@ -406,7 +423,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### takeWhile
+### method takeWhile
 
 #### Signature(s)
 
@@ -430,7 +447,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### splitAt
+### method splitAt
 
 #### Signature(s)
 
@@ -455,7 +472,7 @@ The array of two byte vectors.
 
 _*None*_
 
-### slice
+### method slice
 
 #### Signature(s)
 
@@ -465,7 +482,9 @@ slice(from: Long, until: Long) returns ByteVector
 
 #### Description
 
-Returns a vector made up of the bytes starting at index from up to index until.
+Returns a vector made up of the bytes starting at index `from` up to index `until`.
+
+This is equivalent to `this.drop(from).take(until - from.max(0))`.
 
 #### Parameters
 
@@ -480,7 +499,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### acquire
+### method acquire
 
 #### Signature(s)
 
@@ -500,13 +519,13 @@ _See also_: take
 
 #### Returns
 
-Returns the number of bytes in this `ByteVector`.
+Returns a vector whose contents are the results of taking the first n bytes of this vector.
 
 #### Errors
 
 If this vector does not contain at least n bytes, an error is signalled.
 
-### consume
+### method consume
 
 #### Signature(s)
 
@@ -533,7 +552,7 @@ element is the decoded value.
 
 If this vector does not have n bytes or an error occurs while decoding, an error is signaled.
 
-### foreach
+### method foreach
 
 #### Signature(s)
 
@@ -557,7 +576,7 @@ Returns nothing.
 
 Signals an error if the specified function signals an error.
 
-### startsWith
+### method startsWith
 
 #### Signature(s)
 
@@ -581,7 +600,7 @@ Returns true if this byte vector starts with the specified vector.
 
 _*None*_
 
-### endsWith
+### method endsWith
 
 #### Signature(s)
 
@@ -605,7 +624,7 @@ Returns true if this byte vector ends with the specified vector.
 
 _*None*_
 
-### indexOfSlice
+### method indexOfSlice
 
 #### Signature(s)
 
@@ -631,7 +650,7 @@ Returns the index of the first occurrence of the specified byte pattern, or -1 i
 
 _*None*_
 
-### containsSlice
+### method containsSlice
 
 #### Signature(s)
 
@@ -655,7 +674,7 @@ Returns true if the specified slice is in this vector.
 
 _*None*_
 
-### head
+### method head
 
 #### Signature(s)
 
@@ -679,7 +698,7 @@ Returns the first byte in this vector.
 
 Signals an error if this vector is empty.
 
-### headOption
+### method headOption
 
 #### Signature(s)
 
@@ -703,7 +722,7 @@ Returns an Option containing the first byte of this vector or None if the vector
 
 _*None*_
 
-### tail
+### method tail
 
 #### Signature(s)
 
@@ -727,7 +746,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### init
+### method init
 
 #### Signature(s)
 
@@ -751,7 +770,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### last
+### method last
 
 #### Signature(s)
 
@@ -775,7 +794,7 @@ Returns the last byte in this vector.
 
 Signals an error if this vector is empty.
 
-### tailOption
+### method tailOption
 
 #### Signature(s)
 
@@ -799,7 +818,7 @@ Returns an Option containing the last byte of this vector or None if the vector 
 
 _*None*_
 
-### padRight
+### method padRight
 
 #### Signature(s)
 
@@ -823,7 +842,7 @@ Returns the new padded `ByteVector`.
 
 Signals an error if n is less than the size of this vector.
 
-### padLeft
+### method padLeft
 
 #### Signature(s)
 
@@ -847,7 +866,7 @@ Returns the new padded `ByteVector`.
 
 Signals an error if n is less than the size of this vector.
 
-### map
+### method map
 
 #### Signature(s)
 
@@ -872,7 +891,7 @@ Returns the new `ByteVector`.
 
 Signals an error if the specified function signals an error.
 
-### reverse
+### method reverse
 
 #### Signature(s)
 
@@ -897,7 +916,7 @@ Returns a vector with the bytes of this vector in reverse order.
 
 _*None*_
 
-### shiftLeft
+### method shiftLeft
 
 #### Signature(s)
 
@@ -921,7 +940,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### shiftRight
+### method shiftRight
 
 #### Signature(s)
 
@@ -945,7 +964,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### rotateLeft
+### method rotateLeft
 
 #### Signature(s)
 
@@ -969,7 +988,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### rotateRight
+### method rotateRight
 
 #### Signature(s)
 
@@ -993,7 +1012,7 @@ Returns the new `ByteVector`.
 
 _*None*_
 
-### compact
+### method compact
 
 #### Signature(s)
 
@@ -1020,7 +1039,7 @@ Returns the compacted `ByteVector`.
 
 _*None*_
 
-### partialCompact
+### method partialCompact
 
 #### Signature(s)
 
@@ -1044,7 +1063,7 @@ Returns the compacted `ByteVector`.
 
 _*None*_
 
-### copy
+### method copy
 
 #### Signature(s)
 
@@ -1069,9 +1088,7 @@ Returns the copied `ByteVector`.
 
 _*None*_
 
-
-
-### toArray
+### method toArray
 
 #### Signature(s)
 
@@ -1095,9 +1112,7 @@ Returns the byte array.
 
 _*None*_
 
-
-
-### copyToArray
+### method copyToArray
 
 #### Signature(s)
 
@@ -1108,12 +1123,13 @@ copyToArray(xs: Array[Byte], start: Int)copyToArray(xs: Array[Byte], start: Int,
 
 #### Description
 
-Copies the contents of this vector into the specified array starting at the specified index.
+Copies the contents of this vector into the specified array starting at the specified index. Bytes that do not fit in
+the array are silently dropped.
 
 #### Parameters
 
 * `xs` — The array to copy into.
-* `start` — The index in the array to start copying at.
+* `start` — The index in the array `xs` to start copying at.
 * `offset` — The offset in this vector to start copying from. Defaults to zero.
 * `size` — The number of bytes to copy.
 
@@ -1123,11 +1139,7 @@ _*None*_
 
 #### Errors
 
-_*None*_
-
-
-
-### toHex
+### method toHex
 
 #### Signature(s)
 
@@ -1151,9 +1163,7 @@ Returns the number of bytes in this `ByteVector`.
 
 _*None*_
 
-
-
-### hashCode
+### method hashCode
 
 #### Signature(s)
 
@@ -1177,9 +1187,7 @@ Returns the hashcode.
 
 _*None*_
 
-
-
-### equals
+### method equals
 
 #### Signature(s)
 
@@ -1203,33 +1211,3 @@ Returns true if `that` is a `ByteVector` that has the same content as this.
 
 _*None*_
 
-=========================================
-
-### size
-
-#### Signature(s)
-
-```
-size() returns Long
-```
-
-#### Description
-
-Returns the number of bytes in this `ByteVector`.
-
-#### Parameters
-
-_*None*_
-
-#### Returns
-
-Returns the number of bytes in this `ByteVector`.
-
-#### Errors
-
-_*None*_
-
-=============================
-
-Additional conversion functions/methods may be useful. The specific types will vary with the implementation language.
-Some conversion functions/methods that may be useful will be to streams, I/O streams, buffers and bit vectors.
