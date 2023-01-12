@@ -13,11 +13,12 @@ main key pair that a wallet uses to derive child key pairs.
 #### Signature(s)
  
 ```
-fromMnemonicString(mnemonicString: String, language: Language, password: Option[String]) returns KeyPair
+fromMnemonicString(mnemonicString: String, language: Language, password: Option[String]) returns ByteVector
 ```
 
 #### Description
-Compute a secret signing key from a mnemonic string.
+Compute a secret signing key from a mnemonic string. Note that this skips the step of generating a seed value and then
+using the seed value to compute the secret signing key.
 
 #### Parameters
 * `mnemonicString` — The mnemonic string to use to compute the secret signing key.

@@ -41,7 +41,8 @@ deriveKeyPairFromEntropy(entropy: Entropy, password: Option[String]) returns Lis
 
 #### Description
 
-Derive a main key pair from an entropy value and a password.
+Derive a main key pair from an entropy value and a password. Note that this skips the step of creating a seed value and
+then using that to generate the key pair.
 
 #### Parameters
 
