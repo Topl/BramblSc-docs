@@ -649,7 +649,7 @@ _*None*_
 #### Signature(s)
 
 ```
-static generate(size: MnemonicSizes)
+static generate(size: MnemonicSizes) returns Entropy
 ```
 
 #### Description
@@ -837,33 +837,3 @@ Signals an error if the length of the given `ByteVector` is not a valid length f
 
 **Then**
 `Entropy.toMnemonicString(Entropy.fromBytes(bytes))` should not signal an error.
-
-============================
-
-### name
-
-#### Signature(s)
-
-```
-MnemonicSizes(wordLength: Int)
-```
-
-#### Description
-
-Constructs
-
-#### Parameters
-
-* `wordLength` — The length of a mnemonic phrase in words. BIP-39 requires this to be a multiple of 3.
-
-#### Returns
-
-The constructed
-
-#### Errors
-
-_*None*_
-
-#### Testing Procedure
-
-The test for this method
