@@ -101,7 +101,7 @@ This interface is responsible for caching various information from a BiFrost nod
 
 This interface contains just one method/function.
 
-### signableBytes
+### method signableBytes
 
 #### Signature(s)
 
@@ -183,7 +183,7 @@ include:
 The testing procedure for the constructor
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/schedule_test)
 
-### signableBytes
+### method signableBytes
 
 #### Signature(s)
 
@@ -253,7 +253,7 @@ _None expected_
 The testing procedure for the constructor
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/unspent_output_test)
 
-### signableBytes
+### method signableBytes
 
 #### Signature(s)
 
@@ -325,7 +325,7 @@ _None expected_
 The testing procedure for the constructor
 is [described on a separate page](NativeTransactor/NativeTransactor%20Tests/UnprovenIoTx_test)
 
-### signableBytes
+### method signableBytes
 
 #### Signature(s)
 

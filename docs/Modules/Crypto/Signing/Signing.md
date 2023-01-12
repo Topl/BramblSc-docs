@@ -7,7 +7,7 @@ is the Ed25519 scheme.
 
 Classes responsible for signing data using elliptic curve digital signatures implement this interface.
 
-### SignatureLength
+### constant SignatureLength
 
 #### Signature(s)
 
@@ -19,7 +19,7 @@ Int SignatureLength
 
 A constant whose value is the length of the signature in bytes.
 
-### KeyLength
+### constant KeyLength
 
 #### Signature(s)
 
@@ -31,7 +31,7 @@ Int KeyLength
 
 A constant whose value is the length of the private signing keys in bytes.
 
-### deriveKeyPairFromEntropy
+### method deriveKeyPairFromEntropy
 
 #### Signature(s)
 
@@ -57,7 +57,7 @@ signing key and the second is the public verification key.
 
 _*None*_
 
-### sign
+### method sign
 
 #### Signature(s)
 
@@ -83,7 +83,7 @@ A [`ByteVector`](/docs/Modules/Common/External%20Libraries/ByteVector) containin
 
 _*None*_
 
-### verify
+### method verify
 
 #### Signature(s)
 
@@ -112,7 +112,7 @@ True if the signature is valid, false otherwise.
 
 _*None*_
 
-### getVerificationKey
+### method getVerificationKey
 
 #### Signature(s)
 
@@ -142,7 +142,7 @@ This class should be implemented as a wrapper for an external library that imple
 
 **Implements** [EllipticCurveSignatureScheme](#interface-ellipticcurvesignaturescheme)
 
-### _static_ instance
+### _static_ method instance
 
 #### Signature(s)
 
@@ -166,7 +166,7 @@ Return the singleton instance of `Ed25519`.
 
 _*None*_
 
-### SignatureLength
+### constant SignatureLength
 
 #### Signature(s)
 
@@ -178,7 +178,7 @@ Int SignatureLength
 
 A constant whose value is the length of the signature in bytes.
 
-### KeyLength
+### constant KeyLength
 
 #### Signature(s)
 
@@ -190,7 +190,7 @@ Int KeyLength
 
 A constant whose value is the length of the private signing keys in bytes.
 
-### deriveKeyPairFromEntropy
+### method deriveKeyPairFromEntropy
 
 #### Signature(s)
 
@@ -243,7 +243,7 @@ sig = ed25519.sign(keyPair1[0], msg1)
 
 `ed25519.verify(sig, msg2, keyPair1[0])` should return `false`
 
-### sign
+### method sign
 
 #### Signature(s)
 
@@ -275,7 +275,7 @@ The test vectors in https://datatracker.ietf.org/doc/html/rfc8032#section-7.1 sp
 and `signature`. The test should verify that the signature returned by `sign` matches the expected signature for each
 value of `secretKey` and `message`.
 
-### verify
+### method verify
 
 #### Signature(s)
 
@@ -311,7 +311,7 @@ and `signature`. The test should verify that the `verify` function returns true 
 the test vectors. The test should also include some combinations of the values from different test vectors for which it
 should return false.
 
-### getVerificationKey
+### method getVerificationKey
 
 #### Signature(s)
 

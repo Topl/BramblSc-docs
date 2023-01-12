@@ -8,7 +8,7 @@ This submodule of crypto is responsible for generating key pairs for wallets. Th
 Implementations of this interface are responsible for creating a key pair from an entropy value. This can be used as the
 main key pair that a wallet uses to derive child key pairs.
 
-### fromMnemonicString
+### method fromMnemonicString
 
 #### Signature(s)
  
@@ -38,7 +38,7 @@ derived.
 
 Implements the `KeyInitializer` interface for the Ed25519 signing scheme.
 
-### fromMnemonicString
+### method fromMnemonicString
 
 #### Signature(s)
 

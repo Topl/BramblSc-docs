@@ -36,7 +36,7 @@ _*None*_
 
 The test for the constructor is included in the test for the `hash` method.
 
-### hash
+### method hash
 
 #### Signature(s)
 
@@ -112,7 +112,7 @@ _*None*_
 
 The test for the constructor is included in the test for the `hash` method.
 
-### hash
+### method hash
 
 #### Signature(s)
 
