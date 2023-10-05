@@ -18,7 +18,7 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="./docs/Getting Started">
-            SDK Specification
+            Explore the SDK
           </Link>
         </div>
       </div>
