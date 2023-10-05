@@ -9,7 +9,7 @@ const config = {
   title: 'Topl',
   tagline: '',
   url: 'https://topl.github.io',
-  baseUrl: '/sdk-spec/',
+  baseUrl: '/BramblSc-docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -18,7 +18,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'topl', // Usually your GitHub org/user name.
-  projectName: 'sdk-spec', // Usually your repo name.
+  projectName: 'BramblSc-docs', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -38,7 +38,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/topl/sdk-spec/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/topl/BramblSc-docs/',
           exclude: [
             '**/README.md',
             '**/readme.md'
@@ -49,7 +49,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/topl/sdk-spec/',
+            'https://github.com/topl/BramblSc-docs/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -69,7 +69,7 @@ const config = {
         },
         items: [
           {
-            href: 'https://github.com/Topl/sdk-spec',
+            href: 'https://github.com/Topl/BramblSc-docs/',
             label: 'GitHub',
             position: 'right',
           },
@@ -105,12 +105,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/topl/sdk-spec',
+                href: 'https://github.com/topl/BramblSc-docs',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
